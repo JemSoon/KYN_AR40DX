@@ -12,16 +12,10 @@
     <ClInclude Include="GameEngineDebug.h">
       <Filter>Debug</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineDirectory.h">
-      <Filter>IO</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineDebug.cpp">
       <Filter>Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngineDirectory.cpp">
-      <Filter>IO</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -155,17 +155,9 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="GameEngineDirectory.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineDebug.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="GameEngineDirectory.cpp">
       <SubType>
       </SubType>
     </ClCompile>
