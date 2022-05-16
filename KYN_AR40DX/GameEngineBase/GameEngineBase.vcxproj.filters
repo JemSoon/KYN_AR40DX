@@ -7,6 +7,9 @@
     <Filter Include="IO">
       <UniqueIdentifier>{cc59bb33-4d84-492b-b331-38608f54b9bb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{e6315c49-8575-4a66-afa9-6a818d96e2f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngineDebug.h">
@@ -27,6 +30,12 @@
     <ClInclude Include="GameEngineWriteFile.h">
       <Filter>IO</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineMath.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineRandom.h">
+      <Filter>Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineDebug.cpp">
@@ -46,6 +55,12 @@
     </ClCompile>
     <ClCompile Include="GameEngineWriteFile.cpp">
       <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineMath.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineRandom.cpp">
+      <Filter>Math</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
