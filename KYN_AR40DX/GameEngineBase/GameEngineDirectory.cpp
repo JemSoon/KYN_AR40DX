@@ -47,7 +47,7 @@ void GameEngineDirectory::MoveParent()
 
 bool GameEngineDirectory::IsRoot()
 {
-	return Path_ == Path_.root_directory();
+	return Path_ == Path_.root_path();
 }
 
 void GameEngineDirectory::MoveParent(const std::string& _Name)
@@ -140,4 +140,49 @@ std::vector<GameEngineDirectory> GameEngineDirectory::GetAllDirectory()
 	}
 
 	return Return;
+}
+
+bool GameEngineDirectory::MoveParentToExitsChildDirectory(const std::string& _Name)
+{
+
+	std::string FindDirectory = _Name;
+
+	GameEngineString::ToUpper(FindDirectory);
+
+	std::vector<GameEngineFile> Return;
+	// 디렉토리까지 다나오니까 File
+
+	while (true)
+	{
+		std::filesystem::directory_iterator DirIter(Path_);
+
+		for (const std::filesystem::directory_entry& Entry : DirIter)
+		{
+			if (true == Entry.is_directory())
+			{
+				// "Resources"
+				//  FindDirectory
+
+				// c: 뭐시기 뭐시기 뭐시기 / 무슨무슨폴더
+				std::string CurrentFileName = Entry.path().filename().string();
+				GameEngineString::ToUpper(CurrentFileName);
+
+				if (CurrentFileName == FindDirectory)
+				{
+					return true;
+				}
+
+
+			}
+		}
+
+		if (true == IsRoot())
+		{
+			return false;
+		}
+
+		MoveParent();
+	}
+
+	return false;
 }

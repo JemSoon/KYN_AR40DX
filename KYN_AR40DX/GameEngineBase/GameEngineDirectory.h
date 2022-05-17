@@ -16,6 +16,8 @@ public:
 
 	void MoveParent(const std::string& _Name);
 
+	bool MoveParentToExitsChildDirectory(const std::string& _Name);
+
 	bool IsRoot();
 
 	void Move(const std::string& _Name);
