@@ -6,9 +6,22 @@
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineBase/GameEngineFile.h>
 #include <GameEngineBase/GameEngineSound.h>
+#include <GameEngineBase/GameEngineWindow.h>
 
+void Init()
+{
 
-int main()
+}
+
+void Loop()
+{
+
+}
+
+int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
+	_In_opt_ HINSTANCE hPrevInstance,
+	_In_ LPWSTR		lpCmdLine,
+	_In_ int		nCmdShow)
 {
 	GameEngineDirectory Dir;
 
@@ -31,12 +44,16 @@ int main()
 		// GameEngineSound::LoadRessource("BGM.MP3");
 	}
 
-	GameEngineSound::SoundPlayOneShot("BGM.mp3");
+	//GameEngineSound::SoundPlayOneShot("BGM.mp3");
 
-	while (true)
-	{
-		GameEngineSound::Update();
-	}
+	GameEngineWindow::GetInst().CreateGameWindow(hInstance, "GameName");
+														//타이틀 이름
+	GameEngineWindow::GetInst().SetWindowScaleAndPosition({ 0,0 }, { 1280,720 });
+														//0,0위치에 1280,720사이즈
+	GameEngineWindow::GetInst().ShowGameWindow();
+	
+	GameEngineWindow::GetInst().MessageLoop(Init, Loop);
+
 
 	return 0;
 }
