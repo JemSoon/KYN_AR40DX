@@ -3,6 +3,7 @@
 #include <string>
 #include "GameEngineMath.h"
 #include "GameEngineDebug.h"
+#include <Functional>
 
 // Ό³Έν :
 class GameEngineWindow
@@ -29,7 +30,7 @@ public:
 	void RegClass(HINSTANCE _hInst);
 	void CreateGameWindow(HINSTANCE _hInst, const std::string& _Title);
 	void ShowGameWindow();
-	void MessageLoop(void(*_InitFunction)(), void(*_LoopFunction)());
+	void MessageLoop(std::function<void()> _Init, std::function<void()> _Loop, std::function<void()> _End);
 
 	void SetWindowScaleAndPosition(float4 _Pos, float4 _Scale);
 
