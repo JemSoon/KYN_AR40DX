@@ -16,9 +16,6 @@
     <Filter Include="WindowsOS">
       <UniqueIdentifier>{9a710da4-2a69-470c-82ca-57a677e7d0e5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="String">
-      <UniqueIdentifier>{9e504788-0711-4f1f-b4c0-c5336c6b9521}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ThirdParty">
       <UniqueIdentifier>{8ade8a80-3aed-42f6-a772-8686548a2729}</UniqueIdentifier>
     </Filter>
@@ -27,6 +24,9 @@
     </Filter>
     <Filter Include="ThirdParty\Lib">
       <UniqueIdentifier>{50f1345f-9579-489a-ae15-67a3574b73e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\Sound\String">
+      <UniqueIdentifier>{9e504788-0711-4f1f-b4c0-c5336c6b9521}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -61,7 +61,7 @@
       <Filter>WindowsOS</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineString.h">
-      <Filter>String</Filter>
+      <Filter>ThirdParty\Sound\String</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineSound.h">
       <Filter>ThirdParty\Sound</Filter>
@@ -108,7 +108,7 @@
       <Filter>WindowsOS</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineString.cpp">
-      <Filter>String</Filter>
+      <Filter>ThirdParty\Sound\String</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineSound.cpp">
       <Filter>ThirdParty\Sound</Filter>

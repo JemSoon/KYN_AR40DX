@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngineBase/GameEngineDebug.h>
 #include <GameEngineBase/GameEngineString.h>
+#include <map>
 
 // 설명 :
 class GameEngineCore
@@ -28,17 +29,31 @@ protected:
 	GameEngineCore();
 	~GameEngineCore();
 
+	class GameEngineLevel* FindLevel(const std::string& _Name);
+
 	template<typename LevelType>
-	void LevelCreate(const std::string& _Name)
+	GameEngineLevel* CreateLevel(const std::string& _Name)
 	{
 		std::string UpperName = GameEngineString::ToUpperReturn(_Name);
+		GameEngineLevel* NewLevel = new LevelType();
+		InitializeLevel(NewLevel, UpperName);
+		return NewLevel;
 	}
 
+	bool ChangeLevel(const std::string& _Name);
+
 private:
+	static std::map<std::string, class GameEngineLevel*> AllLevels;
+	static GameEngineLevel* CurrentLevel;
+	static GameEngineLevel* NextLevel;
+
 	static void WindowCreate(const std::string& _Name, GameEngineCore* _UserCore);//윈도우 창 생성
 	static void CoreStart(GameEngineCore* _UserCore);//프로그램 시작
 	static void CoreUpdate(GameEngineCore* _UserCore);//프로그램 업데이트(계속 실행되는)
 	static void CoreEnd(GameEngineCore* _UserCore);//프로그램 종료
+
+	// 헤더 추가하기 싫어서 초기화를 CPP에서 하기 위한 함수.
+	void InitializeLevel(GameEngineLevel* _Level, const std::string _Name);
 
 	// delete Function
 	GameEngineCore(const GameEngineCore& _Other) = delete;
