@@ -16,9 +16,9 @@ public:
 	Stage1Level& operator=(Stage1Level&& _Other) noexcept = delete;
 
 protected:
-	void UserStart() override;
-	void UserUpdate(float _DeltaTime) override;
-	void UserEnd() override;
+	void Start() override;
+	void Update(float _DeltaTime) override;
+	void End() override;
 
 private:
 

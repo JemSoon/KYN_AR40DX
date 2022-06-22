@@ -10,6 +10,12 @@
     <Filter Include="Global">
       <UniqueIdentifier>{bdfa1308-b7bd-4e6b-acf2-ae48d4fb2512}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor">
+      <UniqueIdentifier>{c525e903-9252-4cc5-b21a-4a9f72279d29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Title">
+      <UniqueIdentifier>{cf23616b-929e-4849-91f2-fbb28fe2d2d3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MapleStoryCore.h">
@@ -24,6 +30,9 @@
     <ClInclude Include="Enums.h">
       <Filter>Global</Filter>
     </ClInclude>
+    <ClInclude Include="TitleLogo.h">
+      <Filter>Actor\Title</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapleStoryCore.cpp">
@@ -34,6 +43,9 @@
     </ClCompile>
     <ClCompile Include="Stage1Level.cpp">
       <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLogo.cpp">
+      <Filter>Actor\Title</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -6,6 +6,8 @@
 // 설명 :
 class GameEngineCore
 {
+	friend class GEngine;
+
 public:
 	template<typename CoreType>
 	static void Start()
@@ -21,19 +23,19 @@ public:
 protected:
 	virtual std::string GetWindowTitle() { return "MainWindow"; }
 
-	virtual void UserStart() = 0;
+	virtual void Start() = 0;
 	// 엔진에서 제공하는 시간을 주고 이걸 쓴다
-	virtual void UserUpdate(float _DeltaTime) = 0;
-	virtual void UserEnd() = 0;
+	virtual void Update(float _DeltaTime) = 0;
+	virtual void End() = 0;
 
 	// constrcuter destructer
 	GameEngineCore();
 	~GameEngineCore();
 
-	class GameEngineLevel* FindLevel(const std::string& _Name);
+	static class GameEngineLevel* FindLevel(const std::string& _Name);
 
 	template<typename LevelType>
-	GameEngineLevel* CreateLevel(const std::string& _Name)
+	static GameEngineLevel* CreateLevel(const std::string& _Name)
 	{
 		std::string UpperName = GameEngineString::ToUpperReturn(_Name);
 		GameEngineLevel* NewLevel = new LevelType();
@@ -41,7 +43,7 @@ protected:
 		return NewLevel;
 	}
 
-	bool ChangeLevel(const std::string& _Name);
+	static bool ChangeLevel(const std::string& _Name);
 
 private:
 	static std::map<std::string, class GameEngineLevel*> AllLevels;
@@ -54,7 +56,7 @@ private:
 	static void CoreEnd(GameEngineCore* _UserCore);//프로그램 종료
 
 	// 헤더 추가하기 싫어서 초기화를 CPP에서 하기 위한 함수.
-	void InitializeLevel(GameEngineLevel* _Level, const std::string _Name);
+	static void InitializeLevel(GameEngineLevel* _Level, const std::string _Name);
 
 	// delete Function
 	GameEngineCore(const GameEngineCore& _Other) = delete;

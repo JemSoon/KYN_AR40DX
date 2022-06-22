@@ -14,7 +14,7 @@ MapleStoryCore::~MapleStoryCore()
 {
 }
 
-void MapleStoryCore::UserStart()
+void MapleStoryCore::Start()
 {
 	// 리소스를 로드하는데.
 
@@ -29,13 +29,13 @@ void MapleStoryCore::UserStart()
 	//            스테이지2
 }
 
-void MapleStoryCore::UserUpdate(float _DeltaTime)
+void MapleStoryCore::Update(float _DeltaTime)
 {
 	// 서버가 종료되었어.
 	// 무조건 경고 메세지창을 띄워줘야한다.
 }
 
-void MapleStoryCore::UserEnd()
+void MapleStoryCore::End()
 {
 	int a = 0;
 }
