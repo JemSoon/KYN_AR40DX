@@ -112,11 +112,12 @@ public:
 
 
 public:
-	static float4 LEFT;
-	static float4 RIGHT;
-	static float4 UP;
-	static float4 DOWN;
-	static float4 ZERO;
+	static const float4 LEFT;
+	static const float4 RIGHT;
+	static const float4 UP;
+	static const float4 DOWN;
+	static const float4 ZERO;
+	static const float4 ONE;
 
 public:
 	float x;

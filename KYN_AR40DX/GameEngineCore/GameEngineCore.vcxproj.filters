@@ -45,6 +45,9 @@
     <ClCompile Include="GameEngineComponent.cpp">
       <Filter>Component</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineMesh.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngineStateManager.h">
@@ -67,6 +70,9 @@
     </ClInclude>
     <ClInclude Include="GameEngineComponent.h">
       <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineMesh.h">
+      <Filter>Resources</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
