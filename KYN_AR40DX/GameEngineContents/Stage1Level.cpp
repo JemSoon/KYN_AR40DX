@@ -8,14 +8,14 @@ Stage1Level::~Stage1Level()
 {
 }
 
-void Stage1Level::UserGameStart()
+void Stage1Level::UserStart()
 {
 }
 
-void Stage1Level::UserGameUpdate()
+void Stage1Level::UserUpdate(float _DeltaTime)
 {
 }
 
-void Stage1Level::UserGameEnd()
+void Stage1Level::UserEnd()
 {
 }

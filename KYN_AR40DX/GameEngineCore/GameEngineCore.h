@@ -21,9 +21,10 @@ public:
 protected:
 	virtual std::string GetWindowTitle() { return "MainWindow"; }
 
-	virtual void UserGameStart() = 0;
-	virtual void UserGameUpdate() = 0;
-	virtual void UserGameEnd() = 0;
+	virtual void UserStart() = 0;
+	// 엔진에서 제공하는 시간을 주고 이걸 쓴다
+	virtual void UserUpdate(float _DeltaTime) = 0;
+	virtual void UserEnd() = 0;
 
 	// constrcuter destructer
 	GameEngineCore();

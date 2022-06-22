@@ -138,6 +138,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Enums.h" />
     <ClInclude Include="MapleStoryCore.h">
       <SubType>
       </SubType>

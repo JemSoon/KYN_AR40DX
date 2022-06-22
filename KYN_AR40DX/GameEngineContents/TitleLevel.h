@@ -16,9 +16,9 @@ public:
 	TitleLevel& operator=(TitleLevel&& _Other) noexcept = delete;
 
 protected:
-	void UserGameStart() override;
-	void UserGameUpdate() override;
-	void UserGameEnd() override;
+	void UserStart() override;
+	void UserUpdate(float _DeltaTime) override;
+	void UserEnd() override;
 
 private:
 

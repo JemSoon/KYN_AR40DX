@@ -7,6 +7,9 @@
     <Filter Include="Level">
       <UniqueIdentifier>{a86a0e12-ae23-4a7e-a9c1-cc06d764c385}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Global">
+      <UniqueIdentifier>{bdfa1308-b7bd-4e6b-acf2-ae48d4fb2512}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MapleStoryCore.h">
@@ -17,6 +20,9 @@
     </ClInclude>
     <ClInclude Include="Stage1Level.h">
       <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums.h">
+      <Filter>Global</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

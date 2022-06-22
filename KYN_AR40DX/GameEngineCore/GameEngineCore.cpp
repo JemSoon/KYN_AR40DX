@@ -46,7 +46,7 @@ bool GameEngineCore::ChangeLevel(const std::string& _Name)
 
 void GameEngineCore::CoreStart(GameEngineCore* _UserCore)
 {
-	_UserCore->UserGameStart();
+	_UserCore->UserStart();
 }
 
 void GameEngineCore::CoreUpdate(GameEngineCore* _UserCore)
@@ -71,15 +71,17 @@ void GameEngineCore::CoreUpdate(GameEngineCore* _UserCore)
 
 	GameEngineTime::GetInst()->Update();
 
-	_UserCore->UserGameUpdate();
+	_UserCore->UserUpdate(GameEngineTime::GetInst()->GetDeltaTime());
 
 	CurrentLevel->AddAccTime(GameEngineTime::GetDeltaTime());
-	CurrentLevel->UserGameUpdate();
+	CurrentLevel->UserUpdate(GameEngineTime::GetDeltaTime());
+
+	
 }
 
 void GameEngineCore::CoreEnd(GameEngineCore* _UserCore)
 {
-	_UserCore->UserGameEnd();
+	_UserCore->UserEnd();
 
 	for (auto& Level : AllLevels)
 	{
@@ -110,7 +112,7 @@ void GameEngineCore::WindowCreate(const std::string& _Name, GameEngineCore* _Use
 
 void GameEngineCore::InitializeLevel(GameEngineLevel* _Level, const std::string _Name)
 {
-	_Level->UserGameStart();
+	_Level->UserStart();
 	_Level->SetName(_Name);
 
 	// AllLevels.insert(std::map<std::string, GameEngineLevel*>::value_type(_Name, NewLevel));

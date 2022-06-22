@@ -88,8 +88,17 @@ public:
 		Order_ = _Order;
 	}
 
+protected:
+	//오브젝트가 동작을 하기 시작했다
 	virtual void OnEvent() {}
+	//오브젝트가 꺼졌다
 	virtual void OffEvent() {}
+	//오브젝트가 만들어졌다
+	virtual void UserStart() = 0;
+	//오브젝트가 프레임 구조안에서 돌고있다
+	virtual void UserUpdate(float _DeltaTime) = 0;
+	//오브젝트 메모리가 삭제된다
+	virtual void UserEnd() = 0;
 
 private:
 	int Order_;
