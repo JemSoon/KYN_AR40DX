@@ -20,8 +20,8 @@ void TitleLogo::Start()
 	GetTransform().SetLocalPosition({ 0, 200, 0 });
 
 	{
-		//GameEngineRenderer* RendererTest = CreateComponent<GameEngineRenderer>();
-		//RendererTest->GetTransform().SetLocalScale({ 800, 400, 0 });
+		GameEngineRenderer* RendererTest = CreateComponent<GameEngineRenderer>();
+		RendererTest->GetTransform().SetLocalScale({ 800, 400, 0 });
 	}
 
 	TimeAngle = 0.0f;
