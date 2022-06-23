@@ -16,6 +16,15 @@
     <Filter Include="Actor\Title">
       <UniqueIdentifier>{cf23616b-929e-4849-91f2-fbb28fe2d2d3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\Play">
+      <UniqueIdentifier>{378ba814-3a0b-458f-937d-a945ef4323a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Play\Com">
+      <UniqueIdentifier>{e0e349bc-589c-4278-88c2-dc40d43fd46d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PreCompile">
+      <UniqueIdentifier>{69df670c-1e6d-4c02-b088-69f5fc0b9285}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MapleStoryCore.h">
@@ -33,6 +42,19 @@
     <ClInclude Include="TitleLogo.h">
       <Filter>Actor\Title</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Actor\Play</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>Actor\Play</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreTestComponent.h">
+      <Filter>Actor\Play\Com</Filter>
+    </ClInclude>
+    <ClInclude Include="PreCompile.h">
+      <Filter>PreCompile</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalContentsValue.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapleStoryCore.cpp">
@@ -47,5 +69,18 @@
     <ClCompile Include="TitleLogo.cpp">
       <Filter>Actor\Title</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Actor\Play</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>Actor\Play</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreTestComponent.cpp">
+      <Filter>Actor\Play\Com</Filter>
+    </ClCompile>
+    <ClCompile Include="PreCompile.cpp">
+      <Filter>PreCompile</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalContentsValue.cpp" />
   </ItemGroup>
 </Project>

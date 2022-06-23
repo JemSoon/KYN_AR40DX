@@ -1,16 +1,21 @@
+#include "PreCompile.h"
 #include "GameEngineRenderer.h"
 #include "GameEngineActor.h"
 #include "GameEngineLevel.h"
 #include <Windows.h>
 #include <GameEngineBase/GameEngineWindow.h>
 
-GameEngineRenderer::GameEngineRenderer() 
+#include "GameEngineVertexBuffer.h"
+#include "GameEngineIndexBuffer.h"
+
+GameEngineRenderer::GameEngineRenderer()
 {
 }
 
-GameEngineRenderer::~GameEngineRenderer() 
+GameEngineRenderer::~GameEngineRenderer()
 {
 }
+
 
 void GameEngineRenderer::Start()
 {
@@ -19,23 +24,41 @@ void GameEngineRenderer::Start()
 
 void GameEngineRenderer::Render(float _DeltaTime)
 {
-	POINT Vertex[4];
+	// 랜더링
+	//GameEngineVertexBuffer* Vertex = GameEngineVertexBuffer::Find("Rect");
+	//GameEngineIndexBuffer* Index = GameEngineIndexBuffer::Find("Rect");
 
-	Vertex[0].x = -50 * GetActor()->GetTransform().GetScale().ix() + GetActor()->GetTransform().GetPosition().ix();
-	Vertex[0].y = -50 * GetActor()->GetTransform().GetScale().iy() + GetActor()->GetTransform().GetPosition().iy();
+	GameEngineVertexBuffer* Vertex = GameEngineVertexBuffer::Find("Box");
+	GameEngineIndexBuffer* Index = GameEngineIndexBuffer::Find("Box");
 
-	Vertex[1].x = 50 * GetActor()->GetTransform().GetScale().ix() + GetActor()->GetTransform().GetPosition().ix();
-	Vertex[1].y = -50 * GetActor()->GetTransform().GetScale().iy() + GetActor()->GetTransform().GetPosition().iy();
+	std::vector<POINT> DrawVertex;
+	DrawVertex.resize(Index->Indexs.size());
 
-	Vertex[2].x = 50 * GetActor()->GetTransform().GetScale().ix() + GetActor()->GetTransform().GetPosition().ix();
-	Vertex[2].y = 50 * GetActor()->GetTransform().GetScale().iy() + GetActor()->GetTransform().GetPosition().iy();
-
-	Vertex[3].x = -50 * GetActor()->GetTransform().GetScale().ix() + GetActor()->GetTransform().GetPosition().ix();
-	Vertex[3].y = 50 * GetActor()->GetTransform().GetScale().iy() + GetActor()->GetTransform().GetPosition().iy();
-
-
-	Polygon(GameEngineWindow::GetHDC(), Vertex, 4);
+	std::vector<float4> CopyBuffer;
+	CopyBuffer.resize(Index->Indexs.size());
 
 
-	// Rectangle(GameEngineWindow::GetHDC(), LeftTop.ix(), LeftTop.iy(), RightBot.ix(), RightBot.iy());
+	for (size_t i = 0; i < Index->Indexs.size(); i++)
+	{
+		int TriIndex = Index->Indexs[i];
+
+		// 0 번째 순서의 점이 됩니다.
+		// 최초에 원본 매쉬의 점을 복사합니다.
+		CopyBuffer[i] = Vertex->Vertexs[TriIndex];
+
+		auto& tran = GetTransform();
+
+		CopyBuffer[i] = CopyBuffer[i] * GetTransform().GetWorldViewProjection();
+		//// 기록해놨던 z값으로 나뉘는것
+		CopyBuffer[i] = CopyBuffer[i] / CopyBuffer[i].w;
+
+		CopyBuffer[i] = CopyBuffer[i] * ViewPort;
+
+		DrawVertex[i] = CopyBuffer[i].GetConvertWindowPOINT();
+	}
+
+	for (size_t i = 0; i < DrawVertex.size(); i += 3)
+	{
+		Polygon(GameEngineWindow::GetHDC(), &DrawVertex[i], 3);
+	}
 }

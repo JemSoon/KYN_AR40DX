@@ -35,6 +35,12 @@ public:
 		return Inst_->DeltaTimef;
 	}
 
+	template<typename EnumType>
+	static inline float GetDeltaTime(EnumType _Key)
+	{
+		return GetDeltaTime(static_cast<int>(_Key));
+	}
+
 	static inline float GetDeltaTime(int _Key)
 	{
 		return Inst_->DeltaTimef * Inst_->GetTimeScale(_Key);
@@ -45,6 +51,7 @@ public:
 	{
 		SetTimeScale(static_cast<int>(_Key), _TimeScale);
 	}
+
 
 	void SetTimeScale(int _Key, float _TimeScale)
 	{
@@ -68,7 +75,6 @@ private:
 
 	double DeltaTimed;
 	float DeltaTimef;
-
 	std::map<int, float> TimeScale_;
 
 	GameEngineTime();

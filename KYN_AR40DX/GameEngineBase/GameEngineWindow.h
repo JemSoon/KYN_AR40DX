@@ -3,7 +3,7 @@
 #include <string>
 #include "GameEngineMath.h"
 #include "GameEngineDebug.h"
-#include <Functional>
+#include <functional>
 
 // Ό³Έν :
 class GameEngineWindow
@@ -39,6 +39,11 @@ public:
 	static inline HDC GetHDC()
 	{
 		return Inst_->HDC_;
+	}
+
+	static inline HWND GetHWND()
+	{
+		return Inst_->hWnd_;
 	}
 
 	static inline float4 GetScale()

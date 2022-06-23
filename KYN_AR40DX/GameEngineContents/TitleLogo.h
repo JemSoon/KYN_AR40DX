@@ -21,5 +21,7 @@ protected:
 	void End() override;
 
 private:
+
+	float TimeAngle;
 };
 

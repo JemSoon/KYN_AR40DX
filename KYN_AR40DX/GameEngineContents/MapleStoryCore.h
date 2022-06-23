@@ -1,7 +1,8 @@
 #pragma once
+#include <GameEngineCore/CoreMinimal.h>
 #include <GameEngineCore/GameEngineCore.h>
 
-// 설명 : 게임이 시작될 코어
+// 설명 : 프로그램 자체를 시작하게 한다.
 class MapleStoryCore : public GameEngineCore
 {
 public:
@@ -14,6 +15,7 @@ public:
 	MapleStoryCore(MapleStoryCore&& _Other) noexcept = delete;
 	MapleStoryCore& operator=(const MapleStoryCore& _Other) = delete;
 	MapleStoryCore& operator=(MapleStoryCore&& _Other) noexcept = delete;
+
 
 	std::string GetWindowTitle() override
 	{
@@ -31,6 +33,6 @@ protected:
 	void End() override;
 
 private:
-	 
+
 };
 

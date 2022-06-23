@@ -1,10 +1,10 @@
 #pragma once
-#include "GameEngineComponent.h"
+#include "GameEngineTransformComponent.h"
 
 // Ό³Έν :
-class GameEngineRenderer : public GameEngineComponent
+class GameEngineRenderer : public GameEngineTransformComponent
 {
-	friend class GameEngineLevel;
+	friend class GameEngineCamera;
 
 public:
 	// constrcuter destructer
@@ -16,6 +16,8 @@ public:
 	GameEngineRenderer(GameEngineRenderer&& _Other) noexcept = delete;
 	GameEngineRenderer& operator=(const GameEngineRenderer& _Other) = delete;
 	GameEngineRenderer& operator=(GameEngineRenderer&& _Other) noexcept = delete;
+
+	float4x4 ViewPort;
 
 protected:
 	virtual void Start();

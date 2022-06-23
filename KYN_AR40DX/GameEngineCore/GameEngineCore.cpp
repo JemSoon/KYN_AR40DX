@@ -1,8 +1,11 @@
+#include "PreCompile.h"
 #include "GameEngineCore.h"
 #include <GameEngineBase/GameEngineWindow.h>
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngineBase/GameEngineTime.h>
+#include <GameEngineCore/GameEngineDevice.h>
 #include "GameEngineLevel.h"
+#include "GameEngineDevice.h"
 
 #pragma comment(lib, "GameEngineBase.lib")
 
@@ -11,11 +14,12 @@ GameEngineLevel* GameEngineCore::NextLevel = nullptr;
 
 std::map<std::string, class GameEngineLevel*> GameEngineCore::AllLevels;
 
-GameEngineCore::GameEngineCore() 
+
+GameEngineCore::GameEngineCore()
 {
 }
 
-GameEngineCore::~GameEngineCore() 
+GameEngineCore::~GameEngineCore()
 {
 }
 
@@ -24,7 +28,6 @@ class GameEngineLevel* GameEngineCore::FindLevel(const std::string& _Name)
 	std::string UpperName = GameEngineString::ToUpperReturn(_Name);
 
 	std::map<std::string, GameEngineLevel*>::iterator FindIter = AllLevels.find(UpperName);
-
 	if (FindIter == AllLevels.end())
 	{
 		return nullptr;
@@ -38,14 +41,18 @@ bool GameEngineCore::ChangeLevel(const std::string& _Name)
 
 	if (nullptr == NextLevel)
 	{
-		MsgBoxAssert("다음 레벨이 없습니다 존재하지 않는 레벨로 바꾸려고 했습니다.");
+		MsgBoxAssert("존재하지 않는 레벨로 바꾸려고 했습니다.");
 		return false;
 	}
+
 	return true;
 }
 
 void GameEngineCore::CoreStart(GameEngineCore* _UserCore)
 {
+	// 엔진 리소스는 완성되어야 합니다.
+	EngineResourcesInitialize();
+
 	// 엔진이 뭔가를 할겁니다.
 	// 준비를 먼저하고.
 	_UserCore->Start();
@@ -55,6 +62,13 @@ void GameEngineCore::CoreUpdate(GameEngineCore* _UserCore)
 {
 	if (nullptr != NextLevel)
 	{
+
+
+		Rectangle(GameEngineWindow::GetInst()->GetHDC()
+			, 0
+			, 0
+			, GameEngineWindow::GetInst()->GetScale().ix(), GameEngineWindow::GetInst()->GetScale().iy());
+
 		if (nullptr != CurrentLevel)
 		{
 			CurrentLevel->OffEvent();
@@ -62,32 +76,31 @@ void GameEngineCore::CoreUpdate(GameEngineCore* _UserCore)
 
 		CurrentLevel = NextLevel;
 		NextLevel = nullptr;
-
 		CurrentLevel->OnEvent();
 
-		//화면 전환 후 다시 0초부터 시간을 잼
+		// ex) 타이틀에서 5초후 => 플레이 레벨로 이동
+		//     플레이 레벨에서 => 다시 타이틀레벨로
 		CurrentLevel->ReSetAccTime();
 
 		GameEngineTime::GetInst()->Reset();
 	}
 
+
 	if (nullptr == CurrentLevel)
 	{
-		MsgBoxAssert("레벨을 지정해 주지 않으면 엔진을 시작할 수 가 없습니다.");
+		MsgBoxAssert("레벨을 지정해주지 않으면 엔진을 시작할수가 업습니다.");
 	}
 
 	GameEngineTime::GetInst()->Update();
 
 	float DeltaTime = GameEngineTime::GetDeltaTime();
 
+	GameEngineInput::GetInst()->Update(DeltaTime);
+	// 엔진수준에서 유저가 하고 싶은일.
 	_UserCore->Update(DeltaTime);
 
-	//현재 레벨이 켜진 후 몇초가 지났다
-	CurrentLevel->AddAccTime(DeltaTime);
-	CurrentLevel->Update(DeltaTime);
-	CurrentLevel->ActorUpdate(DeltaTime);
-	CurrentLevel->Render(DeltaTime);
-	
+	CurrentLevel->LevelUpdate(DeltaTime);
+
 }
 
 void GameEngineCore::CoreEnd(GameEngineCore* _UserCore)
@@ -104,21 +117,32 @@ void GameEngineCore::CoreEnd(GameEngineCore* _UserCore)
 		Level.second = nullptr;
 	}
 
+	EngineResourcesDestroy();
+
 	GameEngineWindow::Destroy();
 	GameEngineInput::Destroy();
+	GameEngineDebug::Destroy();
 	GameEngineTime::Destroy();
 }
+
 
 void GameEngineCore::WindowCreate(const std::string& _Name, GameEngineCore* _UserCore)
 {
 	GameEngineWindow::GetInst()->CreateGameWindow(nullptr, _Name.c_str());
-	GameEngineWindow::GetInst()->SetWindowScaleAndPosition({ 0,0 }, { 1280,720 });
+	GameEngineWindow::GetInst()->SetWindowScaleAndPosition({ 0,0 }, { 1280, 720 });
 	GameEngineWindow::GetInst()->ShowGameWindow();
+	GameEngineDevice::Initialize();
+
+
+
+
+	// 엔진의 실행인데.
 	GameEngineWindow::GetInst()->MessageLoop(
 		std::bind(&GameEngineCore::CoreStart, _UserCore),
 		std::bind(&GameEngineCore::CoreUpdate, _UserCore),
 		std::bind(&GameEngineCore::CoreEnd, _UserCore)
 	);
+
 }
 
 void GameEngineCore::InitializeLevel(GameEngineLevel* _Level, const std::string _Name)
