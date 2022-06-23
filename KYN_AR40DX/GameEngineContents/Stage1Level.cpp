@@ -22,7 +22,7 @@ void Stage1Level::Start()
 		GameEngineInput::GetInst()->CreateKey("CamDown", 'E');
 		GameEngineInput::GetInst()->CreateKey("CamForward", 'W');
 		GameEngineInput::GetInst()->CreateKey("CamBack", 'S');
-
+		
 		GameEngineInput::GetInst()->CreateKey("CamRotY+", 'R');
 		GameEngineInput::GetInst()->CreateKey("CamRotY-", 'T');
 
@@ -66,7 +66,7 @@ void Stage1Level::Update(float _DeltaTime)
 	{
 		GetMainCameraActorTransform().SetLocalMove(-GetMainCameraActorTransform().GetUpVector() * 100 * _DeltaTime);
 	}
-
+	
 	if (true == GameEngineInput::GetInst()->IsPress("CamForward"))
 	{
 		GetMainCameraActorTransform().SetLocalMove(GetMainCameraActorTransform().GetForwardVector() * 100 * _DeltaTime);
@@ -75,7 +75,7 @@ void Stage1Level::Update(float _DeltaTime)
 	{
 		GetMainCameraActorTransform().SetLocalMove(-GetMainCameraActorTransform().GetForwardVector() * 100 * _DeltaTime);
 	}
-
+	
 	static float4 Rot = { 0.0f, 0.0f, 0.0f };
 	if (true == GameEngineInput::GetInst()->IsPress("CamRotY+"))
 	{
@@ -86,7 +86,7 @@ void Stage1Level::Update(float _DeltaTime)
 		Rot.y -= 360.0f * _DeltaTime;
 	}
 
-	// GetMainCameraActorTransform().SetLocalRotation(Rot);
+	 GetMainCameraActorTransform().SetLocalRotation(Rot);
 
 }
 

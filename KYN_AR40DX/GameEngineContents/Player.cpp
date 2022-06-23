@@ -30,8 +30,9 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("PlayerDown", VK_NUMPAD7);
 		GameEngineInput::GetInst()->CreateKey("PlayerForward", VK_NUMPAD8);
 		GameEngineInput::GetInst()->CreateKey("PlayerBack", VK_NUMPAD5);
-		GameEngineInput::GetInst()->CreateKey("Rot+", VK_NUMPAD1);
+		GameEngineInput::GetInst()->CreateKey("Rot+", VK_NUMPAD0);
 		GameEngineInput::GetInst()->CreateKey("Rot-", VK_NUMPAD2);
+		//넘패드 1번은 노트북 a버튼과 겹친다..
 	}
 
 	GetTransform().SetLocalScale({ 1, 1, 1 });
