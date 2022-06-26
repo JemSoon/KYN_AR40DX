@@ -10,12 +10,6 @@
     <Filter Include="Resources">
       <UniqueIdentifier>{750e87b3-da3f-4936-af5f-1b9fb7ed11e4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component">
-      <UniqueIdentifier>{4aaa7391-5e5c-4a10-b802-ec25e033844a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\Object">
-      <UniqueIdentifier>{cf89c611-b8de-457d-a3ca-a78acd653954}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Device">
       <UniqueIdentifier>{726b8104-f771-4f0e-8c4b-aeaf65cf3e9c}</UniqueIdentifier>
     </Filter>

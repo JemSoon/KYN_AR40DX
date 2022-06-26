@@ -24,14 +24,14 @@ void Player::Start()
 {
 	if (false == GameEngineInput::GetInst()->IsKey("PlayerLeft"))
 	{
-		GameEngineInput::GetInst()->CreateKey("PlayerLeft", VK_NUMPAD4);
-		GameEngineInput::GetInst()->CreateKey("PlayerRight", VK_NUMPAD6);
-		GameEngineInput::GetInst()->CreateKey("PlayerUp", VK_NUMPAD9);
-		GameEngineInput::GetInst()->CreateKey("PlayerDown", VK_NUMPAD7);
-		GameEngineInput::GetInst()->CreateKey("PlayerForward", VK_NUMPAD8);
-		GameEngineInput::GetInst()->CreateKey("PlayerBack", VK_NUMPAD5);
+		GameEngineInput::GetInst()->CreateKey("PlayerLeft", 'J');
+		GameEngineInput::GetInst()->CreateKey("PlayerRight", 'L');
+		GameEngineInput::GetInst()->CreateKey("PlayerUp", 'I');
+		GameEngineInput::GetInst()->CreateKey("PlayerDown", 'K');
+		GameEngineInput::GetInst()->CreateKey("PlayerForward", 'U');
+		GameEngineInput::GetInst()->CreateKey("PlayerBack", 'O');
 		GameEngineInput::GetInst()->CreateKey("Rot+", VK_NUMPAD0);
-		GameEngineInput::GetInst()->CreateKey("Rot-", VK_NUMPAD2);
+		GameEngineInput::GetInst()->CreateKey("Rot-", 'H');
 		//넘패드 1번은 노트북 a버튼과 겹친다..
 	}
 

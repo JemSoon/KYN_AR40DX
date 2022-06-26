@@ -60,9 +60,16 @@ GameEngineTransform& GameEngineLevel::GetMainCameraActorTransform()
 	return MainCamera->GetActor()->GetTransform();
 }
 
+
 void GameEngineLevel::Render(float _DelataTime)
 {
+	GameEngineDevice::RenderStart();
+
+	//이 사이에 무언가를 한다?
+
 	MainCamera->Render(_DelataTime);
+
+	GameEngineDevice::RenderEnd();
 }
 
 void GameEngineLevel::Release(float _DelataTime)
