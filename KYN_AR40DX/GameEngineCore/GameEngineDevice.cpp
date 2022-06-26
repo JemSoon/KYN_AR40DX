@@ -144,7 +144,6 @@ void GameEngineDevice::CreateSwapChain()
 		MsgBoxAssert("스왑체인 생성에 실패했습니다.");
 	}
 
-
 	pF->Release();
 	pA->Release();
 	pD->Release();
@@ -167,16 +166,16 @@ void GameEngineDevice::Initialize()
 
 void GameEngineDevice::RenderStart()
 {
-	//지우고
+	// 지우고
 	BackBufferTarget->Clear();
 
-	//세팅하고
+	// 세팅하고
 	BackBufferTarget->Setting();
 }
 
 void GameEngineDevice::RenderEnd()
 {
-	//모니터에 나오게 해라
+	// 모니터에 나오게 해라.
 	HRESULT Result = SwapChain_->Present(0, 0);
 	if (Result == DXGI_ERROR_DEVICE_REMOVED || Result == DXGI_ERROR_DEVICE_RESET)
 	{

@@ -33,7 +33,7 @@ public:
 	}
 
 	static void Destroy();
-	
+
 protected:
 
 private:

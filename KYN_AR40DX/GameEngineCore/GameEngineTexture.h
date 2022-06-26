@@ -18,11 +18,11 @@ public:
 	GameEngineTexture& operator=(const GameEngineTexture& _Other) = delete;
 	GameEngineTexture& operator=(GameEngineTexture&& _Other) noexcept = delete;
 
-	//static
+	// static
 	static GameEngineTexture* Create(const std::string& _Name, ID3D11Texture2D* _Texture);
 	static GameEngineTexture* Create(ID3D11Texture2D* _Texture);
 
-	//Member
+	// Member
 	ID3D11RenderTargetView* CreateRenderTargetView();
 
 

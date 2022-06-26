@@ -29,9 +29,9 @@ protected:
 	std::vector<ID3D11RenderTargetView*> RenderTargetViews;
 	std::vector<float4> ClearColors;
 
+
 	ID3D11DepthStencilView* DepthStencilView;
 
 private:
-
 };
 

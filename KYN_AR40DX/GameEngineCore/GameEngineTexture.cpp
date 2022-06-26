@@ -9,7 +9,6 @@ GameEngineTexture::GameEngineTexture()
 
 GameEngineTexture::~GameEngineTexture()
 {
-	//소멸시점에 nullptr이 아니면 다 삭제(release)
 	if (nullptr != RenderTargetView)
 	{
 		RenderTargetView->Release();
@@ -23,7 +22,6 @@ GameEngineTexture::~GameEngineTexture()
 
 ID3D11RenderTargetView* GameEngineTexture::CreateRenderTargetView()
 {
-	//랜더타겟 뷰가 이미 있다면 생성 안하고 그냥 리턴
 	if (nullptr != RenderTargetView)
 	{
 		return RenderTargetView;
@@ -31,7 +29,7 @@ ID3D11RenderTargetView* GameEngineTexture::CreateRenderTargetView()
 
 	if (S_OK != GameEngineDevice::GetDevice()->CreateRenderTargetView(Texture2D, nullptr, &RenderTargetView))
 	{
-		MsgBoxAssert("랜더 타겟 생성에 실패했습니다.");
+		MsgBoxAssert("랜더타겟 생성에 실패했습니다.");
 	}
 
 	return RenderTargetView;
