@@ -14,10 +14,11 @@ public:
 
 public:
 	template<typename VertexType>
-	static GameEngineVertexBuffer* Create(const std::string& _Name, const std::vector<float4>& _Vertex)
+	static GameEngineVertexBuffer* Create(const std::string& _Name, const std::vector<VertexType>& _Vertex)
 	{
 		return Create(_Name, &_Vertex[0], _Vertex.size() * sizeof(VertexType));
 	}
+
 	static GameEngineVertexBuffer* Create(const std::string& _Name, const void* _Data, size_t _Size);
 	//static GameEngineVertexBuffer* Create(const std::vector<float4>& _Vertex);
 

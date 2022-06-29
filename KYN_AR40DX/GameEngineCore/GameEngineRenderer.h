@@ -25,7 +25,7 @@ protected:
 	virtual void End() {}
 
 private:
-	void Render(float _DeltaTime);
+	virtual void Render(float _DeltaTime) = 0;
 
 };
 

@@ -5,6 +5,7 @@
 //직접 만들지 않아도 자동으로 생략되어 생성되 있는것들
 
 //설명 : 
+class GameEngineRenderingPipeLine;
 class GameEngineDefaultRenderer : public GameEngineRenderer
 {
 	//랜더링 파이프라인 하나당
