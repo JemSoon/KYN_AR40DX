@@ -4,6 +4,7 @@
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngineBase/GameEngineTime.h>
 #include "GameEngineLevel.h"
+#include "GameEngineVertexs.h"
 #include <math.h>
 
 // Resources Header

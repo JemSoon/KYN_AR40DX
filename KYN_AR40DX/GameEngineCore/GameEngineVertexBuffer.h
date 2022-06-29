@@ -13,8 +13,13 @@ public:
 	friend GameEngineRes<GameEngineVertexBuffer>;
 
 public:
-	static GameEngineVertexBuffer* Create(const std::string& _Name, const std::vector<float4>& _Vertex);
-	static GameEngineVertexBuffer* Create(const std::vector<float4>& _Vertex);
+	template<typename VertexType>
+	static GameEngineVertexBuffer* Create(const std::string& _Name, const std::vector<float4>& _Vertex)
+	{
+		return Create(_Name, &_Vertex[0], _Vertex.size() * sizeof(VertexType));
+	}
+	static GameEngineVertexBuffer* Create(const std::string& _Name, const void* _Data, size_t _Size);
+	//static GameEngineVertexBuffer* Create(const std::vector<float4>& _Vertex);
 
 private:
 	// constrcuter destructer
@@ -31,10 +36,11 @@ protected:
 
 
 private:
+	D3D11_BUFFER_DESC BufferDesc; //버퍼를 만들기 위한 정보 스트럭트
 
-public:
-	std::vector<float4> Vertexs;
+	D3D11_SUBRESOURCE_DATA Data;
 
+	ID3D11Buffer* Buffer;
 
 };
 

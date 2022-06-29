@@ -28,6 +28,18 @@
     <Filter Include="PreCompile">
       <UniqueIdentifier>{e080ff26-f19b-4fa9-aec3-70cfe8c61b5b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\InputAssembler">
+      <UniqueIdentifier>{86b5569b-27dc-447b-9301-e40f3d6de2c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Shader">
+      <UniqueIdentifier>{7e4b974c-b246-460f-a92c-811dfb2f68ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\OutputMerger">
+      <UniqueIdentifier>{00120104-4c2e-49c3-aaed-1a3756a8c032}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Rasterizer">
+      <UniqueIdentifier>{95caa022-8219-495a-bdb8-6af84d27d9bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineStateManager.cpp">
@@ -87,8 +99,35 @@
     <ClCompile Include="GameEngineTexture.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineVertexBuffer.cpp">
+    <ClCompile Include="GameEngineDefaultRenderer.cpp">
+      <Filter>Object\Component\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineRenderingPipeLine.cpp">
       <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineInputLayOut.cpp">
+      <Filter>Resources\InputAssembler</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineVertexBuffer.cpp">
+      <Filter>Resources\InputAssembler</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineVertexShader.cpp">
+      <Filter>Resources\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineShader.cpp">
+      <Filter>Resources\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEnginePixelShader.cpp">
+      <Filter>Resources\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineBlend.cpp">
+      <Filter>Resources\OutputMerger</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineRasterizer.cpp">
+      <Filter>Resources\Rasterizer</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineDepthStencil.cpp">
+      <Filter>Resources\OutputMerger</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -146,11 +185,41 @@
     <ClInclude Include="GameEngineTexture.h">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineVertexBuffer.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
     <ClInclude Include="CoreMinimal.h">
       <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineDefaultRenderer.h">
+      <Filter>Object\Component\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineRenderingPipeLine.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineInputLayOut.h">
+      <Filter>Resources\InputAssembler</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineVertexBuffer.h">
+      <Filter>Resources\InputAssembler</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineVertexShader.h">
+      <Filter>Resources\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineShader.h">
+      <Filter>Resources\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEnginePixelShader.h">
+      <Filter>Resources\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineBlend.h">
+      <Filter>Resources\OutputMerger</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineVertexs.h">
+      <Filter>Resources\InputAssembler</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineRasterizer.h">
+      <Filter>Resources\Rasterizer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineDepthStencil.h">
+      <Filter>Resources\OutputMerger</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
