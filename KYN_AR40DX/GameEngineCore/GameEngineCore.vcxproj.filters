@@ -129,6 +129,9 @@
     <ClCompile Include="GameEngineDepthStencil.cpp">
       <Filter>Resources\OutputMerger</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineVertexs.cpp">
+      <Filter>Resources\InputAssembler</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngineStateManager.h">

@@ -13,6 +13,13 @@
 #include "GameEngineTexture.h"
 #include "GameEngineRenderTarget.h"
 
+#include "GameEngineVertexShader.h"
+
+void EngineInputLayOut()
+{
+	GameEngineVertex::LayOut.AddInputLayOut("POSITION", DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT);
+	GameEngineVertex::LayOut.AddInputLayOut("COLOR", DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT);
+}
 
 void GameEngineCore::EngineResourcesInitialize()
 {
@@ -28,10 +35,10 @@ void GameEngineCore::EngineResourcesInitialize()
 		// 3       2
 
 		std::vector<float4> Vertex;
-		Vertex.push_back(float4(-0.5f, 0.5f));
-		Vertex.push_back(float4(0.5f, 0.5f));
-		Vertex.push_back(float4(0.5f, -0.5f));
-		Vertex.push_back(float4(-0.5f, -0.5f));
+		Vertex.push_back({ float4(-0.5f, 0.5f) });
+		Vertex.push_back({ float4(0.5f, 0.5f) });
+		Vertex.push_back({ float4(0.5f, -0.5f) });
+		Vertex.push_back({ float4(-0.5f, -0.5f) });
 
 		GameEngineVertexBuffer::Create("Rect", Vertex);
 	}
@@ -129,6 +136,20 @@ void GameEngineCore::EngineResourcesInitialize()
 
 }
 
+void ShaderCompile()
+{
+	GameEngineDirectory Dir;
+
+	Dir.MoveParentToExitsChildDirectory("Shader");
+	Dir.Move("Shader");
+
+	std::vector<GameEngineFile> Shaders = Dir.GetAllFile("hlsl");
+
+	for (size_t i = 0; i < Shaders.size(); i++)
+	{
+		GameEngineVertexShader::Load(Shaders[i].GetFullPath());
+	}
+}
 
 void GameEngineCore::EngineResourcesDestroy()
 {
