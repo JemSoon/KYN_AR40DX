@@ -8,6 +8,8 @@
 class GameEngineShader
 {
 public:
+	static void AutoCompile(const std::string& _Path);
+
 	//디폴트 생성자
 	GameEngineShader();
 	//디폴트 소멸자
@@ -28,8 +30,15 @@ public:
 
 
 protected:
+	void CreateVersion(const std::string& _ShaderType, UINT _VersionHigh, UINT _VersionLow);
+	void SetEntryPoint(const std::string& _EntryPoint)
+	{
+		EntryPoint = _EntryPoint;
+	}
 
 private:
+	std::string Version;
+	std::string EntryPoint;
 
 };
 

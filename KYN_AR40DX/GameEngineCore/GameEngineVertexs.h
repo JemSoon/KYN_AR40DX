@@ -1,9 +1,9 @@
 #pragma once
 #include <GameEngineBase/GameEngineMath.h>
 
+//설명 : POSITION, COLOR, NORMAL등등 을 구분해주기 위한 클래스
 class GameEngineLayOutDesc
 {
-	//일반적인 멤버 변수를 가지면 안된다
 public:
 	unsigned int LayOutOffset;
 	std::map<const char*, int> SemanticIndexData;

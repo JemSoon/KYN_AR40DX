@@ -10,6 +10,10 @@ GameEngineVertexBuffer::GameEngineVertexBuffer()
 
 GameEngineVertexBuffer::~GameEngineVertexBuffer()
 {
+	if (nullptr != Buffer)
+	{
+		Buffer->Release();
+	}
 }
 
 GameEngineVertexBuffer* GameEngineVertexBuffer::Create(const std::string& _Name, const void* _Data, size_t _Size)
