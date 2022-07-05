@@ -13,7 +13,7 @@ class GameEnginePixelShader
 	friend GameEngineShader;
 	friend GameEngineRes<GameEnginePixelShader>;
 
-public:
+private:
 	//디폴트 생성자
 	GameEnginePixelShader();
 	//디폴트 소멸자
@@ -33,8 +33,9 @@ public:
 	static GameEnginePixelShader* Load(std::string _Path, std::string _EntryPoint, UINT _VersionHigh = 5, UINT _VersionLow = 0);
 
 	static GameEnginePixelShader* Load(std::string _Path, std::string _Name, std::string _EntryPoint, UINT _VersionHigh, UINT _VersionLow);
-	
+
 protected:
+
 	void ShaderCompile(std::string _Path, std::string _EntryPoint, UINT _VersionHigh, UINT _VersionLow);
 
 private:

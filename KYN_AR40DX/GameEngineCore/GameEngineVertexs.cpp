@@ -182,12 +182,3 @@ void GameEngineLayOutDesc::AddInputLayOut(
 
 	InputLayOutDesc.push_back(LayOutDesc);
 }
-
-GameEngineLayOutDesc GameEngineVertex::LayOut;
-
-GameEngineInputLayout* GameEngineLayOutDesc::CreateInputLayOut(GameEngineVertexShader* _Shader)
-{
-
-
-	return nullptr;
-}

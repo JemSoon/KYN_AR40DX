@@ -27,7 +27,7 @@ void GameEngineShader::AutoCompile(const std::string& _Path)
 		// substr(2, 3); "234"
 
 		// ' 'Color_VS 
-		std::string EntryName = AllHlslCode.substr(FirstIndex + 1, VSEntryIndex - FirstIndex);
+		std::string EntryName = AllHlslCode.substr(FirstIndex + 1, VSEntryIndex - FirstIndex - 1);
 		EntryName += "_VS";
 		GameEngineVertexShader::Load(_Path, EntryName);
 
