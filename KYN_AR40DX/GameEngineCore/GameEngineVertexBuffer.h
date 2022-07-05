@@ -34,7 +34,7 @@ private:
 	GameEngineVertexBuffer& operator=(GameEngineVertexBuffer&& _Other) noexcept = delete;
 
 protected:
-
+	void BufferCreate(const void* _Data, size_t _Size);
 
 private:
 	D3D11_BUFFER_DESC BufferDesc; //버퍼를 만들기 위한 정보 스트럭트

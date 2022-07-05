@@ -14,6 +14,8 @@ class GameEngineBlend;
 class GameEngineRenderingPipeLine :public GameEngineRes<GameEngineRenderingPipeLine>
 {
 public:
+	static GameEngineRenderingPipeLine* Create(const std::string& _Name);
+
 	//디폴트 생성자
 	GameEngineRenderingPipeLine();
 	//디폴트 소멸자
@@ -31,7 +33,25 @@ public:
 
 	void Draw();
 
+	// void SetInputAssembler1InputLayOutSetting(const std::string& _Name);
+
+	void SetInputAssembler1VertexBufferSetting(const std::string& _Name);
+
+	void SetVertexShaderSetting(const std::string& _Name);
+
+	void SetInputAssembler2IndexBufferSetting(const std::string& _Name);
+
+	void SetRasterizerSetting(const std::string& _Name);
+
+	void SetPixelShaderSetting(const std::string& _Name);
+
+	void SetOutputMergerBlendSetting(const std::string& _Name);
+
+	void SetOutputMergerDepthStencilSetting(const std::string& _Name);
+
 protected:
+
+private:
 	GameEngineInputLayOut* InputLayOut; //인풋어셈블러 1 세팅
 	
 	GameEngineVertexBuffer* VertexBuffer; //인풋어셈블러1 세팅
@@ -59,21 +79,5 @@ protected:
 	//디바이스의 백버퍼를 사용해서 만든 랜더타겟이 매번 세팅되고 있다
 	//거기에 그려라
 
-private:
-	void SetInputAssembler1InputLayOutSetting(const std::string& _Name);
-	
-	void SetInputAssembler1VertexBufferSetting(const std::string& _Name);
-
-	void SetVertexShader(const std::string& _Name);
-
-	void SetInputAssembler2IndexBufferSetting(const std::string& _Name);
-
-	void SetRasterizer(const std::string& _Nmae);
-
-	void SetPixelShader(const std::string& _Name);
-
-	void SetOutputMergerDepthStencilSetting(const std::string& _Name);
-
-	void SetOutputMergerBlend(const std::string& _Name);
 };
 

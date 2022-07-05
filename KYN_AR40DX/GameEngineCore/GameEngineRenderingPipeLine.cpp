@@ -10,6 +10,7 @@
 #include "GameEngineDepthStencil.h"
 #include "GameEngineBlend.h"
 
+
 GameEngineRenderingPipeLine::GameEngineRenderingPipeLine()
 	: InputLayOut(nullptr)
 	, VertexBuffer(nullptr)
@@ -20,28 +21,31 @@ GameEngineRenderingPipeLine::GameEngineRenderingPipeLine()
 	, DepthStencil(nullptr)
 	, Blend(nullptr)
 {
-
 }
 
 GameEngineRenderingPipeLine::~GameEngineRenderingPipeLine()
 {
-
 }
 
 void GameEngineRenderingPipeLine::Draw()
 {
 
 }
+//
+//void GameEngineRenderingPipeLine::SetInputAssembler1InputLayOutSetting(const std::string& _Name)
+//{
+//	InputLayOut = GameEngineInputLayOut::Find(_Name);
+//
+//	if (nullptr == InputLayOut)
+//	{
+//		MsgBoxAssert("존재하지 않는 인풋레이아웃을 세팅하려고 했습니다.");
+//		return;
+//	}
+//}
 
-void GameEngineRenderingPipeLine::SetInputAssembler1InputLayOutSetting(const std::string& _Name)
+GameEngineRenderingPipeLine* GameEngineRenderingPipeLine::Create(const std::string& _Name)
 {
-	InputLayOut = GameEngineInputLayOut::Find(_Name);
-	
-	if (nullptr == InputLayOut)
-	{
-		MsgBoxAssert("존재하지 않는 인풋 레이아웃을 세팅하려고 했습니다.");
-		return;
-	}
+	return CreateResName(_Name);
 }
 
 void GameEngineRenderingPipeLine::SetInputAssembler1VertexBufferSetting(const std::string& _Name)
@@ -53,9 +57,14 @@ void GameEngineRenderingPipeLine::SetInputAssembler1VertexBufferSetting(const st
 		MsgBoxAssert("존재하지 않는 버텍스 버퍼를 세팅하려고 했습니다.");
 		return;
 	}
+
+	//if (nullptr != VertexShader)
+	//{
+	//	InputLayOut = new GameEngineInputLayOut();
+	//}
 }
 
-void GameEngineRenderingPipeLine::SetVertexShader(const std::string& _Name)
+void GameEngineRenderingPipeLine::SetVertexShaderSetting(const std::string& _Name)
 {
 	VertexShader = GameEngineVertexShader::Find(_Name);
 
@@ -64,6 +73,11 @@ void GameEngineRenderingPipeLine::SetVertexShader(const std::string& _Name)
 		MsgBoxAssert("존재하지 않는 버텍스 쉐이더를 세팅하려고 했습니다.");
 		return;
 	}
+
+	//if (nullptr != VertexBuffer)
+	//{
+	//	InputLayOut = new GameEngineInputLayOut();
+	//}
 }
 
 void GameEngineRenderingPipeLine::SetInputAssembler2IndexBufferSetting(const std::string& _Name)
@@ -72,32 +86,36 @@ void GameEngineRenderingPipeLine::SetInputAssembler2IndexBufferSetting(const std
 
 	if (nullptr == IndexBuffer)
 	{
-		MsgBoxAssert("존재하지 않는 인덱스 버퍼를 세팅하려고 했습니다.");
+		MsgBoxAssert("존재하지 않는 인덱스버퍼를 세팅하려고 했습니다.");
 		return;
 	}
 }
 
-void GameEngineRenderingPipeLine::SetRasterizer(const std::string& _Name)
+void GameEngineRenderingPipeLine::SetRasterizerSetting(const std::string& _Name)
 {
 	Rasterizer = GameEngineRasterizer::Find(_Name);
 
 	if (nullptr == Rasterizer)
 	{
-		MsgBoxAssert("존재하지 않는 레스터라이저를 세팅하려고 했습니다.");
+		MsgBoxAssert("존재하지 않는 레스터라이저 세팅를 세팅하려고 했습니다.");
 		return;
 	}
+
 }
 
-void GameEngineRenderingPipeLine::SetPixelShader(const std::string& _Name)
+
+void GameEngineRenderingPipeLine::SetPixelShaderSetting(const std::string& _Name)
 {
 	PixelShader = GameEnginePixelShader::Find(_Name);
 
 	if (nullptr == PixelShader)
 	{
-		MsgBoxAssert("존재하지 않는 픽셀 쉐이더를 세팅하려고 했습니다.");
+		MsgBoxAssert("존재하지 않는 픽셀쉐이더를 세팅하려고 했습니다.");
 		return;
 	}
+
 }
+
 
 
 void GameEngineRenderingPipeLine::SetOutputMergerDepthStencilSetting(const std::string& _Name)
@@ -106,18 +124,22 @@ void GameEngineRenderingPipeLine::SetOutputMergerDepthStencilSetting(const std::
 
 	if (nullptr == DepthStencil)
 	{
-		MsgBoxAssert("존재하지 않는 뎁스 스텐실을 세팅하려고 했습니다.");
+		MsgBoxAssert("존재하지 않는 깊이스텐실를 세팅하려고 했습니다.");
 		return;
 	}
+
 }
 
-void GameEngineRenderingPipeLine::SetOutputMergerBlend(const std::string& _Name)
+
+void GameEngineRenderingPipeLine::SetOutputMergerBlendSetting(const std::string& _Name)
 {
 	Blend = GameEngineBlend::Find(_Name);
 
 	if (nullptr == Blend)
 	{
-		MsgBoxAssert("존재하지 않는 블렌더를 세팅하려고 했습니다.");
+		MsgBoxAssert("존재하지 않는 블랜더를 세팅하려고 했습니다.");
 		return;
 	}
 }
+
+

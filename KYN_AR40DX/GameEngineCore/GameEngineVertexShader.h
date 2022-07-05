@@ -1,15 +1,18 @@
 #pragma once
 #include "GameEngineShader.h"
-
-//선생님은 생략된 것들도 명시적으로 칠 것이다
-//직접 만들지 않아도 자동으로 생략되어 생성되 있는것들
+#include "GameEngineRes.h"
 
 //설명 : 
+class GameEngineInputLayOut;
 class GameEngineVertexShader
 	: public GameEngineRes<GameEngineVertexShader>
 	, public GameEngineShader
 {
-public:
+	friend GameEngineInputLayOut;
+	friend GameEngineShader;
+	friend GameEngineRes<GameEngineVertexShader>;
+
+private:
 	//디폴트 생성자
 	GameEngineVertexShader();
 	//디폴트 소멸자
@@ -32,8 +35,10 @@ public:
 	static GameEngineVertexShader* Load(std::string _Path, std::string _Name, std::string _EntryPoint, UINT _VersionHigh, UINT VersionLow);
 
 protected:
+	void ShaderCompile(std::string _Path, std::string _EntryPoint, UINT _VersionHigh, UINT _VersionLow);
 
 private:
+	ID3D11VertexShader* ShaderPtr;
 
 };
 

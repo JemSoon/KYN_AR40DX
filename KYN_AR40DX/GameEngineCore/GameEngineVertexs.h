@@ -4,6 +4,8 @@
 //설명 : POSITION, COLOR, NORMAL등등 을 구분해주기 위한 클래스
 class GameEngineLayOutDesc
 {
+	friend class GameEngineInputLayOut;
+
 public:
 	unsigned int LayOutOffset;
 	std::map<const char*, int> SemanticIndexData;
@@ -17,8 +19,6 @@ public:
 		unsigned int _InpuSlot = 0,
 		unsigned int _InstanceDataStepRate = 0
 	);
-
-	class GameEngineInputLayout* CreateInputLayOut(class GameEngineVertexShader* _Shader);
 
 public:
 	GameEngineLayOutDesc()

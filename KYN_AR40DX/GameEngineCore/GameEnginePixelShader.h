@@ -1,5 +1,6 @@
 #pragma once
 #include "GameEngineShader.h"
+#include "GameEngineRes.h"
 
 //선생님은 생략된 것들도 명시적으로 칠 것이다
 //직접 만들지 않아도 자동으로 생략되어 생성되 있는것들
@@ -9,15 +10,15 @@ class GameEnginePixelShader
 	: public GameEngineRes<GameEnginePixelShader>
 	, public GameEngineShader
 {
+	friend GameEngineShader;
+	friend GameEngineRes<GameEnginePixelShader>;
+
 public:
 	//디폴트 생성자
 	GameEnginePixelShader();
 	//디폴트 소멸자
 	~GameEnginePixelShader();
 
-	
-	
-	
 	//======아래것들은 명시적으로 안쓰겠습니다(delete)======
 	
 	//디폴트 복사 생성자
@@ -29,9 +30,15 @@ public:
 	GameEnginePixelShader& operator=(GameEnginePixelShader&& _Other) noexcept = delete;
 
 
+	static GameEnginePixelShader* Load(std::string _Path, std::string _EntryPoint, UINT _VersionHigh = 5, UINT _VersionLow = 0);
+
+	static GameEnginePixelShader* Load(std::string _Path, std::string _Name, std::string _EntryPoint, UINT _VersionHigh, UINT _VersionLow);
+	
 protected:
+	void ShaderCompile(std::string _Path, std::string _EntryPoint, UINT _VersionHigh, UINT _VersionLow);
 
 private:
+	ID3D11PixelShader* ShaderPtr;
 
 };
 

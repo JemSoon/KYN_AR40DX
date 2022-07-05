@@ -1,10 +1,13 @@
 #pragma once
+#include "GameEngineDevice.h"
 #include "GameEngineRes.h"
 
 //선생님은 생략된 것들도 명시적으로 칠 것이다
 //직접 만들지 않아도 자동으로 생략되어 생성되 있는것들
 
 //설명 : 
+class GameEngineLayOutDesc;
+class GameEngineVertexShader;
 class GameEngineInputLayOut : public GameEngineRes<GameEngineInputLayOut>
 {
 public:
@@ -26,10 +29,11 @@ public:
 	GameEngineInputLayOut& operator=(const GameEngineInputLayOut& _Other) = delete;
 	GameEngineInputLayOut& operator=(GameEngineInputLayOut&& _Other) noexcept = delete;
 
+	void Create(const GameEngineLayOutDesc& _Desc, GameEngineVertexShader* _Shader);
 
 protected:
 
 private:
-
+	ID3D11InputLayout* InputLayOut;
 };
 

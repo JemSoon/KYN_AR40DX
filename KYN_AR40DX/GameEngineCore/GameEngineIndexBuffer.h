@@ -12,8 +12,13 @@ class GameEngineIndexBuffer : public GameEngineRes<GameEngineIndexBuffer>
 	friend GameEngineRes<GameEngineIndexBuffer>;
 
 public:
-	static GameEngineIndexBuffer* Create(const std::string& _Name, const std::vector<int>& _Indexs);
-	static GameEngineIndexBuffer* Create(const std::vector<int>& _Indexs);
+	template<typename IndexType>
+	static GameEngineIndexBuffer* Create(const std::string& _Name, const std::vector<IndexType>& _Vertex)
+	{
+		return Create(_Name, &_Vertex[0], _Vertex.size() * sizeof(IndexType));
+	}
+
+	static GameEngineIndexBuffer* Create(const std::string& _Name, const void* _Data, size_t _Size);
 
 private:
 	// constrcuter destructer
@@ -27,10 +32,14 @@ private:
 	GameEngineIndexBuffer& operator=(GameEngineIndexBuffer&& _Other) noexcept = delete;
 
 protected:
+	void BufferCreate(const void* _Data, size_t _Size);
 
+private:
+	// nullptr
+	D3D11_BUFFER_DESC BufferDesc;
 
-public:
-	std::vector<int> Indexs;
+	D3D11_SUBRESOURCE_DATA Data;
 
+	ID3D11Buffer* Buffer;
 };
 
