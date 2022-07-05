@@ -140,6 +140,19 @@ void ShaderCompile()
 	}
 }
 
+void GameEngineCore::EngineResourcesInitialize()
+{
+	// 사각형 박스 에러용 텍스처 등등
+	// 엔진수준에서 기본적으로 지원줘야 한다고 생각하는
+	// 리소스들을 이니셜라이즈하는 단계
+	EngineInputLayOut();
+	EngineMesh();
+	ShaderCompile();
+
+	// 쉐이더 로드
+
+}
+
 void GameEngineCore::EngineResourcesDestroy()
 {
 	GameEngineVertexShader::ResourcesDestroy();
