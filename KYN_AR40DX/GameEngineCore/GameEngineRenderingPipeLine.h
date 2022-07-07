@@ -31,8 +31,6 @@ public:
 	GameEngineRenderingPipeLine& operator=(const GameEngineRenderingPipeLine& _Other) = delete;
 	GameEngineRenderingPipeLine& operator=(GameEngineRenderingPipeLine&& _Other) noexcept = delete;
 
-	void Draw();
-
 	// void SetInputAssembler1InputLayOutSetting(const std::string& _Name);
 
 	void SetInputAssembler1VertexBuffer(const std::string& _Name);
