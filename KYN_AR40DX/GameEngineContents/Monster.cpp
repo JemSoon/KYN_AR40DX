@@ -13,7 +13,7 @@ Monster::~Monster()
 void Monster::Start()
 {
 	{
-		GameEngineRenderer* RendererTest = CreateComponent<GameEngineDefaultRenderer>();
+		//GameEngineRenderer* RendererTest = CreateComponent<GameEngineDefaultRenderer>();
 		//RendererTest->GetTransform().SetLocalScale({ 50, 50, 50 });
 	}
 }

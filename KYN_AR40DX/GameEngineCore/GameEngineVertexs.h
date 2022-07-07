@@ -31,7 +31,9 @@ public:
 
 struct GameEngineVertex
 {
+public:
 	static GameEngineLayOutDesc LayOut;
+
 public:
 	float4 POSITION;
 	float4 COLOR;

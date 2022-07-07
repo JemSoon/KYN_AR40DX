@@ -8,13 +8,13 @@
 class GameEngineRasterizer : public GameEngineRes<GameEngineRasterizer>
 {
 public:
+	static GameEngineRasterizer* Create(const std::string& _Name, const D3D11_RASTERIZER_DESC& _Desc);
+
+public:
 	//디폴트 생성자
 	GameEngineRasterizer();
 	//디폴트 소멸자
 	~GameEngineRasterizer();
-
-	
-	
 	
 	//======아래것들은 명시적으로 안쓰겠습니다(delete)======
 	
@@ -27,9 +27,15 @@ public:
 	GameEngineRasterizer& operator=(GameEngineRasterizer&& _Other) noexcept = delete;
 
 
+	void Setting();
+
 protected:
 
 private:
+	D3D11_RASTERIZER_DESC Desc;
+	ID3D11RasterizerState* State;
+	// D3D11_RASTERIZER_DESC WireDesc_;
 
+	void Create(const D3D11_RASTERIZER_DESC& _Desc);
 };
 

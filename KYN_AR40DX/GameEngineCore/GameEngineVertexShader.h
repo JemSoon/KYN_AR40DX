@@ -34,6 +34,9 @@ private:
 	static GameEngineVertexShader* Load(std::string _Path, std::string _EntryPoint , UINT _VersionHigh = 5, UINT _VersionLow=0);
 	static GameEngineVertexShader* Load(std::string _Path, std::string _Name, std::string _EntryPoint, UINT _VersionHigh, UINT VersionLow);
 
+public:
+	void Setting();
+
 protected:
 	void ShaderCompile(std::string _Path, std::string _EntryPoint, UINT _VersionHigh, UINT _VersionLow);
 

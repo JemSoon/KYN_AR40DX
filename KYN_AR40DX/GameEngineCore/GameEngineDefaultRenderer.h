@@ -29,6 +29,8 @@ public:
 
 	virtual void Render(float _DeltaTime);//GameEngineRenderer는 순수가상함수로 두고 실질적인 내용물은 디폴트랜더러(여기)
 
+	void SetPipeLine(const std::string& _Name);
+
 protected:
 	virtual void Start();
 	virtual void Update(float _DeltaTime) {}
