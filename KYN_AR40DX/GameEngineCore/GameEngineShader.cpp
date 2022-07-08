@@ -2,6 +2,7 @@
 #include "GameEngineShader.h"
 #include "GameEngineVertexShader.h"
 #include "GameEnginePixelShader.h"
+#include "GameEngineConstantBuffer.h"
 
 void GameEngineShader::AutoCompile(const std::string& _Path)
 {
