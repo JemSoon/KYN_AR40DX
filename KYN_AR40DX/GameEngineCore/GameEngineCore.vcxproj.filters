@@ -40,6 +40,9 @@
     <Filter Include="Resources\Rasterizer">
       <UniqueIdentifier>{95caa022-8219-495a-bdb8-6af84d27d9bb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\ShaderResources">
+      <UniqueIdentifier>{b83fba73-f933-4973-8763-ddf124a5d15f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineStateManager.cpp">
@@ -132,6 +135,9 @@
     <ClCompile Include="GameEngineVertexs.cpp">
       <Filter>Resources\InputAssembler</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineConstantBuffer.cpp">
+      <Filter>Resources\ShaderResources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngineStateManager.h">
@@ -223,6 +229,9 @@
     </ClInclude>
     <ClInclude Include="GameEngineDepthStencil.h">
       <Filter>Resources\OutputMerger</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineConstantBuffer.h">
+      <Filter>Resources\ShaderResources</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -52,6 +52,7 @@ private:
 
 };
 
+class float4x4;
 class float4
 {
 public:
@@ -492,6 +493,16 @@ public:
 		NewPoint.y = iy();
 		return NewPoint;
 	}
+
+	//=====w값 직접 설정해주는 함수들=====
+	void TransformCoord(const float4x4& _Value);//w값 1.0
+
+	float4 TransformCoordReturn(const float4x4& _Value);
+
+	void TransformNormal(const float4x4& _Value);//w값 0.0
+
+	float4 TransformNormalReturn(const float4x4& _Value);
+	//===================================
 
 public:
 	float4()

@@ -7,8 +7,18 @@ class ConstantBuffer
 
 };
 
-//선생님은 생략된 것들도 명시적으로 칠 것이다
-//직접 만들지 않아도 자동으로 생략되어 생성되 있는것들
+class ShaderResSetter
+{
+public:
+	int BindPoint;
+};
+
+class GameEngineConstantBuffer;
+class GameEngineConstantShaderResSetter : public ShaderResSetter
+{
+public:
+	GameEngineConstantBuffer* Buffer;
+};
 
 //설명 : 
 class GameEngineShader
@@ -49,9 +59,11 @@ protected:
 	void ShaderResCheck();
 
 private:
+	std::map<std::string, GameEngineConstantShaderResSetter> ResSetterMap;
+
 	std::string EntryPoint;
 
-	std::map<unsigned int, ConstantBuffer>
+	//std::map<unsigned int, ConstantBuffer>
 
 };
 

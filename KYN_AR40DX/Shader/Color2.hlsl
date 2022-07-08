@@ -3,7 +3,7 @@
 // SV_POSITION 시맨틱
 // 그래픽카드에게 이녀석은 이런 부류니까 니가 자동으로 처리하는 녀석이 있으면 하고.
 
-// t1 = 텍스처에 1번슬롯 // b0 = 바이너리에 0번슬롯  16개(15번슬롯?)까지 있다고 함
+// t1
 
 // Create("TransformData");
 
@@ -52,8 +52,6 @@ struct Output
 // 0010
 // 0001
 
-
-
 Output Color_VS(Input _Input)
 {
     // 쉐이더의 경우에는 대부분의 상황에서 형변환이 가능하다.
@@ -68,20 +66,11 @@ Output Color_VS(Input _Input)
     return NewOutPut;
 }
 
-
-
-cbuffer ResultColor : register(b0)
+cbuffer ResultColor : register(b2)
 {
     float4 PlusColor;
     float4 MultyplyColor;
 }
-
-//cbuffer ResultColor2 : register(b2)
-//{
-//    float4 PlusColor2;
-//    float4 MultyplyColor2;
-//}
-
 
 float4 Color_PS(Output _Input) : SV_Target0
 {
