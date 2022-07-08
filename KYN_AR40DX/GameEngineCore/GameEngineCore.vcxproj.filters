@@ -138,6 +138,9 @@
     <ClCompile Include="GameEngineConstantBuffer.cpp">
       <Filter>Resources\ShaderResources</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineShaderResourcesHelper.cpp">
+      <Filter>Object\Component\Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngineStateManager.h">
@@ -232,6 +235,9 @@
     </ClInclude>
     <ClInclude Include="GameEngineConstantBuffer.h">
       <Filter>Resources\ShaderResources</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineShaderResourcesHelper.h">
+      <Filter>Object\Component\Rendering</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

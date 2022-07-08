@@ -12,6 +12,11 @@ class GameEngineDefaultRenderer : public GameEngineRenderer
 	//하나의 메쉬, 하나의 마테리얼, 하나의 랜더타겟 셋트
 
 public:
+	GameEngineRenderingPipeLine* GetPipeLine()
+	{
+		return PipeLine;
+	}
+
 	//디폴트 생성자
 	GameEngineDefaultRenderer();
 	//디폴트 소멸자

@@ -49,6 +49,11 @@ public:
 
 	void Rendering();
 
+	inline GameEngineVertexShader* GetVertexShader()
+	{
+		return VertexShader;
+	}
+
 protected:
 
 private:

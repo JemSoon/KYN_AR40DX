@@ -6,6 +6,12 @@
 #include <GameEngineContents/GlobalContentsValue.h>
 #include "ScoreTestComponent.h"
 #include <GameEngineCore/GameEngineDefaultRenderer.h>
+//야매 끌어오기용↓
+#include <GameEngineCore/GameEngineRenderingPipeLine.h>
+#include <GameEngineCore/GameEngineVertexShader.h>
+#include <GameEngineCore/GameEngineConstantBuffer.h>
+#include <GameEngineCore/GameEngineDevice.h>
+
 
 Player::Player()
 	: Speed(50.0f)
@@ -15,11 +21,6 @@ Player::Player()
 Player::~Player()
 {
 }
-
-//GameEngineRenderer* CurRenderer;
-//GameEngineRenderer* ChildRenderer;
-//GameEngineRenderer* ChildRenderer2;
-
 
 void Player::Start()
 {
@@ -35,6 +36,15 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("Rot-", 'H');
 		//넘패드 1번은 노트북 a버튼과 겹친다..
 	}
+
+	// 1.0f, 0.0f, 0.0f
+
+	//GetTransform().SetLocalPosition({ 100, 100, 1 });
+	
+	//GetTransform().SetLocalRotate({0.0f, 0.0f, 45.0f});
+	//GetTransform().GetRightVector();
+	
+	// GetTransform().SetLocalPosition({ 200, 200, 1 });
 
 	GetTransform().SetLocalScale({ 1, 1, 1 });
 
@@ -119,6 +129,15 @@ void Player::Update(float _DeltaTime)
 	{
 		GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed * _DeltaTime);
 	}
+
+	GameEngineConstantBufferSetter& Data = Renderer->GetPipeLine()->GetVertexShader()->GetConstantBufferSetter("TransformData");
+
+	const TransformData& DataRef = Renderer->GetTransformData();
+
+	Data.Buffer->ChangeData(&DataRef, sizeof(TransformData));
+
+	GameEngineDevice::GetContext()->VSSetConstantBuffers(Data.BindPoint, 1, &Data.Buffer->Buffer);
+
 
 	/*if (true == GameEngineInput::GetInst()->IsPress("Rot+"))
 	{
