@@ -131,7 +131,8 @@ void GameEngineShader::ShaderResCheck()
 
 			// 중복으로 만드는일이 생기면 안되니까.
 			// 만든걸 또 만들라고 하는게 
-			NewSetter.Buffer = GameEngineConstantBuffer::Create(Name, BufferDesc, CBufferPtr);
+			NewSetter.ShaderType = ShaderSettingType;
+			NewSetter.Buffer = GameEngineConstantBuffer::CreateAndFind(Name, BufferDesc, CBufferPtr);
 			NewSetter.BindPoint = ResInfo.BindPoint;
 
 

@@ -30,6 +30,13 @@ void GameEngineDefaultRenderer::SetPipeLine(const std::string& _Name)
 		return;
 	}
 
+	PipeLineHelper.ResourcesCheck(PipeLine);
+
+	if (true == PipeLineHelper.IsConstantBufferSetter("TRANSFORMDATA"))
+	{
+		int a = 0;
+	}
+
 }
 
 void GameEngineDefaultRenderer::Render(float _DeltaTine)

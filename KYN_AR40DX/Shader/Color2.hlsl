@@ -3,10 +3,9 @@
 // SV_POSITION 시맨틱
 // 그래픽카드에게 이녀석은 이런 부류니까 니가 자동으로 처리하는 녀석이 있으면 하고.
 
-// t1 = 텍스처에 1번슬롯 // b0 = 바이너리에 0번슬롯  16개(15번슬롯?)까지 있다고 함
+// t1
 
 // Create("TransformData");
-
 #include "TransformHeader.fx"
 
 struct Input
@@ -35,8 +34,6 @@ struct Output
 // 0010
 // 0001
 
-
-
 Output Color_VS(Input _Input)
 {
     // 쉐이더의 경우에는 대부분의 상황에서 형변환이 가능하다.
@@ -53,8 +50,6 @@ Output Color_VS(Input _Input)
     return NewOutPut;
 }
 
-
-
 cbuffer ResultColor : register(b0)
 {
     float4 PlusColor;
@@ -67,10 +62,10 @@ cbuffer ResultColor : register(b0)
 //    float4 MultyplyColor2;
 //}
 
-
 float4 Color_PS(Output _Input) : SV_Target0
 {
     // 어떤 벡터를 넣으면 길이를 리턴해줍니다.
+
 
     //float4 ScreenCenter = float4(640.0f, 360.0f, 0.0f, 1.0f);
 
@@ -81,8 +76,6 @@ float4 Color_PS(Output _Input) : SV_Target0
     {
         return float4(1.0f, 0.0f, 1.0f, 1.0f); //clip(-1);
     }
-
-    // float4 ScreenSize = { 1280, 720 };
 
     // float Len = length(_Input.Pos);
 
@@ -104,5 +97,5 @@ float4 Color_PS(Output _Input) : SV_Target0
 
     //}
 
-    return _Input.Color/* * MultyplyColor + PlusColor*/;
+    return _Input.Color /** MultyplyColor + PlusColor*/;
 }

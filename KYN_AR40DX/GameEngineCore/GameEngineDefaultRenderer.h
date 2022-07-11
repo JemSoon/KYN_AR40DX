@@ -1,5 +1,6 @@
 #pragma once
 #include "GameEngineRenderer.h"
+#include "GameEngineShaderResourcesHelper.h"
 
 //선생님은 생략된 것들도 명시적으로 칠 것이다
 //직접 만들지 않아도 자동으로 생략되어 생성되 있는것들
@@ -43,6 +44,10 @@ protected:
 
 private:
 	//네모난 빨간색을 출력한다 등등..
+	// 공통적인 메모리 공유하는 메로리들을 들고 있고
 	GameEngineRenderingPipeLine* PipeLine;
+
+	// 그중에서 어떤애를 바꾸고 싶은데?
+	GameEngineShaderResourcesHelper PipeLineHelper;
 };
 

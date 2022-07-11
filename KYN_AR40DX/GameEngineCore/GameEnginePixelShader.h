@@ -7,8 +7,8 @@
 
 //Ό³Έν : 
 class GameEnginePixelShader
-	: public GameEngineRes<GameEnginePixelShader>
-	, public GameEngineShader
+	: public GameEngineShader
+	, public GameEngineRes<GameEnginePixelShader>
 {
 	friend GameEngineShader;
 	friend GameEngineRes<GameEnginePixelShader>;

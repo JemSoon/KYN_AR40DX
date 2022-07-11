@@ -2,6 +2,12 @@
 #include <string>
 #include <map>
 
+enum class ShaderType
+{
+	Vertex,
+	Pixel,
+};
+
 class ConstantBuffer
 {
 
@@ -10,6 +16,7 @@ class ConstantBuffer
 class ShaderResSetter
 {
 public:
+	ShaderType ShaderType;
 	int BindPoint;
 	std::string* Name;
 };
@@ -38,7 +45,7 @@ public:
 	//디폴트 생성자
 	GameEngineShader();
 	//디폴트 소멸자
-	~GameEngineShader();
+	virtual ~GameEngineShader();
 
 	
 	
@@ -67,6 +74,8 @@ protected:
 	std::string Version;
 
 	void ShaderResCheck();
+
+	ShaderType ShaderSettingType;
 
 private:
 	std::map<std::string, GameEngineConstantBufferSetter> ConstantBufferMap;
