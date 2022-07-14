@@ -13,6 +13,8 @@ class GameEngineDefaultRenderer : public GameEngineRenderer
 	//하나의 메쉬, 하나의 마테리얼, 하나의 랜더타겟 셋트
 
 public:
+	GameEngineShaderResourcesHelper PipeLineHelper;
+
 	GameEngineRenderingPipeLine* GetPipeLine()
 	{
 		return PipeLine;
@@ -46,8 +48,5 @@ private:
 	//네모난 빨간색을 출력한다 등등..
 	// 공통적인 메모리 공유하는 메로리들을 들고 있고
 	GameEngineRenderingPipeLine* PipeLine;
-
-	// 그중에서 어떤애를 바꾸고 싶은데?
-	GameEngineShaderResourcesHelper PipeLineHelper;
 };
 

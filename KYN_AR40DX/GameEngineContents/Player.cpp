@@ -37,15 +37,6 @@ void Player::Start()
 		//넘패드 1번은 노트북 a버튼과 겹친다..
 	}
 
-	// 1.0f, 0.0f, 0.0f
-
-	//GetTransform().SetLocalPosition({ 100, 100, 1 });
-	
-	//GetTransform().SetLocalRotate({0.0f, 0.0f, 45.0f});
-	//GetTransform().GetRightVector();
-	
-	// GetTransform().SetLocalPosition({ 200, 200, 1 });
-
 	GetTransform().SetLocalScale({ 1, 1, 1 });
 
 	ScoreTestComponent* ScoreCom = CreateComponent<ScoreTestComponent>();
@@ -53,58 +44,19 @@ void Player::Start()
 	{
 		Renderer = CreateComponent<GameEngineDefaultRenderer>();
 		Renderer->GetTransform().SetLocalScale({ 100, 100, 100 });
-
 		Renderer->SetPipeLine("Color");
-
-		// 버텍스쉐이더와
-		// 픽셀스쉐이더가
-		// Renderer->상수버퍼세팅("mycolor", float4::RED);
-		// Renderer->상수버퍼세팅("mycolor", float4::RED);
-
+		// 내 맴버변수가 아니라 다른객체의 맴버변수를 사용했다면
+		// 이건 터질수 있다.
+		Renderer->PipeLineHelper.SetConstantBufferLink("ResultColor", Color);
 	}
-
-	//ScoreCom->SetParent(CurRenderer);
-
-	/*{
-		ChildRenderer = CreateComponent<GameEngineDefaultRenderer>();
-		ChildRenderer->SetParent(CurRenderer);
-		ChildRenderer->GetTransform().SetWorldPosition({ 150.0f, 100.0f, 0.0f });
-	}
-
-	{
-		ChildRenderer2 = CreateComponent<GameEngineDefaultRenderer>();
-		ChildRenderer2->SetParent(ChildRenderer);
-		ChildRenderer2->GetTransform().SetWorldPosition({ 250.0f, 100.0f, 0.0f });
-	}*/
 }
-
-
-Monster* TestMonsterObject = nullptr;
-
 
 void Player::Update(float _DeltaTime)
 {
-	//if (nullptr != ChildRenderer && true == ChildRenderer->IsDeath())
-	//{
-	//	ChildRenderer = nullptr;
-	//}
-
-	//if (nullptr != ChildRenderer)
-	//{
-	//	std::list<Monster*> MonsterList = GetLevel()->GetConvertToGroup<Monster>(OBJECTORDER::Monster);
-	//	for (Monster* MonsterObject : MonsterList)
-	//	{
-	//		if (GameEngineTransform::OBBToOBB(ChildRenderer->GetTransform(), MonsterObject->GetTransform()))
-	//		{
-	//			ChildRenderer->Death();
-	//			//TestMonsterObject = MonsterObject;
-	//			//MonsterObject->Death();
-	//		}
-	//	}
-	//}
-
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
 	{
+		Color.r += 1.0f * _DeltaTime;
+
 		GetTransform().SetWorldMove(GetTransform().GetLeftVector() * Speed * _DeltaTime);
 	}
 
@@ -129,15 +81,6 @@ void Player::Update(float _DeltaTime)
 	{
 		GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed * _DeltaTime);
 	}
-
-	GameEngineConstantBufferSetter& Data = Renderer->GetPipeLine()->GetVertexShader()->GetConstantBufferSetter("TransformData");
-
-	const TransformData& DataRef = Renderer->GetTransformData();
-
-	Data.Buffer->ChangeData(&DataRef, sizeof(TransformData));
-
-	GameEngineDevice::GetContext()->VSSetConstantBuffers(Data.BindPoint, 1, &Data.Buffer->Buffer);
-
 
 	/*if (true == GameEngineInput::GetInst()->IsPress("Rot+"))
 	{
