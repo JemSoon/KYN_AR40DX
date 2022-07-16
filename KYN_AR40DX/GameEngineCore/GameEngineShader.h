@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 #include <map>
+#include <GameEngineBase/GameEngineNameObject.h>
+#include <functional>
 
 enum class ShaderType
 {
@@ -8,17 +10,20 @@ enum class ShaderType
 	Pixel,
 };
 
-class ShaderResSetter
+class GameEngineShader;
+class ShaderResSetter : public GameEngineNameObject
 {
 public:
+	GameEngineShader* ParentShader;
 	ShaderType ShaderType;
 	int BindPoint;
-	std::string* Name;
+	std::function<void()> SettingFunction;
 };
 
 class GameEngineConstantBuffer;
 class GameEngineConstantBufferSetter : public ShaderResSetter
 {
+	friend GameEngineShader;
 public:
 	GameEngineConstantBuffer* Res;
 	// 각자가 가진 정보에 대한 주소
@@ -40,9 +45,26 @@ public:
 	}
 };
 
-class GameEngineConstantBuffer;
+class GameEngineTexture;
 class GameEngineTextureSetter : public ShaderResSetter
 {
+	friend GameEngineShader;
+
+public:
+	void Setting() const;
+
+public:
+	GameEngineTexture* Res;
+};
+
+class GameEngineSampler;
+class GameEngineSamplerSetter : public ShaderResSetter
+{
+public:
+	void Setting() const;
+
+public:
+	GameEngineSampler* Res;
 };
 
 //설명 : 
@@ -91,7 +113,8 @@ protected:
 
 private:
 	std::map<std::string, GameEngineConstantBufferSetter> ConstantBufferMap;
-	std::map<std::string, GameEngineTextureSetter> TextureSetterMap;
+	std::map<std::string, GameEngineTextureSetter> TextureMap;
+	std::map<std::string, GameEngineSamplerSetter> SamplerMap;
 
 	std::string EntryPoint;
 

@@ -16,7 +16,23 @@ MapleStoryCore::~MapleStoryCore()
 
 void MapleStoryCore::Start()
 {
-	// GameEngineDebug::ConsoleOpen();
+
+	GameEngineDirectory Dir;
+
+	Dir.MoveParentToExitsChildDirectory("ConstantResources");
+	Dir.Move("ConstantResources");
+	Dir.Move("Texture");
+
+	std::vector<GameEngineFile> Shaders = Dir.GetAllFile();
+
+	for (size_t i = 0; i < Shaders.size(); i++)
+	{
+		GameEngineTexture::Load(Shaders[i].GetFullPath());
+	}
+
+	// 이걸 해줘야 합니다.
+	GameEngineTexture::Cut("Boss_Left.bmp", 5, 7);
+
 
 	// 리소스를 로드하는데.
 

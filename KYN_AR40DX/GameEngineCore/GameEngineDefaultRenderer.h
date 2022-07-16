@@ -13,7 +13,7 @@ class GameEngineDefaultRenderer : public GameEngineRenderer
 	//하나의 메쉬, 하나의 마테리얼, 하나의 랜더타겟 셋트
 
 public:
-	GameEngineShaderResourcesHelper PipeLineHelper;
+	GameEngineShaderResourcesHelper ShaderResources;
 
 	GameEngineRenderingPipeLine* GetPipeLine()
 	{

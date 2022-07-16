@@ -225,6 +225,11 @@ public:
 	// 보통 누적된 시간을 Time
 	static float4 LerpLimit(const float4& p1, const float4& p2, float Time)
 	{
+		if (0.0f >= Time)
+		{
+			Time = 0.0f;
+		}
+
 		if (1.0f <= Time)
 		{
 			Time = 1.0f;
@@ -267,11 +272,20 @@ public:
 
 		struct
 		{
+			float PosX;
+			float PosY;
+			float SizeX;
+			float SizeY;
+		};
+
+		struct
+		{
 			int IntValueX;
 			int IntValueY;
 			int IntValueZ;
 			int IntValueW;
 		};
+
 
 		float Arr1D[4];
 
@@ -510,15 +524,14 @@ public:
 		return NewPoint;
 	}
 
-	//=====w값 직접 설정해주는 함수들=====
-	void TransformCoord(const float4x4& _Value);//w값 1.0
+	void TransformCoord(const float4x4& _Value);
 
 	float4 TransformCoordReturn(const float4x4& _Value);
 
-	void TransformNormal(const float4x4& _Value);//w값 0.0
+	void TransformNormal(const float4x4& _Value);
 
 	float4 TransformNormalReturn(const float4x4& _Value);
-	//===================================
+
 
 public:
 	float4()
@@ -968,6 +981,8 @@ public:
 		DirectX::XMMATRIX Result = DirectX::XMMatrixInverse(nullptr, DirectMatrix);
 		return Result;
 	}
+
+
 
 	void Transpose()
 	{

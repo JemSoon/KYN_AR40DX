@@ -5,6 +5,7 @@
 class GameEnginePath
 {
 public:
+	static std::string GetExtension(const std::string& _Path);
 	static std::string GetFileName(const std::string& _Path);
 
 	// constrcuter destructer

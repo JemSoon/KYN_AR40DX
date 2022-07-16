@@ -3,22 +3,23 @@
 #include "GameEngineVertexShader.h"
 #include "GameEnginePixelShader.h"
 #include "GameEngineConstantBuffer.h"
+#include "GameEngineTexture.h"
+#include "GameEngineSampler.h"
 
 void GameEngineConstantBufferSetter::Setting() const
 {
 	Res->ChangeData(SetData, Size);
+	SettingFunction();
+}
 
-	switch (ShaderType)
-	{
-	case ShaderType::Vertex:
-		Res->VSSetting();
-		break;
-	case ShaderType::Pixel:
-		Res->PSSetting();
-		break;
-	default:
-		break;
-	}
+void GameEngineTextureSetter::Setting() const
+{
+	SettingFunction();
+}
+
+void GameEngineSamplerSetter::Setting() const
+{
+	SettingFunction();
 }
 
 void GameEngineShader::AutoCompile(const std::string& _Path)
@@ -148,11 +149,35 @@ void GameEngineShader::ShaderResCheck()
 
 			// 중복으로 만드는일이 생기면 안되니까.
 			// 만든걸 또 만들라고 하는게 
+			NewSetter.ParentShader = this;
+			NewSetter.SetName(Name);
 			NewSetter.ShaderType = ShaderSettingType;
 			NewSetter.Res = GameEngineConstantBuffer::CreateAndFind(Name, BufferDesc, CBufferPtr);
 			NewSetter.BindPoint = ResInfo.BindPoint;
 			ConstantBufferMap.insert(std::make_pair(Name, NewSetter));
 
+			break;
+		}
+		case D3D_SIT_TEXTURE:
+		{
+			GameEngineTextureSetter NewSetter;
+			NewSetter.ParentShader = this;
+			NewSetter.SetName(Name);
+			NewSetter.ShaderType = ShaderSettingType;
+			NewSetter.Res = GameEngineTexture::Find("NSet.png");
+			NewSetter.BindPoint = ResInfo.BindPoint;
+			TextureMap.insert(std::make_pair(Name, NewSetter));
+			break;
+		}
+		case D3D_SIT_SAMPLER:
+		{
+			GameEngineSamplerSetter NewSetter;
+			NewSetter.ParentShader = this;
+			NewSetter.SetName(Name);
+			NewSetter.ShaderType = ShaderSettingType;
+			NewSetter.Res = GameEngineSampler::Find("EngineSampler");
+			NewSetter.BindPoint = ResInfo.BindPoint;
+			SamplerMap.insert(std::make_pair(Name, NewSetter));
 			break;
 		}
 		default:
@@ -168,7 +193,7 @@ void GameEngineShader::ShaderResCheck()
 	}
 
 	ConstantBufferMap;
-	TextureSetterMap;
+	TextureMap;
 
 	// 상수버는 몇개 쓰는지 크기는 얼마인지 이런것들을 알아내줍니다.
 	// CompileInfo

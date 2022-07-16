@@ -30,11 +30,11 @@ void GameEngineDefaultRenderer::SetPipeLine(const std::string& _Name)
 		return;
 	}
 
-	PipeLineHelper.ResourcesCheck(PipeLine);
+	ShaderResources.ResourcesCheck(PipeLine);
 
-	if (true == PipeLineHelper.IsConstantBufferSetter("TRANSFORMDATA"))
+	if (true == ShaderResources.IsConstantBuffer("TRANSFORMDATA"))
 	{
-		PipeLineHelper.SetConstantBufferLink("TRANSFORMDATA", &GetTransformData(), sizeof(GetTransformData()));
+		ShaderResources.SetConstantBufferLink("TRANSFORMDATA", &GetTransformData(), sizeof(GetTransformData()));
 	}
 
 }
@@ -47,7 +47,7 @@ void GameEngineDefaultRenderer::Render(float _DeltaTine)
 	}
 
 	// 준비된 모든 리소스들을 다 세팅해준다.
-	PipeLineHelper.AllResourcesSetting();
+	ShaderResources.AllResourcesSetting();
 	PipeLine->Rendering();
 }
 
