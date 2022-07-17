@@ -49,7 +49,7 @@ void EngineTextureLoad()
 		Desc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
 
 		Desc.MipLODBias = 0.0f;
-		Desc.MaxAnisotropy = 1.0f;
+		Desc.MaxAnisotropy = 1;
 		Desc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
 		Desc.MinLOD = -FLT_MAX;
 		Desc.MaxLOD = FLT_MAX;
