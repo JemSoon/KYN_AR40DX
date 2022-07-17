@@ -198,6 +198,7 @@ void GameEngineRenderingPipeLine::InputAssembler1VertexBufferSetting()
 void GameEngineRenderingPipeLine::VertexShaderSetting()
 {
 	VertexShader->Setting();
+	// À§Ä¡
 	GameEngineDevice::GetContext()->IASetPrimitiveTopology(Topology);
 	// D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 }
