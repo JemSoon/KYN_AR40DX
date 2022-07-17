@@ -29,6 +29,10 @@ void MapleStoryCore::Start()
 	{
 		GameEngineTexture::Load(Shaders[i].GetFullPath());
 	}
+	
+	Dir.Move("BlackSet");
+
+	GameEngineFolderTexture::Load(Dir.GetFullPath());
 
 	// 이걸 해줘야 합니다.
 	GameEngineTexture::Cut("Boss_Left.bmp", 5, 7);
