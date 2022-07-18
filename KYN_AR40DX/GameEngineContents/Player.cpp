@@ -11,7 +11,6 @@
 #include <GameEngineCore/GameEngineVertexShader.h>
 #include <GameEngineCore/GameEngineConstantBuffer.h>
 #include <GameEngineCore/GameEngineDevice.h>
-#include <GameEngineCore/GameEngineTextureRenderer.h>
 
 Player::Player()
 	: Speed(50.0f)

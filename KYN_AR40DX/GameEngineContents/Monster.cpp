@@ -1,6 +1,6 @@
 #include "PreCompile.h"
 #include "Monster.h"
-#include <GameEngineCore/GameEngineDefaultRenderer.h>
+#include <GameEngineCore/GameEngineTextureRenderer.h>
 
 Monster::Monster()
 {
@@ -13,7 +13,7 @@ Monster::~Monster()
 void Monster::Start()
 {
 	{
-		//GameEngineRenderer* RendererTest = CreateComponent<GameEngineDefaultRenderer>();
-		//RendererTest->GetTransform().SetLocalScale({ 50, 50, 50 });
+		GameEngineTextureRenderer* Renderer = CreateComponent<GameEngineTextureRenderer>();
+		Renderer->GetTransform().SetLocalScale({ 100, 100, 100 });
 	}
 }

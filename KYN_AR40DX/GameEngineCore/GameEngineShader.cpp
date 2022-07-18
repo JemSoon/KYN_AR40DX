@@ -172,7 +172,7 @@ void GameEngineShader::ShaderResCheck()
 			NewSetter.ParentShader = this;
 			NewSetter.SetName(Name);
 			NewSetter.ShaderType = ShaderSettingType;
-			NewSetter.Res = GameEngineSampler::Find("EngineSampler");
+			NewSetter.Res = GameEngineSampler::Find("EngineSamplerPoint");
 			NewSetter.BindPoint = ResInfo.BindPoint;
 			SamplerMap.insert(std::make_pair(Name, NewSetter));
 			break;

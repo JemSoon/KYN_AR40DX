@@ -25,6 +25,7 @@ GameEngineRenderingPipeLine::GameEngineRenderingPipeLine()
 	VertexBuffer = GameEngineVertexBuffer::Find("rect");
 	IndexBuffer = GameEngineIndexBuffer::Find("rect");
 	Rasterizer = GameEngineRasterizer::Find("EngineRasterizer");
+	Blend = GameEngineBlend::Find("AlphaBlend");
 }
 
 GameEngineRenderingPipeLine::~GameEngineRenderingPipeLine()
@@ -220,7 +221,7 @@ void GameEngineRenderingPipeLine::PixelShaderSetting()
 
 void GameEngineRenderingPipeLine::OutputMergerBlendSetting()
 {
-
+	Blend->Setting();
 }
 
 void GameEngineRenderingPipeLine::OutputMergerDepthStencilSetting()
