@@ -5,7 +5,7 @@
 #include <GameEngineCore/GEngine.h>
 #include <GameEngineCore/GameEngineCameraActor.h>
 #include <GameEngineBase/GameEngineInput.h>
-#include <GameEngineCore/GameEngineTextureRenderer.h>
+
 
 TitleLevel::TitleLevel()
 {
@@ -26,6 +26,7 @@ void TitleLevel::Start()
 	// 카메라를 먼저 만들어서 세계를 볼 준비를 하고
 	GameEngineCameraActor* CameraActor = CreateActor<GameEngineCameraActor>();
 	CameraActor->GetTransform().SetLocalPosition({ 0.0f, 0.0f, -100.0f });
+	CameraActor->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
 	// [1][0][0][0]
 	// [0][1][0][0]
 	// [0][0][1][0] 앞을 보고 있다.
@@ -38,9 +39,12 @@ void TitleLevel::Start()
 	// [0][0][1][0] 앞을 보고 있다.
 	// [0][200][0][0] 뒤로 물러나서
 
-	Renderer = CreateComponent<GameEngineTextureRenderer>();
-	Renderer->GetTransform().SetLocalScale({ 1280, 720, 100 });
-	Renderer->SetTexture("LogIn.png", 0);
+	//Renderer = CreateComponent<GameEngineTextureRenderer>();
+	//Renderer->GetTransform().SetLocalScale({ 1280, 720, 100 });
+	//Renderer->SetTexture("LogIn.png", 0);
+
+	TitleLogo* BG;
+	BG = CreateActor<TitleLogo>();
 }
 
 void TitleLevel::Update(float _DeltaTime)

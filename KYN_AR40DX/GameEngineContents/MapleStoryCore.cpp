@@ -35,7 +35,8 @@ void MapleStoryCore::Start()
 	GameEngineFolderTexture::Load(Dir.GetFullPath());
 
 	// 이걸 해줘야 합니다.
-	GameEngineTexture::Cut("Boss_Left.bmp", 5, 7);
+	GameEngineTexture::Cut("LogIn.png", 1, 1);
+	GameEngineTexture::Cut("idle.png", 3, 1);
 
 
 	// 리소스를 로드하는데.
@@ -43,7 +44,7 @@ void MapleStoryCore::Start()
 	// RTTI 런 타임 타입 인포메이션
 	CreateLevel<TitleLevel>("Title");
 	CreateLevel<Stage1Level>("Stage1");
-	ChangeLevel("Stage1");
+	ChangeLevel("Title");
 
 	// 게임컨텐츠 정의
 	// 이 게임에는 타이틀화면

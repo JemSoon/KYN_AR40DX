@@ -2,7 +2,7 @@
 #include <GameEngineCore/GameEngineLevel.h>
 
 // Ό³Έν : 
-class GameEngineTextureRenderer;
+
 class TitleLevel : public GameEngineLevel
 {
 public:
@@ -22,6 +22,6 @@ protected:
 	void End() override;
 
 private:
-	GameEngineTextureRenderer* Renderer;
+
 };
 

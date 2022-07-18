@@ -46,15 +46,9 @@ void Player::Start()
 {
 	if (false == GameEngineInput::GetInst()->IsKey("PlayerLeft"))
 	{
-		GameEngineInput::GetInst()->CreateKey("PlayerLeft", 'J');
-		GameEngineInput::GetInst()->CreateKey("PlayerRight", 'L');
-		GameEngineInput::GetInst()->CreateKey("PlayerUp", 'I');
-		GameEngineInput::GetInst()->CreateKey("PlayerDown", 'K');
-		GameEngineInput::GetInst()->CreateKey("PlayerForward", 'U');
-		GameEngineInput::GetInst()->CreateKey("PlayerBack", 'O');
-		GameEngineInput::GetInst()->CreateKey("Rot+", VK_NUMPAD0);
-		GameEngineInput::GetInst()->CreateKey("Rot-", 'H');
-		//넘패드 1번은 노트북 a버튼과 겹친다..
+		GameEngineInput::GetInst()->CreateKey("PlayerLeft", VK_LEFT);
+		GameEngineInput::GetInst()->CreateKey("PlayerRight", VK_RIGHT);
+
 	}
 
 	GetTransform().SetLocalScale({ 1, 1, 1 });
@@ -63,19 +57,18 @@ void Player::Start()
 
 	{
 		Renderer = CreateComponent<GameEngineTextureRenderer>();
-		Renderer->GetTransform().SetLocalScale({ 100, 100, 100 });
-		Renderer->SetTexture("Boss_Left.bmp", 0);
+		Renderer->GetTransform().SetLocalScale({ 256, 256, 100 });
 
 
-		Renderer->CreateFrameAnimation("Test", FrameAnimation_DESC("Boss_Left.bmp", 0, 5, 0.1f));
-		Renderer->CreateFrameAnimationFolder("Test2", FrameAnimation_DESC("BlackSet", 0.1f));
+		Renderer->CreateFrameAnimation("Idle", FrameAnimation_DESC("idle.png", 0, 2, 0.1f));
+		//Renderer->CreateFrameAnimationFolder("Test2", FrameAnimation_DESC("BlackSet", 0.1f));
 
-		Renderer->AnimationBindTime("Test2", Test2Time);
-		Renderer->AnimationBindFrame("Test2", Test2Frame);
-		Renderer->AnimationBindStart("Test2", Test2Start);
-		Renderer->AnimationBindEnd("Test2", Test2End);
+		Renderer->AnimationBindTime("Idle", Test2Time);
+		Renderer->AnimationBindFrame("Idle", Test2Frame);
+		Renderer->AnimationBindStart("Idle", Test2Start);
+		Renderer->AnimationBindEnd("Idle", Test2End);
 
-		Renderer->ChangeFrameAnimation("Test");
+		Renderer->ChangeFrameAnimation("Idle");
 	}
 }
 

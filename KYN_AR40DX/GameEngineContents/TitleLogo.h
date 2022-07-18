@@ -2,6 +2,7 @@
 #include <GameEngineCore/GameEngineActor.h>
 
 // Ό³Έν :
+class GameEngineTextureRenderer;
 class TitleLogo : public GameEngineActor
 {
 public:
@@ -23,5 +24,6 @@ protected:
 private:
 
 	float TimeAngle;
+	GameEngineTextureRenderer* Renderer;
 };
 
