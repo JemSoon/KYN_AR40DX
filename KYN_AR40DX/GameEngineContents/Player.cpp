@@ -4,13 +4,8 @@
 #include <iostream>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineContents/GlobalContentsValue.h>
-#include "ScoreTestComponent.h"
 #include <GameEngineCore/GameEngineDefaultRenderer.h>
-//야매 끌어오기용↓
-#include <GameEngineCore/GameEngineRenderingPipeLine.h>
-#include <GameEngineCore/GameEngineVertexShader.h>
-#include <GameEngineCore/GameEngineConstantBuffer.h>
-#include <GameEngineCore/GameEngineDevice.h>
+
 
 Player::Player()
 	: Speed(500.0f)
@@ -34,8 +29,6 @@ void Player::Start()
 	}
 
 	GetTransform().SetLocalScale({ 1, 1, 1 });
-
-	//ScoreTestComponent* ScoreCom = CreateComponent<ScoreTestComponent>();
 
 	{
 		Renderer = CreateComponent<GameEngineTextureRenderer>();

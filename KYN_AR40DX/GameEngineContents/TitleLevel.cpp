@@ -27,7 +27,6 @@ void TitleLevel::Start()
 	GameEngineCameraActor* CameraActor = CreateActor<GameEngineCameraActor>();
 	CameraActor->GetTransform().SetLocalPosition({ 0.0f, 0.0f, -100.0f });
 	CameraActor->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
-	//이게 없으니 제대로 안뜬다 이게 뭔지 다른분께 질문해보자↑
 	
 	// [1][0][0][0]
 	// [0][1][0][0]
@@ -56,5 +55,4 @@ void TitleLevel::Update(float _DeltaTime)
 
 void TitleLevel::End()
 {
-	int a = 0;
 }

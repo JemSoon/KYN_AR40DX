@@ -20,7 +20,7 @@ void Monster::Start()
 		Renderer->SetTexture("stand.png");
 		//Renderer->ScaleToTexture();//나는 쓰면 늘어난다
 
-		Renderer->CreateFrameAnimation("Idle", FrameAnimation_DESC("stand.png", 0, 1, 0.3f));
+		Renderer->CreateFrameAnimation("Idle", FrameAnimation_DESC("stand.png", 0, 1, 0.2f));
 
 		Renderer->ChangeFrameAnimation("Idle");
 	}
