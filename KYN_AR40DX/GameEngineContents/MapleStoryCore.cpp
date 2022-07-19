@@ -50,7 +50,7 @@ void MapleStoryCore::Start()
 	// RTTI 런 타임 타입 인포메이션
 	CreateLevel<TitleLevel>("Title");
 	CreateLevel<Stage1Level>("Stage1");
-	ChangeLevel("Title");
+	ChangeLevel("Stage1");
 
 	// 게임컨텐츠 정의
 	// 이 게임에는 타이틀화면
