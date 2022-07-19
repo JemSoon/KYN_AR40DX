@@ -32,6 +32,7 @@ void Stage1Level::Start()
 	
 	{
 		Stage1* NewMap = CreateActor<Stage1>();
+		NewMap->GetPortal()->GetTransform().SetLocalPosition({720.0f,-330.0f,-100.0f});
 	}
 
 	{

@@ -23,6 +23,11 @@ public:
 	Stage1& operator=(const Stage1& _Other) = delete;
 	Stage1& operator=(Stage1&& _Other) noexcept = delete;
 
+	inline GameEngineTextureRenderer* GetPortal() const
+	{
+		return Portal;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) {}
@@ -30,6 +35,8 @@ protected:
 
 	GameEngineTextureRenderer* BG;
 	GameEngineTextureRenderer* Map;
+	GameEngineTextureRenderer* Map_Col;
+	GameEngineTextureRenderer* Portal;
 
 private:
 
