@@ -25,6 +25,9 @@
     <Filter Include="Actor\Title">
       <UniqueIdentifier>{cf23616b-929e-4849-91f2-fbb28fe2d2d3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\Monster">
+      <UniqueIdentifier>{a6651186-4d69-4c77-a6e2-c66ffcc94dbc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MapleStoryCore.h">
@@ -45,9 +48,6 @@
     <ClInclude Include="Player.h">
       <Filter>Actor\Play</Filter>
     </ClInclude>
-    <ClInclude Include="Monster.h">
-      <Filter>Actor\Play</Filter>
-    </ClInclude>
     <ClInclude Include="ScoreTestComponent.h">
       <Filter>Actor\Play\Com</Filter>
     </ClInclude>
@@ -55,6 +55,9 @@
       <Filter>PreCompile</Filter>
     </ClInclude>
     <ClInclude Include="GlobalContentsValue.h" />
+    <ClInclude Include="Monster.h">
+      <Filter>Actor\Monster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapleStoryCore.cpp">
@@ -72,9 +75,6 @@
     <ClCompile Include="Player.cpp">
       <Filter>Actor\Play</Filter>
     </ClCompile>
-    <ClCompile Include="Monster.cpp">
-      <Filter>Actor\Play</Filter>
-    </ClCompile>
     <ClCompile Include="ScoreTestComponent.cpp">
       <Filter>Actor\Play\Com</Filter>
     </ClCompile>
@@ -82,5 +82,8 @@
       <Filter>PreCompile</Filter>
     </ClCompile>
     <ClCompile Include="GlobalContentsValue.cpp" />
+    <ClCompile Include="Monster.cpp">
+      <Filter>Actor\Monster</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

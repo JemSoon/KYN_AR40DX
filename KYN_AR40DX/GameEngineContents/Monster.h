@@ -1,5 +1,5 @@
 #pragma once
-#include <GameEngineCore/GameEngineActor.h>
+#include <GameEngineCore/CoreMinimal.h>
 
 // Ό³Έν :
 class Monster : public GameEngineActor
@@ -19,6 +19,8 @@ protected:
 	void Start() override;
 	void Update(float _DeltaTime) {}
 	void End() {}
+
+	GameEngineTextureRenderer* Renderer;
 
 private:
 

@@ -53,7 +53,7 @@ void Player::Start()
 
 	GetTransform().SetLocalScale({ 1, 1, 1 });
 
-	ScoreTestComponent* ScoreCom = CreateComponent<ScoreTestComponent>();
+	//ScoreTestComponent* ScoreCom = CreateComponent<ScoreTestComponent>();
 
 	{
 		Renderer = CreateComponent<GameEngineTextureRenderer>();
