@@ -28,6 +28,9 @@
     <Filter Include="Actor\Monster">
       <UniqueIdentifier>{a6651186-4d69-4c77-a6e2-c66ffcc94dbc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\Stage1">
+      <UniqueIdentifier>{b7b61339-6050-43bf-9794-e669f3eb1991}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MapleStoryCore.h">
@@ -58,6 +61,9 @@
     <ClInclude Include="Monster.h">
       <Filter>Actor\Monster</Filter>
     </ClInclude>
+    <ClInclude Include="Stage1.h">
+      <Filter>Actor\Stage1</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapleStoryCore.cpp">
@@ -84,6 +90,9 @@
     <ClCompile Include="GlobalContentsValue.cpp" />
     <ClCompile Include="Monster.cpp">
       <Filter>Actor\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage1.cpp">
+      <Filter>Actor\Stage1</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

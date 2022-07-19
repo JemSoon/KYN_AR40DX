@@ -5,6 +5,7 @@
 #include <GameEngineBase/GameEngineInput.h>
 #include "Player.h"
 #include "Monster.h"
+#include "Stage1.h"
 Stage1Level::Stage1Level() 
 {
 }
@@ -18,7 +19,11 @@ void Stage1Level::Start()
 	{
 		GameEngineCameraActor* A = CreateActor<GameEngineCameraActor>();
 		A->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
-		A->GetTransform().SetLocalPosition({ 0.0f, 0.0f, -500.0f });
+		A->GetTransform().SetLocalPosition({ 0.0f, 0.0f, -100.0f });
+	}
+	
+	{
+		Stage1* NewMap = CreateActor<Stage1>();
 	}
 
 	Player* NewPlayer;

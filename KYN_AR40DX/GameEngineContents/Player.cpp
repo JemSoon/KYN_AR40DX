@@ -28,6 +28,8 @@ void Player::Start()
 	{
 		GameEngineInput::GetInst()->CreateKey("PlayerLeft", VK_LEFT);
 		GameEngineInput::GetInst()->CreateKey("PlayerRight", VK_RIGHT);
+		GameEngineInput::GetInst()->CreateKey("PlayerUp", VK_UP);
+		GameEngineInput::GetInst()->CreateKey("PlayerDown", VK_DOWN);
 
 	}
 
@@ -77,6 +79,16 @@ void Player::Update(float _DeltaTime)
 		Renderer->ChangeFrameAnimation("Idle");
 	}
 
+	{	//중력 전 임시 위아래 이동키
+		if (true == GameEngineInput::GetInst()->IsPress("PlayerUp"))
+		{
+			GetTransform().SetWorldMove(GetTransform().GetUpVector() * Speed * _DeltaTime);
+		}
+		if (true == GameEngineInput::GetInst()->IsPress("PlayerDown"))
+		{
+			GetTransform().SetWorldMove(GetTransform().GetDownVector() * Speed * _DeltaTime);
+		}
+	}
 	GetLevel()->GetMainCameraActorTransform().SetLocalPosition(GetTransform().GetLocalPosition());
 
 }
