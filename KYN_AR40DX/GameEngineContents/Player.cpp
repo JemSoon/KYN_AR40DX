@@ -13,33 +13,13 @@
 #include <GameEngineCore/GameEngineDevice.h>
 
 Player::Player()
-	: Speed(50.0f)
+	: Speed(100.0f)
 	, Renderer(nullptr)
 {
 }
 
 Player::~Player()
 {
-}
-
-void Test2Start(const FrameAnimation_DESC& _Info)
-{
-	GameEngineDebug::OutPutString("스타트\n");
-}
-
-void Test2End(const FrameAnimation_DESC& _Info)
-{
-	GameEngineDebug::OutPutString("앤드\n");
-}
-
-void Test2Frame(const FrameAnimation_DESC& _Info)
-{
-	// GameEngineDebug::OutPutString("프레임\n");
-}
-
-void Test2Time(const FrameAnimation_DESC& _Info, float _Time)
-{
-	// GameEngineDebug::OutPutString("타임\n");
 }
 
 void Player::Start()
@@ -96,4 +76,7 @@ void Player::Update(float _DeltaTime)
 	{
 		Renderer->ChangeFrameAnimation("Idle");
 	}
+
+	GetLevel()->GetMainCameraActorTransform().SetLocalPosition(GetTransform().GetLocalPosition());
+
 }
