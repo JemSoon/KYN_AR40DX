@@ -23,14 +23,13 @@ public:
 	Stage1& operator=(const Stage1& _Other) = delete;
 	Stage1& operator=(Stage1&& _Other) noexcept = delete;
 
-
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) {}
 	void End() {}
 
-	GameEngineTextureRenderer* Map;
 	GameEngineTextureRenderer* BG;
+	GameEngineTextureRenderer* Map;
 
 private:
 

@@ -17,18 +17,25 @@ Stage1Level::~Stage1Level()
 void Stage1Level::Start()
 {
 	{
-		GameEngineCameraActor* A = CreateActor<GameEngineCameraActor>();
-		A->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
-		A->GetTransform().SetLocalPosition({ 0.0f, 0.0f, -100.0f });
+		GameEngineCameraActor* Camera = CreateActor<GameEngineCameraActor>();
+		Camera->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
+		Camera->GetTransform().SetLocalPosition({ 0.0f, 0.0f, -100.0f });
+
+		//카메라 맵밖으로 안나가게(실패)
+		//if (0 > A->GetTransform().GetLocalPosition().x)
+		//{
+		//	float4 CameraPos = Camera->GetTransform().GetLocalPosition();
+		//	CameraPos.x = 0;
+		//	Camera->GetTransform().SetLocalPosition(CameraPos);
+		//}
 	}
 	
 	{
 		Stage1* NewMap = CreateActor<Stage1>();
 	}
 
-	Player* NewPlayer;
-
 	{
+		Player* NewPlayer;
 		NewPlayer = CreateActor<Player>(OBJECTORDER::Player);
 	}
 

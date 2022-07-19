@@ -13,7 +13,7 @@
 #include <GameEngineCore/GameEngineDevice.h>
 
 Player::Player()
-	: Speed(100.0f)
+	: Speed(500.0f)
 	, Renderer(nullptr)
 {
 }

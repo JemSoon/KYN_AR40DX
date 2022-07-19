@@ -3,6 +3,7 @@
 #include <GameEngineCore/GameEngineTextureRenderer.h>
 
 Monster::Monster()
+	: Renderer(nullptr)
 {
 }
 
