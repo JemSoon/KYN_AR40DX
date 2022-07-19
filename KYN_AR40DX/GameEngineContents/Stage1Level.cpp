@@ -39,18 +39,17 @@ void Stage1Level::Start()
 	{
 		Player* NewPlayer;
 		NewPlayer = CreateActor<Player>(OBJECTORDER::Player);
+		NewPlayer->GetTransform().SetLocalPosition({ 0.0f, -190.0f, 0.0f });
 	}
 
 	{
 		Monster* actor = CreateActor<Monster>(OBJECTORDER::Monster);
 		actor->GetTransform().SetLocalPosition({ 300.0f, -5.0f, 0.0f });
-		actor->GetTransform().SetWorldScale(float4(1.0f, 1.0f, 1.0f));
 	}
 
 	{	
 		Sugar* NPC = CreateActor<Sugar>(OBJECTORDER::NPC);
 		NPC->GetTransform().SetLocalPosition({ -400.0f, -190.0f, 0.0f });
-		NPC->GetTransform().SetWorldScale(float4(1.0f, 1.0f, 1.0f));
 	}
 }
 
