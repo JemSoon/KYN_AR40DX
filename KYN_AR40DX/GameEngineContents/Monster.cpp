@@ -1,6 +1,5 @@
 #include "PreCompile.h"
 #include "Monster.h"
-#include <GameEngineCore/GameEngineTextureRenderer.h>
 
 Monster::Monster()
 	: Renderer(nullptr)

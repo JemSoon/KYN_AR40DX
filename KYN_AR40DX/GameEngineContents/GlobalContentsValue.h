@@ -6,6 +6,7 @@ enum class OBJECTORDER
 {
 	Player = 10,
 	Monster,
+	NPC,
 };
 
 

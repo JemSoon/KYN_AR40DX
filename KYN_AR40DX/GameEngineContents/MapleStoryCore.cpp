@@ -43,6 +43,7 @@ void MapleStoryCore::Start()
 	GameEngineTexture::Cut("Stage1_Col.png", 1, 1);
 	GameEngineTexture::Cut("Stage1_BG.png", 1, 1);
 	GameEngineTexture::Cut("Portal.png", 4, 1);
+	GameEngineTexture::Cut("sugar.png", 1, 1);
 
 	// 리소스를 로드하는데.
 

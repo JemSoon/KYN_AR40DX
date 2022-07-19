@@ -31,6 +31,9 @@
     <Filter Include="Actor\Stage1">
       <UniqueIdentifier>{b7b61339-6050-43bf-9794-e669f3eb1991}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\NPC">
+      <UniqueIdentifier>{a4545ed4-3e44-4c33-baa9-31cd659ae3c4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MapleStoryCore.h">
@@ -64,6 +67,9 @@
     <ClInclude Include="Stage1.h">
       <Filter>Actor\Stage1</Filter>
     </ClInclude>
+    <ClInclude Include="Sugar.h">
+      <Filter>Actor\NPC</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapleStoryCore.cpp">
@@ -93,6 +99,9 @@
     </ClCompile>
     <ClCompile Include="Stage1.cpp">
       <Filter>Actor\Stage1</Filter>
+    </ClCompile>
+    <ClCompile Include="Sugar.cpp">
+      <Filter>Actor\NPC</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

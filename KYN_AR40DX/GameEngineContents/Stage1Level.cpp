@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Monster.h"
 #include "Stage1.h"
+#include "Sugar.h"
 Stage1Level::Stage1Level() 
 {
 }
@@ -43,7 +44,13 @@ void Stage1Level::Start()
 	{
 		Monster* actor = CreateActor<Monster>(OBJECTORDER::Monster);
 		actor->GetTransform().SetLocalPosition({ 300.0f, -5.0f, 0.0f });
-		actor->GetTransform().SetWorldScale(float4(1.0f, 1.f, 1.0f));
+		actor->GetTransform().SetWorldScale(float4(1.0f, 1.0f, 1.0f));
+	}
+
+	{	
+		Sugar* NPC = CreateActor<Sugar>(OBJECTORDER::NPC);
+		NPC->GetTransform().SetLocalPosition({ -400.0f, -190.0f, 0.0f });
+		NPC->GetTransform().SetWorldScale(float4(1.0f, 1.0f, 1.0f));
 	}
 }
 
