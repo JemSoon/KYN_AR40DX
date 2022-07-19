@@ -40,13 +40,6 @@ void TitleLevel::Start()
 	// [0][400][0][0]
 	// [0][0][1][0] 앞을 보고 있다.
 	// [0][200][0][0] 뒤로 물러나서
-
-	//Renderer = CreateComponent<GameEngineTextureRenderer>();
-	//Renderer->GetTransform().SetLocalScale({ 1280, 720, 100 });
-	//Renderer->SetTexture("LogIn.png", 0);
-
-	TitleLogo* BG;
-	BG = CreateActor<TitleLogo>();
 }
 
 void TitleLevel::Update(float _DeltaTime)

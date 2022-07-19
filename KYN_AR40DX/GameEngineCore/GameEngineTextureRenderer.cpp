@@ -68,12 +68,13 @@ void FrameAnimation::Update(float _Delta)
 				Info.CurFrame = Info.End;
 			}
 		}
-
 		Info.FrameTime -= Info.Inter;
 	}
 }
 
 GameEngineTextureRenderer::GameEngineTextureRenderer()
+	: CurAni(nullptr)
+	, CurTex(nullptr)
 {
 }
 
@@ -216,7 +217,7 @@ void GameEngineTextureRenderer::CreateFrameAnimationFolder(const std::string& _A
 
 	if (NewAni.Info.End == -1)
 	{
-		NewAni.Info.End = NewAni.FolderTexture->GetTextureCount() - 1;
+		NewAni.Info.End = static_cast<unsigned int>(NewAni.FolderTexture->GetTextureCount() - 1);
 	}
 }
 
@@ -251,6 +252,7 @@ void GameEngineTextureRenderer::ChangeFrameAnimation(const std::string& _Animati
 	{
 		CurAni = &FrameAni[Name];
 		CurAni->Reset();
+		SetTexture(CurAni->Texture, CurAni->Info.CurFrame);
 	}
 
 }
@@ -260,11 +262,15 @@ void GameEngineTextureRenderer::FrameDataReset()
 	FrameData = { 0.0f , 0.0f, 1.0f, 1.0f };
 }
 
-
 void GameEngineTextureRenderer::Update(float _Delta)
 {
 	if (nullptr != CurAni)
 	{
 		CurAni->Update(_Delta);
 	}
+}
+
+void GameEngineTextureRenderer::ScaleToTexture()
+{
+	GetTransform().SetLocalScale(CurTex->GetScale());
 }

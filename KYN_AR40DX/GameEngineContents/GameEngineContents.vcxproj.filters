@@ -13,9 +13,6 @@
     <Filter Include="Actor">
       <UniqueIdentifier>{c525e903-9252-4cc5-b21a-4a9f72279d29}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Title">
-      <UniqueIdentifier>{cf23616b-929e-4849-91f2-fbb28fe2d2d3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Actor\Play">
       <UniqueIdentifier>{378ba814-3a0b-458f-937d-a945ef4323a1}</UniqueIdentifier>
     </Filter>
@@ -24,6 +21,9 @@
     </Filter>
     <Filter Include="PreCompile">
       <UniqueIdentifier>{69df670c-1e6d-4c02-b088-69f5fc0b9285}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Title">
+      <UniqueIdentifier>{cf23616b-929e-4849-91f2-fbb28fe2d2d3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

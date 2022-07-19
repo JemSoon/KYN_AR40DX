@@ -1,31 +1,28 @@
 #pragma once
 #include "GameEngineRes.h"
 
-//선생님은 생략된 것들도 명시적으로 칠 것이다
-//직접 만들지 않아도 자동으로 생략되어 생성되 있는것들
+// 뎁스스텐실 설정이랑
+// 뎁스스텐실 텍스처가
 
-//설명 : 
+
+
+// 설명 : 최종 픽셀쉐이더의 출력결과를 랜더타겟에 출력할때 누가 앞이고 누가 뒤인지에 대한 처리
+//		  뎁스 스텐실 설정
 class GameEngineDepthStencil : public GameEngineRes<GameEngineDepthStencil>
 {
+	//public:
+	//	static GameEngineDepthStencil* Create(const float4 _Scale);
+
 public:
-	//디폴트 생성자
+	// constrcuter destructer
 	GameEngineDepthStencil();
-	//디폴트 소멸자
 	~GameEngineDepthStencil();
 
-	
-	
-	
-	//======아래것들은 명시적으로 안쓰겠습니다(delete)======
-	
-	//디폴트 복사 생성자
+	// delete Function
 	GameEngineDepthStencil(const GameEngineDepthStencil& _Other) = delete;
-	//RValue Reference 생성자 (나중에 배울것)
 	GameEngineDepthStencil(GameEngineDepthStencil&& _Other) noexcept = delete;
-	//operater= (자기자신을 리턴하는)
 	GameEngineDepthStencil& operator=(const GameEngineDepthStencil& _Other) = delete;
 	GameEngineDepthStencil& operator=(GameEngineDepthStencil&& _Other) noexcept = delete;
-
 
 protected:
 

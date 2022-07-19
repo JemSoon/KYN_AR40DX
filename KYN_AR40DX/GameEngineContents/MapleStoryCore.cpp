@@ -16,27 +16,28 @@ MapleStoryCore::~MapleStoryCore()
 
 void MapleStoryCore::Start()
 {
-
-	GameEngineDirectory Dir;
-
-	Dir.MoveParentToExitsChildDirectory("ConstantResources");
-	Dir.Move("ConstantResources");
-	Dir.Move("Texture");
-
-	std::vector<GameEngineFile> Shaders = Dir.GetAllFile();
-
-	for (size_t i = 0; i < Shaders.size(); i++)
 	{
-		GameEngineTexture::Load(Shaders[i].GetFullPath());
-	}
-	
-	Dir.Move("BlackSet");
+		GameEngineDirectory Dir;
 
-	GameEngineFolderTexture::Load(Dir.GetFullPath());
+		Dir.MoveParentToExitsChildDirectory("ConstantResources");
+		Dir.Move("ConstantResources");
+		Dir.Move("Texture");
+
+		std::vector<GameEngineFile> Shaders = Dir.GetAllFile();
+
+		for (size_t i = 0; i < Shaders.size(); i++)
+		{
+			GameEngineTexture::Load(Shaders[i].GetFullPath());
+		}
+	}
+
+	//Dir.Move("BlackSet");
+	//GameEngineFolderTexture::Load(Dir.GetFullPath());
 
 	// 이걸 해줘야 합니다.
 	GameEngineTexture::Cut("LogIn.png", 1, 1);
 	GameEngineTexture::Cut("idle.png", 3, 1);
+	GameEngineTexture::Cut("walk.png", 4, 1);
 
 
 	// 리소스를 로드하는데.
