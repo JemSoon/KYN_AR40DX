@@ -62,7 +62,8 @@ void FrameAnimation::Update(float _Delta)
 
 			if (true == Info.Loop)
 			{
-				Info.CurFrame = Info.Start;
+				//¡ﬂ«ı¥‘ µµøÚ ¿Ã∞≈ -1æ»«œ∏È 1«¡∑π¿” æ√»˚
+				Info.CurFrame = Info.Start -1;
 			}
 			else {
 				Info.CurFrame = Info.End;

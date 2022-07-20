@@ -82,6 +82,6 @@ void Player::Update(float _DeltaTime)
 			GetTransform().SetWorldMove(GetTransform().GetDownVector() * Speed * _DeltaTime);
 		}
 	}
+	//카메라가 플레이어 중심으로 쫓아다닌다
 	GetLevel()->GetMainCameraActorTransform().SetLocalPosition(GetTransform().GetLocalPosition());
-
 }

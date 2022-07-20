@@ -63,6 +63,7 @@ void Stage1Level::Update(float _DeltaTime)
 	//	CameraPos.x = 0;
 	//	Camera->GetTransform().SetLocalPosition(CameraPos);
 	//}
+	//몬가..이거 쓰면..다렉릭도 엄청나옴..몬가..잘못됨..몬가..
 }
 
 void Stage1Level::End()
