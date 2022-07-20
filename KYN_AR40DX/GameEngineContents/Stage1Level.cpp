@@ -7,7 +7,9 @@
 #include "Monster.h"
 #include "Stage1.h"
 #include "Sugar.h"
-Stage1Level::Stage1Level() 
+Stage1Level::Stage1Level()
+	:Camera(nullptr)
+	
 {
 }
 
@@ -18,12 +20,12 @@ Stage1Level::~Stage1Level()
 void Stage1Level::Start()
 {
 	{
-		GameEngineCameraActor* Camera = CreateActor<GameEngineCameraActor>();
+		Camera = CreateActor<GameEngineCameraActor>();
 		Camera->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
 		Camera->GetTransform().SetLocalPosition({ 0.0f, 0.0f, -100.0f });
 
 		//카메라 맵밖으로 안나가게(실패)
-		//if (0 > A->GetTransform().GetLocalPosition().x)
+		//if (0 > Camera->GetTransform().GetLocalPosition().x)
 		//{
 		//	float4 CameraPos = Camera->GetTransform().GetLocalPosition();
 		//	CameraPos.x = 0;
@@ -55,6 +57,12 @@ void Stage1Level::Start()
 
 void Stage1Level::Update(float _DeltaTime)
 {
+	//if (-100 > Camera->GetTransform().GetLocalPosition().x)
+	//{
+	//	float4 CameraPos = Camera->GetTransform().GetLocalPosition();
+	//	CameraPos.x = 0;
+	//	Camera->GetTransform().SetLocalPosition(CameraPos);
+	//}
 }
 
 void Stage1Level::End()
