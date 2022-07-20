@@ -2,6 +2,7 @@
 #include "MapleStoryCore.h"
 #include "GameEngineContents/TitleLevel.h"
 #include "GameEngineContents/Stage1Level.h"
+#include "GameEngineContents/Stage2Level.h"
 
 #pragma comment(lib, "GameEngineBase.lib")
 
@@ -41,13 +42,17 @@ void MapleStoryCore::Start()
 	GameEngineTexture::Cut("Stage1_BG.png", 1, 1);
 	GameEngineTexture::Cut("Portal.png", 4, 1);
 	GameEngineTexture::Cut("sugar.png", 1, 1);
+	GameEngineTexture::Cut("stage2.png", 1, 1);
+	GameEngineTexture::Cut("stage2_BG.png", 1, 1);
+	GameEngineTexture::Cut("stage2_Col.png", 1, 1);
 
 	// 리소스를 로드하는데.
 
 	// RTTI 런 타임 타입 인포메이션
 	CreateLevel<TitleLevel>("Title");
 	CreateLevel<Stage1Level>("Stage1");
-	ChangeLevel("Stage1");
+	CreateLevel<Stage2Level>("Stage2");
+	ChangeLevel("Stage2");
 
 }
 

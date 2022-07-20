@@ -70,6 +70,12 @@
     <ClInclude Include="Sugar.h">
       <Filter>Actor\NPC</Filter>
     </ClInclude>
+    <ClInclude Include="Stage2Level.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage2.h">
+      <Filter>Actor\Stage1</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapleStoryCore.cpp">
@@ -102,6 +108,12 @@
     </ClCompile>
     <ClCompile Include="Sugar.cpp">
       <Filter>Actor\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage2Level.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage2.cpp">
+      <Filter>Actor\Stage1</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

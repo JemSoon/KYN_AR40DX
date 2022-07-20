@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "Stage1Level.h"
 #include "GlobalContentsValue.h"
+#include <GameEngineCore/GEngine.h>
 #include <GameEngineCore/GameEngineCameraActor.h>
 #include <GameEngineBase/GameEngineInput.h>
 #include "Player.h"
@@ -19,6 +20,11 @@ Stage1Level::~Stage1Level()
 
 void Stage1Level::Start()
 {
+	if (false == GameEngineInput::GetInst()->IsKey("LevelChange"))
+	{
+		GameEngineInput::GetInst()->CreateKey("LevelChange", 'P');
+	}
+
 	{
 		Camera = CreateActor<GameEngineCameraActor>();
 		Camera->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
@@ -57,13 +63,10 @@ void Stage1Level::Start()
 
 void Stage1Level::Update(float _DeltaTime)
 {
-	//if (-100 > Camera->GetTransform().GetLocalPosition().x)
-	//{
-	//	float4 CameraPos = Camera->GetTransform().GetLocalPosition();
-	//	CameraPos.x = 0;
-	//	Camera->GetTransform().SetLocalPosition(CameraPos);
-	//}
-	//몬가..이거 쓰면..다렉릭도 엄청나옴..몬가..잘못됨..몬가..
+	if (true == GameEngineInput::GetInst()->IsDown("LevelChange"))
+	{
+		GEngine::ChangeLevel("Stage2");
+	}
 }
 
 void Stage1Level::End()

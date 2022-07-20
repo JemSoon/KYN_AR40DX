@@ -16,6 +16,11 @@ public:
 	Player& operator=(const Player& _Other) = delete;
 	Player& operator=(Player&& _Other) noexcept = delete;
 
+	inline GameEngineTextureRenderer* GetRenderer() const
+	{
+		return Renderer;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime);

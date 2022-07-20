@@ -26,6 +26,10 @@ public:
 	Sugar& operator=(const Sugar& _Other) = delete;
 	Sugar& operator=(Sugar&& _Other) noexcept = delete;
 
+	inline GameEngineTextureRenderer* GetRenderer() const
+	{
+		return Renderer;
+	}
 
 protected:
 	void Start() override;

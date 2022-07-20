@@ -173,6 +173,14 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Stage2.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Stage2Level.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Sugar.h">
       <SubType>
       </SubType>
@@ -216,6 +224,14 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Stage1Level.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Stage2.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Stage2Level.cpp">
       <SubType>
       </SubType>
     </ClCompile>
