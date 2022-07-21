@@ -10,6 +10,7 @@
 #include "Sugar.h"
 
 Stage2Level::Stage2Level()
+	: Camera(nullptr)
 {
 
 }
@@ -38,7 +39,7 @@ void Stage2Level::Start()
 	}
 
 	{
-		Player* NewPlayer;
+		
 		NewPlayer = CreateActor<Player>(OBJECTORDER::Player);
 		NewPlayer->GetTransform().SetLocalPosition({ -500.0f, -150.0f, 0.0f });
 		NewPlayer->GetRenderer()->GetTransform().PixLocalNegativeX();
@@ -58,10 +59,21 @@ void Stage2Level::Start()
 }
 
 void Stage2Level::Update(float _DeltaTime)
-{
+{	//레벨이 만들어지고 액터가만들어져서 Player에 만들어두면 레벨에서0으로 설정해도 액터넘어가면서 다시 값이바뀌어서 작동이 안된다. 
+	Camera->GetLevel()->GetMainCameraActorTransform().SetLocalPosition({ NewPlayer->GetTransform().GetLocalPosition()});
+
 	if (true == GameEngineInput::GetInst()->IsDown("LevelChange"))
 	{
 		GEngine::ChangeLevel("Title");
+	}
+
+	//카메라 맵밖으로 안나가게(실패?)
+	if (0 > Camera->GetTransform().GetLocalPosition().x)
+	{
+		float4 CameraPos = Camera->GetTransform().GetLocalPosition();
+		CameraPos.x = 0;
+		Camera->GetTransform().SetLocalPosition(CameraPos);
+		//GameEngineDebug::OutPutString(std::to_string(CameraPos.x));
 	}
 }
 

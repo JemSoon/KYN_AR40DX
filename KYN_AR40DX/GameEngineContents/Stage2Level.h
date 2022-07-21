@@ -5,6 +5,7 @@
 //직접 만들지 않아도 자동으로 생략되어 생성되 있는것들
 
 //설명 : 달팽이 언덕
+class Player;
 class Stage2Level : public GameEngineLevel
 {
 public:
@@ -30,5 +31,6 @@ protected:
 
 private:
 	GameEngineCameraActor* Camera;
+	Player* NewPlayer;
 };
 

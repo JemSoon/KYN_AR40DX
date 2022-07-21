@@ -83,5 +83,5 @@ void Player::Update(float _DeltaTime)
 		}
 	}
 	//카메라가 플레이어 중심으로 쫓아다닌다
-	GetLevel()->GetMainCameraActorTransform().SetLocalPosition({ GetTransform().GetLocalPosition().x, GetTransform().GetLocalPosition().y + 150.0f });
+	//GetLevel()->GetMainCameraActorTransform().SetLocalPosition({ GetTransform().GetLocalPosition()});
 }

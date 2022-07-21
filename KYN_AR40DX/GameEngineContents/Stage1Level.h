@@ -1,7 +1,8 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
 
-// 설명 :
+// 설명 : 메이플 동산
+class Player;
 class Stage1Level : public GameEngineLevel
 {
 public:
@@ -22,5 +23,6 @@ protected:
 
 private:
 	GameEngineCameraActor* Camera;
+	Player* NewPlayer;
 };
 
