@@ -16,6 +16,10 @@ public:
 	Stage1Level& operator=(const Stage1Level& _Other) = delete;
 	Stage1Level& operator=(Stage1Level&& _Other) noexcept = delete;
 
+	void CameraRange();
+	void NextStage();
+	void CameraChase();
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;

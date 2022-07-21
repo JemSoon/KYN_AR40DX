@@ -39,11 +39,9 @@ void Stage2Level::Start()
 	}
 
 	{
-		
 		NewPlayer = CreateActor<Player>(OBJECTORDER::Player);
 		NewPlayer->GetTransform().SetLocalPosition({ -500.0f, -150.0f, 0.0f });
 		NewPlayer->GetRenderer()->GetTransform().PixLocalNegativeX();
-
 	}
 
 	{
@@ -59,24 +57,61 @@ void Stage2Level::Start()
 }
 
 void Stage2Level::Update(float _DeltaTime)
-{	//레벨이 만들어지고 액터가만들어져서 Player에 만들어두면 레벨에서0으로 설정해도 액터넘어가면서 다시 값이바뀌어서 작동이 안된다. 
-	Camera->GetLevel()->GetMainCameraActorTransform().SetLocalPosition({ NewPlayer->GetTransform().GetLocalPosition()});
+{	
+	CameraChase();
 
+	NextStage();
+
+	CameraRange();
+}
+
+void Stage2Level::End()
+{
+}
+
+void Stage2Level::CameraChase()
+{
+	//레벨이 만들어지고 액터가만들어져서 Player에 만들어두면 레벨에서0으로 설정해도 액터넘어가면서 다시 값이바뀌어서 작동이 안된다. 
+	Camera->GetLevel()->GetMainCameraActorTransform().SetLocalPosition({ NewPlayer->GetTransform().GetLocalPosition() });
+}
+
+void Stage2Level::NextStage()
+{
 	if (true == GameEngineInput::GetInst()->IsDown("LevelChange"))
 	{
 		GEngine::ChangeLevel("Title");
 	}
+}
 
+void Stage2Level::CameraRange()
+{
 	//카메라 맵밖으로 안나가게(실패?)
-	if (0 > Camera->GetTransform().GetLocalPosition().x)
+	if (0 > Camera->GetTransform().GetLocalPosition().x)//왼쪽 고정
 	{
 		float4 CameraPos = Camera->GetTransform().GetLocalPosition();
 		CameraPos.x = 0;
 		Camera->GetTransform().SetLocalPosition(CameraPos);
 		//GameEngineDebug::OutPutString(std::to_string(CameraPos.x));
 	}
-}
 
-void Stage2Level::End()
-{
+	if (70 < Camera->GetTransform().GetLocalPosition().x)//오른쪽 고정
+	{
+		float4 CameraPos = Camera->GetTransform().GetLocalPosition();
+		CameraPos.x = 70;
+		Camera->GetTransform().SetLocalPosition(CameraPos);
+	}
+
+	if (0 > Camera->GetTransform().GetLocalPosition().y)//아래 고정
+	{
+		float4 CameraPos = Camera->GetTransform().GetLocalPosition();
+		CameraPos.y = 0;
+		Camera->GetTransform().SetLocalPosition(CameraPos);
+	}
+
+	if (20 < Camera->GetTransform().GetLocalPosition().y)//위 고정
+	{
+		float4 CameraPos = Camera->GetTransform().GetLocalPosition();
+		CameraPos.y = 20;
+		Camera->GetTransform().SetLocalPosition(CameraPos);
+	}
 }

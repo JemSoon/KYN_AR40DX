@@ -30,14 +30,6 @@ void Stage1Level::Start()
 		Camera = CreateActor<GameEngineCameraActor>();
 		Camera->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
 		Camera->GetTransform().SetLocalPosition({ 0.0f, 0.0f, -100.0f });
-
-		//카메라 맵밖으로 안나가게(실패)
-		//if (0 > Camera->GetTransform().GetLocalPosition().x)
-		//{
-		//	float4 CameraPos = Camera->GetTransform().GetLocalPosition();
-		//	CameraPos.x = 0;
-		//	Camera->GetTransform().SetLocalPosition(CameraPos);
-		//}
 	}
 	
 	{
@@ -63,14 +55,34 @@ void Stage1Level::Start()
 
 void Stage1Level::Update(float _DeltaTime)
 {
+	CameraChase();
+
+	NextStage();
+
+	CameraRange();
+}
+
+void Stage1Level::End()
+{
+}
+
+void Stage1Level::CameraChase()
+{
 	//레벨이 만들어지고 액터가만들어져서 Player에 만들어두면 레벨에서0으로 설정해도 액터넘어가면서 다시 값이바뀌어서 작동이 안된다. 
 	Camera->GetLevel()->GetMainCameraActorTransform().SetLocalPosition({ NewPlayer->GetTransform().GetLocalPosition() });
+}
 
+void Stage1Level::NextStage()
+{
+	//다음 스테이지 이동
 	if (true == GameEngineInput::GetInst()->IsDown("LevelChange"))
 	{
 		GEngine::ChangeLevel("Stage2");
 	}
+}
 
+void Stage1Level::CameraRange()
+{
 	//카메라 맵밖으로 안나가게
 	if (-490 > Camera->GetTransform().GetLocalPosition().x)//왼쪽 끝 막기
 	{
@@ -100,8 +112,4 @@ void Stage1Level::Update(float _DeltaTime)
 		CameraPos.y = 100;
 		Camera->GetTransform().SetLocalPosition(CameraPos);
 	}
-}
-
-void Stage1Level::End()
-{
 }
