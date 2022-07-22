@@ -1,8 +1,10 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
+#include <GameEngineBase/GameEngineSound.h>
 
 // 설명 : 메이플 동산
 class Player;
+class Main_HP_MP_UI;
 class Stage1Level : public GameEngineLevel
 {
 public:
@@ -28,5 +30,7 @@ protected:
 private:
 	GameEngineCameraActor* Camera;
 	Player* NewPlayer;
+	Main_HP_MP_UI* MainUI;
+	GameEngineSoundPlayer BgmPlayer;
 };
 

@@ -3,6 +3,7 @@
 #include "GameEngineContents/TitleLevel.h"
 #include "GameEngineContents/Stage1Level.h"
 #include "GameEngineContents/Stage2Level.h"
+#include <GameEngineBase/GameEngineSound.h>
 
 #pragma comment(lib, "GameEngineBase.lib")
 
@@ -29,6 +30,21 @@ void MapleStoryCore::Start()
 		for (size_t i = 0; i < Shaders.size(); i++)
 		{
 			GameEngineTexture::Load(Shaders[i].GetFullPath());
+		}
+	}
+
+	{
+		GameEngineDirectory Dir;
+
+		Dir.MoveParentToExitsChildDirectory("ConstantResources");
+		Dir.Move("ConstantResources");
+		Dir.Move("Sound");
+
+		std::vector<GameEngineFile> AllImageFileList = Dir.GetAllFile();
+
+		for (size_t i = 0; i < AllImageFileList.size(); i++)
+		{
+			GameEngineSound::LoadRessource(AllImageFileList[i].GetFullPath());
 		}
 	}
 

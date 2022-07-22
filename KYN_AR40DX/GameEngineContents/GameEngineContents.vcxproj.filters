@@ -34,6 +34,9 @@
     <Filter Include="Actor\NPC">
       <UniqueIdentifier>{a4545ed4-3e44-4c33-baa9-31cd659ae3c4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\UI">
+      <UniqueIdentifier>{7163d93d-dac8-4f4e-8a3d-a2aca547f0a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MapleStoryCore.h">
@@ -76,6 +79,9 @@
     <ClInclude Include="Stage2.h">
       <Filter>Actor\Stage1</Filter>
     </ClInclude>
+    <ClInclude Include="Main_HP_MP_UI.h">
+      <Filter>Actor\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapleStoryCore.cpp">
@@ -114,6 +120,9 @@
     </ClCompile>
     <ClCompile Include="Stage2.cpp">
       <Filter>Actor\Stage1</Filter>
+    </ClCompile>
+    <ClCompile Include="Main_HP_MP_UI.cpp">
+      <Filter>Actor\UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -25,6 +25,7 @@
 #include "GameEngineBlend.h"
 #include "GameEngineRenderingPipeLine.h"
 
+#include <GameEngineBase/GameEngineSound.h>
 void EngineInputLayOut()
 {
 	// 점 1개
@@ -300,6 +301,9 @@ void GameEngineCore::EngineResourcesDestroy()
 	GameEngineVertexBuffer::ResourcesDestroy();
 	GameEngineIndexBuffer::ResourcesDestroy();
 	GameEngineRenderTarget::ResourcesDestroy();
+
+	GameEngineSound::AllResourcesDestroy();//내가 임의로 넣은 사운드 리소스 디스트로이
+
 	GameEngineTexture::ResourcesDestroy();
 	GameEngineDepthStencil::ResourcesDestroy();
 	GameEngineDepthStencilTexture::ResourcesDestroy();

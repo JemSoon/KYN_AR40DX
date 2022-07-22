@@ -8,10 +8,12 @@
 #include "Monster.h"
 #include "Stage1.h"
 #include "Sugar.h"
+#include "Main_HP_MP_UI.h"
 
 Stage1Level::Stage1Level()
 	: Camera(nullptr)
 	, NewPlayer(nullptr)
+	, BgmPlayer()
 	
 {
 }
@@ -22,6 +24,10 @@ Stage1Level::~Stage1Level()
 
 void Stage1Level::Start()
 {
+	BgmPlayer.Stop();
+	BgmPlayer = GameEngineSound::SoundPlayControl("MapleLeaf.mp3");
+	BgmPlayer.Volume(0.1f);
+
 	if (false == GameEngineInput::GetInst()->IsKey("FreeCameaOnOff"))
 	{
 		GameEngineInput::GetInst()->CreateKey("FreeCameaOnOff", 'O');
@@ -52,6 +58,12 @@ void Stage1Level::Start()
 		Sugar* NPC = CreateActor<Sugar>(OBJECTORDER::NPC);
 		NPC->GetTransform().SetLocalPosition({ -400.0f, -190.0f, 0.0f });
 	}
+
+	{
+		MainUI = CreateActor<Main_HP_MP_UI>(OBJECTORDER::UI);
+		MainUI->GetTransform().SetWorldPosition({ 0.0f,-320.0f,0.0f });
+		MainUI->SetParent(Camera);
+	}
 }
 
 void Stage1Level::Update(float _DeltaTime)
@@ -77,6 +89,7 @@ void Stage1Level::CameraChase()
 {
 	//레벨이 만들어지고 액터가만들어져서 Player에 만들어두면 레벨에서0으로 설정해도 액터넘어가면서 다시 값이바뀌어서 작동이 안된다. 
 	Camera->GetLevel()->GetMainCameraActorTransform().SetLocalPosition({ NewPlayer->GetTransform().GetLocalPosition() });
+
 }
 
 void Stage1Level::NextStage()

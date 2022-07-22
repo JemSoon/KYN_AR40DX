@@ -23,7 +23,6 @@ void Stage2::Start()
 		GameEngineInput::GetInst()->CreateKey("BGRight", VK_RIGHT);
 		GameEngineInput::GetInst()->CreateKey("BGUp", VK_UP);
 		GameEngineInput::GetInst()->CreateKey("BGDown", VK_DOWN);
-
 	}
 
 	GetTransform().SetLocalScale({ 1, 1, 1 });
@@ -57,14 +56,16 @@ void Stage2::Start()
 
 void Stage2::Update(float _DeltaTime)
 {
-	if (true == GameEngineInput::GetInst()->IsPress("BGLeft"))
-	{
-		BG->GetTransform().SetWorldMove(GetTransform().GetLeftVector() * (Speed) * _DeltaTime);
-	}
+	{	//BG랜더러 천천히 쫓아오게끔
+		if (true == GameEngineInput::GetInst()->IsPress("BGLeft"))
+		{
+			BG->GetTransform().SetWorldMove(GetTransform().GetLeftVector() * (Speed)*_DeltaTime);
+		}
 
-	if (true == GameEngineInput::GetInst()->IsPress("BGRight"))
-	{
-		BG->GetTransform().SetWorldMove(GetTransform().GetLeftVector() * (-Speed) * _DeltaTime);
+		if (true == GameEngineInput::GetInst()->IsPress("BGRight"))
+		{
+			BG->GetTransform().SetWorldMove(GetTransform().GetLeftVector() * (-Speed) * _DeltaTime);
+		}
 	}
 }
 
