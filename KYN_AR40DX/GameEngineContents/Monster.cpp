@@ -16,7 +16,7 @@ void Monster::Start()
 
 	{
 		Renderer = CreateComponent<GameEngineTextureRenderer>();
-		Renderer->GetTransform().SetLocalScale({ 64, 64, 100 });
+		Renderer->GetTransform().SetLocalScale({ 64, 64, 1 });
 		Renderer->SetTexture("stand.png");
 		//Renderer->ScaleToTexture();//나는 쓰면 늘어난다
 

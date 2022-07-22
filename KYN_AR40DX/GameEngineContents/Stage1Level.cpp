@@ -10,7 +10,8 @@
 #include "Sugar.h"
 
 Stage1Level::Stage1Level()
-	:Camera(nullptr)
+	: Camera(nullptr)
+	, NewPlayer(nullptr)
 	
 {
 }
@@ -21,9 +22,9 @@ Stage1Level::~Stage1Level()
 
 void Stage1Level::Start()
 {
-	if (false == GameEngineInput::GetInst()->IsKey("LevelChange"))
+	if (false == GameEngineInput::GetInst()->IsKey("FreeCameaOnOff"))
 	{
-		GameEngineInput::GetInst()->CreateKey("LevelChange", 'P');
+		GameEngineInput::GetInst()->CreateKey("FreeCameaOnOff", 'O');
 	}
 
 	{
@@ -44,7 +45,7 @@ void Stage1Level::Start()
 
 	{
 		Monster* actor = CreateActor<Monster>(OBJECTORDER::Monster);
-		actor->GetTransform().SetLocalPosition({ 300.0f, -5.0f, 0.0f });
+		actor->GetTransform().SetLocalPosition({ 300.0f, -5.0f, 100.0f });
 	}
 
 	{	
@@ -55,6 +56,12 @@ void Stage1Level::Start()
 
 void Stage1Level::Update(float _DeltaTime)
 {
+	if (GameEngineInput::GetInst()->IsDown("FreeCameaOnOff"))
+	{
+		GetMainCamera()->SetProjectionMode(CAMERAPROJECTIONMODE::PersPective);
+		GetMainCameraActor()->FreeCameraModeOnOff();
+	}
+
 	CameraChase();
 
 	NextStage();
