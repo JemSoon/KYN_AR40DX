@@ -31,7 +31,7 @@ public:
 
 protected:
 	void Start() override;
-	void Update(float _DeltaTime) {}
+	void Update(float _DeltaTime);
 	void End() {}
 
 	GameEngineTextureRenderer* BG;
@@ -40,6 +40,6 @@ protected:
 	GameEngineTextureRenderer* Portal;
 
 private:
-
+	float Speed;
 };
 

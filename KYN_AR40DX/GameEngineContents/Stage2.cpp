@@ -5,6 +5,7 @@ Stage2::Stage2()
 	, Map(nullptr)
 	, Portal(nullptr)
 	, Map_Col(nullptr)
+	, Speed(10.0f)
 {
 
 }
@@ -16,6 +17,15 @@ Stage2::~Stage2()
 
 void Stage2::Start()
 {
+	if (false == GameEngineInput::GetInst()->IsKey("BGLeft"))
+	{
+		GameEngineInput::GetInst()->CreateKey("BGLeft", VK_LEFT);
+		GameEngineInput::GetInst()->CreateKey("BGRight", VK_RIGHT);
+		GameEngineInput::GetInst()->CreateKey("BGUp", VK_UP);
+		GameEngineInput::GetInst()->CreateKey("BGDown", VK_DOWN);
+
+	}
+
 	GetTransform().SetLocalScale({ 1, 1, 1 });
 
 	{	//ÄÃ·¯Ãæµ¹ ¸Ê
@@ -42,6 +52,19 @@ void Stage2::Start()
 
 		Portal->CreateFrameAnimation("Portal", FrameAnimation_DESC("Portal.png", 0, 3, 0.1f));
 		Portal->ChangeFrameAnimation("Portal");
+	}
+}
+
+void Stage2::Update(float _DeltaTime)
+{
+	if (true == GameEngineInput::GetInst()->IsPress("BGLeft"))
+	{
+		BG->GetTransform().SetWorldMove(GetTransform().GetLeftVector() * (Speed) * _DeltaTime);
+	}
+
+	if (true == GameEngineInput::GetInst()->IsPress("BGRight"))
+	{
+		BG->GetTransform().SetWorldMove(GetTransform().GetLeftVector() * (-Speed) * _DeltaTime);
 	}
 }
 
