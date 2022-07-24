@@ -12,6 +12,7 @@
 Stage2Level::Stage2Level()
 	: Camera(nullptr)
 	, NewPlayer(nullptr)
+
 {
 
 }

@@ -14,6 +14,7 @@ Stage1Level::Stage1Level()
 	: Camera(nullptr)
 	, NewPlayer(nullptr)
 	, BgmPlayer()
+	, BgmOn(false)
 	
 {
 }
@@ -24,10 +25,6 @@ Stage1Level::~Stage1Level()
 
 void Stage1Level::Start()
 {
-	BgmPlayer.Stop();
-	BgmPlayer = GameEngineSound::SoundPlayControl("MapleLeaf.mp3");
-	BgmPlayer.Volume(0.1f);
-
 	if (false == GameEngineInput::GetInst()->IsKey("FreeCameaOnOff"))
 	{
 		GameEngineInput::GetInst()->CreateKey("FreeCameaOnOff", 'O');
@@ -36,12 +33,12 @@ void Stage1Level::Start()
 	{
 		Camera = CreateActor<GameEngineCameraActor>();
 		Camera->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
-		Camera->GetTransform().SetLocalPosition({ 0.0f, 0.0f, -100.0f });
+		Camera->GetTransform().SetLocalPosition({ 0.0f, 0.0f, 0.0f });
 	}
 	
 	{
 		Stage1* NewMap = CreateActor<Stage1>();
-		NewMap->GetPortal()->GetTransform().SetLocalPosition({720.0f,-330.0f,-100.0f});
+		NewMap->GetPortal()->GetTransform().SetLocalPosition({720.0f,-330.0f,0.0f});
 	}
 
 	{
@@ -51,7 +48,7 @@ void Stage1Level::Start()
 
 	{
 		Monster* actor = CreateActor<Monster>(OBJECTORDER::Monster);
-		actor->GetTransform().SetLocalPosition({ 300.0f, -5.0f, 100.0f });
+		actor->GetTransform().SetLocalPosition({ 300.0f, -5.0f, 0.0f });
 	}
 
 	{	
@@ -70,15 +67,17 @@ void Stage1Level::Update(float _DeltaTime)
 {
 	if (GameEngineInput::GetInst()->IsDown("FreeCameaOnOff"))
 	{
-		GetMainCamera()->SetProjectionMode(CAMERAPROJECTIONMODE::PersPective);
+		GetMainCamera()->SetProjectionMode(CAMERAPROJECTIONMODE::PersPective);//퍼스펙:원근//오서:직교
 		GetMainCameraActor()->FreeCameraModeOnOff();
 	}
 
-	CameraChase();
+	OnEvent();
+
+	//CameraChase();
 
 	NextStage();
 
-	CameraRange();
+	//CameraRange();
 }
 
 void Stage1Level::End()
@@ -131,5 +130,16 @@ void Stage1Level::CameraRange()
 		float4 CameraPos = Camera->GetTransform().GetLocalPosition();
 		CameraPos.y = 100;
 		Camera->GetTransform().SetLocalPosition(CameraPos);
+	}
+}
+
+void Stage1Level::OnEvent()
+{
+	if (BgmOn == false)
+	{	//음악이 한번만 실행되도록 안그러면 돌림노래처럼 틀어진다
+		BgmPlayer.Stop();
+		BgmPlayer = GameEngineSound::SoundPlayControl("MapleLeaf.mp3");
+		BgmPlayer.Volume(0.1f);
+		BgmOn = true;
 	}
 }
