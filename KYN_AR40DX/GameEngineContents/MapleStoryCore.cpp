@@ -68,7 +68,7 @@ void MapleStoryCore::Start()
 	CreateLevel<TitleLevel>("Title");
 	CreateLevel<Stage1Level>("Stage1");
 	CreateLevel<Stage2Level>("Stage2");
-	ChangeLevel("Stage2");
+	ChangeLevel("Stage1");
 
 }
 

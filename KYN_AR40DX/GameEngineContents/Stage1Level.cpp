@@ -73,11 +73,11 @@ void Stage1Level::Update(float _DeltaTime)
 
 	OnEvent();
 
-	//CameraChase();
+	CameraChase();
 
 	NextStage();
 
-	//CameraRange();
+	CameraRange();
 }
 
 void Stage1Level::End()
@@ -139,7 +139,7 @@ void Stage1Level::OnEvent()
 	{	//음악이 한번만 실행되도록 안그러면 돌림노래처럼 틀어진다
 		BgmPlayer.Stop();
 		BgmPlayer = GameEngineSound::SoundPlayControl("MapleLeaf.mp3");
-		BgmPlayer.Volume(0.1f);
+		BgmPlayer.Volume(0.05f);
 		BgmOn = true;
 	}
 }

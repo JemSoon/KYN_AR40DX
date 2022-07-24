@@ -35,7 +35,7 @@ void Stage1::Start()
 
 		//뒷배경	얘를 카메라이동 반응을 1초정도 느리게 쫓아오게 하고 싶다..
 		BG = CreateComponent<GameEngineTextureRenderer>();
-		BG->GetTransform().SetLocalScale({ 2270, 1807, 100 });
+		BG->GetTransform().SetLocalScale({ 4270, 1807, 100 });
 		BG->SetTexture("Stage1_BG.png");
 	}
 
@@ -60,12 +60,12 @@ void Stage1::Update(float _DeltaTime)
 	{	//BG랜더러 천천히 쫓아오게끔
 		if (true == GameEngineInput::GetInst()->IsPress("BGLeft"))
 		{
-			BG->GetTransform().SetWorldMove(GetTransform().GetLeftVector() * (Speed)*_DeltaTime);
+			BG->GetTransform().SetWorldMove(GetTransform().GetLeftVector() * (-Speed)*_DeltaTime);
 		}
 
 		if (true == GameEngineInput::GetInst()->IsPress("BGRight"))
 		{
-			BG->GetTransform().SetWorldMove(GetTransform().GetLeftVector() * (-Speed) * _DeltaTime);
+			BG->GetTransform().SetWorldMove(GetTransform().GetLeftVector() * (Speed) * _DeltaTime);
 		}
 	}
 }
