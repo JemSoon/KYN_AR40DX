@@ -6,6 +6,7 @@
 #include <GameEngineCore/GameEngineDevice.h>
 #include "GameEngineLevel.h"
 #include "GameEngineDevice.h"
+#include "GameEngineGUI.h"
 
 #pragma comment(lib, "GameEngineBase.lib")
 
@@ -50,6 +51,7 @@ bool GameEngineCore::ChangeLevel(const std::string& _Name)
 
 void GameEngineCore::CoreStart(GameEngineCore* _UserCore)
 {
+	GameEngineGUI::Initialize();
 	// 엔진 리소스는 완성되어야 합니다.
 	EngineResourcesInitialize();
 
@@ -117,6 +119,9 @@ void GameEngineCore::CoreEnd(GameEngineCore* _UserCore)
 		Level.second = nullptr;
 	}
 
+	//사용하는 텍스처가 있을수 있기에 먼저 지운다
+	GameEngineGUI::GUIDestroy();
+
 	EngineResourcesDestroy();
 
 	GameEngineWindow::Destroy();
@@ -142,7 +147,6 @@ void GameEngineCore::WindowCreate(const std::string& _Name, GameEngineCore* _Use
 		std::bind(&GameEngineCore::CoreUpdate, _UserCore),
 		std::bind(&GameEngineCore::CoreEnd, _UserCore)
 	);
-
 }
 
 void GameEngineCore::InitializeLevel(GameEngineLevel* _Level, const std::string _Name)
