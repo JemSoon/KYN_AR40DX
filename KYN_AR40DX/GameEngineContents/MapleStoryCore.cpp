@@ -70,6 +70,7 @@ void MapleStoryCore::Start()
 	CreateLevel<Stage2Level>("Stage2");
 	ChangeLevel("Stage1");
 
+	GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
 }
 
 void MapleStoryCore::Update(float _DeltaTime)
