@@ -546,7 +546,6 @@ public:
 			iw() == _Value.iw();
 	}
 
-
 	float4 RotationToDegreeZ(float _Degree)
 	{
 		return RotationToRadianZAXis(_Degree * GameEngineMath::DegreeToRadian);

@@ -42,6 +42,7 @@ void Player::Start()
 		Renderer->CreateFrameAnimation("Walk", FrameAnimation_DESC("walk.png", 0, 3, 0.1f));
 
 		Renderer->ChangeFrameAnimation("Idle");
+		Renderer->SetPivot(PIVOTMODE::BOT);
 	}
 }
 

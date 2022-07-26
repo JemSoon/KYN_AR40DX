@@ -226,6 +226,7 @@ float4 GameEngineTexture::GetPixel(int _x, int _y)
 	}
 
 	// 여러분들이 생각하기에 색깔이 이상하다고 생각하면
+	//내 포멧은 BGRA?
 	DXGI_FORMAT Fmt = Image.GetMetadata().format;
 
 	uint8_t* Color = Image.GetImages()->pixels;
