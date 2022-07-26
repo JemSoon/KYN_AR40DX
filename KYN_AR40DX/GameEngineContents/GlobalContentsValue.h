@@ -4,6 +4,7 @@
 
 enum class OBJECTORDER
 {
+	Map,
 	Player = 10,
 	Monster,
 	NPC,

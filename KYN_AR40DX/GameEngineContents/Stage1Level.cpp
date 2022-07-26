@@ -36,12 +36,12 @@ void Stage1Level::Start()
 		Camera->GetTransform().SetLocalPosition({ 0.0f, 0.0f, 0.0f });
 	}
 	
-	CreateStageObject("Stage1.png", "Stage1_Col.png");
-	SetMapOnOffSwitch();
+	CreateStageObject("Stage1_BG.png", "Stage1_Col.png", "Stage1.png");
+	//SetMapOnOffSwitch();
 
 	{
 		NewPlayer = CreateActor<Player>(OBJECTORDER::Player);
-		NewPlayer->GetTransform().SetLocalPosition({ 0.0f, -0.0f, 0.0f });
+		NewPlayer->GetTransform().SetLocalPosition({ 0.0f, 0.0f, 0.0f });
 	}
 
 	{

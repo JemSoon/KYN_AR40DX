@@ -6,6 +6,8 @@ enum class PIVOTMODE
 	CENTER,
 	LEFTTOP,
 	BOT,
+	TOP,
+	
 };
 
 class FrameAnimation_DESC 

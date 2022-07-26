@@ -128,6 +128,9 @@ void GameEngineTextureRenderer::SetPivot(PIVOTMODE _Mode)
 	case PIVOTMODE::LEFTTOP:
 		SetPivotToVector(float4(GetTransform().GetWorldScale().hx(), -GetTransform().GetWorldScale().hy()));
 		break;
+	case PIVOTMODE::TOP:
+		SetPivotToVector(float4(GetTransform().GetWorldScale().hx()*0.5f, -GetTransform().GetWorldScale().hy()));
+		break;
 	case PIVOTMODE::BOT:
 		SetPivotToVector(float4(0.0f, GetTransform().GetWorldScale().hy()));
 		break;
