@@ -10,7 +10,7 @@ void FrameAnimation::Reset()
 }
 
 
-void FrameAnimation::Update(float _Delta)
+void FrameAnimation::Update(float _Delta) 
 {
 
 	Info.FrameTime += _Delta;
@@ -20,7 +20,7 @@ void FrameAnimation::Update(float _Delta)
 		Time(Info, _Delta);
 	}
 
-	if (false == bOnceStart
+	if (false == bOnceStart 
 		&& Info.CurFrame == Info.Start
 		&& nullptr != Start)
 	{
@@ -48,7 +48,6 @@ void FrameAnimation::Update(float _Delta)
 
 			if (true == Info.Loop)
 			{
-				//중혁님 도움 이거 -1안하면 1프레임 씹힘
 				Info.CurFrame = Info.Start;
 			}
 			else 
@@ -59,33 +58,39 @@ void FrameAnimation::Update(float _Delta)
 
 		if (nullptr != Texture)
 		{
+			ParentRenderer->CurTex = Texture;
 			ParentRenderer->SetTexture(Texture, Info.CurFrame);
+			ParentRenderer->SetPivot();
 		}
 		else if (nullptr != FolderTexture)
 		{
 			ParentRenderer->FrameDataReset();
+			ParentRenderer->CurTex = FolderTexture->GetTexture(Info.CurFrame);
 			ParentRenderer->SetTexture(FolderTexture->GetTexture(Info.CurFrame));
+			ParentRenderer->SetPivot();
 		}
 		else
 		{
 			MsgBoxAssert("텍스처가 세팅되지 않은 애니메이션 입니다.");
 		}
 
+
 		Info.FrameTime -= Info.Inter;
 	}
 }
 
-GameEngineTextureRenderer::GameEngineTextureRenderer()
+GameEngineTextureRenderer::GameEngineTextureRenderer() 
 	: CurAni(nullptr)
 	, CurTex(nullptr)
+	, PivotMode(PIVOTMODE::CENTER)
 {
 }
 
-GameEngineTextureRenderer::~GameEngineTextureRenderer()
+GameEngineTextureRenderer::~GameEngineTextureRenderer() 
 {
 }
 
-void GameEngineTextureRenderer::Start()
+void GameEngineTextureRenderer::Start() 
 {
 	GameEngineDefaultRenderer::Start();
 	SetPipeLine("TextureAtlas");
@@ -106,6 +111,36 @@ void GameEngineTextureRenderer::SetSamplingModePoint()
 void GameEngineTextureRenderer::SetSamplingModeLiner()
 {
 	ShaderResources.SetSampler("Smp", "EngineSamplerLinear");
+}
+
+void GameEngineTextureRenderer::SetPivot()
+{
+	SetPivot(PivotMode);
+}
+
+void GameEngineTextureRenderer::SetPivot(PIVOTMODE _Mode)
+{
+	switch (_Mode)
+	{
+	case PIVOTMODE::CENTER:
+		SetPivotToVector(float4::ZERO);
+		break;
+	case PIVOTMODE::LEFTTOP:
+		SetPivotToVector(float4(GetTransform().GetWorldScale().hx(), -GetTransform().GetWorldScale().hy()));
+		break;
+	case PIVOTMODE::BOT:
+		SetPivotToVector(float4(0.0f, GetTransform().GetWorldScale().hy()));
+		break;
+	default:
+		break;
+	}
+
+	PivotMode = _Mode;
+}
+
+void GameEngineTextureRenderer::SetPivotToVector(const float4& _Value) 
+{
+	GetTransform().SetLocalPosition(_Value);
 }
 
 void GameEngineTextureRenderer::SetTexture(GameEngineTexture* _Texture)
@@ -205,7 +240,7 @@ void GameEngineTextureRenderer::ChangeFrameAnimation(const std::string& _Animati
 		{
 			SetTexture(CurAni->Texture, CurAni->Info.CurFrame);
 		}
-		else if (nullptr != CurAni->FolderTexture)
+		else if(nullptr != CurAni->FolderTexture)
 		{
 			SetTexture(CurAni->FolderTexture->GetTexture(CurAni->Info.CurFrame));
 		}
@@ -214,8 +249,9 @@ void GameEngineTextureRenderer::ChangeFrameAnimation(const std::string& _Animati
 
 void GameEngineTextureRenderer::FrameDataReset()
 {
-	FrameData = { 0.0f , 0.0f, 1.0f, 1.0f };
+	FrameData = { 0.0f , 0.0f, 1.0f, 1.0f};
 }
+
 
 void GameEngineTextureRenderer::Update(float _Delta)
 {
@@ -224,6 +260,8 @@ void GameEngineTextureRenderer::Update(float _Delta)
 		CurAni->Update(_Delta);
 	}
 }
+
+
 
 void GameEngineTextureRenderer::ScaleToTexture()
 {

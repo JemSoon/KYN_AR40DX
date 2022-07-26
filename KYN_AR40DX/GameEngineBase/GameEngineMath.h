@@ -78,10 +78,10 @@ public:
 		// DirectX::XMVector3Cross()
 
 		float4 vResult = float4(
-			(_Left.Arr1D[1] * _Right.Arr1D[2]) - (_Left.Arr1D[2] * _Right.Arr1D[1]),
-			(_Left.Arr1D[2] * _Right.Arr1D[0]) - (_Left.Arr1D[0] * _Right.Arr1D[2]),
-			(_Left.Arr1D[0] * _Right.Arr1D[1]) - (_Left.Arr1D[1] * _Right.Arr1D[0]),
-			0.0f
+		(_Left.Arr1D[1] * _Right.Arr1D[2]) - (_Left.Arr1D[2] * _Right.Arr1D[1]),
+		(_Left.Arr1D[2] * _Right.Arr1D[0]) - (_Left.Arr1D[0] * _Right.Arr1D[2]),
+		(_Left.Arr1D[0] * _Right.Arr1D[1]) - (_Left.Arr1D[1] * _Right.Arr1D[0]),
+		0.0f
 		);
 		return vResult;
 	}
@@ -138,7 +138,7 @@ public:
 		return Return;
 	}
 
-	static float4 ABS3DReturn(const float4& _Postion)
+	static float4 ABS3DReturn(const float4& _Postion) 
 	{
 		return _Postion.ABS3DReturn();
 	}
@@ -171,7 +171,7 @@ public:
 
 	static float4 RadianToDirection2D(float _Radian)
 	{
-		return { cosf(_Radian) , sinf(_Radian) };
+		return { cosf(_Radian) , sinf(_Radian)  };
 	}
 
 	static float4 VectorRotationToDegreeZAxis(const float4& _Value, float _Degree)
@@ -257,9 +257,9 @@ public:
 
 
 public:
-	union
+	union 
 	{
-		struct
+		struct 
 		{
 			float x;
 			float y;
@@ -339,9 +339,25 @@ public:
 		return static_cast<int>(w);
 	}
 
-	POINT GetConvertWindowPOINT()
+	POINT GetConvertWindowPOINT() 
 	{
 		return POINT(ix(), iy());
+	}
+
+
+	float hx() const
+	{
+		return x * 0.5f;
+	}
+
+	float hy() const
+	{
+		return y * 0.5f;
+	}
+
+	float hz() const
+	{
+		return z * 0.5f;
 	}
 
 	int hix() const
@@ -422,7 +438,7 @@ public:
 		return Arr1D[_Index];
 	}
 
-
+	
 	float4 operator-(const float4& _Other) const
 	{
 		return { x - _Other.x, y - _Other.y, z - _Other.z, 1.0f };
@@ -453,16 +469,16 @@ public:
 		return DirectX::XMVectorDivide(DirectVector, float4(_Value).DirectVector);
 	}
 
-	float4 operator/(const float4& _Value) const
-	{
-		return DirectX::XMVectorDivide(DirectVector, _Value.DirectVector);
-	}
-
 	float4& operator/=(const float _Value)
 	{
 		DirectVector = DirectX::XMVectorDivide(DirectVector, float4(_Value).DirectVector);
 
 		return *this;
+	}
+
+	float4 operator/(const float4& _Value) const
+	{
+		return DirectX::XMVectorDivide(DirectVector, _Value.DirectVector);
 	}
 
 	float4& operator+=(const float4& _Other)
@@ -506,7 +522,7 @@ public:
 	{
 		float4 Rot = *this;
 		Rot *= GameEngineMath::DegreeToRadian;
-		Rot.DirectVector = DirectX::XMQuaternionRotationRollPitchYawFromVector(Rot.DirectVector);
+		Rot.DirectVector =  DirectX::XMQuaternionRotationRollPitchYawFromVector(Rot.DirectVector);
 		return Rot;
 	}
 
@@ -687,13 +703,13 @@ public:
 	{
 	}
 
-	float4x4()
+	float4x4() 
 	{
 		Identity();
 	}
 
 public:
-	void ZeroCheck()
+	void ZeroCheck() 
 	{
 		for (size_t i = 0; i < 16; i++)
 		{
@@ -798,10 +814,11 @@ public:
 
 	void ViewPort(float _Width, float _Height, float _Left, float _Right, float _ZMin, float _ZMax)
 	{
+
 		// 크기 자전 이동 뷰 투영 뷰포트 => 모니터에
 		//                                마우스포지션은
 		//                       * 마우스포지션은
-		
+
 		//             -1~1사이의 값이
 		//            640
 		Arr2D[0][0] = _Width / 2.0f;
@@ -828,22 +845,23 @@ public:
 	// Fov to Degree
 	void PerspectiveFovLH(float _FovDegree, float _Width, float _Height, float _Near, float _Far)
 	{
+
 		DirectMatrix = DirectX::XMMatrixPerspectiveFovLH(_FovDegree * GameEngineMath::DegreeToRadian * 0.5f, _Width / _Height, _Near, _Far);
 
-		//assert(NearZ > 0.f && FarZ > 0.f);
-		//assert(!XMScalarNearEqual(FovAngleY, 0.0f, 0.00001f * 2.0f));
-		//assert(!XMScalarNearEqual(AspectRatio, 0.0f, 0.00001f));
-		//assert(!XMScalarNearEqual(FarZ, NearZ, 0.00001f));
+		////assert(NearZ > 0.f && FarZ > 0.f);
+		////assert(!XMScalarNearEqual(FovAngleY, 0.0f, 0.00001f * 2.0f));
+		////assert(!XMScalarNearEqual(AspectRatio, 0.0f, 0.00001f));
+		////assert(!XMScalarNearEqual(FarZ, NearZ, 0.00001f));
 
-		//float    SinFov;
-		//float    CosFov;
-		// XMScalarSinCos(&SinFov, &CosFov, 0.5f * FovAngleY);
+		////float    SinFov;
+		////float    CosFov;
+		//// XMScalarSinCos(&SinFov, &CosFov, 0.5f * FovAngleY);
 
-		//               45                                 
+		////               45                                 
 		//float Tan = tanf(_FovDegree * GameEngineMath::DegreeToRadian * 0.5f);
 		//float fRange = _Far / (_Far - _Near);
 
-		// z가 무슨 z죠?
+		//// z가 무슨 z죠?
 
 		//Arr2D[0][0] = 1.0f / (Tan * (_Width / _Height)); // / z
 		//Arr2D[0][1] = 0.0f;
@@ -860,25 +878,25 @@ public:
 		//Arr2D[2][2] = fRange;
 		//Arr2D[2][3] = 1.0f;
 
-		//    150
-		//[x][y][150][1] * [1][0][0][0] = [][][][150]
-		//                 [0][1][0][0]
-		//                 [0][0][1][1]
-		//                 [0][0][0][0]
+		////    150
+		////[x][y][150][1] * [1][0][0][0] = [][][][150]
+		////                 [0][1][0][0]
+		////                 [0][0][1][1]
+		////                 [0][0][0][0]
 
-		/*Arr2D[3][0] = 0.0f;
-		Arr2D[3][1] = 0.0f;
-		Arr2D[3][2] = -fRange * _Near;
-		Arr2D[3][3] = 0.0f;*/
+		//Arr2D[3][0] = 0.0f;
+		//Arr2D[3][1] = 0.0f;
+		//Arr2D[3][2] = -fRange * _Near;
+		//Arr2D[3][3] = 0.0f;
 	}
 
 	void OrthographicLH(float _Width, float _Height, float _Near, float _Far)
 	{
-		// DirectX::XMMatrixOrthographicLH(_Width, _Height, _Near, _Far);
+		 // DirectX::XMMatrixOrthographicLH(_Width, _Height, _Near, _Far);
 
-	   //assert(!XMScalarNearEqual(ViewWidth, 0.0f, 0.00001f));
-	   //assert(!XMScalarNearEqual(ViewHeight, 0.0f, 0.00001f));
-	   //assert(!XMScalarNearEqual(FarZ, NearZ, 0.00001f));
+		//assert(!XMScalarNearEqual(ViewWidth, 0.0f, 0.00001f));
+		//assert(!XMScalarNearEqual(ViewHeight, 0.0f, 0.00001f));
+		//assert(!XMScalarNearEqual(FarZ, NearZ, 0.00001f));
 
 		float fRange = 1.0f / (_Far - _Near);
 
@@ -931,7 +949,7 @@ public:
 
 		//XMVECTOR R0 = XMVector3Cross(UpDirection, R2);
 		//R0 = XMVector3Normalize(R0);
-
+		
 		// 혹시나 넣어준 사람이 길이를 1로 만들지 않고 넣어줬을수 있으니까.
 		// 길이 1짜리 벡터로 만들고
 		float4 R0 = float4::Cross(_Up, R2);
@@ -969,7 +987,7 @@ public:
 
 		// 90 => ~90도 하려면 회전행렬을 전치하면 된다.
 
-		float4 Control = { 0xff, 0xff , 0xff , 0 };
+		float4 Control = {0xff, 0xff , 0xff , 0};
 		float4x4 Mat;
 		Mat.ArrV[0] = float4::Select(D0, R0, Control);
 		Mat.ArrV[1] = float4::Select(D1, R1, Control);
@@ -1005,7 +1023,7 @@ public:
 		return Result;
 	}
 
-
+	
 
 	void Transpose()
 	{
@@ -1021,9 +1039,9 @@ public:
 		}
 	}
 
-
+	
 public: // 연산자
-	float4x4 operator*(const float4x4& _Value)
+	float4x4 operator*(const float4x4& _Value) 
 	{
 		return DirectX::XMMatrixMultiply(DirectMatrix, _Value.DirectMatrix);
 	}

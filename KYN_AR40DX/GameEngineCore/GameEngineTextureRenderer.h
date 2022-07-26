@@ -1,7 +1,14 @@
 #pragma once
 #include "GameEngineDefaultRenderer.h"
 
-class FrameAnimation_DESC
+enum class PIVOTMODE
+{
+	CENTER,
+	LEFTTOP,
+	BOT,
+};
+
+class FrameAnimation_DESC 
 {
 public:
 	std::string TextureName;
@@ -105,6 +112,12 @@ public:
 
 	void SetTexture(const std::string& _Name, UINT _Index);
 
+	void SetPivot();
+
+	void SetPivot(PIVOTMODE _Mode);
+
+	void SetPivotToVector(const float4& _Value);
+
 	void SetTexture(GameEngineTexture* _Texture, UINT _Index);
 
 	void CreateFrameAnimationFolder(const std::string& _AnimationName, const FrameAnimation_DESC& _Desc);
@@ -117,6 +130,7 @@ public:
 	void CurAnimationReset();
 
 	void CurAnimationSetStartPivotFrame(int SetFrame);
+
 
 	// 애니메이션 바인드
 	// 시작 프레임에 들어온다.
@@ -133,7 +147,6 @@ public:
 
 		FrameAni[Name].Start = std::bind(_Ptr, _This, FrameAni[Name].Info);
 	}
-
 	// 끝나는 프레임에 들어온다
 	template<typename ObjectType>
 	void AnimationBindEnd(const std::string& _AnimationName, void(ObjectType::* _Ptr)(const FrameAnimation_DESC&), ObjectType* _This)
@@ -148,7 +161,6 @@ public:
 
 		FrameAni[Name].End = std::bind(_Ptr, _This, FrameAni[Name].Info);
 	}
-
 	// 프레임이 바뀔때마다 들어온다
 	template<typename ObjectType>
 	void AnimationBindFrame(const std::string& _AnimationName, void(ObjectType::* _Ptr)(const FrameAnimation_DESC&), ObjectType* _This)
@@ -163,7 +175,6 @@ public:
 
 		FrameAni[Name].Frame = std::bind(_Ptr, _This, FrameAni[Name].Info);
 	}
-
 	// Update
 	template<typename ObjectType>
 	void AnimationBindTime(const std::string& _AnimationName, void(ObjectType::* _Ptr)(const FrameAnimation_DESC&), ObjectType* _This)
@@ -192,7 +203,6 @@ public:
 
 		FrameAni[Name].Start = std::bind(_Ptr, FrameAni[Name].Info);
 	}
-
 	// 끝나는 프레임에 들어온다
 	void AnimationBindEnd(const std::string& _AnimationName, void(*_Ptr)(const FrameAnimation_DESC&))
 	{
@@ -206,7 +216,6 @@ public:
 
 		FrameAni[Name].End = std::bind(_Ptr, FrameAni[Name].Info);
 	}
-
 	// 프레임이 바뀔때마다 들어온다
 	void AnimationBindFrame(const std::string& _AnimationName, void(*_Ptr)(const FrameAnimation_DESC&))
 	{
@@ -220,7 +229,6 @@ public:
 
 		FrameAni[Name].Frame = std::bind(_Ptr, FrameAni[Name].Info);
 	}
-
 	// Update
 	void AnimationBindTime(const std::string& _AnimationName, void(*_Ptr)(const FrameAnimation_DESC&))
 	{
@@ -241,6 +249,8 @@ protected:
 	void Update(float _Delta) override;
 
 private:
+	PIVOTMODE PivotMode;
+
 	GameEngineTexture* CurTex;
 	float4 FrameData;
 
