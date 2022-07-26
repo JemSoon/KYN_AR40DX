@@ -26,3 +26,5 @@
 
 // core
 #include <GameEngineCore/CoreMinimal.h>
+
+#include "LevelParent.h"

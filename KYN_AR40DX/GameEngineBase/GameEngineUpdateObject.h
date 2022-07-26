@@ -29,6 +29,11 @@ public:
 		IsUpdate_ = false;
 	}
 
+	inline void OnOffSwitch()
+	{
+		IsUpdate_ = !IsUpdate_;
+	}
+
 	inline bool IsUpdate()
 	{
 		if (nullptr != Parent)

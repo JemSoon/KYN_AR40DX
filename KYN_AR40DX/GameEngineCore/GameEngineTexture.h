@@ -6,6 +6,7 @@
 
 #pragma comment(lib, "DirectXTex.lib")
 
+
 // Ό³Έν :
 class GameEngineTexture : public GameEngineRes<GameEngineTexture>
 {
@@ -68,6 +69,8 @@ public:
 	}
 
 	void TextureCreate(const D3D11_TEXTURE2D_DESC& _Desc);
+
+	float4 GetPixel(int _x, int _y);
 
 protected:
 

@@ -1,12 +1,13 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineBase/GameEngineSound.h>
+#include "LevelParent.h"
 
 // 설명 : 메이플 동산
 class Player;
 class Main_HP_MP_UI;
 class StageObject;
-class Stage1Level : public GameEngineLevel
+class Stage1Level : public LevelParent
 {
 public:
 	// constrcuter destructer

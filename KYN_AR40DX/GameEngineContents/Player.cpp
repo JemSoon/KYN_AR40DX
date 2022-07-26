@@ -45,6 +45,27 @@ void Player::Start()
 	}
 }
 
+bool Player::GroundCheck() 
+{
+	GameEngineTexture* MapTexture = GetLevel<LevelParent>()->GetMap_Col()->GetCurTexture();
+
+	if (nullptr == MapTexture)
+	{
+		MsgBoxAssert("충돌용 맵이 존재하지 않습니다");
+	}
+
+	
+	float4 Color = MapTexture->GetPixel(GetTransform().GetWorldPosition().ix(), -GetTransform().GetWorldPosition().iy());
+
+	if (false == Color.CompareInt4D(float4(1.0f, 1.0f, 1.0f, 0.0f)))
+	{
+		int a = 0;
+	}
+
+	// GetLevel()
+	return true;
+}
+
 void Player::Update(float _DeltaTime)
 {
 	{
@@ -101,6 +122,9 @@ void Player::Update(float _DeltaTime)
 			GetTransform().SetWorldMove(GetTransform().GetBackVector() * Speed * _DeltaTime);
 		}
 	}
+
+	GroundCheck();
+
 	//카메라가 플레이어 중심으로 쫓아다닌다
 	//GetLevel()->GetMainCameraActorTransform().SetLocalPosition({ GetTransform().GetLocalPosition()});
 }

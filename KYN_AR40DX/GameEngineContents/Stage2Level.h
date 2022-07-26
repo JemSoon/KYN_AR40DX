@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineLevel.h>
+#include "LevelParent.h"
 
 //선생님은 생략된 것들도 명시적으로 칠 것이다
 //직접 만들지 않아도 자동으로 생략되어 생성되 있는것들
@@ -7,7 +8,7 @@
 //설명 : 달팽이 언덕
 class Player;
 class StageObject;
-class Stage2Level : public GameEngineLevel
+class Stage2Level : public LevelParent
 {
 public:
 	//디폴트 생성자

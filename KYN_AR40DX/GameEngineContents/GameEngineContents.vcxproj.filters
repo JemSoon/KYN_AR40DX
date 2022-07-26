@@ -88,6 +88,9 @@
     <ClInclude Include="StageObject.h">
       <Filter>Actor\Parents\Stage</Filter>
     </ClInclude>
+    <ClInclude Include="LevelParent.h">
+      <Filter>Level</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapleStoryCore.cpp">
@@ -129,6 +132,9 @@
     </ClCompile>
     <ClCompile Include="StageObject.cpp">
       <Filter>Actor\Parents\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelParent.cpp">
+      <Filter>Level</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
