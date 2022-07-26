@@ -29,7 +29,10 @@ public:
 
 	inline void SetMapOnOffSwitch() const
 	{
-		return LevelStageObject->GetMap()->OnOffSwitch();
+		if (GameEngineInput::GetInst()->IsDown("MapOffSwitch"))
+		{
+			return LevelStageObject->GetMap()->OnOffSwitch(), LevelStageObject->GetBG()->OnOffSwitch();
+		}
 	}
 
 	inline GameEngineTextureRenderer* GetMap_Col() const
@@ -46,8 +49,8 @@ protected:
 
 	void CreateStageObject(const std::string _BG, const std::string _ColName, const std::string _MapName);
 
-private:
 	StageObject* LevelStageObject;
+private:
 
 };
 

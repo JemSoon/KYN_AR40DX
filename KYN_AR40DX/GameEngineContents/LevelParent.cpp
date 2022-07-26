@@ -21,7 +21,8 @@ void LevelParent::CreateStageObject(const std::string _BG, const std::string _Co
 			LevelStageObject->GetBG()->ScaleToTexture();
 			//LevelStageObject->GetBG()->GetTransform().SetLocalScale({ 4270, 1807, 100 });
 			LevelStageObject->GetBG()->SetPivot(PIVOTMODE::TOP);
-
+		}
+		{
 			//ÄÃ·¯Ãæµ¹ ¸Ê
 			LevelStageObject->GetMap_Col()->SetTexture(_ColName);
 			LevelStageObject->GetMap_Col()->ScaleToTexture();
@@ -41,10 +42,10 @@ void LevelParent::CreateStageObject(const std::string _BG, const std::string _Co
 		{	//Æ÷Å» ·»´õ·¯
 			LevelStageObject->GetPortal()->GetTransform().SetLocalScale({ 90, 201, 1 });
 			LevelStageObject->GetPortal()->SetTexture("Portal.png");
-
+			
 			LevelStageObject->GetPortal()->CreateFrameAnimation("Portal", FrameAnimation_DESC("Portal.png", 0, 3, 0.1f));
 			LevelStageObject->GetPortal()->ChangeFrameAnimation("Portal");
-			LevelStageObject->GetPortal()->GetTransform().SetLocalPosition({ 720.0f,-330.0f,0.0f });
+			//LevelStageObject->GetPortal()->GetTransform().SetLocalPosition({ 1851.0f,1275.0f,0.0f });
 		}
 	}
 }
