@@ -17,7 +17,7 @@ public:
 
 protected:
 	void Start() override;
-	void Update(float _DeltaTime) {}
+	void Update(float _DeltaTime);
 	void End() {}
 
 private:

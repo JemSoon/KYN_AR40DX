@@ -20,8 +20,14 @@ void Sugar::Start()
 		Renderer->GetTransform().SetLocalScale({ 48, 75, 1 });
 		Renderer->GetTransform().PixLocalNegativeX();
 		Renderer->SetTexture("sugar.png");
+		Renderer->SetPivot(PIVOTMODE::BOT);
 		//Renderer->ScaleToTexture();//나는 쓰면 늘어난다
 
 	}
+}
+
+void Sugar::Update(float _DeltaTime)
+{
+	Gravity();
 }
 

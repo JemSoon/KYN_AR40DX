@@ -82,14 +82,14 @@
     <ClInclude Include="Main_HP_MP_UI.h">
       <Filter>Actor\UI</Filter>
     </ClInclude>
-    <ClInclude Include="CharacterObject.h">
-      <Filter>Actor\Parents\Character</Filter>
-    </ClInclude>
     <ClInclude Include="StageObject.h">
       <Filter>Actor\Parents\Stage</Filter>
     </ClInclude>
     <ClInclude Include="LevelParent.h">
       <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterObject.h">
+      <Filter>Actor\Parents\Character</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

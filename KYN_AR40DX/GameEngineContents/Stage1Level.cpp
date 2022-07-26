@@ -47,7 +47,7 @@ void Stage1Level::Start()
 
 	{	
 		Sugar* NPC = CreateActor<Sugar>(OBJECTORDER::NPC);
-		NPC->GetTransform().SetLocalPosition({ 700.0f, -1080.0f, 0.0f });
+		NPC->GetTransform().SetLocalPosition({ 700.0f, -980.0f, 0.0f });
 	}
 
 	{

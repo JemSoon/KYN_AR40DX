@@ -8,6 +8,7 @@
 
 
 Player::Player()
+	:Color()
 {
 	Speed = 500.0f;
 }
@@ -42,7 +43,7 @@ void Player::Start()
 		Renderer->CreateFrameAnimation("Walk", FrameAnimation_DESC("walk.png", 0, 3, 0.1f));
 
 		Renderer->ChangeFrameAnimation("Idle");
-		Renderer->SetPivot(PIVOTMODE::BOT);
+		Renderer->SetPivot(PIVOTMODE::PlayerBOT);
 	}
 }
 
@@ -56,10 +57,12 @@ bool Player::GroundCheck()
 	}
 
 	
-	float4 Color = MapTexture->GetPixel(GetTransform().GetWorldPosition().ix(), -GetTransform().GetWorldPosition().iy());
+	Color = MapTexture->GetPixel(GetTransform().GetWorldPosition().ix(), -GetTransform().GetWorldPosition().iy());
 
 	if (false == Color.CompareInt4D(float4(1.0f, 1.0f, 1.0f, 0.0f)))
-	{
+	{	//BGRA
+		//투명 배경색이 아니라면
+		//빨간색 혹은 초록색 땅에 부딪혔다
 		int a = 0;
 	}
 
@@ -69,6 +72,7 @@ bool Player::GroundCheck()
 
 void Player::Update(float _DeltaTime)
 {
+	Gravity();
 	{
 		float4 Test1 = GetLevel()->GetMainCamera()->GetScreenPosition();
 
@@ -109,6 +113,12 @@ void Player::Update(float _DeltaTime)
 		}
 		if (true == GameEngineInput::GetInst()->IsPress("PlayerDown"))
 		{
+			if (true == Color.CompareInt4D(float4(0.0f, 1.0f, 0.0f, 1.0f))|| 
+				true == Color.CompareInt4D(float4(0.0f, 0.0f, 1.0f, 1.0f)))
+			{	//빨강이나 초록에 부딪히면 y움직임은 0이된다
+				GetTransform().SetWorldMove(GetTransform().GetDownVector() * 0 * _DeltaTime);
+				return;
+			}
 			GetTransform().SetWorldMove(GetTransform().GetDownVector() * Speed * _DeltaTime);
 		}
 	}

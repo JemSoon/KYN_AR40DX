@@ -25,6 +25,6 @@ protected:
 	void End() {}
 
 private:
-
+	float4 Color;
 };
 

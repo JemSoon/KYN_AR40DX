@@ -23,5 +23,11 @@ void Monster::Start()
 		Renderer->CreateFrameAnimation("Idle", FrameAnimation_DESC("stand.png", 0, 1, 0.2f));
 
 		Renderer->ChangeFrameAnimation("Idle");
+		Renderer->SetPivot(PIVOTMODE::BOT);
 	}
+}
+
+void Monster::Update(float _DeltaTime)
+{
+	Gravity();
 }
