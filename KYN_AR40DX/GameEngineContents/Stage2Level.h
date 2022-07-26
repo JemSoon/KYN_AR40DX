@@ -6,6 +6,7 @@
 
 //¼³¸í : ´ÞÆØÀÌ ¾ð´ö
 class Player;
+class StageObject;
 class Stage2Level : public GameEngineLevel
 {
 public:
@@ -36,5 +37,6 @@ protected:
 private:
 	GameEngineCameraActor* Camera;
 	Player* NewPlayer;
+	StageObject* Stage;
 };
 

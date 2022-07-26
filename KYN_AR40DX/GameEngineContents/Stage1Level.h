@@ -5,6 +5,7 @@
 // 설명 : 메이플 동산
 class Player;
 class Main_HP_MP_UI;
+class StageObject;
 class Stage1Level : public GameEngineLevel
 {
 public:
@@ -34,5 +35,6 @@ private:
 	Main_HP_MP_UI* MainUI;
 	GameEngineSoundPlayer BgmPlayer;
 	bool BgmOn;
+	StageObject* Stage;
 };
 

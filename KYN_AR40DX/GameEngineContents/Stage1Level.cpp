@@ -6,7 +6,7 @@
 #include <GameEngineBase/GameEngineInput.h>
 #include "Player.h"
 #include "Monster.h"
-#include "Stage1.h"
+#include "StageObject.h"
 #include "Sugar.h"
 #include "Main_HP_MP_UI.h"
 
@@ -37,8 +37,30 @@ void Stage1Level::Start()
 	}
 	
 	{
-		Stage1* NewMap = CreateActor<Stage1>();
-		NewMap->GetPortal()->GetTransform().SetLocalPosition({720.0f,-330.0f,0.0f});
+		Stage = CreateActor<StageObject>();
+		
+		{	//컬러충돌 맵
+			Stage->GetMap_Col()->GetTransform().SetLocalScale({ 2270, 1807, 100 });
+			Stage->GetMap_Col()->SetTexture("Stage1_Col.png");
+
+			//뒷배경	얘를 카메라이동 반응을 1초정도 느리게 쫓아오게 하고 싶다..
+			Stage->GetBG()->GetTransform().SetLocalScale({4270, 1807, 100});
+			Stage->GetBG()->SetTexture("Stage1_BG.png");
+		}
+
+		{	//진짜 그림 맵
+			Stage->GetMap()->GetTransform().SetLocalScale({2270, 1807, 100});
+			Stage->GetMap()->SetTexture("Stage1.png");
+		}
+
+		{	//포탈 렌더러
+			Stage->GetPortal()->GetTransform().SetLocalScale({ 90, 201, 100 });
+			Stage->GetPortal()->SetTexture("Portal.png");
+
+			Stage->GetPortal()->CreateFrameAnimation("Portal", FrameAnimation_DESC("Portal.png", 0, 3, 0.1f));
+			Stage->GetPortal()->ChangeFrameAnimation("Portal");
+			Stage->GetPortal()->GetTransform().SetLocalPosition({ 720.0f,-330.0f,0.0f });
+		}
 	}
 
 	{
@@ -61,6 +83,8 @@ void Stage1Level::Start()
 		MainUI->GetTransform().SetWorldPosition({ 0.0f,-320.0f,0.0f });
 		MainUI->SetParent(Camera);
 	}
+
+
 }
 
 void Stage1Level::Update(float _DeltaTime)

@@ -1,8 +1,8 @@
 #pragma once
 #include <GameEngineCore/CoreMinimal.h>
-
+#include "CharacterObject.h"
 // Ό³Έν :
-class Monster : public GameEngineActor
+class Monster : public CharacterObject
 {
 public:
 	// constrcuter destructer
@@ -19,8 +19,6 @@ protected:
 	void Start() override;
 	void Update(float _DeltaTime) {}
 	void End() {}
-
-	GameEngineTextureRenderer* Renderer;
 
 private:
 

@@ -2,7 +2,6 @@
 #include "Monster.h"
 
 Monster::Monster()
-	: Renderer(nullptr)
 {
 }
 
@@ -12,7 +11,8 @@ Monster::~Monster()
 
 void Monster::Start()
 {
-	GetTransform().SetLocalScale({ 1, 1, 1 });
+	//»ó¼Ó¿¡ ½áµÒ
+	//GetTransform().SetLocalScale({ 1, 1, 1 });
 
 	{
 		Renderer = CreateComponent<GameEngineTextureRenderer>();

@@ -1,9 +1,10 @@
 #pragma once
 #include <GameEngineCore/CoreMinimal.h>
+#include "CharacterObject.h"
 
 // Ό³Έν :
 class GameEngineTextureRenderer;
-class Player : public GameEngineActor
+class Player : public CharacterObject
 {
 public:
 	// constrcuter destructer
@@ -16,21 +17,12 @@ public:
 	Player& operator=(const Player& _Other) = delete;
 	Player& operator=(Player&& _Other) noexcept = delete;
 
-	inline GameEngineTextureRenderer* GetRenderer() const
-	{
-		return Renderer;
-	}
-
 protected:
 	void Start() override;
 	void Update(float _DeltaTime);
 	void End() {}
 
-	GameEngineTextureRenderer* Renderer;
-
-	float4 Color;
-
 private:
-	float Speed;
+
 };
 

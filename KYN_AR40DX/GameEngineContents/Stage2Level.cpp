@@ -6,8 +6,8 @@
 #include <GameEngineBase/GameEngineInput.h>
 #include "Player.h"
 #include "Monster.h"
-#include "Stage2.h"
 #include "Sugar.h"
+#include "StageObject.h"
 
 Stage2Level::Stage2Level()
 	: Camera(nullptr)
@@ -36,8 +36,23 @@ void Stage2Level::Start()
 	}
 
 	{
-		Stage2* NewMap = CreateActor<Stage2>();
-		NewMap->GetPortal()->GetTransform().SetLocalPosition({ 600.0f,-45.0f,-100.0f });
+		Stage = CreateActor<StageObject>();
+
+		Stage->GetMap_Col()->GetTransform().SetLocalScale({1420, 760, 100});
+		Stage->GetMap_Col()->SetTexture("stage2_Col.png");
+
+		Stage->GetBG()->GetTransform().SetLocalScale({1420, 760, 100});
+		Stage->GetBG()->SetTexture("stage2_BG.png");
+
+		Stage->GetMap()->GetTransform().SetLocalScale({1420, 760, 100});
+		Stage->GetMap()->SetTexture("stage2.png");
+
+		Stage->GetPortal()->GetTransform().SetLocalScale({90, 201, 100});
+		Stage->GetPortal()->SetTexture("Portal.png");
+
+		Stage->GetPortal()->CreateFrameAnimation("Portal", FrameAnimation_DESC("Portal.png", 0, 3, 0.1f));
+		Stage->GetPortal()->ChangeFrameAnimation("Portal");
+		Stage->GetPortal()->GetTransform().SetLocalPosition({ 600.0f,-45.0f,-100.0f });
 	}
 
 	{

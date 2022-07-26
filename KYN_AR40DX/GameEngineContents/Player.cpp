@@ -8,9 +8,8 @@
 
 
 Player::Player()
-	: Speed(500.0f)
-	, Renderer(nullptr)
 {
+	Speed = 500.0f;
 }
 
 Player::~Player()
@@ -30,7 +29,8 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("PlayerB", 'I');
 	}
 
-	GetTransform().SetLocalScale({ 1, 1, 1 });
+	//부모 클래스에 적어둠
+	//GetTransform().SetLocalScale({ 1, 1, 1 });
 
 	{
 		Renderer = CreateComponent<GameEngineTextureRenderer>();

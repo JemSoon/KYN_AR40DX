@@ -13,8 +13,8 @@ Sugar::~Sugar()
 
 void Sugar::Start()
 {
-	GetTransform().SetLocalScale({ 1, 1, 1 });
-
+	//»ó¼Ó¿¡ ½áµÒ
+	//GetTransform().SetLocalScale({ 1, 1, 1 });
 	{
 		Renderer = CreateComponent<GameEngineTextureRenderer>();
 		Renderer->GetTransform().SetLocalScale({ 48, 75, 100 });

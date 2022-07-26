@@ -140,6 +140,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CharacterObject.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Enums.h" />
     <ClInclude Include="GlobalContentsValue.h">
       <SubType>
@@ -169,19 +173,15 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Stage1.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="Stage1Level.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Stage2.h">
+    <ClInclude Include="Stage2Level.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Stage2Level.h">
+    <ClInclude Include="StageObject.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -199,6 +199,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CharacterObject.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GlobalContentsValue.cpp">
       <SubType>
       </SubType>
@@ -227,19 +231,15 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Stage1.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="Stage1Level.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Stage2.cpp">
+    <ClCompile Include="Stage2Level.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Stage2Level.cpp">
+    <ClCompile Include="StageObject.cpp">
       <SubType>
       </SubType>
     </ClCompile>

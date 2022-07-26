@@ -28,14 +28,20 @@
     <Filter Include="Actor\Monster">
       <UniqueIdentifier>{a6651186-4d69-4c77-a6e2-c66ffcc94dbc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Stage1">
-      <UniqueIdentifier>{b7b61339-6050-43bf-9794-e669f3eb1991}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Actor\NPC">
       <UniqueIdentifier>{a4545ed4-3e44-4c33-baa9-31cd659ae3c4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Actor\UI">
       <UniqueIdentifier>{7163d93d-dac8-4f4e-8a3d-a2aca547f0a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Parents">
+      <UniqueIdentifier>{549ad0bd-566c-4710-952a-ffc6394b0193}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Parents\Character">
+      <UniqueIdentifier>{41afbb6a-af07-4d5d-a794-8d437182fd2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Parents\Stage">
+      <UniqueIdentifier>{1965e173-28c4-493b-8360-e6cf909db992}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -67,20 +73,20 @@
     <ClInclude Include="Monster.h">
       <Filter>Actor\Monster</Filter>
     </ClInclude>
-    <ClInclude Include="Stage1.h">
-      <Filter>Actor\Stage1</Filter>
-    </ClInclude>
     <ClInclude Include="Sugar.h">
       <Filter>Actor\NPC</Filter>
     </ClInclude>
     <ClInclude Include="Stage2Level.h">
       <Filter>Level</Filter>
     </ClInclude>
-    <ClInclude Include="Stage2.h">
-      <Filter>Actor\Stage1</Filter>
-    </ClInclude>
     <ClInclude Include="Main_HP_MP_UI.h">
       <Filter>Actor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterObject.h">
+      <Filter>Actor\Parents\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="StageObject.h">
+      <Filter>Actor\Parents\Stage</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -109,20 +115,20 @@
     <ClCompile Include="Monster.cpp">
       <Filter>Actor\Monster</Filter>
     </ClCompile>
-    <ClCompile Include="Stage1.cpp">
-      <Filter>Actor\Stage1</Filter>
-    </ClCompile>
     <ClCompile Include="Sugar.cpp">
       <Filter>Actor\NPC</Filter>
     </ClCompile>
     <ClCompile Include="Stage2Level.cpp">
       <Filter>Level</Filter>
     </ClCompile>
-    <ClCompile Include="Stage2.cpp">
-      <Filter>Actor\Stage1</Filter>
-    </ClCompile>
     <ClCompile Include="Main_HP_MP_UI.cpp">
       <Filter>Actor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterObject.cpp">
+      <Filter>Actor\Parents\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="StageObject.cpp">
+      <Filter>Actor\Parents\Stage</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
