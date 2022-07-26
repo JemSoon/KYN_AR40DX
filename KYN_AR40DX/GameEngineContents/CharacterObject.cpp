@@ -25,10 +25,9 @@ void CharacterObject::Gravity()
 
 	float4 Color = MapTexture->GetPixel(GetTransform().GetWorldPosition().ix(), -GetTransform().GetWorldPosition().iy());
 
-
-	if (false == Color.CompareInt4D(float4(0.0f, 1.0f, 0.0f, 1.0f)) &&
-		false == Color.CompareInt4D(float4(0.0f, 0.0f, 1.0f, 1.0f)))
-	{	//빨강, 초록이 아니라면 추락
+	if (false == Color.CompareInt4D(float4(0.0f, 1.0f, 0.0f, 1.0f)) /*&&
+		false == Color.CompareInt4D(float4(0.0f, 0.0f, 1.0f, 1.0f))*/)
+	{	//초록이 아니라면 추락
 		GetTransform().SetWorldMove(GetTransform().GetDownVector() * AccSpeed * GameEngineTime::GetDeltaTime());
 	}
 }
