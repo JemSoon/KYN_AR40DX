@@ -28,7 +28,7 @@ public:
 
 protected:
 	virtual void Start() override;
-	virtual void Update(float _DeltaTime) {}
+	virtual void Update(float _DeltaTime){}
 	virtual void End() {}
 	virtual void Gravity();
 

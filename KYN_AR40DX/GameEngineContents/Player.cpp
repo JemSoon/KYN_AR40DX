@@ -56,7 +56,7 @@ bool Player::GroundCheck()
 		MsgBoxAssert("충돌용 맵이 존재하지 않습니다");
 	}
 
-	
+	//컬러충돌용 체크 점
 	Color = MapTexture->GetPixel(GetTransform().GetWorldPosition().ix(), -GetTransform().GetWorldPosition().iy());
 
 	if (false == Color.CompareInt4D(float4(1.0f, 1.0f, 1.0f, 0.0f)))
@@ -73,6 +73,12 @@ bool Player::GroundCheck()
 void Player::Update(float _DeltaTime)
 {
 	Gravity();
+
+	if (true == GetLevel()->GetMainCameraActor()->IsFreeCameraMode())
+	{	//프리카메라 모드일땐 카메라가 플레이어 안쫓아다니게 여기서 리턴
+		return;
+	}
+
 	{
 		float4 Test1 = GetLevel()->GetMainCamera()->GetScreenPosition();
 
@@ -137,5 +143,5 @@ void Player::Update(float _DeltaTime)
 	GroundCheck();
 
 	//카메라가 플레이어 중심으로 쫓아다닌다
-	//GetLevel()->GetMainCameraActorTransform().SetLocalPosition({ GetTransform().GetLocalPosition()});
+	GetLevel()->GetMainCameraActorTransform().SetLocalPosition({ GetTransform().GetLocalPosition()});
 }

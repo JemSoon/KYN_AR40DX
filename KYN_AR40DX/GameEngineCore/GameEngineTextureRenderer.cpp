@@ -20,11 +20,13 @@ void FrameAnimation::Update(float _Delta)
 		Time(Info, _Delta);
 	}
 
-	if (false == bOnceStart 
-		&& Info.CurFrame == Info.Start
-		&& nullptr != Start)
+	if (false == bOnceStart
+		&& Info.CurFrame == Info.Start)
 	{
-		Start(Info);
+		if (nullptr != Start)
+		{
+			Start(Info);
+		}
 		bOnceStart = true;
 		bOnceEnd = false;
 	}
@@ -90,9 +92,9 @@ GameEngineTextureRenderer::~GameEngineTextureRenderer()
 {
 }
 
-void GameEngineTextureRenderer::Start() 
+void GameEngineTextureRenderer::SetTextureRendererSetting()
 {
-	GameEngineDefaultRenderer::Start();
+
 	SetPipeLine("TextureAtlas");
 
 	FrameData.PosX = 0.0f;
@@ -102,6 +104,16 @@ void GameEngineTextureRenderer::Start()
 
 	ShaderResources.SetConstantBufferLink("AtlasData", FrameData);
 }
+
+void GameEngineTextureRenderer::Start()
+{
+	GameEngineDefaultRenderer::Start();
+
+	PushRendererToMainCamera();
+
+	SetTextureRendererSetting();
+}
+
 
 void GameEngineTextureRenderer::SetSamplingModePoint()
 {

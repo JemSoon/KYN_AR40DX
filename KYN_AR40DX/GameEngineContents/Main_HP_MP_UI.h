@@ -1,5 +1,5 @@
 #pragma once
-#include <GameEngineCore/CoreMinimal.h>
+#include <GameEngineCore/GameEngineActor.h>
 
 //설명 : 인게임 화면 하단 중앙에 나오는 체력 엠피 ui
 class GameEngineTextureRenderer;

@@ -5,10 +5,10 @@
 enum class OBJECTORDER
 {
 	Map,
-	Player = 10,
+	Player,
 	Monster,
 	NPC,
-	UI,
+	UI = 1000,
 };
 
 

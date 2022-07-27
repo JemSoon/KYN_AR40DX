@@ -4,6 +4,20 @@
 #include <list>
 #include <map>
 
+enum class CAMERAORDER
+{	//USER숫자 는 원하는대로 만드는 커스텀 카메라
+	MAINCAMERA,
+	USER0,
+	USER1,
+	USER2,
+	USER3,
+	USER4,
+	USER5,
+	USER6,
+	USER7,
+	UICAMERA,
+};
+
 // 설명 : 화면(타이틀 화면, 플레이 화면, 인벤토리 화면)
 class GameEngineCore;
 class GameEngineActor;
@@ -34,12 +48,16 @@ public:
 
 	GameEngineCamera* GetMainCamera()
 	{
-		return MainCamera;
+		return Cameras[static_cast<int>(CAMERAORDER::MAINCAMERA)];
 	}
 
 	GameEngineCameraActor* GetMainCameraActor();
 
 	GameEngineTransform& GetMainCameraActorTransform();
+
+	GameEngineCameraActor* GetUICameraActor();
+
+	GameEngineTransform& GetUICameraActorTransform();
 
 	//template<typename ReturnType, typename ActorType, typename GroupIndexType>
 	//ReturnType* CreateActor(GroupIndexType _ObjectGroupIndex)
@@ -130,13 +148,31 @@ private:
 	// 0번 백그라운드
 	// 1번 플레이어
 	// 2번 UI
-	GameEngineCamera* MainCamera;
+	std::vector<GameEngineCamera*> Cameras;
 
-	GameEngineCamera* UIMainCamera;
+	void PushCamera(GameEngineCamera* _Camera, CAMERAORDER _Order)
+	{
+		PushCamera(_Camera, static_cast<int>(_Order));
+	}
 
-	void PushCamera(GameEngineCamera* _Camera);
+	void PushRendererToMainCamera(GameEngineRenderer* _Renderer)
+	{
+		PushRenderer(_Renderer, static_cast<int>(CAMERAORDER::MAINCAMERA));
+	}
 
-	void PushRenderer(GameEngineRenderer* _Renderer);
+	void PushRendererToUICamera(GameEngineRenderer* _Renderer)
+	{
+		PushRenderer(_Renderer, static_cast<int>(CAMERAORDER::UICAMERA));
+	}
+
+	void PushRenderer(GameEngineRenderer* _Renderer, CAMERAORDER _Order)
+	{
+		PushRenderer(_Renderer, static_cast<int>(_Order));
+	}
+
+	void PushCamera(GameEngineCamera* _Camera, int _CameraOrder);
+
+	void PushRenderer(GameEngineRenderer* _Renderer, int _CameraOrder);
 
 	void Render(float _DelataTime);
 
