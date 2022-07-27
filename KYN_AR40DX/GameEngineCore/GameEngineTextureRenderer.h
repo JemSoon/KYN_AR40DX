@@ -8,7 +8,7 @@ enum class PIVOTMODE
 	BOT,
 	PlayerBOT,
 	TOP,
-	
+	CUSTOM,
 };
 
 class FrameAnimation_DESC 
