@@ -113,8 +113,8 @@ void Player::Update(float _DeltaTime)
 		}
 		if (true == GameEngineInput::GetInst()->IsPress("PlayerDown"))
 		{
-			if (true == Color.CompareInt4D(float4(0.0f, 1.0f, 0.0f, 1.0f))|| 
-				true == Color.CompareInt4D(float4(0.0f, 0.0f, 1.0f, 1.0f)))
+			if (true == Color.CompareInt4D(float4(0.0f, 1.0f, 0.0f, 1.0f))/*|| 
+				true == Color.CompareInt4D(float4(0.0f, 0.0f, 1.0f, 1.0f))*/)
 			{	//빨강이나 초록에 부딪히면 y움직임은 0이된다
 				GetTransform().SetWorldMove(GetTransform().GetDownVector() * 0 * _DeltaTime);
 				return;
