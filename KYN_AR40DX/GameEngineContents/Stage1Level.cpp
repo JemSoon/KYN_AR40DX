@@ -25,6 +25,10 @@ Stage1Level::~Stage1Level()
 
 void Stage1Level::Start()
 {
+	Camera = GetMainCameraActor();
+	Camera->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
+	Camera->GetTransform().SetWorldPosition({ 0,0,-500.0f });
+
 	if (false == GameEngineInput::GetInst()->IsKey("FreeCameaOnOff"))
 	{
 		GameEngineInput::GetInst()->CreateKey("FreeCameaOnOff", 'O');
@@ -71,7 +75,7 @@ void Stage1Level::Update(float _DeltaTime)
 
 	NextStage();
 
-	//CameraRange();
+	CameraRange();
 }
 
 void Stage1Level::End()
@@ -81,7 +85,7 @@ void Stage1Level::End()
 void Stage1Level::CameraChase()
 {
 	//레벨이 만들어지고 액터가만들어져서 Player에 만들어두면 레벨에서0으로 설정해도 액터넘어가면서 다시 값이바뀌어서 작동이 안된다. 
-	//Camera->GetLevel()->GetMainCameraActorTransform().SetLocalPosition({ NewPlayer->GetTransform().GetLocalPosition() });
+	Camera->GetLevel()->GetMainCameraActorTransform().SetLocalPosition({ NewPlayer->GetTransform().GetLocalPosition() });
 
 }
 
