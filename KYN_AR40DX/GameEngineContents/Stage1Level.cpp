@@ -49,13 +49,28 @@ void Stage1Level::Start()
 	}
 
 	{
-		NewPlayer = CreateActor<Player>(OBJECTORDER::Player);
-		NewPlayer->GetTransform().SetLocalPosition({ 1070.0f, -1000.0f, 0.0f });
-	}
-
-	{
 		MainUI = CreateActor<Main_HP_MP_UI>(OBJECTORDER::UI);
 		MainUI->GetTransform().SetWorldPosition({ 0.0f,-320.0f,0.0f });
+	}
+}
+
+void Stage1Level::OnEvent()
+{
+	{
+		if (nullptr == Player::GetMainPlayer())
+		{
+			NewPlayer = CreateActor<Player>(OBJECTORDER::Player);
+			NewPlayer->SetLevelOverOn();
+			NewPlayer->GetTransform().SetLocalPosition({ 1070.0f, -1000.0f, 0.0f });
+		}
+	}
+
+	if (BgmOn == false)
+	{	//음악이 한번만 실행되도록 안그러면 돌림노래처럼 틀어진다
+		BgmPlayer.Stop();
+		BgmPlayer = GameEngineSound::SoundPlayControl("MapleLeaf.mp3");
+		BgmPlayer.Volume(0.05f);
+		BgmOn = true;
 	}
 }
 
@@ -69,9 +84,8 @@ void Stage1Level::Update(float _DeltaTime)
 
 	SetMapOnOffSwitch();
 
-	OnEvent();
 
-	CameraChase();
+	//CameraChase();
 
 	NextStage();
 
@@ -94,7 +108,7 @@ void Stage1Level::NextStage()
 	//다음 스테이지 이동
 	if (true == GameEngineInput::GetInst()->IsDown("LevelChange"))
 	{
-		GEngine::ChangeLevel("Stage2");
+		GEngine::ChangeLevel("Title");
 	}
 }
 
@@ -136,13 +150,3 @@ void Stage1Level::CameraRange()
 	}
 }
 
-void Stage1Level::OnEvent()
-{
-	if (BgmOn == false)
-	{	//음악이 한번만 실행되도록 안그러면 돌림노래처럼 틀어진다
-		BgmPlayer.Stop();
-		BgmPlayer = GameEngineSound::SoundPlayControl("MapleLeaf.mp3");
-		BgmPlayer.Volume(0.05f);
-		BgmOn = true;
-	}
-}

@@ -6,6 +6,15 @@
 class GameEngineTextureRenderer;
 class Player : public CharacterObject
 {
+private:
+	static Player* MainPlayer;
+
+public:
+	static Player* GetMainPlayer()
+	{
+		return MainPlayer;
+	}
+
 public:
 	// constrcuter destructer
 	Player();

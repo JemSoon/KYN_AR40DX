@@ -5,7 +5,7 @@
 #include <map>
 
 enum class CAMERAORDER
-{	//USER숫자 는 원하는대로 만드는 커스텀 카메라
+{
 	MAINCAMERA,
 	USER0,
 	USER1,
@@ -49,6 +49,11 @@ public:
 	GameEngineCamera* GetMainCamera()
 	{
 		return Cameras[static_cast<int>(CAMERAORDER::MAINCAMERA)];
+	}
+
+	GameEngineCamera* GetUICamera()
+	{
+		return Cameras[static_cast<int>(CAMERAORDER::UICAMERA)];
 	}
 
 	GameEngineCameraActor* GetMainCameraActor();
@@ -143,6 +148,8 @@ private:
 	void LevelUpdate(float DeltaTime);
 
 	void RemoveActor(GameEngineActor* _Actor);
+
+	void OverChildMove(GameEngineLevel* _NextLevel);
 
 private:
 	// 0번 백그라운드

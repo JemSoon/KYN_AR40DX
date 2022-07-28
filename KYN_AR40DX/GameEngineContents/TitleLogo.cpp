@@ -22,7 +22,8 @@ void TitleLogo::Start()
 	{
 		Renderer = CreateComponent<GameEngineTextureRenderer>();
 		Renderer->GetTransform().SetLocalScale({ 1280, 720, 100 });
-		Renderer->SetTexture("LogIn.png", 0);
+		Renderer->GetTransform().SetLocalPosition({ 0.0f, 0.0f, 800.0f });
+		Renderer->SetTexture("LogIn.png");
 	}
 
 }

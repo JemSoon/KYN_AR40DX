@@ -5,11 +5,14 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineContents/GlobalContentsValue.h>
 #include <GameEngineCore/GameEngineDefaultRenderer.h>
+#include "LevelParent.h"
 
+Player* Player::MainPlayer = nullptr;
 
 Player::Player()
-	:Color()
+	: Color()
 {
+	MainPlayer = this;
 	Speed = 500.0f;
 }
 
@@ -159,7 +162,7 @@ void Player::Update(float _DeltaTime)
 {
 	if (true == GetLevel()->GetMainCameraActor()->IsFreeCameraMode())
 	{	//프리카메라 모드일땐 카메라가 플레이어 안쫓아다니게 여기서 리턴
-		return;
+		
 	}
 
 	Gravity();

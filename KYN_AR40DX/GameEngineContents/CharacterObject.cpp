@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "CharacterObject.h"
+#include "LevelParent.h"
 
 CharacterObject::CharacterObject()
 	:Renderer(nullptr)

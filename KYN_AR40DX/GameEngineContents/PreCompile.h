@@ -26,5 +26,6 @@
 
 // core
 #include <GameEngineCore/CoreMinimal.h>
+#include <GameEngineCore/GEngine.h>
 
-#include "LevelParent.h"
+#include "GlobalContentsValue.h"
