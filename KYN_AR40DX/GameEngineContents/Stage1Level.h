@@ -37,5 +37,6 @@ private:
 	GameEngineSoundPlayer BgmPlayer;
 	bool BgmOn;
 	StageObject* Stage;
+	
 };
 

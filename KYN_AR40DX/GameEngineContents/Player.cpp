@@ -129,8 +129,8 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 void Player::Update(float _DeltaTime)
 {
 	if (true == GetLevel()->GetMainCameraActor()->IsFreeCameraMode())
-	{	//프리카메라 모드일땐 카메라가 플레이어 안쫓아다니게 여기서 리턴
-		
+	{	//프리카메라 모드일땐 카메라가 플레이어 안움직이게 여기서 리턴
+		return;
 	}
 
 	Gravity();

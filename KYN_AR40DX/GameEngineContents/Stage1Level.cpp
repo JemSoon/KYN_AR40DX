@@ -15,7 +15,6 @@ Stage1Level::Stage1Level()
 	, NewPlayer(nullptr)
 	, BgmPlayer()
 	, BgmOn(false)
-	
 {
 }
 
@@ -81,14 +80,18 @@ void Stage1Level::Update(float _DeltaTime)
 		GetMainCamera()->SetProjectionMode(CAMERAPROJECTIONMODE::PersPective);//퍼스펙:원근//오서:직교
 		GetMainCameraActor()->FreeCameraModeOnOff();
 	}
+	
+	if (false == Camera->IsFreeCameraMode())
+	{	//프리카메라 모드가 아닐때만 카메라가 플레이어를 쫓아다니고 맵 범위 안으로 카메라가 제한된다
+		CameraChase();
+		CameraRange();
+	}
+	
 
 	SetMapOnOffSwitch();
 
-	CameraChase();
 
 	NextStage();
-
-	CameraRange();
 }
 
 void Stage1Level::End()
