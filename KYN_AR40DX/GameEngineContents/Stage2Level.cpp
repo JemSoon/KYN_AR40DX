@@ -56,9 +56,9 @@ void Stage2Level::Start()
 	}
 
 	{
-		NewPlayer = CreateActor<Player>(OBJECTORDER::Player);
-		NewPlayer->GetTransform().SetLocalPosition({ -500.0f, -150.0f, 0.0f });
-		NewPlayer->GetRenderer()->GetTransform().PixLocalNegativeX();
+		//NewPlayer = CreateActor<Player>(OBJECTORDER::Player);
+		//NewPlayer->GetTransform().SetLocalPosition({ -500.0f, -150.0f, 0.0f });
+		//NewPlayer->GetRenderer()->GetTransform().PixLocalNegativeX();
 	}
 
 	{
