@@ -10,7 +10,7 @@
 Player* Player::MainPlayer = nullptr;
 
 Player::Player()
-	: Color()
+	: FootColorCheck()
 {
 	MainPlayer = this;
 	Speed = 500.0f;
@@ -123,7 +123,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		}
 		if (true == GameEngineInput::GetInst()->IsPress("PlayerDown"))
 		{
-			if (true == Color.CompareInt4D(float4(0.0f, 1.0f, 0.0f, 1.0f))/*||
+			if (true == FootColorCheck.CompareInt4D(float4(0.0f, 1.0f, 0.0f, 1.0f))/*||
 				true == Color.CompareInt4D(float4(0.0f, 0.0f, 1.0f, 1.0f))*/)
 			{	//빨강이나 초록에 부딪히면 y움직임은 0이된다
 				GetTransform().SetWorldMove(GetTransform().GetDownVector() * 0 * _DeltaTime);
@@ -135,28 +135,28 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 }
 
-bool Player::GroundCheck() 
-{
-	GameEngineTexture* MapTexture = GetLevel<LevelParent>()->GetMap_Col()->GetCurTexture();
-
-	if (nullptr == MapTexture)
-	{
-		MsgBoxAssert("충돌용 맵이 존재하지 않습니다");
-	}
-
-	//컬러충돌용 체크 점
-	Color = MapTexture->GetPixel(GetTransform().GetWorldPosition().ix(), -GetTransform().GetWorldPosition().iy());
-
-	if (false == Color.CompareInt4D(float4(1.0f, 1.0f, 1.0f, 0.0f)))
-	{	//BGRA
-		//투명 배경색이 아니라면
-		//빨간색 혹은 초록색 땅에 부딪혔다
-		int a = 0;
-	}
-
-	// GetLevel()
-	return true;
-}
+//bool Player::GroundCheck() 
+//{
+//	GameEngineTexture* MapTexture = GetLevel<LevelParent>()->GetMap_Col()->GetCurTexture();
+//
+//	if (nullptr == MapTexture)
+//	{
+//		MsgBoxAssert("충돌용 맵이 존재하지 않습니다");
+//	}
+//
+//	//컬러충돌용 체크 점
+//	FootColorCheck = MapTexture->GetPixel(GetTransform().GetWorldPosition().ix(), -GetTransform().GetWorldPosition().iy());
+//
+//	if (false == FootColorCheck.CompareInt4D(float4(1.0f, 1.0f, 1.0f, 0.0f)))
+//	{	//BGRA
+//		//투명 배경색이 아니라면
+//		//빨간색 혹은 초록색 땅에 부딪혔다
+//		int a = 0;
+//	}
+//
+//	// GetLevel()
+//	return true;
+//}
 
 void Player::Update(float _DeltaTime)
 {
@@ -166,7 +166,7 @@ void Player::Update(float _DeltaTime)
 	}
 
 	Gravity();
-	GroundCheck();
+	//GroundCheck();
 	StateManager.Update(_DeltaTime);
 
 	{

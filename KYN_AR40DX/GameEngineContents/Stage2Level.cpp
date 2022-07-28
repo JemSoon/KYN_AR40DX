@@ -56,12 +56,6 @@ void Stage2Level::Start()
 	}
 
 	{
-		//NewPlayer = CreateActor<Player>(OBJECTORDER::Player);
-		//NewPlayer->GetTransform().SetLocalPosition({ -500.0f, -150.0f, 0.0f });
-		//NewPlayer->GetRenderer()->GetTransform().PixLocalNegativeX();
-	}
-
-	{
 		Monster* actor = CreateActor<Monster>(OBJECTORDER::Monster);
 		actor->GetTransform().SetLocalPosition({ -300.0f, -150.0f, 0.0f });
 	}

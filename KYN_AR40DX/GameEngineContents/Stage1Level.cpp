@@ -85,7 +85,7 @@ void Stage1Level::Update(float _DeltaTime)
 	SetMapOnOffSwitch();
 
 
-	//CameraChase();
+	CameraChase();
 
 	NextStage();
 

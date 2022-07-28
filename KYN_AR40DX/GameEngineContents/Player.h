@@ -26,7 +26,7 @@ public:
 	Player& operator=(const Player& _Other) = delete;
 	Player& operator=(Player&& _Other) noexcept = delete;
 
-	bool GroundCheck();
+	//bool GroundCheck();
 
 protected:
 	void Start() override;
@@ -40,7 +40,7 @@ protected:
 	void MoveUpdate(float _DeltaTime, const StateInfo& _Info);
 
 private:
-	float4 Color;
+	float4 FootColorCheck;
 	GameEngineStateManager StateManager;
 };
 

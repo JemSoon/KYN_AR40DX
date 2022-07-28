@@ -31,11 +31,14 @@ protected:
 	virtual void Update(float _DeltaTime){}
 	virtual void End() {}
 	virtual void Gravity();
+	virtual bool GroundCheck();
 
 	GameEngineTextureRenderer* Renderer;
 
 	float Speed;
 	float AccSpeed;
+	float DownSpeed;
+	float4 FootColorCheck;
 private:
 };
 
