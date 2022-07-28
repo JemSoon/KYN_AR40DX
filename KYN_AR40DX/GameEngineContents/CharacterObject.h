@@ -35,10 +35,10 @@ protected:
 
 	GameEngineTextureRenderer* Renderer;
 
-	float Speed;
-	float AccSpeed;
-	float DownSpeed;
-	float4 FootColorCheck;
+	float Speed;//이속
+	float AccSpeed;//중력
+	float DownSpeed;//가속도
+	float4 FootColorCheck;//액터의 발바닥중앙에 닿는 컬러 확인용
 private:
 };
 

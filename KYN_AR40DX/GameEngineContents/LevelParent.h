@@ -46,7 +46,6 @@ public:
 	}
 
 protected:
-
 	void CreateStageObject(const std::string _BG, const std::string _ColName, const std::string _MapName);
 
 	StageObject* LevelStageObject;

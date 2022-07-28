@@ -26,8 +26,6 @@ public:
 	Player& operator=(const Player& _Other) = delete;
 	Player& operator=(Player&& _Other) noexcept = delete;
 
-	//bool GroundCheck();
-
 protected:
 	void Start() override;
 	void Update(float _DeltaTime);

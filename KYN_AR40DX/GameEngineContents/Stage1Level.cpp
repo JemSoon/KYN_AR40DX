@@ -84,7 +84,6 @@ void Stage1Level::Update(float _DeltaTime)
 
 	SetMapOnOffSwitch();
 
-
 	CameraChase();
 
 	NextStage();
@@ -149,4 +148,3 @@ void Stage1Level::CameraRange()
 		Camera->GetTransform().SetLocalPosition(CameraPos);
 	}
 }
-

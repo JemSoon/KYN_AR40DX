@@ -28,9 +28,6 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("PlayerRight", VK_RIGHT);
 		GameEngineInput::GetInst()->CreateKey("PlayerUp", VK_UP);
 		GameEngineInput::GetInst()->CreateKey("PlayerDown", VK_DOWN);
-
-		GameEngineInput::GetInst()->CreateKey("PlayerF", 'U');
-		GameEngineInput::GetInst()->CreateKey("PlayerB", 'I');
 	}
 
 	GetTransform().SetLocalScale({ 1, 1, 1 });
@@ -47,12 +44,6 @@ void Player::Start()
 		Renderer->ChangeFrameAnimation("Idle");
 		Renderer->SetPivot(PIVOTMODE::PlayerBOT);
 	}
-
-	// 무기명 함수를 만들수 있습니다.
-	// 이름없는 인스턴스 함수를 만들수가 있습니다.
-	// [](const StateInfo& _Info) 
-	//{
-	//} 람다를 만들겠다 
 
 	StateManager.CreateStateMember("Idle", this, &Player::IdleUpdate, &Player::IdleStart);
 	StateManager.CreateStateMember("Move", this, &Player::MoveUpdate, &Player::MoveStart);
@@ -135,29 +126,6 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 }
 
-//bool Player::GroundCheck() 
-//{
-//	GameEngineTexture* MapTexture = GetLevel<LevelParent>()->GetMap_Col()->GetCurTexture();
-//
-//	if (nullptr == MapTexture)
-//	{
-//		MsgBoxAssert("충돌용 맵이 존재하지 않습니다");
-//	}
-//
-//	//컬러충돌용 체크 점
-//	FootColorCheck = MapTexture->GetPixel(GetTransform().GetWorldPosition().ix(), -GetTransform().GetWorldPosition().iy());
-//
-//	if (false == FootColorCheck.CompareInt4D(float4(1.0f, 1.0f, 1.0f, 0.0f)))
-//	{	//BGRA
-//		//투명 배경색이 아니라면
-//		//빨간색 혹은 초록색 땅에 부딪혔다
-//		int a = 0;
-//	}
-//
-//	// GetLevel()
-//	return true;
-//}
-
 void Player::Update(float _DeltaTime)
 {
 	if (true == GetLevel()->GetMainCameraActor()->IsFreeCameraMode())
@@ -175,7 +143,6 @@ void Player::Update(float _DeltaTime)
 		float4 Test2 = GetLevel()->GetMainCamera()->GetMouseWorldPosition(); 
 	}
 
-	
 	//카메라가 플레이어 중심으로 쫓아다닌다
 	//GetLevel()->GetMainCameraActorTransform().SetLocalPosition({ GetTransform().GetLocalPosition()});
 }
