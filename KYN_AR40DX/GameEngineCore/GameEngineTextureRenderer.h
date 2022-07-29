@@ -6,7 +6,6 @@ enum class PIVOTMODE
 	CENTER,
 	LEFTTOP,
 	BOT,
-	PlayerBOT,
 	TOP,
 	CUSTOM,
 };
