@@ -5,7 +5,6 @@
 CharacterObject::CharacterObject()
 	:Renderer(nullptr)
 	, Speed(100.0f)
-	, AccSpeed(20.0f)
 	, DownSpeed(0.0f)
 {
 
@@ -19,37 +18,35 @@ CharacterObject::~CharacterObject()
 void CharacterObject::Start()
 {
 	GetTransform().SetLocalScale({ 1, 1, 1 });
+
+	// 캐릭터 크기마다 다를거 아니에요?
+	// 예나양이 체크하는 부분을 
+	//ColorDir[static_cast<unsigned int>(COLORCHECKDIR::LEFT)] = float4::LEFT * 20.0f + float4::UP * 20.0f;
+	//ColorDir[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)] = float4::RIGHT * 20.0f + float4::UP * 20.0f;
+	//ColorDir[static_cast<unsigned int>(COLORCHECKDIR::UP)] = float4::UP * 100.0f;
+	//ColorDir[static_cast<unsigned int>(COLORCHECKDIR::DOWN)] = float4::ZERO;
 }
 
-void CharacterObject::Gravity()
+void CharacterObject::Gravity(float _DeltaTime)
 {
 	GameEngineTexture* MapTexture = GetLevel<LevelParent>()->GetMap_Col()->GetCurTexture();
 
-	float4 Color = MapTexture->GetPixel(GetTransform().GetWorldPosition().ix(), -GetTransform().GetWorldPosition().iy());
+	DownSpeed = float4::DOWN * _DeltaTime * 100.0f;//가속도
 
-	DownSpeed += AccSpeed * GameEngineTime::GetDeltaTime();//가속도
+	ColorCheckUpdateNext(DownSpeed);
 
-	if (DownSpeed > 300.0f)
-	{	//최대 가중력은 300
-		DownSpeed = 300.0f;
-	}
-
-	if (false == Color.CompareInt4D(float4(0.0f, 1.0f, 0.0f, 1.0f)))
+	if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE))
 	{	//초록바닥이 아니라면 추락
-		//GetTransform().SetWorldMove(GetTransform().GetDownVector() * AccSpeed * GameEngineTime::GetDeltaTime());
-		GetTransform().SetWorldMove(GetTransform().GetDownVector() * DownSpeed);
+		GetTransform().SetWorldMove(DownSpeed);
 	}
 	else
-	{	//그외엔 초록에 닿았다는것
-		GetTransform().SetWorldMove(GetTransform().GetDownVector() * 0);
-		
-		//다운스피드 값 초기화
-		DownSpeed = 0;
+	{	
+		DownSpeed = float4::ZERO;
 	}
 
 }
 
-bool CharacterObject::GroundCheck()
+void CharacterObject::ColorCheckUpdateNext(float4 _Move)
 {
 	GameEngineTexture* MapTexture = GetLevel<LevelParent>()->GetMap_Col()->GetCurTexture();
 
@@ -58,16 +55,44 @@ bool CharacterObject::GroundCheck()
 		MsgBoxAssert("충돌용 맵이 존재하지 않습니다");
 	}
 
-	//컬러충돌용 체크 점
-	FootColorCheck = MapTexture->GetPixel(GetTransform().GetWorldPosition().ix(), -GetTransform().GetWorldPosition().iy());
+	for (size_t i = 0; i < static_cast<unsigned int>(COLORCHECKDIR::MAX); i++)
+	{
+		float4 CheckDir = GetTransform().GetWorldPosition() + ColorDir[i] + _Move;
 
-	if (false == FootColorCheck.CompareInt4D(float4(1.0f, 1.0f, 1.0f, 0.0f)))
-	{	//BGRA
-		//투명 배경색이 아니라면
-		//초록색 땅에 부딪혔다
-		int a = 0;
+		NextColorCheck[i] = MapTexture->GetPixel(CheckDir.ix(), -CheckDir.iy());
 	}
 
-	// GetLevel()
-	return true;
+	return;
+
+}
+
+bool CharacterObject::IsNextColor(COLORCHECKDIR _Dir, float4 _Color)
+{
+	if (_Dir == COLORCHECKDIR::MAX)
+	{
+		MsgBoxAssert("방향 범위를 넘어갔습니다.");
+	}
+
+	unsigned int Index = static_cast<unsigned int>(_Dir);
+
+	return NextColorCheck[Index].CompareInt3D(_Color);
+}
+
+void CharacterObject::ColorCheckUpdate()
+{
+	GameEngineTexture* MapTexture = GetLevel<LevelParent>()->GetMap_Col()->GetCurTexture();
+
+	if (nullptr == MapTexture)
+	{
+		MsgBoxAssert("충돌용 맵이 존재하지 않습니다");
+	}
+
+	for (size_t i = 0; i < static_cast<unsigned int>(COLORCHECKDIR::MAX); i++)
+	{
+		float4 CheckDir = GetTransform().GetWorldPosition() + ColorDir[i];
+
+		ColorCheck[i] = MapTexture->GetPixel(CheckDir.ix(), -CheckDir.iy());
+	}
+
+	return;
 }

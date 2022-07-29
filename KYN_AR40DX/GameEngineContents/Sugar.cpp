@@ -28,6 +28,6 @@ void Sugar::Start()
 
 void Sugar::Update(float _DeltaTime)
 {
-	Gravity();
+	// Gravity();
 }
 

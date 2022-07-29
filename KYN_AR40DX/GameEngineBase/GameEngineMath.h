@@ -67,8 +67,13 @@ public:
 	static const float4 ONE;
 
 	// Color
+	static const float4 YELLOW;
+	static const float4 MAGENTA;
+	static const float4 CYAN;
 	static const float4 BLUE;
 	static const float4 RED;
+	static const float4 GREEN;
+	static const float4 WHITE;
 
 public:
 	// 외적을 쓸수 있는곳

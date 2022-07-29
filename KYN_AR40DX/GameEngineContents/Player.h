@@ -38,7 +38,6 @@ protected:
 	void MoveUpdate(float _DeltaTime, const StateInfo& _Info);
 
 private:
-	float4 FootColorCheck;
 	GameEngineStateManager StateManager;
 };
 

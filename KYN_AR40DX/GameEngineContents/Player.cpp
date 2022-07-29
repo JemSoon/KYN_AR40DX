@@ -10,7 +10,6 @@
 Player* Player::MainPlayer = nullptr;
 
 Player::Player()
-	: FootColorCheck()
 {
 	MainPlayer = this;
 	Speed = 500.0f;
@@ -22,6 +21,8 @@ Player::~Player()
 
 void Player::Start()
 {
+	CharacterObject::Start();
+
 	if (false == GameEngineInput::GetInst()->IsKey("PlayerLeft"))
 	{
 		GameEngineInput::GetInst()->CreateKey("PlayerLeft", VK_LEFT);
@@ -42,7 +43,8 @@ void Player::Start()
 		Renderer->CreateFrameAnimation("Move", FrameAnimation_DESC("walk.png", 0, 3, 0.1f));
 
 		Renderer->ChangeFrameAnimation("Idle");
-		Renderer->SetPivot(PIVOTMODE::PlayerBOT);
+		Renderer->SetPivot(PIVOTMODE::CUSTOM);
+		Renderer->GetTransform().SetLocalPosition({0.0f, 45.0f});
 	}
 
 	StateManager.CreateStateMember("Idle", this, &Player::IdleUpdate, &Player::IdleStart);
@@ -73,67 +75,60 @@ void Player::MoveStart(const StateInfo& _Info)
 
 void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-
-	//if (_Info.StateTime >= 2.0f)
-	//{
-	//	StateManager.ChangeState("Idle");
-	//	return;
-	//}
-	//
-
 	if (false == GameEngineInput::GetInst()->IsPress("PlayerLeft") &&
 		false == GameEngineInput::GetInst()->IsPress("PlayerRight") &&
 		false == GameEngineInput::GetInst()->IsPress("PlayerUp") &&
-		false == GameEngineInput::GetInst()->IsPress("PlayerDown") &&
-		true ==GroundCheck())
+		false == GameEngineInput::GetInst()->IsPress("PlayerDown"))
 	{	//아무것도 안누르고 있고 바닥에있으면 Idle상태로 변경
 		StateManager.ChangeState("Idle");
 		return;
 	}
 
+	float4 Dir = float4::ZERO;
+
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
 	{
-		GetTransform().SetWorldMove(GetTransform().GetLeftVector() * Speed * _DeltaTime);
-
+		Dir = GetTransform().GetLeftVector() * Speed * _DeltaTime;
 		Renderer->GetTransform().PixLocalPositiveX();
 	}
 
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
 	{
-		GetTransform().SetWorldMove(GetTransform().GetRightVector() * Speed * _DeltaTime);
-
+		Dir = GetTransform().GetRightVector() * Speed * _DeltaTime;
 		Renderer->GetTransform().PixLocalNegativeX();
-		//Renderer->ChangeFrameAnimation("Walk");
-
 	}
 
-	{	//중력 전 임시 위아래 이동키
-		if (true == GameEngineInput::GetInst()->IsPress("PlayerUp"))
-		{
-			GetTransform().SetWorldMove(GetTransform().GetUpVector() * Speed * _DeltaTime);
-		}
-		if (true == GameEngineInput::GetInst()->IsPress("PlayerDown"))
-		{
-			if (true == FootColorCheck.CompareInt4D(float4(0.0f, 1.0f, 0.0f, 1.0f))/*||
-				true == Color.CompareInt4D(float4(0.0f, 0.0f, 1.0f, 1.0f))*/)
-			{	//빨강이나 초록에 부딪히면 y움직임은 0이된다
-				GetTransform().SetWorldMove(GetTransform().GetDownVector() * 0 * _DeltaTime);
-				return;
-			}
-			GetTransform().SetWorldMove(GetTransform().GetDownVector() * Speed * _DeltaTime);
-		}
-	}
+	ColorCheckUpdateNext(Dir);
 
+	if (false == IsNextColor(COLORCHECKDIR::LEFT, float4::GREEN) 
+		&& false == IsNextColor(COLORCHECKDIR::RIGHT, float4::GREEN))
+	{
+		GetTransform().SetWorldMove(Dir);
+	}
+	else {
+		int a = 0;
+	}
 }
 
 void Player::Update(float _DeltaTime)
 {
+	// GetTransform().SetWorldMove(float4::DOWN * 100.0f * _DeltaTime);
+
+
+	if (_DeltaTime >= 0.1f)
+	{
+		_DeltaTime = 0.0f;
+	}
+
 	if (true == GetLevel()->GetMainCameraActor()->IsFreeCameraMode())
 	{	//프리카메라 모드일땐 카메라가 플레이어 안움직이게 여기서 리턴
 		return;
 	}
 
-	Gravity();
+	// 색깔 체크하고
+	ColorCheckUpdate();
+
+	Gravity(_DeltaTime);
 	//GroundCheck();
 	StateManager.Update(_DeltaTime);
 
