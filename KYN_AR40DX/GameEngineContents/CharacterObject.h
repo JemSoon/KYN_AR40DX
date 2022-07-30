@@ -49,7 +49,7 @@ protected:
 
 	float Speed;//이속
 	float GravityAccSpeed;
-	float4 DownSpeed;//가속도
+	float4 MovePower;//가속도
 
 	float4 ColorDir[4];
 

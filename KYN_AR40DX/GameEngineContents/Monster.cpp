@@ -29,5 +29,10 @@ void Monster::Start()
 
 void Monster::Update(float _DeltaTime)
 {
-	// Gravity();
+	if (_DeltaTime >= 0.1f)
+	{
+		_DeltaTime = 0.0f;
+	}
+
+	Gravity(_DeltaTime);
 }

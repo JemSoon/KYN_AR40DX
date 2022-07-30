@@ -51,7 +51,9 @@ void MapleStoryCore::Start()
 	// 이걸 해줘야 합니다.
 	GameEngineTexture::Cut("LogIn.png", 1, 1);
 	GameEngineTexture::Cut("idle.png", 3, 1);
+	GameEngineTexture::Cut("jump.png", 1, 1);
 	GameEngineTexture::Cut("walk.png", 4, 1);
+	GameEngineTexture::Cut("sadari.png", 2, 1);
 	GameEngineTexture::Cut("stand.png", 2, 1);
 	GameEngineTexture::Cut("Stage1.png", 1, 1);
 	GameEngineTexture::Cut("Stage1_Col.png", 1, 1);

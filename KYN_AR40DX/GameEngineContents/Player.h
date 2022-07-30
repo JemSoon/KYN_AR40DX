@@ -37,7 +37,14 @@ protected:
 	void MoveStart(const StateInfo& _Info);
 	void MoveUpdate(float _DeltaTime, const StateInfo& _Info);
 
+	void SadariStart(const StateInfo& _Info);
+	void SadariUpdate(float _DeltaTime, const StateInfo& _Info);
+
+	void JumpStart(const StateInfo& _Info);
+	void JumpUpdate(float _DeltaTime, const StateInfo& _Info);
+
 private:
 	GameEngineStateManager StateManager;
+	float4 Dir;
 };
 

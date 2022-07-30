@@ -12,7 +12,7 @@ Player* Player::MainPlayer = nullptr;
 Player::Player()
 {
 	MainPlayer = this;
-	Speed = 500.0f;
+	Speed = 150.0f;
 }
 
 Player::~Player()
@@ -29,6 +29,7 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("PlayerRight", VK_RIGHT);
 		GameEngineInput::GetInst()->CreateKey("PlayerUp", VK_UP);
 		GameEngineInput::GetInst()->CreateKey("PlayerDown", VK_DOWN);
+		GameEngineInput::GetInst()->CreateKey("PlayerJump", 'C');
 	}
 
 	GetTransform().SetLocalScale({ 1, 1, 1 });
@@ -41,14 +42,18 @@ void Player::Start()
 
 		Renderer->CreateFrameAnimation("Idle", FrameAnimation_DESC("idle.png", 0, 2, 0.3f));
 		Renderer->CreateFrameAnimation("Move", FrameAnimation_DESC("walk.png", 0, 3, 0.1f));
+		Renderer->CreateFrameAnimation("Sadari", FrameAnimation_DESC("sadari.png", 0, 1, 0.3f));
+		Renderer->CreateFrameAnimation("Jump", FrameAnimation_DESC("jump.png", 0, 0, 0.0f,false));
 
 		Renderer->ChangeFrameAnimation("Idle");
 		Renderer->SetPivot(PIVOTMODE::CUSTOM);
-		Renderer->GetTransform().SetLocalPosition({0.0f, 45.0f});
+		//Renderer->GetTransform().SetLocalPosition({0.0f, 45.0f});
 	}
 
 	StateManager.CreateStateMember("Idle", this, &Player::IdleUpdate, &Player::IdleStart);
 	StateManager.CreateStateMember("Move", this, &Player::MoveUpdate, &Player::MoveStart);
+	StateManager.CreateStateMember("Sadari", this, &Player::SadariUpdate, &Player::SadariStart);
+	StateManager.CreateStateMember("Jump", this, &Player::JumpUpdate, &Player::JumpStart);
 	StateManager.ChangeState("Idle");
 
 }
@@ -59,12 +64,23 @@ void Player::IdleStart(const StateInfo& _Info)
 }
 void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	Gravity(_DeltaTime);
+
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft") ||
-		true == GameEngineInput::GetInst()->IsPress("PlayerRight") ||
-		true == GameEngineInput::GetInst()->IsPress("PlayerUp") ||
-		true == GameEngineInput::GetInst()->IsPress("PlayerDown"))
+		true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
 	{
 		StateManager.ChangeState("Move");
+	}
+
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerUp") &&
+		true == IsNextColor(COLORCHECKDIR::UP, float4::BLUE))
+	{
+		StateManager.ChangeState("Sadari");
+	}
+
+	if (true == GameEngineInput::GetInst()->IsDown("PlayerJump"))
+	{
+		StateManager.ChangeState("Jump");
 	}
 }
 
@@ -84,29 +100,79 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		return;
 	}
 
-	float4 Dir = float4::ZERO;
-
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
 	{
-		Dir = GetTransform().GetLeftVector() * Speed * _DeltaTime;
+		MovePower = GetTransform().GetLeftVector() * Speed * _DeltaTime;
+		if (false == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN))
+		{
+			MovePower.x = 0;
+			MovePower += float4::DOWN * _DeltaTime * 15.0f;
+		}
 		Renderer->GetTransform().PixLocalPositiveX();
 	}
 
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
 	{
-		Dir = GetTransform().GetRightVector() * Speed * _DeltaTime;
+		MovePower = GetTransform().GetRightVector() * Speed * _DeltaTime;
+		if (false == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN))
+		{
+			MovePower.x = 0;
+			MovePower += float4::DOWN * _DeltaTime * 15.0f;
+		}
 		Renderer->GetTransform().PixLocalNegativeX();
 	}
 
-	ColorCheckUpdateNext(Dir);
+	ColorCheckUpdateNext(MovePower);
 
 	if (false == IsNextColor(COLORCHECKDIR::LEFT, float4::GREEN) 
 		&& false == IsNextColor(COLORCHECKDIR::RIGHT, float4::GREEN))
 	{
-		GetTransform().SetWorldMove(Dir);
+		GetTransform().SetWorldMove(MovePower);
 	}
 	else {
 		int a = 0;
+	}
+
+	if (true == GameEngineInput::GetInst()->IsDown("PlayerJump"))
+	{
+		StateManager.ChangeState("Jump");
+	}
+}
+
+void Player::SadariStart(const StateInfo& _Info)
+{
+	Renderer->ChangeFrameAnimation("Sadari");
+}
+
+void Player::SadariUpdate(float _DeltaTime, const StateInfo& _Info)
+{
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerUp")&&
+		true == IsNextColor(COLORCHECKDIR::DOWN, float4::BLUE))
+	{
+		MovePower = GetTransform().GetUpVector() * Speed * _DeltaTime;
+		GetTransform().SetWorldMove(MovePower);
+	}
+}
+
+void Player::JumpStart(const StateInfo& _Info)
+{
+	Dir = float4::ZERO;
+	{
+		Renderer->ChangeFrameAnimation("Jump");
+		MovePower += float4::UP * 7.0f;
+	}
+}
+
+void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
+{
+	//MovePower = Dir * _DeltaTime;
+	GetTransform().SetWorldMove(MovePower);
+
+	//MovePower += float4::DOWN * _DeltaTime * 20.0f;(ม฿ทย)
+
+	if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN) && MovePower.y<=0)
+	{
+		StateManager.ChangeState("Idle");
 	}
 }
 
