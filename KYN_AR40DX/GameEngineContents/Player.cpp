@@ -44,6 +44,7 @@ void Player::Start()
 		Renderer->CreateFrameAnimation("Move", FrameAnimation_DESC("walk.png", 0, 3, 0.1f));
 		Renderer->CreateFrameAnimation("Sadari", FrameAnimation_DESC("sadari.png", 0, 1, 0.3f));
 		Renderer->CreateFrameAnimation("Jump", FrameAnimation_DESC("jump.png", 0, 0, 0.0f,false));
+		Renderer->CreateFrameAnimation("Prone", FrameAnimation_DESC("prone.png", 0, 0, 0.0f, false));
 
 		Renderer->ChangeFrameAnimation("Idle");
 		Renderer->SetPivot(PIVOTMODE::CUSTOM);
@@ -55,6 +56,7 @@ void Player::Start()
 	StateManager.CreateStateMember("Sadari", this, &Player::SadariUpdate, &Player::SadariStart);
 	StateManager.CreateStateMember("Jump", this, &Player::JumpUpdate, &Player::JumpStart);
 	StateManager.CreateStateMember("Fall", this, &Player::FallUpdate, &Player::FallStart);
+	StateManager.CreateStateMember("Prone", this, &Player::ProneUpdate, &Player::ProneStart);
 	StateManager.ChangeState("Idle");
 
 }
@@ -83,6 +85,24 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		StateManager.ChangeState("Jump");
 	}
+
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerDown"))
+	{
+		StateManager.ChangeState("Prone");
+	}
+}
+
+void Player::ProneStart(const StateInfo& _Info)
+{
+	Renderer->ChangeFrameAnimation("Prone");
+}
+
+void Player::ProneUpdate(float _DeltaTime, const StateInfo& _Info)
+{
+	if (true == GameEngineInput::GetInst()->IsUp("PlayerDown"))
+	{
+		StateManager.ChangeState("Idle");
+	}
 }
 
 void Player::MoveStart(const StateInfo& _Info)
@@ -110,9 +130,8 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		MovePower = GetTransform().GetLeftVector() * Speed * _DeltaTime;
 
-		if (false == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN) &&
-			false == IsNextColor(COLORCHECKDIR::DOWNR, float4::GREEN))
-		{	//발바닥,발바닥끝 전무 바닥이 아니면 추락
+		if (false == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN))
+		{	
 			StateManager.ChangeState("Fall");
 		}
 		Renderer->GetTransform().PixLocalPositiveX();
@@ -122,9 +141,8 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		MovePower = GetTransform().GetRightVector() * Speed * _DeltaTime;
 
-		if (false == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN) &&
-			false == IsNextColor(COLORCHECKDIR::DOWNL, float4::GREEN))
-		{	//발바닥,발바닥끝 전무 바닥이 아니면 추락
+		if (false == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN))
+		{	
 			StateManager.ChangeState("Fall");
 		}
 		Renderer->GetTransform().PixLocalNegativeX();
