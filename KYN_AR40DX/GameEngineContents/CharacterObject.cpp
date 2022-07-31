@@ -36,7 +36,7 @@ void CharacterObject::Gravity(float _DeltaTime)
 
 	ColorCheckUpdateNext(MovePower);
 
-	if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE))
+	if (false == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN))
 	{	//초록바닥이 아니라면 추락
 		GetTransform().SetWorldMove(MovePower);
 	}
