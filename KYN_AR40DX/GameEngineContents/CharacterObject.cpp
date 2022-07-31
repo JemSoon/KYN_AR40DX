@@ -25,6 +25,8 @@ void CharacterObject::Start()
 	ColorDir[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)] = float4::RIGHT * 20.0f + float4::UP * 20.0f;
 	ColorDir[static_cast<unsigned int>(COLORCHECKDIR::UP)] = float4::UP * 100.0f;
 	ColorDir[static_cast<unsigned int>(COLORCHECKDIR::DOWN)] = float4::ZERO;
+	ColorDir[static_cast<unsigned int>(COLORCHECKDIR::DOWNL)] = float4::LEFT * 20.0f;
+	ColorDir[static_cast<unsigned int>(COLORCHECKDIR::DOWNR)] = float4::RIGHT * 20.0f;
 
 }
 
@@ -36,7 +38,7 @@ void CharacterObject::Gravity(float _DeltaTime)
 
 	ColorCheckUpdateNext(MovePower);
 
-	if (false == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN))
+	if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE))
 	{	//초록바닥이 아니라면 추락
 		GetTransform().SetWorldMove(MovePower);
 	}

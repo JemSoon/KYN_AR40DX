@@ -43,6 +43,9 @@ protected:
 	void JumpStart(const StateInfo& _Info);
 	void JumpUpdate(float _DeltaTime, const StateInfo& _Info);
 
+	void FallStart(const StateInfo& _Info);
+	void FallUpdate(float _DeltaTime, const StateInfo& _Info);
+
 private:
 	GameEngineStateManager StateManager;
 	float4 Dir;
