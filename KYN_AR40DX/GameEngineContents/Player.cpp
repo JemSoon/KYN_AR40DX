@@ -100,6 +100,11 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		return;
 	}
 
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerJump"))
+	{
+		StateManager.ChangeState("Jump");
+	}
+
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
 	{
 		MovePower = GetTransform().GetLeftVector() * Speed * _DeltaTime;
