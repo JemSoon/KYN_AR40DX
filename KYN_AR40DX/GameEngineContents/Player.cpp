@@ -48,7 +48,6 @@ void Player::Start()
 
 		Renderer->ChangeFrameAnimation("Idle");
 		Renderer->SetPivot(PIVOTMODE::CUSTOM);
-		//Renderer->GetTransform().SetLocalPosition({0.0f, 45.0f});
 	}
 
 	StateManager.CreateStateMember("Idle", this, &Player::IdleUpdate, &Player::IdleStart);
@@ -112,6 +111,8 @@ void Player::MoveStart(const StateInfo& _Info)
 
 void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	Gravity(_DeltaTime);
+
 	if (false == GameEngineInput::GetInst()->IsPress("PlayerLeft") &&
 		false == GameEngineInput::GetInst()->IsPress("PlayerRight") &&
 		false == GameEngineInput::GetInst()->IsPress("PlayerUp") &&
@@ -187,16 +188,17 @@ void Player::JumpStart(const StateInfo& _Info)
 
 void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 {	
+	Gravity(_DeltaTime);
 	{
 		if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
 		{	//점프중 오른쪽 이동키 누를시
-			MovePower += (float4::RIGHT * 5.0f * _DeltaTime);
+			MovePower += (float4::RIGHT * 2.0f * _DeltaTime);
 			Renderer->GetTransform().PixLocalNegativeX();
 		}
 
 		if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
 		{	//점프중 왼쪽 이동키 누를시
-			MovePower += (float4::LEFT * 5.0f * _DeltaTime);
+			MovePower += (float4::LEFT * 2.0f * _DeltaTime);
 			Renderer->GetTransform().PixLocalPositiveX();
 		}
 	}
@@ -216,9 +218,7 @@ void Player::FallStart(const StateInfo& _Info)
 
 void Player::FallUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	MovePower += (float4::DOWN * _DeltaTime * 15.0f);//가속도
-	GetTransform().SetWorldMove(MovePower);
-	
+	Gravity(_DeltaTime);
 	if ((true == GameEngineInput::GetInst()->IsPress("PlayerLeft") ||
 		true == GameEngineInput::GetInst()->IsPress("PlayerRight"))&&
 		true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN))
@@ -248,8 +248,6 @@ void Player::Update(float _DeltaTime)
 	// 색깔 체크하고
 	ColorCheckUpdate();
 
-	Gravity(_DeltaTime);
-	//GroundCheck();
 	StateManager.Update(_DeltaTime);
 
 	{
