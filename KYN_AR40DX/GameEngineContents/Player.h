@@ -27,6 +27,8 @@ public:
 	Player& operator=(const Player& _Other) = delete;
 	Player& operator=(Player&& _Other) noexcept = delete;
 
+	bool MonsterCollision(GameEngineCollision* _This, GameEngineCollision* _Other);
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime);

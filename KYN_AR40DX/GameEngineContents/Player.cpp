@@ -40,11 +40,17 @@ void Player::Start()
 		Renderer->CreateFrameAnimation("Idle", FrameAnimation_DESC("idle.png", 0, 2, 0.3f));
 		Renderer->CreateFrameAnimation("Move", FrameAnimation_DESC("walk.png", 0, 3, 0.1f));
 		Renderer->CreateFrameAnimation("Sadari", FrameAnimation_DESC("sadari.png", 0, 1, 0.3f));
-		Renderer->CreateFrameAnimation("Jump", FrameAnimation_DESC("jump.png", 0, 0, 0.0f,false));
+		Renderer->CreateFrameAnimation("Jump", FrameAnimation_DESC("jump.png", 0, 0, 0.0f, false));
 		Renderer->CreateFrameAnimation("Prone", FrameAnimation_DESC("prone.png", 0, 0, 0.0f, false));
 
 		Renderer->ChangeFrameAnimation("Idle");
 		Renderer->SetPivot(PIVOTMODE::CUSTOM);
+	}
+	
+	{
+		Collision = CreateComponent<GameEngineCollision>();
+		Collision->GetTransform().SetLocalScale({ 100.0f, 100.0f, 1.0f });
+		Collision->ChangeOrder(OBJECTORDER::Player);
 	}
 
 	StateManager.CreateStateMember("Idle", this, &Player::IdleUpdate, &Player::IdleStart);
@@ -250,4 +256,20 @@ void Player::Update(float _DeltaTime)
 
 	//카메라가 플레이어 중심으로 쫓아다닌다
 	//GetLevel()->GetMainCameraActorTransform().SetLocalPosition({ GetTransform().GetLocalPosition()});
+
+	// std::placeholders::_1, std::placeholders::_2 니들이 넣어줘야 한다는것을 명시키는것.
+	Collision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::Monster, CollisionType::CT_OBB2D,
+		std::bind(&Player::MonsterCollision, this, std::placeholders::_1, std::placeholders::_2));
+
+
+	//Collision->IsCollision(CollisionType::CT_OBB, OBJECTORDER::Monster, CollisionType::CT_OBB,
+	//	std::bind(&Player::MonsterCollision, this)
+	//);
+}
+
+bool Player::MonsterCollision(GameEngineCollision* _This, GameEngineCollision* _Other)
+{	//플레이어와 몬스터가 충돌하면 해당 몬스터를 죽이고 true 를 리턴
+	_Other->GetActor()->Death();
+
+	return true;
 }
