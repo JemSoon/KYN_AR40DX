@@ -11,6 +11,12 @@ enum class OBJECTORDER
 	UI = 1000,
 };
 
+//enum class COLLISIONORDER
+//{
+//	Player,
+//	Monster,
+//	UI = 1000,
+//};
 
 // Ό³Έν :
 class GlobalContentsValue

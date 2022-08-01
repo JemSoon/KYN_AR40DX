@@ -1,10 +1,7 @@
 #include "PreCompile.h"
 #include "Player.h"
-#include <GameEngineBase/GameEngineInput.h>
-#include <iostream>
-#include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineContents/GlobalContentsValue.h>
-#include <GameEngineCore/GameEngineDefaultRenderer.h>
+#include <iostream>
 #include "LevelParent.h"
 
 Player* Player::MainPlayer = nullptr;

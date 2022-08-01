@@ -48,6 +48,7 @@ protected:
 
 
 	GameEngineTextureRenderer* Renderer;
+	GameEngineCollision* Collision;
 
 	float Speed;//¿Ãº”
 	float GravityAccSpeed;
