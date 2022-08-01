@@ -32,6 +32,11 @@ public:
 
 	static inline float GetDeltaTime()
 	{
+		if (0.05f <= Inst_->DeltaTimef)
+		{	//프레임 고정시키는 (위험한)코드
+			Inst_->DeltaTimef = 0.05f;
+		}
+
 		return Inst_->DeltaTimef;
 	}
 

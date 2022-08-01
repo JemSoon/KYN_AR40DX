@@ -235,11 +235,6 @@ void Player::FallUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::Update(float _DeltaTime)
 {
-	if (_DeltaTime >= 0.1f)
-	{
-		_DeltaTime = 0.0f;
-	}
-
 	if (true == GetLevel()->GetMainCameraActor()->IsFreeCameraMode())
 	{	//프리카메라 모드일땐 카메라가 플레이어 안움직이게 여기서 리턴
 		return;
