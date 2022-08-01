@@ -134,7 +134,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		MovePower = GetTransform().GetLeftVector() * Speed * _DeltaTime;
 
-		if (false == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN))
+		if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE))
 		{	
 			StateManager.ChangeState("Fall");
 		}
@@ -145,7 +145,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		MovePower = GetTransform().GetRightVector() * Speed * _DeltaTime;
 
-		if (false == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN))
+		if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE))
 		{	
 			StateManager.ChangeState("Fall");
 		}
@@ -234,6 +234,7 @@ void Player::FallUpdate(float _DeltaTime, const StateInfo& _Info)
 	{	//착지했는데 방향키 안누르면 Idle
 		StateManager.ChangeState("Idle");
 	}
+
 }
 
 void Player::Update(float _DeltaTime)

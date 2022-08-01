@@ -39,7 +39,7 @@ void CharacterObject::Gravity(float _DeltaTime)
 	ColorCheckUpdateNext(MovePower);
 
 	if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE))
-	{	//초록바닥이 아니라면 추락
+	{	//발바닥이 흰색이라면 추락
 		GetTransform().SetWorldMove(MovePower);
 	}
 	else
