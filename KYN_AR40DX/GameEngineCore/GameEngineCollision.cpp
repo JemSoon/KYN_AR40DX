@@ -81,8 +81,6 @@ bool GameEngineCollision::IsCollision(CollisionType _ThisType, int _GroupOrder
 					return true;
 				}
 			}
-
-			return true;
 		}
 	}
 
