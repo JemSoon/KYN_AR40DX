@@ -142,7 +142,8 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		MovePower = GetTransform().GetLeftVector() * Speed * _DeltaTime;
 
 		if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN) &&
-			true == IsNextColor(COLORCHECKDIR::LEFT, float4::GREEN))
+			true == IsNextColor(COLORCHECKDIR::LEFT, float4::GREEN) &&
+			false == IsNextColor(COLORCHECKDIR::LEFTTOP, float4::GREEN))
 		{	//언덕길은 위로 올리는힘이 추가
 			MovePower += (GetTransform().GetUpVector() * Speed * _DeltaTime);
 		}
@@ -161,7 +162,8 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		MovePower = GetTransform().GetRightVector() * Speed * _DeltaTime;
 
 		if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN) &&
-			true == IsNextColor(COLORCHECKDIR::RIGHT, float4::GREEN))
+			true == IsNextColor(COLORCHECKDIR::RIGHT, float4::GREEN)&&
+			false == IsNextColor(COLORCHECKDIR::RIGHTTOP, float4::GREEN))
 		{	//언덕길은 위로 올리는힘이 추가
 			MovePower += (GetTransform().GetUpVector() * Speed * _DeltaTime);
 		}

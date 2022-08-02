@@ -4,7 +4,9 @@
 enum class COLORCHECKDIR
 {
 	LEFT,
+	LEFTTOP,
 	RIGHT,
+	RIGHTTOP,
 	UP,
 	DOWN,
 	DOWNL,
@@ -54,10 +56,10 @@ protected:
 	float GravityAccSpeed;
 	float4 MovePower;//°¡¼Óµµ
 
-	float4 ColorDir[6];
+	float4 ColorDir[8];
 
-	float4 ColorCheck[6];
-	float4 NextColorCheck[6];
+	float4 ColorCheck[8];
+	float4 NextColorCheck[8];
 
 	bool IsNextColor(COLORCHECKDIR _Dir, float4 _Color);
 
