@@ -71,3 +71,8 @@ void GameEngineRenderer::PushRendererToUICamera()
 //		Polygon(GameEngineWindow::GetHDC(), &DrawVertex[i], 3);
 //	}
 //}
+
+void GameEngineRenderer::ChangeCamera(CAMERAORDER _Order)
+{
+	GetActor()->GetLevel()->PushRenderer(this, _Order);
+}

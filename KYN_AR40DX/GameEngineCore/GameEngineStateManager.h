@@ -21,6 +21,7 @@ public:
 			return;
 		}
 
+		Info.StateTime += _DeltaTime;
 		Update(_DeltaTime, Info);
 	}
 
@@ -124,6 +125,16 @@ public:
 		{
 			CurState->Start(CurState->Info);
 		}
+	}
+
+	float GetCurStateTime()
+	{
+		if (nullptr == CurState)
+		{
+			return 0.0f;
+		}
+
+		return CurState->Info.StateTime;
 	}
 
 protected:

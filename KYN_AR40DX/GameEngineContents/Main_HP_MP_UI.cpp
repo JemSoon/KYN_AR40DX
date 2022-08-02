@@ -20,6 +20,7 @@ void Main_HP_MP_UI::Start()
 	//-100으로 통일하자
 	GameEngineUIRenderer* Renderer = CreateComponent<GameEngineUIRenderer>();
 	GetTransform().SetLocalScale({ 1, 1, 1 });
+	//Renderer->ChangeCamera(CAMERAORDER::MAINCAMERA);
 
 	{
 		HP_MP = CreateComponent<GameEngineUIRenderer>();

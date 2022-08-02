@@ -18,6 +18,7 @@
 #include "GameEngineRenderTarget.h"
 #include "GameEngineDepthStencilTexture.h"
 #include "GameEngineDepthStencil.h"
+#include "GameEngineFont.h"
 
 #include "GameEngineVertexShader.h"
 #include "GameEnginePixelShader.h"
@@ -271,6 +272,8 @@ void EngineMesh()
 
 		GameEngineIndexBuffer::Create("Box", Index);
 	}
+
+	GameEngineFont::Load("돋움");
 }
 
 void GameEngineCore::EngineResourcesInitialize()
@@ -302,8 +305,6 @@ void GameEngineCore::EngineResourcesDestroy()
 	GameEngineIndexBuffer::ResourcesDestroy();
 	GameEngineRenderTarget::ResourcesDestroy();
 
-	GameEngineSound::AllResourcesDestroy();//내가 임의로 넣은 사운드 리소스 디스트로이
-
 	GameEngineTexture::ResourcesDestroy();
 	GameEngineDepthStencil::ResourcesDestroy();
 	GameEngineDepthStencilTexture::ResourcesDestroy();
@@ -312,6 +313,8 @@ void GameEngineCore::EngineResourcesDestroy()
 	GameEngineRasterizer::ResourcesDestroy();
 	GameEngineBlend::ResourcesDestroy();
 	GameEngineConstantBuffer::ResourcesDestroy();
+	GameEngineSound::ResourcesDestroy();
+	GameEngineFont::ResourcesDestroy();
 
 	GameEngineDevice::Destroy();
 }

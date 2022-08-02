@@ -55,6 +55,11 @@ void Player::Start()
 		Collision->ChangeOrder(OBJECTORDER::Player);
 	}
 
+
+	//GameEngineFontRenderer* Font = CreateComponent<GameEngineFontRenderer>();
+	//Font->SetText("æ»≥Á«œººø‰");
+
+
 	StateManager.CreateStateMember("Idle", this, &Player::IdleUpdate, &Player::IdleStart);
 	StateManager.CreateStateMember("Move", this, &Player::MoveUpdate, &Player::MoveStart);
 	StateManager.CreateStateMember("Sadari", this, &Player::SadariUpdate, &Player::SadariStart);
@@ -178,7 +183,8 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		GetTransform().SetWorldMove(MovePower);
 	}
-	else {
+	else 
+	{
 		int a = 0;
 	}
 

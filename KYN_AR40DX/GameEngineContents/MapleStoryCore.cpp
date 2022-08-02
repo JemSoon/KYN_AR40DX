@@ -83,6 +83,8 @@ void MapleStoryCore::Start()
 	ChangeLevel("Stage1");
 
 	GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
+
+	GameEngineFont::Load("±Ã¼­");
 }
 
 void MapleStoryCore::Update(float _DeltaTime)
