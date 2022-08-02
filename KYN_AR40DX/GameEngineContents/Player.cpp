@@ -27,6 +27,7 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("PlayerUp", VK_UP);
 		GameEngineInput::GetInst()->CreateKey("PlayerDown", VK_DOWN);
 		GameEngineInput::GetInst()->CreateKey("PlayerJump", 'C');
+		GameEngineInput::GetInst()->CreateKey("PlayerAttack", 'Z');
 	}
 
 	GetTransform().SetLocalScale({ 1, 1, 1 });
@@ -42,6 +43,7 @@ void Player::Start()
 		Renderer->CreateFrameAnimation("Sadari", FrameAnimation_DESC("sadari.png", 0, 1, 0.3f));
 		Renderer->CreateFrameAnimation("Jump", FrameAnimation_DESC("jump.png", 0, 0, 0.0f, false));
 		Renderer->CreateFrameAnimation("Prone", FrameAnimation_DESC("prone.png", 0, 0, 0.0f, false));
+		Renderer->CreateFrameAnimation("Attack", FrameAnimation_DESC("attack2.png", 0, 2, 0.0f));
 
 		Renderer->ChangeFrameAnimation("Idle");
 		Renderer->SetPivot(PIVOTMODE::CUSTOM);
@@ -134,7 +136,15 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		MovePower = GetTransform().GetLeftVector() * Speed * _DeltaTime;
 
-		if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE))
+		if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN) &&
+			true == IsNextColor(COLORCHECKDIR::LEFT, float4::GREEN))
+		{	//언덕길은 위로 올리는힘이 추가
+			MovePower += (GetTransform().GetUpVector() * Speed * _DeltaTime);
+		}
+
+		if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE)&&
+			true == IsNextColor(COLORCHECKDIR::DOWNR, float4::WHITE)&&
+			false == IsNextColor(COLORCHECKDIR::LEFT, float4::GREEN))
 		{	
 			StateManager.ChangeState("Fall");
 		}
@@ -145,12 +155,21 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		MovePower = GetTransform().GetRightVector() * Speed * _DeltaTime;
 
-		if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE))
+		if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN) &&
+			true == IsNextColor(COLORCHECKDIR::RIGHT, float4::GREEN))
+		{	//언덕길은 위로 올리는힘이 추가
+			MovePower += (GetTransform().GetUpVector() * Speed * _DeltaTime);
+		}
+
+		if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE)&&
+			true == IsNextColor(COLORCHECKDIR::DOWNL, float4::WHITE)&&
+			false == IsNextColor(COLORCHECKDIR::RIGHT, float4::GREEN))
 		{	
 			StateManager.ChangeState("Fall");
 		}
 		Renderer->GetTransform().PixLocalNegativeX();
 	}
+
 
 	ColorCheckUpdateNext(MovePower);
 
@@ -185,7 +204,8 @@ void Player::JumpStart(const StateInfo& _Info)
 	Dir = float4::ZERO;
 	{
 		Renderer->ChangeFrameAnimation("Jump");
-		Speed *= 0.5f;
+		//Speed *= 0.5f;
+		Speed += -75.0f;
 		MovePower += float4::UP * 4.0f;
 	}
 }

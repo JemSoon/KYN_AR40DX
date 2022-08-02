@@ -49,21 +49,30 @@ void MapleStoryCore::Start()
 	}
 
 	// 이걸 해줘야 합니다.
-	GameEngineTexture::Cut("LogIn.png", 1, 1);
-	GameEngineTexture::Cut("idle.png", 3, 1);
-	GameEngineTexture::Cut("jump.png", 1, 1);
-	GameEngineTexture::Cut("prone.png", 1, 1);
-	GameEngineTexture::Cut("walk.png", 4, 1);
-	GameEngineTexture::Cut("sadari.png", 2, 1);
-	GameEngineTexture::Cut("stand.png", 2, 1);
-	GameEngineTexture::Cut("Stage1.png", 1, 1);
-	GameEngineTexture::Cut("Stage1_Col.png", 1, 1);
-	GameEngineTexture::Cut("Stage1_BG.png", 1, 1);
-	GameEngineTexture::Cut("Portal.png", 4, 1);
-	GameEngineTexture::Cut("sugar.png", 1, 1);
-	GameEngineTexture::Cut("stage2.png", 1, 1);
-	GameEngineTexture::Cut("stage2_BG.png", 1, 1);
-	GameEngineTexture::Cut("stage2_Col.png", 1, 1);
+	{	//플레이어 컷
+		GameEngineTexture::Cut("idle.png", 3, 1);
+		GameEngineTexture::Cut("jump.png", 1, 1);
+		GameEngineTexture::Cut("prone.png", 1, 1);
+		GameEngineTexture::Cut("walk.png", 4, 1);
+		GameEngineTexture::Cut("sadari.png", 2, 1);
+		GameEngineTexture::Cut("attack2.png", 3, 1);
+	}
+	
+	{	//몬스터
+		GameEngineTexture::Cut("stand.png", 2, 1); 
+	}
+
+	{	//스테이지 컷
+		GameEngineTexture::Cut("LogIn.png", 1, 1);
+		GameEngineTexture::Cut("Stage1.png", 1, 1);
+		GameEngineTexture::Cut("Stage1_Col.png", 1, 1);
+		GameEngineTexture::Cut("Stage1_BG.png", 1, 1);
+		GameEngineTexture::Cut("Portal.png", 4, 1);
+		GameEngineTexture::Cut("sugar.png", 1, 1);
+		GameEngineTexture::Cut("stage2.png", 1, 1);
+		GameEngineTexture::Cut("stage2_BG.png", 1, 1);
+		GameEngineTexture::Cut("stage2_Col.png", 1, 1);
+	}
 
 	// 리소스를 로드하는데.
 

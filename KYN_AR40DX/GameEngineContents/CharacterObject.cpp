@@ -21,8 +21,8 @@ void CharacterObject::Start()
 
 	// 캐릭터 크기마다 다를거 아니에요?
 	// 예나양이 체크하는 부분을 
-	ColorDir[static_cast<unsigned int>(COLORCHECKDIR::LEFT)] = float4::LEFT * 20.0f + float4::UP * 20.0f;
-	ColorDir[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)] = float4::RIGHT * 20.0f + float4::UP * 20.0f;
+	ColorDir[static_cast<unsigned int>(COLORCHECKDIR::LEFT)] = float4::LEFT * 15.0f + float4::UP * 5.0f;
+	ColorDir[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)] = float4::RIGHT * 15.0f + float4::UP * 5.0f;
 	ColorDir[static_cast<unsigned int>(COLORCHECKDIR::UP)] = float4::UP * 100.0f;
 	ColorDir[static_cast<unsigned int>(COLORCHECKDIR::DOWN)] = float4::ZERO;
 	ColorDir[static_cast<unsigned int>(COLORCHECKDIR::DOWNL)] = float4::LEFT * 20.0f;
@@ -34,7 +34,7 @@ void CharacterObject::Gravity(float _DeltaTime)
 {
 	GameEngineTexture* MapTexture = GetLevel<LevelParent>()->GetMap_Col()->GetCurTexture();
 
-	MovePower += float4::DOWN * _DeltaTime * 7.0f;//가속도
+	MovePower += float4::DOWN * _DeltaTime * 10.0f;//가속도
 
 	ColorCheckUpdateNext(MovePower);
 
@@ -42,6 +42,7 @@ void CharacterObject::Gravity(float _DeltaTime)
 	{	//발바닥이 흰색이라면 추락
 		GetTransform().SetWorldMove(MovePower);
 	}
+	
 	else
 	{	
 		MovePower = float4::ZERO;
