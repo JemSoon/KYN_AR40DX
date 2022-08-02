@@ -185,7 +185,8 @@ void Player::JumpStart(const StateInfo& _Info)
 	Dir = float4::ZERO;
 	{
 		Renderer->ChangeFrameAnimation("Jump");
-		MovePower += float4::UP * 7.0f;
+		Speed *= 0.5f;
+		MovePower += float4::UP * 4.0f;
 	}
 }
 
@@ -195,13 +196,13 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
 		{	//점프중 오른쪽 이동키 누를시
-			MovePower += (float4::RIGHT * 2.0f * _DeltaTime);
+			MovePower += (float4::RIGHT * _DeltaTime);
 			Renderer->GetTransform().PixLocalNegativeX();
 		}
 
 		if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
 		{	//점프중 왼쪽 이동키 누를시
-			MovePower += (float4::LEFT * 2.0f * _DeltaTime);
+			MovePower += (float4::LEFT * _DeltaTime);
 			Renderer->GetTransform().PixLocalPositiveX();
 		}
 	}
@@ -211,6 +212,7 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN) && MovePower.y<=0)
 	{	//y속도가 마이너스 && 초록 바닥에 닿는다면 = 착지 = idle
 		StateManager.ChangeState("Idle");
+		Speed = 150.0f;
 	}
 }
 

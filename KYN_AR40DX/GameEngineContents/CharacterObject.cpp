@@ -34,7 +34,7 @@ void CharacterObject::Gravity(float _DeltaTime)
 {
 	GameEngineTexture* MapTexture = GetLevel<LevelParent>()->GetMap_Col()->GetCurTexture();
 
-	MovePower += float4::DOWN * _DeltaTime * 15.0f;//가속도
+	MovePower += float4::DOWN * _DeltaTime * 7.0f;//가속도
 
 	ColorCheckUpdateNext(MovePower);
 
