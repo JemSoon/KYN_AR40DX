@@ -171,6 +171,18 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		StateManager.ChangeState("Attack");
 	}
 
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerUp") &&
+		true == IsNextColor(COLORCHECKDIR::UP, float4::BLUE))
+	{
+		StateManager.ChangeState("Sadari");
+	}
+
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerDown") &&
+		true == IsNextColor(COLORCHECKDIR::DOWN, float4::BLUE))
+	{
+		StateManager.ChangeState("Sadari");
+	}
+
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
 	{
 		MovePower = GetTransform().GetLeftVector() * Speed * _DeltaTime;
