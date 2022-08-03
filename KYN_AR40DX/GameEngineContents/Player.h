@@ -16,6 +16,8 @@ public:
 		return MainPlayer;
 	}
 
+	bool stop;//BG움직이기용
+
 public:
 	// constrcuter destructer
 	Player();
@@ -28,6 +30,11 @@ public:
 	Player& operator=(Player&& _Other) noexcept = delete;
 
 	bool MonsterCollision(GameEngineCollision* _This, GameEngineCollision* _Other);
+
+	float4 GetMovePower()
+	{
+		return MovePower;
+	}
 
 protected:
 	void Start() override;

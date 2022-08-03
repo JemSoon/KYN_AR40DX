@@ -1,4 +1,5 @@
 #include "StageObject.h"
+#include "Player.h"
 
 StageObject::StageObject()
 	: BG(nullptr)
@@ -35,13 +36,20 @@ void StageObject::Start()
 
 void StageObject::Update(float _DeltaTime)
 {
-	{	//BG랜더러 천천히 쫓아오게끔
-		if (true == GameEngineInput::GetInst()->IsPress("BGLeft"))
+	if (MainPlayer == nullptr)
+	{
+		MainPlayer = Player::GetMainPlayer();
+	}
+
+	{	
+		if (true == GameEngineInput::GetInst()->IsPress("BGLeft")&&
+			MainPlayer->stop==false)
 		{
 			BG->GetTransform().SetWorldMove(GetTransform().GetLeftVector() * (-Speed) * _DeltaTime);
 		}
 
-		if (true == GameEngineInput::GetInst()->IsPress("BGRight"))
+		if (true == GameEngineInput::GetInst()->IsPress("BGRight")&&
+			MainPlayer->stop == false)
 		{
 			BG->GetTransform().SetWorldMove(GetTransform().GetLeftVector() * (Speed)*_DeltaTime);
 		}

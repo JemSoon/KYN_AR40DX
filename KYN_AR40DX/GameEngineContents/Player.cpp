@@ -7,6 +7,7 @@
 Player* Player::MainPlayer = nullptr;
 
 Player::Player()
+	:stop(false)
 {
 	MainPlayer = this;
 	Speed = 150.0f;
@@ -153,6 +154,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 			false == IsNextColor(COLORCHECKDIR::LEFTTOP, float4::GREEN))
 		{	//언덕길은 위로 올리는힘이 추가
 			MovePower += (GetTransform().GetUpVector() * Speed * _DeltaTime);
+			stop = false;
 		}
 
 		if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE)&&
@@ -173,6 +175,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 			false == IsNextColor(COLORCHECKDIR::RIGHTTOP, float4::GREEN))
 		{	//언덕길은 위로 올리는힘이 추가
 			MovePower += (GetTransform().GetUpVector() * Speed * _DeltaTime);
+			stop = false;
 		}
 
 		if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE)&&
@@ -190,11 +193,27 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (false == IsNextColor(COLORCHECKDIR::LEFT, float4::GREEN) 
 		&& false == IsNextColor(COLORCHECKDIR::RIGHT, float4::GREEN))
 	{
+		//양옆이 벽이 아니라면 움직인다
 		GetTransform().SetWorldMove(MovePower);
+		stop = false;
+	}
+	else if ((true == GameEngineInput::GetInst()->IsPress("PlayerRight") &&
+			(true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN) &&
+			true == IsNextColor(COLORCHECKDIR::RIGHT, float4::GREEN) &&
+			false == IsNextColor(COLORCHECKDIR::RIGHTTOP, float4::GREEN)))
+										||
+			(true == GameEngineInput::GetInst()->IsPress("PlayerLeft")&&
+			(true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN) &&
+			true == IsNextColor(COLORCHECKDIR::LEFT, float4::GREEN) &&
+			false == IsNextColor(COLORCHECKDIR::LEFTTOP, float4::GREEN))))
+	{
+		//언덕길 오르막길도 stop=false
+		stop = false;
 	}
 	else 
-	{
-		int a = 0;
+	{	
+		//그 외엔 벽에 부딪힌거니 BG는 멈추기 위해 stop=true
+		stop = true;
 	}
 
 	if (true == GameEngineInput::GetInst()->IsDown("PlayerJump"))

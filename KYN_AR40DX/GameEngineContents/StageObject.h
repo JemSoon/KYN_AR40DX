@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngineCore/CoreMinimal.h>
 
+class Player;
 //설명 : 스테이지 액터 공용 클래스
 class StageObject : public GameEngineActor
 {
@@ -53,6 +54,7 @@ protected:
 
 	float Speed;
 private:
+	Player* MainPlayer;
 
 };
 
