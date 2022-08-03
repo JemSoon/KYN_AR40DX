@@ -203,8 +203,32 @@ void Player::SadariStart(const StateInfo& _Info)
 
 void Player::SadariUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	MovePower = GetTransform().GetUpVector() * Speed * _DeltaTime;
-	GetTransform().SetWorldMove(MovePower);
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerUp"))
+	{	
+		MovePower = GetTransform().GetUpVector() * Speed * _DeltaTime;
+		GetTransform().SetWorldMove(MovePower);
+		
+		ColorCheckUpdateNext(MovePower);
+
+		if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE))
+		{
+			StateManager.ChangeState("Idle");
+		}
+	}
+
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerDown"))
+	{
+		MovePower = GetTransform().GetDownVector() * Speed * _DeltaTime;
+		GetTransform().SetWorldMove(MovePower);
+
+		ColorCheckUpdateNext(MovePower);
+
+		if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN))
+		{
+			StateManager.ChangeState("Idle");
+		}
+	}
+
 }
 
 void Player::JumpStart(const StateInfo& _Info)
