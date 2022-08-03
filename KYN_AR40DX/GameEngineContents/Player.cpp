@@ -90,12 +90,19 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 		StateManager.ChangeState("Sadari");
 	}
 
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerDown") &&
+		true == IsNextColor(COLORCHECKDIR::DOWN, float4::BLUE))
+	{
+		StateManager.ChangeState("Sadari");
+	}
+
 	if (true == GameEngineInput::GetInst()->IsDown("PlayerJump"))
 	{
 		StateManager.ChangeState("Jump");
 	}
 
-	if (true == GameEngineInput::GetInst()->IsPress("PlayerDown"))
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerDown")&&
+		false == IsNextColor(COLORCHECKDIR::DOWN, float4::BLUE))
 	{
 		StateManager.ChangeState("Prone");
 	}
@@ -212,6 +219,7 @@ void Player::SadariUpdate(float _DeltaTime, const StateInfo& _Info)
 
 		if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE))
 		{
+			MovePower.y = 0.0f;
 			StateManager.ChangeState("Idle");
 		}
 	}
