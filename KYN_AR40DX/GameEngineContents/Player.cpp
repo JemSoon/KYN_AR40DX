@@ -56,6 +56,8 @@ void Player::Start()
 		Collision->ChangeOrder(OBJECTORDER::Player);
 	}
 
+	GameEngineFontRenderer* Font = CreateComponent<GameEngineFontRenderer>();
+	Font->SetText("æ»≥Á«œººø‰");
 
 	//GameEngineFontRenderer* Font = CreateComponent<GameEngineFontRenderer>();
 	//Font->SetText("æ»≥Á«œººø‰");

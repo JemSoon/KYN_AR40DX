@@ -1,5 +1,21 @@
 #include "PreCompile.h"
 #include "GameEngineStatusWindow.h"
+#include "GameEngineRenderTarget.h"
+
+void GameEngineImageShotWindow::RenderTextureSetting(ImTextureID _RenderTexture, ImVec2 _Size)
+{
+	RenderTexture = _RenderTexture;
+	Size = _Size;
+}
+
+void GameEngineImageShotWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
+{
+	if (true == ImGui::ImageButton(RenderTexture, { Size.x, Size.y }))
+	{
+		Off();
+	}
+
+}
 
 GameEngineStatusWindow::GameEngineStatusWindow()
 {

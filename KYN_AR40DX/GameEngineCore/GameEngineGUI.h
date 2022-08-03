@@ -5,12 +5,14 @@
 #include <GameEngineBase/GameEngineNameObject.h>
 #include <GameEngineBase/GameEngineString.h>
 
-class GameEngineGUIWindow : public GameEngineNameObject
+class GameEngineGUIWindow : public GameEngineNameObject, public GameEngineUpdateObject
 {
 	friend class GameEngineGUI;
 
+	void Start() override {}
+	void Update(float _DeltaTime) override { };
+
 private:
-	bool IsOpen;
 
 	void Begin()
 	{
