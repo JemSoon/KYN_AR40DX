@@ -67,7 +67,10 @@ void FrameAnimation::Update(float _Delta)
 			// 잘렸다는 거죠?
 			if (Texture->GetCutCount() != 0)
 			{
-				ParentRenderer->ScaleToCutTexture(Info.CurFrame);
+				if (ParentRenderer->ScaleMode == SCALEMODE::IMAGE)
+				{
+					ParentRenderer->ScaleToCutTexture(Info.CurFrame);
+				}
 			}
 			else
 			{
@@ -124,6 +127,7 @@ void GameEngineTextureRenderer::SetTextureRendererSetting()
 	FrameData.SizeY = 1.0f;
 
 	ShaderResources.SetConstantBufferLink("AtlasData", FrameData);
+	ShaderResources.SetConstantBufferLink("ColorData", ColorData);
 }
 
 void GameEngineTextureRenderer::Start()

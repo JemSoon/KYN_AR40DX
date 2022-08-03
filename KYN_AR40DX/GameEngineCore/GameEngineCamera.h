@@ -51,6 +51,16 @@ public:
 		return MouseDir;
 	}
 
+	inline float4 SetProjectionSize(const float4& _Value)//원근투영용(projection=원근)
+	{
+		Size = _Value;
+	}
+
+	inline float4 GetProjectionSize()//원근투영용(projection=원근)
+	{
+		return Size;
+	}
+
 	// 뷰포트는 계속 달라질수가 있으므로 다르게
 	// float4 GetMouseViewPortPosition();
 

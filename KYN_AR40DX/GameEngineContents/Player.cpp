@@ -168,6 +168,8 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
 	{
+		//Renderer->GetColorData().MulColor.a -= _DeltaTime;
+		//(누르면 점점 알파값 사라짐 MulColor는 기본 흰색 a는 알파값 곱하기레이어에 흰색은 투명색)
 		MovePower = GetTransform().GetRightVector() * Speed * _DeltaTime;
 
 		if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN) &&
