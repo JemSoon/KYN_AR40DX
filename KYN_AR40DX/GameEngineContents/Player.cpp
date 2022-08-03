@@ -44,7 +44,7 @@ void Player::Start()
 		Renderer->CreateFrameAnimation("Sadari", FrameAnimation_DESC("sadari.png", 0, 1, 0.3f));
 		Renderer->CreateFrameAnimation("Jump", FrameAnimation_DESC("jump.png", 0, 0, 0.0f, false));
 		Renderer->CreateFrameAnimation("Prone", FrameAnimation_DESC("prone.png", 0, 0, 0.0f, false));
-		Renderer->CreateFrameAnimation("Attack", FrameAnimation_DESC("attack2.png", 0, 2, 0.0f));
+		Renderer->CreateFrameAnimation("Attack", FrameAnimation_DESC("attack2.png", 0, 2, 0.15f));
 
 		Renderer->ChangeFrameAnimation("Idle");
 		Renderer->SetPivot(PIVOTMODE::CUSTOM);
@@ -59,16 +59,13 @@ void Player::Start()
 	GameEngineFontRenderer* Font = CreateComponent<GameEngineFontRenderer>();
 	Font->SetText("안녕하세요");
 
-	//GameEngineFontRenderer* Font = CreateComponent<GameEngineFontRenderer>();
-	//Font->SetText("안녕하세요");
-
-
 	StateManager.CreateStateMember("Idle", this, &Player::IdleUpdate, &Player::IdleStart);
 	StateManager.CreateStateMember("Move", this, &Player::MoveUpdate, &Player::MoveStart);
 	StateManager.CreateStateMember("Sadari", this, &Player::SadariUpdate, &Player::SadariStart);
 	StateManager.CreateStateMember("Jump", this, &Player::JumpUpdate, &Player::JumpStart);
 	StateManager.CreateStateMember("Fall", this, &Player::FallUpdate, &Player::FallStart);
 	StateManager.CreateStateMember("Prone", this, &Player::ProneUpdate, &Player::ProneStart);
+	StateManager.CreateStateMember("Attack", this, &Player::AttackUpdate, &Player::AttackStart);
 	StateManager.ChangeState("Idle");
 
 }
@@ -108,6 +105,24 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 		false == IsNextColor(COLORCHECKDIR::DOWN, float4::BLUE))
 	{
 		StateManager.ChangeState("Prone");
+	}
+
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerAttack"))
+	{
+		StateManager.ChangeState("Attack");
+	}
+}
+
+void Player::AttackStart(const StateInfo& _Info)
+{
+	Renderer->ChangeFrameAnimation("Attack");
+}
+
+void Player::AttackUpdate(float _DeltaTime, const StateInfo& _Info)
+{
+	if (true == GameEngineInput::GetInst()->IsUp("PlayerAttack"))
+	{
+		StateManager.ChangeState("Idle");
 	}
 }
 
@@ -281,6 +296,7 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 		{	//점프중 오른쪽 이동키 누를시
 			MovePower += (float4::RIGHT * _DeltaTime);
 			Renderer->GetTransform().PixLocalNegativeX();
+			
 		}
 
 		if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
@@ -288,6 +304,7 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 			MovePower += (float4::LEFT * _DeltaTime);
 			Renderer->GetTransform().PixLocalPositiveX();
 		}
+
 	}
 
 	GetTransform().SetWorldMove(MovePower);
