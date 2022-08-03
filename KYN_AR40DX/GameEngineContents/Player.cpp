@@ -116,10 +116,14 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 void Player::AttackStart(const StateInfo& _Info)
 {
 	Renderer->ChangeFrameAnimation("Attack");
+	Speed = 150.0f;//어택할때 왠지모르게 스피드가 -75로 변경됨;;
 }
 
 void Player::AttackUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	Gravity(_DeltaTime);
+	GetTransform().SetWorldMove(MovePower);
+	stop = true;
 	if (true == GameEngineInput::GetInst()->IsUp("PlayerAttack"))
 	{
 		StateManager.ChangeState("Idle");
@@ -160,6 +164,11 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerJump"))
 	{
 		StateManager.ChangeState("Jump");
+	}
+
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerAttack"))
+	{
+		StateManager.ChangeState("Attack");
 	}
 
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
@@ -292,6 +301,11 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 {	
 	Gravity(_DeltaTime);
 	{
+		if (true == GameEngineInput::GetInst()->IsPress("PlayerAttack"))
+		{
+			StateManager.ChangeState("Attack");
+		}
+
 		if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
 		{	//점프중 오른쪽 이동키 누를시
 			MovePower += (float4::RIGHT * _DeltaTime);
