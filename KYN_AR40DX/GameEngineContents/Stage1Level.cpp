@@ -62,7 +62,7 @@ void Stage1Level::OnEvent()
 		{
 			NewPlayer = CreateActor<Player>(OBJECTORDER::Player);
 			NewPlayer->SetLevelOverOn();
-			NewPlayer->GetTransform().SetLocalPosition({ 1070.0f, -1000.0f, 0.0f });
+			NewPlayer->GetTransform().SetWorldPosition({ 1070.0f, -1000.0f, 0.0f });
 		}
 	}
 
@@ -79,7 +79,7 @@ void Stage1Level::Update(float _DeltaTime)
 {
 	if (GameEngineInput::GetInst()->IsDown("FreeCameaOnOff"))
 	{
-		GetMainCamera()->SetProjectionMode(CAMERAPROJECTIONMODE::PersPective);//퍼스펙:원근//오서:직교
+		//GetMainCamera()->SetProjectionMode(CAMERAPROJECTIONMODE::PersPective);//퍼스펙:원근//오서:직교
 		GetMainCameraActor()->FreeCameraModeOnOff();
 	}
 	
