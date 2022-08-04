@@ -53,8 +53,8 @@ protected:
 	GameEngineCollision* Collision;
 
 	float Speed;//이속
-	float GravityAccSpeed;
 	float4 MovePower;//가속도
+	float4 PurePower;//무시하고지나갈때 파워
 
 	float4 ColorDir[8];
 

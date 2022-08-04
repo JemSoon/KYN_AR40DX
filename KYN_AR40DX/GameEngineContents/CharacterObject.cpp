@@ -45,7 +45,7 @@ void CharacterObject::Gravity(float _DeltaTime)
 		GetTransform().SetWorldMove(MovePower);
 	}
 	
-	else if (MovePower.y > 0)
+	else if (MovePower.y > 0|| true == IsNextColor(COLORCHECKDIR::DOWN, float4::BLUE))
 	{
 		//y힘이 양수라면 그대로 힘을 유지한다
 		GetTransform().SetWorldMove(MovePower);
