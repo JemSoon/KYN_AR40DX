@@ -50,7 +50,7 @@ void Stage2Level::Start()
 		Stage->GetPortal()->GetTransform().SetLocalScale({90, 201, 100});
 		Stage->GetPortal()->SetTexture("Portal.png");
 
-		Stage->GetPortal()->CreateFrameAnimation("Portal", FrameAnimation_DESC("Portal.png", 0, 3, 0.1f));
+		Stage->GetPortal()->CreateFrameAnimationCutTexture("Portal", FrameAnimation_DESC("Portal.png", 0, 3, 0.1f));
 		Stage->GetPortal()->ChangeFrameAnimation("Portal");
 		Stage->GetPortal()->GetTransform().SetLocalPosition({ 600.0f,-45.0f,-100.0f });
 	}

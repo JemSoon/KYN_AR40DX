@@ -20,7 +20,11 @@ void Monster::Start()
 		Renderer->SetTexture("stand.png");
 		//Renderer->ScaleToTexture();//나는 쓰면 늘어난다
 
-		Renderer->CreateFrameAnimation("Idle", FrameAnimation_DESC("stand.png", 0, 1, 0.2f));
+		std::vector<unsigned int> Three = { 0, 1, 2 };
+		std::vector<unsigned int> Two = { 0, 1 };
+		std::vector<unsigned int> One = { 0 };
+
+		Renderer->CreateFrameAnimationCutTexture("Idle", FrameAnimation_DESC("stand.png", Two, 0.2f));
 
 		Renderer->ChangeFrameAnimation("Idle");
 		Renderer->SetPivot(PIVOTMODE::BOT);

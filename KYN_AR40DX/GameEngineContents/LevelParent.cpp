@@ -42,7 +42,7 @@ void LevelParent::CreateStageObject(const std::string _BG, const std::string _Co
 			LevelStageObject->GetPortal()->GetTransform().SetLocalScale({ 90, 201, 1 });
 			LevelStageObject->GetPortal()->SetTexture("Portal.png");
 			
-			LevelStageObject->GetPortal()->CreateFrameAnimation("Portal", FrameAnimation_DESC("Portal.png", 0, 3, 0.1f));
+			LevelStageObject->GetPortal()->CreateFrameAnimationCutTexture("Portal", FrameAnimation_DESC("Portal.png", 0, 3, 0.1f));
 			LevelStageObject->GetPortal()->ChangeFrameAnimation("Portal");
 			//LevelStageObject->GetPortal()->GetTransform().SetLocalPosition({ 1851.0f,1275.0f,0.0f });
 		}

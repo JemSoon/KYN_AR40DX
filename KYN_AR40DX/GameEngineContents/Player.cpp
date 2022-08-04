@@ -40,20 +40,25 @@ void Player::Start()
 		Renderer->SetTexture("idle.png");
 		//Renderer->ScaleToTexture();//아직 생성전이라 그런지 쓰면 터짐
 
-		Renderer->CreateFrameAnimation("Idle", FrameAnimation_DESC("idle.png", 0, 2, 0.3f));
-		Renderer->CreateFrameAnimation("Move", FrameAnimation_DESC("walk.png", 0, 3, 0.1f));
-		Renderer->CreateFrameAnimation("Sadari", FrameAnimation_DESC("sadari.png", 0, 1, 0.3f));
-		Renderer->CreateFrameAnimation("Jump", FrameAnimation_DESC("jump.png", 0, 0, 0.0f, false));
-		Renderer->CreateFrameAnimation("Prone", FrameAnimation_DESC("prone.png", 0, 0, 0.0f, false));
-		Renderer->CreateFrameAnimation("Attack1", FrameAnimation_DESC("attack1.png", 0, 2, 0.15f));
-		Renderer->CreateFrameAnimation("Attack2", FrameAnimation_DESC("attack2.png", 0, 2, 0.15f));
-		Renderer->CreateFrameAnimation("Attack3", FrameAnimation_DESC("attack3.png", 0, 2, 0.15f));
-		Renderer->CreateFrameAnimation("Attack4", FrameAnimation_DESC("attack4.png", 0, 1, 0.23f));
+		std::vector<unsigned int> Idle = { 0, 1, 2, 1 };//프레임 골라 실행 테스트
+		std::vector<unsigned int> Three = { 0, 1, 2};
+		std::vector<unsigned int> Two = { 0, 1 };
+		std::vector<unsigned int> One = { 0 };
+
+		Renderer->CreateFrameAnimationCutTexture("Idle", FrameAnimation_DESC("idle.png", Idle, 0.3f));
+		Renderer->CreateFrameAnimationCutTexture("Move", FrameAnimation_DESC("walk.png", Three, 0.1f));
+		Renderer->CreateFrameAnimationCutTexture("Sadari", FrameAnimation_DESC("sadari.png", Two, 0.3f));
+		Renderer->CreateFrameAnimationCutTexture("Jump", FrameAnimation_DESC("jump.png", One, 0.0f, false));
+		Renderer->CreateFrameAnimationCutTexture("Prone", FrameAnimation_DESC("prone.png", One, 0.0f, false));
+		Renderer->CreateFrameAnimationCutTexture("Attack1", FrameAnimation_DESC("attack1.png", Three, 0.15f));
+		Renderer->CreateFrameAnimationCutTexture("Attack2", FrameAnimation_DESC("attack2.png", Three, 0.15f));
+		Renderer->CreateFrameAnimationCutTexture("Attack3", FrameAnimation_DESC("attack3.png", Three, 0.15f));
+		Renderer->CreateFrameAnimationCutTexture("Attack4", FrameAnimation_DESC("attack4.png", Two, 0.23f));
 
 		Renderer->ChangeFrameAnimation("Idle");
 		Renderer->SetPivot(PIVOTMODE::CUSTOM);
 	}
-	
+
 	{
 		Collision = CreateComponent<GameEngineCollision>();
 		Collision->GetTransform().SetLocalScale({ 100.0f, 100.0f, 1.0f });
@@ -61,7 +66,9 @@ void Player::Start()
 	}
 
 	GameEngineFontRenderer* Font = CreateComponent<GameEngineFontRenderer>();
-	Font->SetText("안녕하세요");
+	Font->SetText("안녕하세요", "궁서");
+	Font->SetColor({ 1.0f, 0.0f, 0.0f });
+	Font->SetScreenPostion({ 100.0f, 100.0f });
 
 	StateManager.CreateStateMember("Idle", this, &Player::IdleUpdate, &Player::IdleStart);
 	StateManager.CreateStateMember("Move", this, &Player::MoveUpdate, &Player::MoveStart);
@@ -178,6 +185,9 @@ void Player::MoveStart(const StateInfo& _Info)
 
 void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	//GameEngineDebug::DrawBox();
+
+	// GameEngineDebug::DebugSphereRender();
 
 	if (false == GameEngineInput::GetInst()->IsPress("PlayerLeft") &&
 		false == GameEngineInput::GetInst()->IsPress("PlayerRight") &&

@@ -28,6 +28,21 @@ public:
 		return Text;
 	}
 
+	void SetScreenPostion(float4 _ScreenPostion)
+	{
+		ScreenPostion = _ScreenPostion;
+	}
+
+	void SetColor(float4 _Color)
+	{
+		Color = _Color;
+	}
+
+	void SetSize(float _Size)
+	{
+		FontSize = _Size;
+	}
+
 protected:
 	virtual void Start();
 

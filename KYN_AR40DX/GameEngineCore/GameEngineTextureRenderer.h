@@ -35,8 +35,8 @@ public:
 	std::string TextureName;
 
 	unsigned int CurFrame;
-	unsigned int Start;
-	unsigned int End;
+
+	std::vector<unsigned int> Frames;
 
 	float FrameTime;
 
@@ -50,8 +50,6 @@ public:
 		: Loop(false)
 		, Inter(0.1f)
 		, CurFrame(-1)
-		, Start(-1)
-		, End(-1)
 		, FrameTime(0.0f)
 	{
 
@@ -61,21 +59,20 @@ public:
 		: TextureName(_TextureName)
 		, Loop(_Loop)
 		, Inter(_Inter)
-		, CurFrame(_Start)
-		, Start(_Start)
-		, End(_End)
+		, CurFrame(0)
 		, FrameTime(0.0f)
 	{
-
+		for (unsigned int i = _Start; i < _End; i++)
+		{
+			Frames.push_back(i);
+		}
 	}
 
-	FrameAnimation_DESC(const std::string _TextureName, float _Inter, bool _Loop = true)
+	FrameAnimation_DESC(const std::string _TextureName, const std::vector<unsigned int>& _Frames, float _Inter, bool _Loop = true)
 		: TextureName(_TextureName)
 		, Loop(_Loop)
 		, Inter(_Inter)
-		, CurFrame(0)
-		, Start(-1)
-		, End(-1)
+		, Frames(_Frames)
 		, FrameTime(0.0f)
 	{
 
@@ -160,7 +157,7 @@ public:
 
 	void CreateFrameAnimationFolder(const std::string& _AnimationName, const FrameAnimation_DESC& _Desc);
 
-	void CreateFrameAnimation(const std::string& _AnimationName, const FrameAnimation_DESC& _Desc);
+	void CreateFrameAnimationCutTexture(const std::string& _AnimationName, const FrameAnimation_DESC& _Desc);
 	void ChangeFrameAnimation(const std::string& _AnimationName);
 
 	void ScaleToTexture();

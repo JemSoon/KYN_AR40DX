@@ -51,7 +51,7 @@ public:
 		return MouseDir;
 	}
 
-	inline float4 SetProjectionSize(const float4& _Value)//원근투영용(projection=원근)
+	inline void SetProjectionSize(const float4& _Value)//원근투영용(projection=원근)
 	{
 		Size = _Value;
 	}
