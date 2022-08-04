@@ -205,7 +205,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerDown") &&
-		true == IsNextColor(COLORCHECKDIR::DOWN, float4::BLUE))
+		true == IsNextColor(COLORCHECKDIR::DOWN, float4::RED))
 	{
 		StateManager.ChangeState("Sadari");
 	}
@@ -251,6 +251,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		{	
 			StateManager.ChangeState("Fall");
 		}
+
 		Renderer->GetTransform().PixLocalNegativeX();
 	}
 
@@ -365,6 +366,12 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 			Renderer->GetTransform().PixLocalPositiveX();
 		}
 
+		if (true == GameEngineInput::GetInst()->IsPress("PlayerUp") &&
+			true == IsNextColor(COLORCHECKDIR::UP, float4::BLUE))
+		{	
+			Speed = 150.0f;
+			StateManager.ChangeState("Sadari");
+		}
 	}
 
 	GetTransform().SetWorldMove(MovePower);
