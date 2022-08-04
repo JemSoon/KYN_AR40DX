@@ -55,7 +55,10 @@ void MapleStoryCore::Start()
 		GameEngineTexture::Cut("prone.png", 1, 1);
 		GameEngineTexture::Cut("walk.png", 4, 1);
 		GameEngineTexture::Cut("sadari.png", 2, 1);
+		GameEngineTexture::Cut("attack1.png", 3, 1);
 		GameEngineTexture::Cut("attack2.png", 3, 1);
+		GameEngineTexture::Cut("attack3.png", 3, 1);
+		GameEngineTexture::Cut("attack4.png", 2, 1);
 	}
 	
 	{	//∏ÛΩ∫≈Õ

@@ -3,6 +3,7 @@
 #include "CharacterObject.h"
 
 // Ό³Έν :
+class GameEngineRandom;
 class GameEngineCollision;
 class GameEngineTextureRenderer;
 class Player : public CharacterObject

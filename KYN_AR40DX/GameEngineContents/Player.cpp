@@ -3,6 +3,7 @@
 #include <GameEngineContents/GlobalContentsValue.h>
 #include <iostream>
 #include "LevelParent.h"
+#include <GameEngineBase/GameEngineRandom.h>
 
 Player* Player::MainPlayer = nullptr;
 
@@ -44,7 +45,10 @@ void Player::Start()
 		Renderer->CreateFrameAnimation("Sadari", FrameAnimation_DESC("sadari.png", 0, 1, 0.3f));
 		Renderer->CreateFrameAnimation("Jump", FrameAnimation_DESC("jump.png", 0, 0, 0.0f, false));
 		Renderer->CreateFrameAnimation("Prone", FrameAnimation_DESC("prone.png", 0, 0, 0.0f, false));
-		Renderer->CreateFrameAnimation("Attack", FrameAnimation_DESC("attack2.png", 0, 2, 0.15f));
+		Renderer->CreateFrameAnimation("Attack1", FrameAnimation_DESC("attack1.png", 0, 2, 0.15f));
+		Renderer->CreateFrameAnimation("Attack2", FrameAnimation_DESC("attack2.png", 0, 2, 0.15f));
+		Renderer->CreateFrameAnimation("Attack3", FrameAnimation_DESC("attack3.png", 0, 2, 0.15f));
+		Renderer->CreateFrameAnimation("Attack4", FrameAnimation_DESC("attack4.png", 0, 1, 0.23f));
 
 		Renderer->ChangeFrameAnimation("Idle");
 		Renderer->SetPivot(PIVOTMODE::CUSTOM);
@@ -96,7 +100,7 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 		StateManager.ChangeState("Sadari");
 	}
 
-	if (true == GameEngineInput::GetInst()->IsDown("PlayerJump"))
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerJump"))
 	{
 		StateManager.ChangeState("Jump");
 	}
@@ -115,7 +119,26 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::AttackStart(const StateInfo& _Info)
 {
-	Renderer->ChangeFrameAnimation("Attack");
+	int RandomNumber = GameEngineRandom::MainRandom.RandomInt(1, 4);
+
+	if (RandomNumber == 1)
+	{
+		Renderer->ChangeFrameAnimation("Attack1");
+	}
+	else if (RandomNumber == 2)
+	{
+		Renderer->ChangeFrameAnimation("Attack2");
+	}
+	else if (RandomNumber == 3)
+	{
+		Renderer->ChangeFrameAnimation("Attack3");
+	}
+	else
+	{
+		Renderer->ChangeFrameAnimation("Attack4");
+	}
+
+
 	Speed = 150.0f;//어택할때 왠지모르게 스피드가 -75로 변경됨;;
 }
 
@@ -303,8 +326,8 @@ void Player::JumpStart(const StateInfo& _Info)
 	Dir = float4::ZERO;
 	{
 		Renderer->ChangeFrameAnimation("Jump");
-		//Speed *= 0.5f;
-		Speed += -75.0f;
+		Speed *= 0.5f;
+		//Speed += -75.0f;
 		MovePower += float4::UP * 4.0f;
 	}
 }
@@ -320,14 +343,14 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 		if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
 		{	//점프중 오른쪽 이동키 누를시
-			MovePower += (float4::RIGHT * _DeltaTime);
+			MovePower += (float4::RIGHT * _DeltaTime * 2);
 			Renderer->GetTransform().PixLocalNegativeX();
 			
 		}
 
 		if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
 		{	//점프중 왼쪽 이동키 누를시
-			MovePower += (float4::LEFT * _DeltaTime);
+			MovePower += (float4::LEFT * _DeltaTime * 2);
 			Renderer->GetTransform().PixLocalPositiveX();
 		}
 
