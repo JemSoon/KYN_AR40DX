@@ -39,6 +39,11 @@ public:
 		return Renderer;
 	}
 
+	inline GameEngineCollision* GetCollision() const
+	{
+		return Collision;
+	}
+
 protected:
 	virtual void Start() override;
 	virtual void End() {}

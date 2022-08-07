@@ -45,7 +45,7 @@ protected:
 	void IdleStart(const StateInfo& _Info);
 	void IdleUpdate(float _DeltaTime, const StateInfo& _Info);
 
-	void MoveStart(const StateInfo& _Info);
+	//void MoveStart(const StateInfo& _Info);
 	void MoveUpdate(float _DeltaTime, const StateInfo& _Info);
 
 	void SadariStart(const StateInfo& _Info);

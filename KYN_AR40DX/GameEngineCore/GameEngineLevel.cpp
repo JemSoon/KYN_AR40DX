@@ -6,6 +6,7 @@
 #include "GameEngineCameraActor.h"
 #include "GameEngineCollision.h"
 #include "GameEngineGUI.h"
+#include "GameEngineCoreDebug.h"
 
 GameEngineLevel::GameEngineLevel()
 {
@@ -45,12 +46,23 @@ GameEngineLevel::~GameEngineLevel()
 
 void GameEngineLevel::ActorUpdate(float _DeltaTime)
 {
-	//if (true == GetMainCameraActor()->IsFreeCameraMode())
-	//{
-	//	GetMainCameraActor()->Update(_DeltaTime);
-	//	return;
-	//}
+	for (const std::pair<int, std::list<GameEngineActor*>>& Group : AllActors)
+	{
+		// float ScaleTime = GameEngineTime::GetInst()->GetDeltaTime(Group.first);
+		for (GameEngineActor* const Actor : Group.second)
+		{
+			if (false == Actor->IsUpdate())
+			{
+				continue;
+			}
 
+			Actor->AllUpdate(_DeltaTime);
+		}
+	}
+}
+
+void GameEngineLevel::ActorOnEvent()
+{
 	for (const std::pair<int, std::list<GameEngineActor*>>& Group : AllActors)
 	{
 		float ScaleTime = GameEngineTime::GetInst()->GetDeltaTime(Group.first);
@@ -60,11 +72,25 @@ void GameEngineLevel::ActorUpdate(float _DeltaTime)
 			{
 				continue;
 			}
-
-			Actor->AllUpdate(ScaleTime, _DeltaTime);
+			Actor->OnEvent();
 		}
 	}
+}
 
+void GameEngineLevel::ActorOffEvent()
+{
+	for (const std::pair<int, std::list<GameEngineActor*>>& Group : AllActors)
+	{
+		float ScaleTime = GameEngineTime::GetInst()->GetDeltaTime(Group.first);
+		for (GameEngineActor* const Actor : Group.second)
+		{
+			if (false == Actor->IsUpdate())
+			{
+				continue;
+			}
+			Actor->OffEvent();
+		}
+	}
 }
 
 void GameEngineLevel::PushRenderer(GameEngineRenderer* _Renderer, int _CameraOrder)
@@ -122,12 +148,10 @@ void GameEngineLevel::Render(float _DelataTime)
 
 		Cameras[i]->Render(_DelataTime);
 	}
-
-	// GameEngineDebug
-
-	// GameEngineDebug
 	
 	// 여기서 그려져야 합니다.
+
+	GameEngineDebug::Debug3DRender();
 
 	GameEngineGUI::GUIRender(this, _DelataTime);
 

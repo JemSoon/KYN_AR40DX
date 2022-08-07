@@ -46,6 +46,15 @@ public:
 
 	float4 GetMouseWorldPositionToActor();
 
+	inline float4x4 GetView()
+	{
+		return View;
+	}
+	inline float4x4 GetProjectionMatrix()
+	{
+		return Projection;
+	}
+
 	inline float4 GetMouseWorldDir()
 	{
 		return MouseDir;
@@ -69,7 +78,6 @@ protected:
 
 private:
 	float4x4 View; // 바라보는것
-	float4x4 ViewPort;
 	float4x4 Projection;
 	CAMERAPROJECTIONMODE Mode;
 

@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "Player.h"
+
 #include <GameEngineContents/GlobalContentsValue.h>
 #include <iostream>
 #include "LevelParent.h"
@@ -61,22 +62,44 @@ void Player::Start()
 
 	{
 		Collision = CreateComponent<GameEngineCollision>();
-		Collision->GetTransform().SetLocalScale({ 100.0f, 100.0f, 1.0f });
+		Collision->GetTransform().SetLocalScale({ 100.0f, 100.0f, 100.0f });
 		Collision->ChangeOrder(OBJECTORDER::Player);
 	}
 
 	GameEngineFontRenderer* Font = CreateComponent<GameEngineFontRenderer>();
-	Font->SetText("안녕하세요", "궁서");
+	Font->SetText("테스트", "궁서");
 	Font->SetColor({ 1.0f, 0.0f, 0.0f });
 	Font->SetScreenPostion({ 100.0f, 100.0f });
 
-	StateManager.CreateStateMember("Idle", this, &Player::IdleUpdate, &Player::IdleStart);
-	StateManager.CreateStateMember("Move", this, &Player::MoveUpdate, &Player::MoveStart);
-	StateManager.CreateStateMember("Sadari", this, &Player::SadariUpdate, &Player::SadariStart);
-	StateManager.CreateStateMember("Jump", this, &Player::JumpUpdate, &Player::JumpStart);
-	StateManager.CreateStateMember("Fall", this, &Player::FallUpdate, &Player::FallStart);
-	StateManager.CreateStateMember("Prone", this, &Player::ProneUpdate, &Player::ProneStart);
-	StateManager.CreateStateMember("Attack", this, &Player::AttackUpdate, &Player::AttackStart);
+	//StateManager.CreateStateMember("Idle", this, &Player::IdleUpdate, &Player::IdleStart);
+	//StateManager.CreateStateMember("Move", this, &Player::MoveUpdate, &Player::MoveStart);
+	//StateManager.CreateStateMember("Sadari", this, &Player::SadariUpdate, &Player::SadariStart);
+	//StateManager.CreateStateMember("Jump", this, &Player::JumpUpdate, &Player::JumpStart);
+	//StateManager.CreateStateMember("Fall", this, &Player::FallUpdate, &Player::FallStart);
+	//StateManager.CreateStateMember("Prone", this, &Player::ProneUpdate, &Player::ProneStart);
+	//StateManager.CreateStateMember("Attack", this, &Player::AttackUpdate, &Player::AttackStart);
+	StateManager.CreateStateMember("Idle"
+		, std::bind(&Player::IdleUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::IdleStart, this, std::placeholders::_1));
+
+	int MyValue = 10;
+
+	StateManager.CreateStateMember("Move"
+		, std::bind(&Player::MoveUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, [/*&*/=](const StateInfo& _Info)
+		{
+			// static const int MyValue = 바깥 MyValue;
+
+			int Test = MyValue;
+			// = 지역변수도 쓸수있다.
+			// MyValue가 하나더 생기는 방식으로 컴파일러가 해석한다.
+			// ????????
+			// & 외부의 있는 값의 참조형을 받아오는 것이기 때문에
+			// 지역변수를 쓰면 결과를 장담할수가 없다.
+			Renderer->ChangeFrameAnimation("Move");
+
+		});
+
 	StateManager.ChangeState("Idle");
 
 }
@@ -420,6 +443,8 @@ void Player::FallUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::Update(float _DeltaTime)
 {
+	GameEngineDebug::DrawBox(Collision->GetTransform(), { 1.0f, 0.0f,0.0f, 0.5f });
+
 	if (true == GetLevel()->GetMainCameraActor()->IsFreeCameraMode())
 	{	//프리카메라 모드일땐 카메라가 플레이어 안움직이게 여기서 리턴
 		return;
