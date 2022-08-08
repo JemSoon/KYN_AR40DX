@@ -23,16 +23,36 @@ void Main_HP_MP_UI::Start()
 	//Renderer->ChangeCamera(CAMERAORDER::MAINCAMERA);
 
 	{
+		HPbar = CreateComponent<GameEngineUIRenderer>();
+		HPbar->SetTexture("HPbar.png");
+		HPbar->GetTransform().SetWorldScale({ 171,13,0 });
+		HPbar->GetTransform().SetWorldPosition({ 10,0,-100 });
+
+		MPbar = CreateComponent<GameEngineUIRenderer>();
+		MPbar->SetTexture("MPbar.png");
+		MPbar->GetTransform().SetWorldScale({ 171,13,0 });
+		MPbar->GetTransform().SetWorldPosition({ 10,-15,-100 });
+	}
+
+	{
 		HP_MP = CreateComponent<GameEngineUIRenderer>();
-		HP_MP->GetTransform().SetLocalScale({ 204,70,-100 });
-		HP_MP->SetTexture("mainHP_MP_UI.png");
+		HP_MP->GetTransform().SetWorldScale({ 204,70,-100 });
+		HP_MP->GetTransform().SetWorldPosition({ 0,0,-100 });
+		HP_MP->SetTexture("mainHP_MP_UI.png"); 
 	}
 
 	{
 		EXP = CreateComponent<GameEngineUIRenderer>();
-		EXP->GetTransform().SetLocalScale({ 1280, 10, -100 });
-		EXP->GetTransform().SetLocalPosition({0,-35});
+		EXP->GetTransform().SetWorldScale({ 1280, 10, -100 });
+		EXP->GetTransform().SetWorldPosition({0,-35,-100});
 		EXP->SetTexture("mainEXP_UI.png");
+	}
+
+	{
+		EXPbar = CreateComponent<GameEngineUIRenderer>();
+		EXPbar->GetTransform().SetWorldScale({ 1264, 7, 0 });
+		EXPbar->GetTransform().SetWorldPosition({ 16,-35,-100 });
+		EXPbar->SetTexture("EXPbar.png");
 	}
 }
 

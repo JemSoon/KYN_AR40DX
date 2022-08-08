@@ -31,9 +31,6 @@
     <Filter Include="Actor\NPC">
       <UniqueIdentifier>{a4545ed4-3e44-4c33-baa9-31cd659ae3c4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\UI">
-      <UniqueIdentifier>{7163d93d-dac8-4f4e-8a3d-a2aca547f0a1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Actor\Parents">
       <UniqueIdentifier>{549ad0bd-566c-4710-952a-ffc6394b0193}</UniqueIdentifier>
     </Filter>
@@ -42,6 +39,9 @@
     </Filter>
     <Filter Include="Actor\Parents\Stage">
       <UniqueIdentifier>{1965e173-28c4-493b-8360-e6cf909db992}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global\UI">
+      <UniqueIdentifier>{7163d93d-dac8-4f4e-8a3d-a2aca547f0a1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -80,7 +80,7 @@
       <Filter>Level</Filter>
     </ClInclude>
     <ClInclude Include="Main_HP_MP_UI.h">
-      <Filter>Actor\UI</Filter>
+      <Filter>Global\UI</Filter>
     </ClInclude>
     <ClInclude Include="StageObject.h">
       <Filter>Actor\Parents\Stage</Filter>
@@ -125,7 +125,7 @@
       <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="Main_HP_MP_UI.cpp">
-      <Filter>Actor\UI</Filter>
+      <Filter>Global\UI</Filter>
     </ClCompile>
     <ClCompile Include="CharacterObject.cpp">
       <Filter>Actor\Parents\Character</Filter>

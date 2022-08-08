@@ -40,6 +40,9 @@ protected:
 
 	GameEngineTextureRenderer* HP_MP;
 	GameEngineTextureRenderer* EXP;
+	GameEngineTextureRenderer* HPbar;
+	GameEngineTextureRenderer* MPbar;
+	GameEngineTextureRenderer* EXPbar;
 
 private:
 	GameEngineCameraActor* Camera;
