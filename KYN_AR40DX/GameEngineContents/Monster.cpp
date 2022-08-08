@@ -31,7 +31,7 @@ void Monster::Start()
 	}
 
 	{
-		GameEngineCollision* Collision = CreateComponent<GameEngineCollision>();
+		Collision = CreateComponent<GameEngineCollision>();
 		Collision->GetTransform().SetLocalScale({ 64.0f, 100.0f, 1.0f });
 		Collision->ChangeOrder(OBJECTORDER::Monster);
 	}
