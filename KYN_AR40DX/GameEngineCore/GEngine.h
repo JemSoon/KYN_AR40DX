@@ -5,9 +5,15 @@
 //        이유 => 이 클래스의 기능들은 철저하게 컨텐츠들에게 공개되는 겁니다.
 class GEngine
 {
+	static bool CollisionDebug;
+
 public:
 	static void ChangeLevel(std::string _Name);
+	static void CollisionDebugOn();
+	static void CollisionDebugOff();
+	static void CollisionDebugSwitch();
 
+	static bool IsCollisionDebug();
 
 protected:
 

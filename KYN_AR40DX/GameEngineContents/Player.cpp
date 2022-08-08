@@ -64,7 +64,7 @@ void Player::Start()
 		Collision = CreateComponent<GameEngineCollision>();
 		Collision->GetTransform().SetLocalScale({ 100.0f, 100.0f, 100.0f });
 		Collision->ChangeOrder(OBJECTORDER::Player);
-		Collision->Off();
+		//Collision->Off();
 	}
 
 	GameEngineFontRenderer* Font = CreateComponent<GameEngineFontRenderer>();
@@ -453,7 +453,7 @@ void Player::FallUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::Update(float _DeltaTime)
 {
-	GameEngineDebug::DrawBox(Collision->GetTransform(), { 1.0f, 0.0f,0.0f, 0.5f });
+	//GameEngineDebug::DrawSphere(Collision->GetTransform(), { 1.0f, 0.0f,0.0f, 0.5f });
 
 	if (true == GetLevel()->GetMainCameraActor()->IsFreeCameraMode())
 	{	//프리카메라 모드일땐 카메라가 플레이어 안움직이게 여기서 리턴
