@@ -71,7 +71,7 @@ void CharacterObject::ColorCheckUpdateNext(float4 _Move)
 	{
 		float4 CheckDir = GetTransform().GetWorldPosition() + ColorDir[i] + _Move;
 
-		NextColorCheck[i] = MapTexture->GetPixel(CheckDir.ix(), -CheckDir.iy());
+		NextColorCheck[i] = MapTexture->GetPixelToFloat4(CheckDir.ix(), -CheckDir.iy());
 	}
 
 	return;
@@ -103,7 +103,7 @@ void CharacterObject::ColorCheckUpdate()
 	{
 		float4 CheckDir = GetTransform().GetWorldPosition() + ColorDir[i];
 
-		ColorCheck[i] = MapTexture->GetPixel(CheckDir.ix(), -CheckDir.iy());
+		ColorCheck[i] = MapTexture->GetPixelToFloat4(CheckDir.ix(), -CheckDir.iy());
 	}
 
 	return;

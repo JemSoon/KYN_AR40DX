@@ -72,7 +72,8 @@ void GameEngineLevel::ActorOnEvent()
 			{
 				continue;
 			}
-			Actor->OnEvent();
+			// 루트 액터만 뭔가를 하는거죠?
+			Actor->AllOnEvent();
 		}
 	}
 }
@@ -88,7 +89,7 @@ void GameEngineLevel::ActorOffEvent()
 			{
 				continue;
 			}
-			Actor->OffEvent();
+			Actor->AllOffEvent();
 		}
 	}
 }
