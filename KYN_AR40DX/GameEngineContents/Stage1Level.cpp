@@ -28,7 +28,7 @@ void Stage1Level::Start()
 	Camera->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
 	Camera->GetTransform().SetWorldPosition({ 0,0,-500.0f });
 
-	GetMainCamera()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
+	//GetMainCamera()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
 
 	if (false == GameEngineInput::GetInst()->IsKey("MapOffSwitch"))
 	{
@@ -88,7 +88,7 @@ void Stage1Level::Update(float _DeltaTime)
 		CameraChase();
 		CameraRange();
 	}
-	
+
 	SetMapOnOffSwitch();
 
 	NextStage();

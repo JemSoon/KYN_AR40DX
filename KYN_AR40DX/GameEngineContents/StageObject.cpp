@@ -45,7 +45,7 @@ void StageObject::Update(float _DeltaTime)
 		{
 			BG->GetTransform().SetWorldMove(GetTransform().GetLeftVector() * (-Speed) * _DeltaTime);
 		}
-
+		
 		if (true == GameEngineInput::GetInst()->IsPress("BGRight")&&
 			MainPlayer->stop == false)
 		{

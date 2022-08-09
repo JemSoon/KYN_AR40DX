@@ -42,14 +42,7 @@ void TitleLevel::Start()
 
 void TitleLevel::OnEvent()
 {
-	{
-		if (nullptr == Player::GetMainPlayer())
-		{
-			Player* NewPlayer = CreateActor<Player>(OBJECTORDER::Player);
-			NewPlayer->SetLevelOverOn();
-			NewPlayer->GetTransform().SetLocalPosition({ 300,-500 });
-		}
-	}
+
 }
 
 void TitleLevel::Update(float _DeltaTime)
@@ -59,12 +52,6 @@ void TitleLevel::Update(float _DeltaTime)
 	if (true == GameEngineInput::GetInst()->IsDown("LevelChange"))
 	{
 		GEngine::ChangeLevel("Stage1");
-	}
-
-	if (GameEngineInput::GetInst()->IsDown("FreeCameaOnOff"))
-	{
-		//프리카메라 온 오프
-		GetMainCameraActor()->FreeCameraModeOnOff();
 	}
 
 	// 레벨 바뀌어서 오면 초기화

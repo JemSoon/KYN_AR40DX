@@ -66,6 +66,12 @@ void Player::Start()
 		Collision->ChangeOrder(OBJECTORDER::Player);
 		Collision->GetTransform().SetWorldPosition({ 0.0f,35.0f });
 	}
+	{
+		AttackCollision = CreateComponent<GameEngineCollision>();
+		AttackCollision->GetTransform().SetLocalScale({ 100.0f, 50.0f, 100.0f });
+		AttackCollision->ChangeOrder(OBJECTORDER::Player);
+		AttackCollision->GetTransform().SetWorldPosition({ 35.0f,35.0f });
+	}
 
 	GameEngineFontRenderer* Font = CreateComponent<GameEngineFontRenderer>();
 	Font->SetText("테스트", "궁서");
@@ -475,18 +481,32 @@ void Player::Update(float _DeltaTime)
 	//GetLevel()->GetMainCameraActorTransform().SetLocalPosition({ GetTransform().GetLocalPosition()});
 
 	// std::placeholders::_1, std::placeholders::_2 니들이 넣어줘야 한다는것을 명시키는것.
-	Collision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::Monster, CollisionType::CT_OBB2D,
+	AttackCollision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::Monster, CollisionType::CT_OBB2D,
 		std::bind(&Player::MonsterCollision, this, std::placeholders::_1, std::placeholders::_2));
-
+	//여기서 오브젝트 오더는 나의 콜리전 오더타입? 상대의 오더타입? Monster 밑에 Portal구분지어도 다죽이는데?
 
 	//Collision->IsCollision(CollisionType::CT_OBB, OBJECTORDER::Monster, CollisionType::CT_OBB,
 	//	std::bind(&Player::MonsterCollision, this)
 	//);
+
+	Collision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::Portal, CollisionType::CT_OBB2D,
+		std::bind(&Player::MonsterCollision, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 bool Player::MonsterCollision(GameEngineCollision* _This, GameEngineCollision* _Other)
-{	//플레이어와 몬스터가 충돌하면 해당 몬스터를 죽이고 true 를 리턴
-	_Other->GetActor()->Death();
+{	
+	//플레이어와 몬스터가 충돌하면 해당 몬스터를 죽이고 true 를 리턴
 
+	_Other->GetActor()->Death();
+	
 	return true;
+
 }
+
+//bool Player::PortalCollision(GameEngineCollision* _This, GameEngineCollision* _Other)
+//{
+//	if (true == GameEngineInput::GetInst()->IsPress("PlayerUp"))
+//	{
+//		return true;
+//	}
+//}

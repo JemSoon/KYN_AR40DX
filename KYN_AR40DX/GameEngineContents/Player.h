@@ -18,7 +18,6 @@ public:
 	}
 
 	bool stop;//BG움직이기용
-
 public:
 	// constrcuter destructer
 	Player();
@@ -31,6 +30,7 @@ public:
 	Player& operator=(Player&& _Other) noexcept = delete;
 
 	bool MonsterCollision(GameEngineCollision* _This, GameEngineCollision* _Other);
+	bool PortalCollision(GameEngineCollision* _This, GameEngineCollision* _Other);
 
 	float4 GetMovePower()
 	{
@@ -66,5 +66,6 @@ protected:
 private:
 	GameEngineStateManager StateManager;
 	float4 Dir;
+	GameEngineCollision* AttackCollision;
 };
 
