@@ -38,6 +38,7 @@
 #include <GameEngineCore/GameEngineCollision.h>
 #include <GameEngineCore/GameEngineFont.h>
 #include <GameEngineCore/GameEngineFontRenderer.h>
+#include <GameEngineCore/GameEngineCoreDebug.h>
 
 
 #include "GlobalContentsValue.h"
