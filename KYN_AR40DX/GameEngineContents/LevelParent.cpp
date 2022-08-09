@@ -13,7 +13,6 @@ void LevelParent::CreateStageObject(const std::string _BG, const std::string _Co
 {
 	{
 		LevelStageObject = CreateActor<StageObject>(OBJECTORDER::Map);
-
 		{
 			//뒷배경	얘를 카메라이동 반응을 1초정도 느리게 쫓아오게 하고 싶다..
 			LevelStageObject->GetBG()->SetTexture(_BG);
@@ -38,13 +37,6 @@ void LevelParent::CreateStageObject(const std::string _BG, const std::string _Co
 			LevelStageObject->GetMap()->SetPivot(PIVOTMODE::LEFTTOP);
 			// LevelStageObject->GetMap()->SetTexture("Stage1.png");
 		}
-		{	//포탈 렌더러
-			LevelStageObject->GetPortal()->GetTransform().SetLocalScale({ 90, 201, 1 });
-			LevelStageObject->GetPortal()->SetTexture("Portal.png");
-			
-			LevelStageObject->GetPortal()->CreateFrameAnimationCutTexture("Portal", FrameAnimation_DESC("Portal.png", 0, 3, 0.1f));
-			LevelStageObject->GetPortal()->ChangeFrameAnimation("Portal");
-			//LevelStageObject->GetPortal()->GetTransform().SetLocalPosition({ 1851.0f,1275.0f,0.0f });
-		}
+		
 	}
 }

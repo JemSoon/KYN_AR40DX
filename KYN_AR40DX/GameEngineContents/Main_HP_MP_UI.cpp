@@ -51,7 +51,7 @@ void Main_HP_MP_UI::Start()
 	{
 		EXPbar = CreateComponent<GameEngineUIRenderer>();
 		EXPbar->GetTransform().SetWorldScale({ 1264, 7, 0 });
-		EXPbar->GetTransform().SetWorldPosition({ 16,-35,-100 });
+		EXPbar->GetTransform().SetWorldPosition({ 7,-35,-100 });
 		EXPbar->SetTexture("EXPbar.png");
 	}
 }

@@ -2,6 +2,7 @@
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineBase/GameEngineSound.h>
 #include "StageObject.h"
+#include "PortalObject.h"
 
 // Ό³Έν :
 class LevelParent : public GameEngineLevel
@@ -40,15 +41,11 @@ public:
 		return LevelStageObject->GetMap_Col();
 	}
 
-	inline GameEngineTextureRenderer* GetPortal() const
-	{
-		return LevelStageObject->GetPortal();
-	}
-
 protected:
 	void CreateStageObject(const std::string _BG, const std::string _ColName, const std::string _MapName);
 
 	StageObject* LevelStageObject;
+	PortalObject* Portal;
 private:
 
 };

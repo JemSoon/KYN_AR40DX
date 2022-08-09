@@ -64,7 +64,7 @@ void Player::Start()
 		Collision = CreateComponent<GameEngineCollision>();
 		Collision->GetTransform().SetLocalScale({ 100.0f, 100.0f, 100.0f });
 		Collision->ChangeOrder(OBJECTORDER::Player);
-		//Collision->Off();
+		Collision->GetTransform().SetWorldPosition({ 0.0f,35.0f });
 	}
 
 	GameEngineFontRenderer* Font = CreateComponent<GameEngineFontRenderer>();

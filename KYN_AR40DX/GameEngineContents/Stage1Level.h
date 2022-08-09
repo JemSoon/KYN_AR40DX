@@ -36,7 +36,6 @@ private:
 	Main_HP_MP_UI* MainUI;
 	GameEngineSoundPlayer BgmPlayer;
 	bool BgmOn;
-	StageObject* Stage;
 	
 };
 

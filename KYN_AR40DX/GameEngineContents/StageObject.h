@@ -37,11 +37,6 @@ public:
 		return Map_Col;
 	}
 
-	inline GameEngineTextureRenderer* GetPortal() const
-	{
-		return Portal;
-	}
-
 protected:
 	virtual void Start() override;
 	virtual void Update(float _DeltaTime);
@@ -50,7 +45,6 @@ protected:
 	GameEngineTextureRenderer* BG;
 	GameEngineTextureRenderer* Map;
 	GameEngineTextureRenderer* Map_Col;
-	GameEngineTextureRenderer* Portal;
 
 	float Speed;
 private:

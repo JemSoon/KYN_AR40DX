@@ -30,19 +30,22 @@ void Stage1Level::Start()
 
 	GetMainCamera()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
 
-	if (false == GameEngineInput::GetInst()->IsKey("FreeCameaOnOff"))
+	if (false == GameEngineInput::GetInst()->IsKey("MapOffSwitch"))
 	{
-		GameEngineInput::GetInst()->CreateKey("FreeCameaOnOff", 'O');
 		GameEngineInput::GetInst()->CreateKey("MapOffSwitch", 'I');
 	}
 	
 	CreateStageObject("Stage1_BG.png", "Stage1_Col.png", "Stage1.png");
-	LevelStageObject->GetPortal()->GetTransform().SetLocalPosition({ 100.0f,100.0f,0.0f });
+
+	{
+		Portal = CreateActor<PortalObject>(OBJECTORDER::Portal);
+		Portal->GetTransform().SetWorldPosition({ 1853.0f,-1235.0f,0.0f });
+	}
 
 	{
 		Monster* actor1 = CreateActor<Monster>(OBJECTORDER::Monster);
 		actor1->GetTransform().SetLocalPosition({ 1200.0f, -1005.0f, 0.0f });
-
+		
 		Monster* actor2 = CreateActor<Monster>(OBJECTORDER::Monster);
 		actor2->GetTransform().SetLocalPosition({ 1300.0f, -1005.0f, 0.0f });
 	}
@@ -80,21 +83,13 @@ void Stage1Level::OnEvent()
 
 void Stage1Level::Update(float _DeltaTime)
 {
-	if (GameEngineInput::GetInst()->IsDown("FreeCameaOnOff"))
-	{
-		//GetMainCamera()->SetProjectionMode(CAMERAPROJECTIONMODE::PersPective);//퍼스펙:원근//오서:직교
-		GetMainCameraActor()->FreeCameraModeOnOff();
-	}
-	
 	if (false == Camera->IsFreeCameraMode())
 	{	//프리카메라 모드가 아닐때만 카메라가 플레이어를 쫓아다니고 맵 범위 안으로 카메라가 제한된다
 		CameraChase();
 		CameraRange();
 	}
 	
-
 	SetMapOnOffSwitch();
-
 
 	NextStage();
 }

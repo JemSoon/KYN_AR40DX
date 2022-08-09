@@ -4,7 +4,6 @@
 StageObject::StageObject()
 	: BG(nullptr)
 	, Map(nullptr)
-	, Portal(nullptr)
 	, Map_Col(nullptr)
 	, Speed(10.0f)
 {
@@ -31,7 +30,6 @@ void StageObject::Start()
 	Map_Col = CreateComponent<GameEngineTextureRenderer>();
 	BG = CreateComponent<GameEngineTextureRenderer>();
 	Map = CreateComponent<GameEngineTextureRenderer>();
-	Portal = CreateComponent<GameEngineTextureRenderer>();
 }
 
 void StageObject::Update(float _DeltaTime)

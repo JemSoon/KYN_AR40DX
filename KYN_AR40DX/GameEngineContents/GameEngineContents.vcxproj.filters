@@ -91,6 +91,9 @@
     <ClInclude Include="CharacterObject.h">
       <Filter>Actor\Parents\Character</Filter>
     </ClInclude>
+    <ClInclude Include="PortalObject.h">
+      <Filter>Actor\Parents\Stage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapleStoryCore.cpp">
@@ -135,6 +138,9 @@
     </ClCompile>
     <ClCompile Include="LevelParent.cpp">
       <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="PortalObject.cpp">
+      <Filter>Actor\Parents\Stage</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
