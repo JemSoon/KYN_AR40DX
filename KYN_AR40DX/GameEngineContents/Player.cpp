@@ -10,6 +10,7 @@ Player* Player::MainPlayer = nullptr;
 
 Player::Player()
 	:stop(false)
+	, PortalOn(false)
 {
 	MainPlayer = this;
 	Speed = 150.0f;
@@ -479,18 +480,20 @@ void Player::Update(float _DeltaTime)
 
 	//카메라가 플레이어 중심으로 쫓아다닌다
 	//GetLevel()->GetMainCameraActorTransform().SetLocalPosition({ GetTransform().GetLocalPosition()});
+	
+	{
+		// std::placeholders::_1, std::placeholders::_2 니들이 넣어줘야 한다는것을 명시키는것.
+		AttackCollision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::Monster, CollisionType::CT_OBB2D,
+			std::bind(&Player::MonsterCollision, this, std::placeholders::_1, std::placeholders::_2));
 
-	// std::placeholders::_1, std::placeholders::_2 니들이 넣어줘야 한다는것을 명시키는것.
-	AttackCollision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::Monster, CollisionType::CT_OBB2D,
-		std::bind(&Player::MonsterCollision, this, std::placeholders::_1, std::placeholders::_2));
-	//여기서 오브젝트 오더는 나의 콜리전 오더타입? 상대의 오더타입? Monster 밑에 Portal구분지어도 다죽이는데?
-
-	//Collision->IsCollision(CollisionType::CT_OBB, OBJECTORDER::Monster, CollisionType::CT_OBB,
-	//	std::bind(&Player::MonsterCollision, this)
-	//);
-
-	Collision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::Portal, CollisionType::CT_OBB2D,
-		std::bind(&Player::MonsterCollision, this, std::placeholders::_1, std::placeholders::_2));
+		//Collision->IsCollision(CollisionType::CT_OBB, OBJECTORDER::Monster, CollisionType::CT_OBB,
+		//	std::bind(&Player::MonsterCollision, this)
+		//);
+	}
+	{
+		Collision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::Portal, CollisionType::CT_OBB2D,
+			std::bind(&Player::PortalCollision, this, std::placeholders::_1, std::placeholders::_2));
+	}
 }
 
 bool Player::MonsterCollision(GameEngineCollision* _This, GameEngineCollision* _Other)
@@ -503,10 +506,11 @@ bool Player::MonsterCollision(GameEngineCollision* _This, GameEngineCollision* _
 
 }
 
-//bool Player::PortalCollision(GameEngineCollision* _This, GameEngineCollision* _Other)
-//{
-//	if (true == GameEngineInput::GetInst()->IsPress("PlayerUp"))
-//	{
-//		return true;
-//	}
-//}
+bool Player::PortalCollision(GameEngineCollision* _This, GameEngineCollision* _Other)
+{
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerUp"))
+	{
+		PortalOn = true;
+		return true;
+	}
+}

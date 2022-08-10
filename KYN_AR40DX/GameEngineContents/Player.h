@@ -36,6 +36,8 @@ public:
 	{
 		return MovePower;
 	}
+	
+	bool PortalOn;
 
 protected:
 	void Start() override;

@@ -24,60 +24,73 @@ Stage2Level::~Stage2Level()
 
 void Stage2Level::Start()
 {
-	if (false == GameEngineInput::GetInst()->IsKey("LevelChange"))
+
+
+	if (false == GameEngineInput::GetInst()->IsKey("MapOffSwitch"))
 	{
-		GameEngineInput::GetInst()->CreateKey("LevelChange", 'P');
+		GameEngineInput::GetInst()->CreateKey("MapOffSwitch", 'I');
 	}
 
-	{
-		Camera = CreateActor<GameEngineCameraActor>();
-		Camera->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
-		Camera->GetTransform().SetLocalPosition({ 0.0f, 0.0f, -100.0f });
-	}
-
-	{
-		Stage = CreateActor<StageObject>();
-
-		Stage->GetMap_Col()->GetTransform().SetLocalScale({1420, 760, 100});
-		Stage->GetMap_Col()->SetTexture("stage2_Col.png");
-
-		Stage->GetBG()->GetTransform().SetLocalScale({1420, 760, 100});
-		Stage->GetBG()->SetTexture("stage2_BG.png");
-
-		Stage->GetMap()->GetTransform().SetLocalScale({1420, 760, 100});
-		Stage->GetMap()->SetTexture("stage2.png");
-
-		//Stage->GetPortal()->GetTransform().SetLocalScale({90, 201, 100});
-		//Stage->GetPortal()->SetTexture("Portal.png");
-		//
-		//Stage->GetPortal()->CreateFrameAnimationCutTexture("Portal", FrameAnimation_DESC("Portal.png", 0, 3, 0.1f));
-		//Stage->GetPortal()->ChangeFrameAnimation("Portal");
-		//Stage->GetPortal()->GetTransform().SetLocalPosition({ 600.0f,-45.0f,-100.0f });
-	}
-
-	{
-		Monster* actor = CreateActor<Monster>(OBJECTORDER::Monster);
-		actor->GetTransform().SetLocalPosition({ -300.0f, -150.0f, 0.0f });
-	}
-
-	{
-		Sugar* NPC = CreateActor<Sugar>(OBJECTORDER::NPC);
-		NPC->GetTransform().SetLocalPosition({ -100.0f, 60.0f, 0.0f });
-		NPC->GetRenderer()->GetTransform().PixLocalPositiveX();
-	}
 }
 
 void Stage2Level::Update(float _DeltaTime)
 {	
-	CameraChase();
+	if (false == Camera->IsFreeCameraMode())
+	{	//프리카메라 모드가 아닐때만 카메라가 플레이어를 쫓아다니고 맵 범위 안으로 카메라가 제한된다
+		CameraChase();
+		CameraRange();
+	}
+
+	SetMapOnOffSwitch();
 
 	NextStage();
-
-	CameraRange();
 }
 
 void Stage2Level::End()
 {
+}
+
+void Stage2Level::OnEvent()
+{
+	{
+		Camera = GetMainCameraActor();
+		Camera->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
+		Camera->GetTransform().SetWorldPosition({ 0,0,-500.0f });
+	}
+
+	CreateStageObject("Stage2_BG.png", "Stage2_Col.png", "Stage2.png");
+
+	{
+		Portal = CreateActor<PortalObject>(OBJECTORDER::Portal);
+		Portal->GetTransform().SetWorldPosition({ 1285.0f,-428.0f,-10.0f });
+	}
+
+	{
+		Monster* actor = CreateActor<Monster>(OBJECTORDER::Monster);
+		actor->GetTransform().SetLocalPosition({1000.0f, -500.0f, 0.0f });
+	}
+
+	{
+		Sugar* NPC = CreateActor<Sugar>(OBJECTORDER::NPC);
+		NPC->GetTransform().SetWorldPosition({ 620.0f, -330.0f, 0.0f });
+		NPC->GetRenderer()->GetTransform().PixLocalPositiveX();
+	}
+
+	{
+		if (nullptr == Player::GetMainPlayer())
+		{
+			NewPlayer = CreateActor<Player>(OBJECTORDER::Player);
+			NewPlayer->SetLevelOverOn();
+			NewPlayer->GetTransform().SetWorldPosition({ 200.0f, -500.0f, -10.0f });
+		}
+
+		else if (nullptr == NewPlayer)
+		{
+			NewPlayer = Player::GetMainPlayer();
+			NewPlayer->GetTransform().SetWorldPosition({ 200.0f, -500.0f, -10.0f });
+		}
+	}
+
 }
 
 void Stage2Level::CameraChase()
@@ -96,33 +109,37 @@ void Stage2Level::NextStage()
 
 void Stage2Level::CameraRange()
 {
+	float CameraUp = 380.0f/*공중에 붕 뜬 투명배경 포함*/ - 360.0f;
+	float CameraDown = (LevelStageObject->GetBG()->GetTransform().GetLocalScale().y - 360.0f) * -1.0f;
+	float CameraLeft = 640.0f;
+	float CameraRight = 780.0f;//2270(전체길이)-640(1280의 절반)
 	//카메라 맵밖으로 안나가게(실패?)
-	if (0 > Camera->GetTransform().GetLocalPosition().x)//왼쪽 고정
+	if (CameraLeft > Camera->GetTransform().GetLocalPosition().x)//왼쪽 고정
 	{
 		float4 CameraPos = Camera->GetTransform().GetLocalPosition();
-		CameraPos.x = 0;
+		CameraPos.x = CameraLeft;
 		Camera->GetTransform().SetLocalPosition(CameraPos);
 		//GameEngineDebug::OutPutString(std::to_string(CameraPos.x));
 	}
 
-	if (70 < Camera->GetTransform().GetLocalPosition().x)//오른쪽 고정
+	if (CameraRight < Camera->GetTransform().GetLocalPosition().x)//오른쪽 고정
 	{
 		float4 CameraPos = Camera->GetTransform().GetLocalPosition();
-		CameraPos.x = 70;
+		CameraPos.x = CameraRight;
 		Camera->GetTransform().SetLocalPosition(CameraPos);
 	}
 
-	if (0 > Camera->GetTransform().GetLocalPosition().y)//아래 고정
+	if (CameraDown > Camera->GetTransform().GetLocalPosition().y)//아래 고정
 	{
 		float4 CameraPos = Camera->GetTransform().GetLocalPosition();
-		CameraPos.y = 0;
+		CameraPos.y = CameraDown;
 		Camera->GetTransform().SetLocalPosition(CameraPos);
 	}
 
-	if (20 < Camera->GetTransform().GetLocalPosition().y)//위 고정
+	if (CameraUp < Camera->GetTransform().GetLocalPosition().y)//위 고정
 	{
 		float4 CameraPos = Camera->GetTransform().GetLocalPosition();
-		CameraPos.y = 20;
+		CameraPos.y = CameraUp;
 		Camera->GetTransform().SetLocalPosition(CameraPos);
 	}
 }
