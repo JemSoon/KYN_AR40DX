@@ -60,6 +60,13 @@ void Player::Start()
 		Renderer->ChangeFrameAnimation("Idle");
 		Renderer->SetPivot(PIVOTMODE::CUSTOM);
 	}
+	
+	{
+		Renderer->AnimationBindEnd("Attack1", std::bind(&Player::AttackEnd, this));
+		Renderer->AnimationBindEnd("Attack2", std::bind(&Player::AttackEnd, this));
+		Renderer->AnimationBindEnd("Attack3", std::bind(&Player::AttackEnd, this));
+		Renderer->AnimationBindEnd("Attack4", std::bind(&Player::AttackEnd, this));
+	}
 
 	{
 		Collision = CreateComponent<GameEngineCollision>();
@@ -72,6 +79,7 @@ void Player::Start()
 		AttackCollision->GetTransform().SetLocalScale({ 100.0f, 50.0f, 100.0f });
 		AttackCollision->ChangeOrder(OBJECTORDER::Player);
 		AttackCollision->GetTransform().SetWorldPosition({ 35.0f,35.0f });
+		AttackCollision->Off();
 	}
 
 	GameEngineFontRenderer* Font = CreateComponent<GameEngineFontRenderer>();
@@ -171,6 +179,8 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::AttackStart(const StateInfo& _Info)
 {
+	AttackCollision->On();
+
 	int RandomNumber = GameEngineRandom::MainRandom.RandomInt(1, 4);
 
 	if (RandomNumber == 1)
@@ -199,9 +209,40 @@ void Player::AttackUpdate(float _DeltaTime, const StateInfo& _Info)
 	Gravity(_DeltaTime);
 	GetTransform().SetWorldMove(MovePower);
 	stop = true;
-	if (true == GameEngineInput::GetInst()->IsUp("PlayerAttack"))
+}
+
+void Player::AttackEnd()
+{
+
+	if (true == GameEngineInput::GetInst()->IsFree("PlayerAttack"))
 	{
-		StateManager.ChangeState("Idle");
+		AttackCollision->Off();
+		StateManager.ChangeState("Fall");
+	}
+
+	else if (true == GameEngineInput::GetInst()->IsPress("PlayerAttack"))
+	{
+		AttackCollision->On();
+		int RandomNumber = GameEngineRandom::MainRandom.RandomInt(1, 4);
+
+		if (RandomNumber == 1)
+		{
+			Renderer->ChangeFrameAnimation("Attack1");
+		}
+		else if (RandomNumber == 2)
+		{
+			Renderer->ChangeFrameAnimation("Attack2");
+		}
+		else if (RandomNumber == 3)
+		{
+			Renderer->ChangeFrameAnimation("Attack3");
+		}
+		else
+		{
+			Renderer->ChangeFrameAnimation("Attack4");
+		}
+
+		Speed = 150.0f;//어택할때 왠지모르게 스피드가 -75로 변경됨;;
 	}
 }
 
@@ -279,6 +320,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 			StateManager.ChangeState("Fall");
 		}
 		Renderer->GetTransform().PixLocalPositiveX();
+
 	}
 
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
@@ -455,7 +497,7 @@ void Player::FallUpdate(float _DeltaTime, const StateInfo& _Info)
 	{	//착지했는데 방향키 안누르면 Idle
 		StateManager.ChangeState("Idle");
 	}
-
+	GetTransform().SetWorldMove(MovePower);
 }
 
 void Player::Update(float _DeltaTime)

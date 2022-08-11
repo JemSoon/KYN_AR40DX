@@ -43,7 +43,7 @@ protected:
 	void Start() override;
 	void Update(float _DeltaTime);
 	void End() {}
-
+	//==========================================================//
 	void IdleStart(const StateInfo& _Info);
 	void IdleUpdate(float _DeltaTime, const StateInfo& _Info);
 
@@ -64,6 +64,11 @@ protected:
 
 	void AttackStart(const StateInfo& _Info);
 	void AttackUpdate(float _DeltaTime, const StateInfo& _Info);
+	//==========================================================//
+	
+	//==========================================================//
+	void AttackEnd();
+	//==========================================================//
 
 private:
 	GameEngineStateManager StateManager;
