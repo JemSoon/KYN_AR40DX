@@ -10,7 +10,7 @@ Player* Player::MainPlayer = nullptr;
 
 Player::Player()
 	:stop(false)
-	, PortalOn(false)
+	,PortalOn(false)
 {
 	MainPlayer = this;
 	Speed = 150.0f;
@@ -78,7 +78,7 @@ void Player::Start()
 		AttackCollision = CreateComponent<GameEngineCollision>();
 		AttackCollision->GetTransform().SetLocalScale({ 100.0f, 50.0f, 100.0f });
 		AttackCollision->ChangeOrder(OBJECTORDER::Player);
-		AttackCollision->GetTransform().SetWorldPosition({ 35.0f,35.0f });
+		AttackCollision->GetTransform().SetWorldPosition({ -35.0f,35.0f });
 		AttackCollision->Off();
 	}
 
@@ -320,7 +320,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 			StateManager.ChangeState("Fall");
 		}
 		Renderer->GetTransform().PixLocalPositiveX();
-
+		AttackCollision->GetTransform().SetLocalPosition({ -35.0f,35.0f });
 	}
 
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
@@ -345,6 +345,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		}
 
 		Renderer->GetTransform().PixLocalNegativeX();
+		AttackCollision->GetTransform().SetLocalPosition({ 35.0f,35.0f});
 	}
 
 
@@ -511,7 +512,6 @@ void Player::Update(float _DeltaTime)
 
 	// 색깔 체크하고
 	ColorCheckUpdate();
-
 	StateManager.Update(_DeltaTime);
 
 	{

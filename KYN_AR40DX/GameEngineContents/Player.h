@@ -69,7 +69,6 @@ protected:
 	//==========================================================//
 	void AttackEnd();
 	//==========================================================//
-
 private:
 	GameEngineStateManager StateManager;
 	float4 Dir;
