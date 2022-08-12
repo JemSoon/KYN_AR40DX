@@ -33,6 +33,16 @@ void FrameAnimation::Update(float _Delta)
 
 	if (Info.Inter <= Info.FrameTime)
 	{
+//============================================================//
+		if (Info.CurFrame == (Info.Frames.size() - 1)
+			&& false == bOnceEnd
+			&& nullptr != End)
+		{							//8월12일 추가된 내용 이거땜에 프레임 끝이 이상할 수있다
+			End(Info);
+			bOnceEnd = true;
+			bOnceStart = false;
+		}
+//============================================================//
 		++Info.CurFrame;
 		if (nullptr != Frame)
 		{
@@ -41,12 +51,6 @@ void FrameAnimation::Update(float _Delta)
 
 		if (Info.CurFrame >= Info.Frames.size())
 		{
-			if (false == bOnceEnd && nullptr != End)
-			{
-				End(Info);
-				bOnceEnd = true;
-				bOnceStart = false;
-			}
 
 			if (true == Info.Loop)
 			{
@@ -284,10 +288,12 @@ void GameEngineTextureRenderer::ChangeFrameAnimation(const std::string& _Animati
 		if (nullptr != CurAni->Texture)
 		{
 			SetTexture(CurAni->Texture, CurAni->Info.Frames[CurAni->Info.CurFrame]);
+			ScaleToCutTexture(CurAni->Info.CurFrame);
 		}
 		else if(nullptr != CurAni->FolderTexture)
 		{
 			SetTexture(CurAni->FolderTexture->GetTexture(CurAni->Info.Frames[CurAni->Info.CurFrame]));
+			ScaleToTexture();
 		}
 	}
 }

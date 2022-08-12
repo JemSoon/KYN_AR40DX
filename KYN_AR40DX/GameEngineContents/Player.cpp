@@ -52,9 +52,9 @@ void Player::Start()
 		Renderer->CreateFrameAnimationCutTexture("Sadari", FrameAnimation_DESC("sadari.png", Two, 0.3f));
 		Renderer->CreateFrameAnimationCutTexture("Jump", FrameAnimation_DESC("jump.png", One, 0.0f, false));
 		Renderer->CreateFrameAnimationCutTexture("Prone", FrameAnimation_DESC("prone.png", One, 0.0f, false));
-		Renderer->CreateFrameAnimationCutTexture("Attack1", FrameAnimation_DESC("attack1.png", Three, 0.15f));
-		Renderer->CreateFrameAnimationCutTexture("Attack2", FrameAnimation_DESC("attack2.png", Three, 0.15f));
-		Renderer->CreateFrameAnimationCutTexture("Attack3", FrameAnimation_DESC("attack3.png", Three, 0.15f));
+		Renderer->CreateFrameAnimationCutTexture("Attack1", FrameAnimation_DESC("attack1.png", Three, 0.2f));
+		Renderer->CreateFrameAnimationCutTexture("Attack2", FrameAnimation_DESC("attack2.png", Three, 0.2f));
+		Renderer->CreateFrameAnimationCutTexture("Attack3", FrameAnimation_DESC("attack3.png", Three, 0.2f));
 		Renderer->CreateFrameAnimationCutTexture("Attack4", FrameAnimation_DESC("attack4.png", Two, 0.23f));
 
 		Renderer->ChangeFrameAnimation("Idle");
@@ -70,13 +70,15 @@ void Player::Start()
 
 	{
 		Collision = CreateComponent<GameEngineCollision>();
-		Collision->GetTransform().SetLocalScale({ 100.0f, 100.0f, 100.0f });
+		Collision->SetDebugSetting(CollisionType::CT_OBB2D, float4{1.0f,0.0f,0.0f,0.3f});
+		Collision->GetTransform().SetLocalScale({ 64.0f, 64.0f, 100.0f });
 		Collision->ChangeOrder(OBJECTORDER::Player);
 		Collision->GetTransform().SetWorldPosition({ 0.0f,35.0f });
 	}
 	{
 		AttackCollision = CreateComponent<GameEngineCollision>();
-		AttackCollision->GetTransform().SetLocalScale({ 100.0f, 50.0f, 100.0f });
+		AttackCollision->SetDebugSetting(CollisionType::CT_OBB2D, float4{ 1.0f,0.0f,0.0f,0.3f });
+		AttackCollision->GetTransform().SetLocalScale({ 84.0f, 64.0f, 100.0f });
 		AttackCollision->ChangeOrder(OBJECTORDER::Player);
 		AttackCollision->GetTransform().SetWorldPosition({ -35.0f,35.0f });
 		AttackCollision->Off();
@@ -545,7 +547,6 @@ bool Player::MonsterCollision(GameEngineCollision* _This, GameEngineCollision* _
 	_Other->GetActor()->Death();
 	
 	return true;
-
 }
 
 bool Player::PortalCollision(GameEngineCollision* _This, GameEngineCollision* _Other)
