@@ -108,7 +108,6 @@ void Player::Start()
 			// & 외부의 있는 값의 참조형을 받아오는 것이기 때문에
 			// 지역변수를 쓰면 결과를 장담할수가 없다. = 참조는 안된다
 			Renderer->ChangeFrameAnimation("Move");
-
 		});
 
 	StateManager.CreateStateMember("Sadari"
@@ -482,6 +481,14 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::FallStart(const StateInfo& _Info)
 {
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
+	{
+		MovePower.x = -1.0f;
+	}
+	else if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
+	{
+		MovePower.x = 1.0f;
+	}
 	Renderer->ChangeFrameAnimation("Jump");
 }
 
@@ -493,12 +500,14 @@ void Player::FallUpdate(float _DeltaTime, const StateInfo& _Info)
 		true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN))
 	{	//착지했는데 방향키 누르고있으면 Move
 		StateManager.ChangeState("Move");
+		Speed = 150.0f;
 	}
 	else if ((false == GameEngineInput::GetInst()->IsPress("PlayerLeft") ||
 			  false == GameEngineInput::GetInst()->IsPress("PlayerRight")) &&
 			  true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN))
 	{	//착지했는데 방향키 안누르면 Idle
 		StateManager.ChangeState("Idle");
+		Speed = 150.0f;
 	}
 	GetTransform().SetWorldMove(MovePower);
 }
