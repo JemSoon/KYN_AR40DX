@@ -4,6 +4,8 @@
 #include "GameEngineContents/Stage1Level.h"
 #include "GameEngineContents/Stage2Level.h"
 #include <GameEngineBase/GameEngineSound.h>
+#include <GameEngineBase/magic_enum.hpp>
+
 
 #pragma comment(lib, "GameEngineBase.lib")
 
@@ -18,6 +20,9 @@ MapleStoryCore::~MapleStoryCore()
 
 void MapleStoryCore::Start()
 {
+	// string 최적화를 위한녀석.
+	std::string_view Value = magic_enum::enum_name(OBJECTORDER::Player);
+	std::string Name = Value.data();
 	{
 		GameEngineDirectory Dir;
 
