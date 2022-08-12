@@ -12,8 +12,8 @@ class GameEngineGUIWindow : public GameEngineNameObject, public GameEngineUpdate
 	void Start() override {}
 	void Update(float _DeltaTime) override { };
 
-private:
 
+private:
 	void Begin()
 	{
 		std::string Name = GameEngineString::AnsiToUTF8Return(GetNameConstPtr());
@@ -61,6 +61,10 @@ public:
 		Windows.push_back(Window);
 		return Window;
 	}
+
+	static std::string OpenFileDlg(const std::string& _Title, const std::string& _StartPath);
+
+	static std::string OpenFolderDlg(const std::string& _Title, const std::string& _StartPath);
 
 protected:
 

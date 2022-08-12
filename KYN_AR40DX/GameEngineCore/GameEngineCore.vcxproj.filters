@@ -377,6 +377,9 @@
     <ClInclude Include="GameEngineCoreDebug.h">
       <Filter>Debug</Filter>
     </ClInclude>
+    <ClInclude Include="portable-file-dialogs.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="ThirdParty\bin\Release\DirectXTex.lib">
