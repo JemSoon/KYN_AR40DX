@@ -517,7 +517,7 @@ void Player::Update(float _DeltaTime)
 	StateManager.Update(_DeltaTime);
 
 	{
-		float4 Test1 = GetLevel()->GetMainCamera()->GetScreenPosition();
+		float4 Test1 = GetLevel()->GetMainCamera()->GetMouseScreenPosition();
 
 		float4 Test2 = GetLevel()->GetMainCamera()->GetMouseWorldPosition(); 
 	}
