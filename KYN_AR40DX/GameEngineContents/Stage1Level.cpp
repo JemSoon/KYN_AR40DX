@@ -74,10 +74,15 @@ void Stage1Level::OnEvent()
 			NewPlayer->SetLevelOverOn();
 			NewPlayer->GetTransform().SetWorldPosition({ 1070.0f, -1000.0f, 0.0f });
 		}
-		if (nullptr == NewPlayer)
+		else if (nullptr == NewPlayer)
 		{
 			NewPlayer = Player::GetMainPlayer();
 			NewPlayer->GetTransform().SetWorldPosition({ 1070.0f, -1000.0f, 0.0f });
+		}
+		else if (nullptr != NewPlayer)
+		{
+			//이미 다 만들어져 있다==다른맵에서 왔을때
+			NewPlayer->GetTransform().SetWorldPosition({ 1845, -1240.0f, 0.0f });
 		}
 	}
 

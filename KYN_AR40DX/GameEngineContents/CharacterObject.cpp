@@ -72,6 +72,8 @@ void CharacterObject::ColorCheckUpdateNext(float4 _Move)
 		float4 CheckDir = GetTransform().GetWorldPosition() + ColorDir[i] + _Move;
 
 		NextColorCheck[i] = MapTexture->GetPixelToFloat4(CheckDir.ix(), -CheckDir.iy());
+		iNextColorCheck[i] = MapTexture->GetPixelToPixelColor(CheckDir.ix(), -CheckDir.iy());
+		//이걸 쓰려면 밑의 IsNexColor에 인자 두번째껄 PixelColor로 수정된게 필요
 	}
 
 	return;
@@ -103,7 +105,9 @@ void CharacterObject::ColorCheckUpdate()
 	{
 		float4 CheckDir = GetTransform().GetWorldPosition() + ColorDir[i];
 
-		ColorCheck[i] = MapTexture->GetPixelToFloat4(CheckDir.ix(), -CheckDir.iy());
+		//ColorCheck[i] = MapTexture->GetPixelToFloat4(CheckDir.ix(), -CheckDir.iy());
+
+		iColorCheck[i] = MapTexture->GetPixelToPixelColor(CheckDir.ix(), -CheckDir.iy());
 	}
 
 	return;

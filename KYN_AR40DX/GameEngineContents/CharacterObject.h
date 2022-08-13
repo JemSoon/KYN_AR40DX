@@ -62,9 +62,15 @@ protected:
 	float4 PurePower;//무시하고지나갈때 파워
 
 	float4 ColorDir[8];
-
 	float4 ColorCheck[8];
 	float4 NextColorCheck[8];
+
+	PixelColor iColorDir[8];
+	PixelColor iColorCheck[8];
+	PixelColor iNextColorCheck[8];
+	
+	PixelColor PrevColor;
+	PixelColor CurColor;
 
 	bool IsNextColor(COLORCHECKDIR _Dir, float4 _Color);
 

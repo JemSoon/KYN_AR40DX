@@ -125,6 +125,9 @@ void Player::Start()
 	StateManager.CreateStateMember("Attack"
 		, std::bind(&Player::AttackUpdate, this, std::placeholders::_1, std::placeholders::_2)
 		, std::bind(&Player::AttackStart, this, std::placeholders::_1));
+	StateManager.CreateStateMember("DownJump"
+		, std::bind(&Player::DownJumpUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::DownJumpStart, this, std::placeholders::_1));
 
 	StateManager.ChangeState("Idle");
 
@@ -132,6 +135,7 @@ void Player::Start()
 
 void Player::IdleStart(const StateInfo& _Info)
 {
+	Speed = 150.0f;
 	Renderer->ChangeFrameAnimation("Idle");
 }
 void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -249,6 +253,7 @@ void Player::AttackEnd()
 
 void Player::ProneStart(const StateInfo& _Info)
 {
+	MovePower.y = 0.0f;//가끔 팍 튀는현상 막기용
 	Renderer->ChangeFrameAnimation("Prone");
 }
 
@@ -257,6 +262,14 @@ void Player::ProneUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (true == GameEngineInput::GetInst()->IsUp("PlayerDown"))
 	{
 		StateManager.ChangeState("Idle");
+	}
+
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerDown")&&
+		true == GameEngineInput::GetInst()->IsDown("PlayerJump")&&
+		iNextColorCheck[5].g>245)
+	{
+		//그린245가 최종 밑바닥 여기서 더 내려가지 몬한다
+		StateManager.ChangeState("DownJump");
 	}
 }
 
@@ -470,8 +483,10 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	GetTransform().SetWorldMove(MovePower);
 
-	if ((true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN) && MovePower.y<=0) ||
+	if (((true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN) && MovePower.y<=0) ||
 		(true == IsNextColor(COLORCHECKDIR::DOWN, float4::RED) && MovePower.y <= 0))
+		||
+		(iNextColorCheck[5].g > 100 && iNextColorCheck[5].r <= 0))
 	{	//y속도가 마이너스 && 초록 바닥에 닿는다면 = 착지 = idle
 		StateManager.ChangeState("Idle");
 		Speed = 150.0f;
@@ -497,19 +512,37 @@ void Player::FallUpdate(float _DeltaTime, const StateInfo& _Info)
 	Gravity(_DeltaTime);
 	if ((true == GameEngineInput::GetInst()->IsPress("PlayerLeft") ||
 		true == GameEngineInput::GetInst()->IsPress("PlayerRight"))&&
-		true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN))
+		(true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN)||
+		(iNextColorCheck[5].g>100 && iNextColorCheck[5].r <= 0)))
 	{	//착지했는데 방향키 누르고있으면 Move
 		StateManager.ChangeState("Move");
 		Speed = 150.0f;
 	}
 	else if ((false == GameEngineInput::GetInst()->IsPress("PlayerLeft") ||
 			  false == GameEngineInput::GetInst()->IsPress("PlayerRight")) &&
-			  true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN))
+			(true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN) ||
+			(iNextColorCheck[5].g > 100 && iNextColorCheck[5].r <= 0)))
 	{	//착지했는데 방향키 안누르면 Idle
 		StateManager.ChangeState("Idle");
 		Speed = 150.0f;
 	}
 	GetTransform().SetWorldMove(MovePower);
+}
+
+void Player::DownJumpStart(const StateInfo& _Info)
+{
+	PrevColor = iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)];
+	Dir = float4::ZERO;
+	{
+		Renderer->ChangeFrameAnimation("Jump");
+		Speed *= 0.5f;
+		//Speed += -75.0f;
+		MovePower += float4::UP * 1.0f;
+	}
+}
+void Player::DownJumpUpdate(float _DeltaTime, const StateInfo& _Info)
+{
+	Gravity(_DeltaTime);
 }
 
 void Player::Update(float _DeltaTime)
@@ -565,4 +598,43 @@ bool Player::PortalCollision(GameEngineCollision* _This, GameEngineCollision* _O
 		PortalOn = true;
 		return true;
 	}
+}
+
+void Player::Gravity(float _DeltaTime)
+{
+	GameEngineTexture* MapTexture = GetLevel<LevelParent>()->GetMap_Col()->GetCurTexture();
+
+	MovePower += float4::DOWN * _DeltaTime * 10.0f;//가속도
+
+	ColorCheckUpdateNext(MovePower);
+
+	if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE))
+	{	//발바닥이 흰색이라면 추락
+		GetTransform().SetWorldMove(MovePower);
+	}
+
+	else if (MovePower.y > 0 || true == IsNextColor(COLORCHECKDIR::DOWN, float4::BLUE))
+	{
+		//y힘이 양수라면 그대로 힘을 유지한다
+		GetTransform().SetWorldMove(MovePower);
+	}
+
+	else if ("DownJump"== StateManager.GetCurStateStateName()&&
+			 iNextColorCheck[5].g >= PrevColor.g)
+	{
+		GetTransform().SetWorldMove(MovePower);
+	}
+
+	else if ("DownJump" == StateManager.GetCurStateStateName() &&
+		iNextColorCheck[5].g < PrevColor.g)
+	{
+		MovePower = float4::ZERO;
+		StateManager.ChangeState("Idle");
+	}
+
+	else
+	{
+		MovePower = float4::ZERO;
+	}
+
 }

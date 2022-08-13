@@ -64,8 +64,11 @@ protected:
 
 	void AttackStart(const StateInfo& _Info);
 	void AttackUpdate(float _DeltaTime, const StateInfo& _Info);
+
+	void DownJumpStart(const StateInfo& _Info);
+	void DownJumpUpdate(float _DeltaTime, const StateInfo& _Info);
 	//==========================================================//
-	
+	void Gravity(float _DeltaTime) override;
 	//==========================================================//
 	void AttackEnd();
 	//==========================================================//
