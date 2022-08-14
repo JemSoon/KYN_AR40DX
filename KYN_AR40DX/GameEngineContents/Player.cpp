@@ -266,7 +266,7 @@ void Player::ProneUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerDown")&&
 		true == GameEngineInput::GetInst()->IsDown("PlayerJump")&&
-		iNextColorCheck[5].g>245)
+		(iNextColorCheck[5].g>245 && iNextColorCheck[5].r <= 0))
 	{
 		//그린245가 최종 밑바닥 여기서 더 내려가지 몬한다
 		StateManager.ChangeState("DownJump");
@@ -319,21 +319,21 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		MovePower = GetTransform().GetLeftVector() * Speed * _DeltaTime;
 
-		if ((true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN) &&
-			true == IsNextColor(COLORCHECKDIR::LEFT, float4::GREEN) &&
-			false == IsNextColor(COLORCHECKDIR::LEFTTOP, float4::GREEN))
-										||
-			(iNextColorCheck[5].g>200&&
-			 iNextColorCheck[0].g>200&&
-			 iNextColorCheck[1].g<10))
+		if 	((true==(iNextColorCheck[5].g>200 && iNextColorCheck[5].r <= 0 && iNextColorCheck[5].b <= 0))&&
+			 (true==(iNextColorCheck[0].g>200 && iNextColorCheck[0].r <= 0 && iNextColorCheck[0].b <= 0))&&
+			 (true==(iNextColorCheck[1].g!=0 && iNextColorCheck[1].r!=0 && iNextColorCheck[1].b != 0)))
 		{	//언덕길은 위로 올리는힘이 추가
-			MovePower += (GetTransform().GetUpVector() * Speed * _DeltaTime);
+			MovePower += (GetTransform().GetUpVector() * Speed * 0.7f * _DeltaTime);
 			stop = false;
 		}
 
-		if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE)&&
+		/*if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE)&&
 			true == IsNextColor(COLORCHECKDIR::DOWNR, float4::WHITE)&&
-			false == IsNextColor(COLORCHECKDIR::LEFT, float4::GREEN))
+			false == IsNextColor(COLORCHECKDIR::LEFT, float4::GREEN))*/
+			
+		if	(true == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE) &&
+			true == IsNextColor(COLORCHECKDIR::DOWNR, float4::WHITE) &&
+			(true == (iNextColorCheck[0].g != 245||250||255)))
 		{	
 			StateManager.ChangeState("Fall");
 		}
@@ -347,13 +347,10 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		//(누르면 점점 알파값 사라짐 MulColor는 기본 흰색 a는 알파값 곱하기레이어에 흰색은 투명색)
 		MovePower = GetTransform().GetRightVector() * Speed * _DeltaTime;
 
-		if ((true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN) &&
-			true == IsNextColor(COLORCHECKDIR::RIGHT, float4::GREEN)&&
-			false == IsNextColor(COLORCHECKDIR::RIGHTTOP, float4::GREEN)))
-			//||
-			/*((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g > 200 && iNextColorCheck[5].r >=0)&&
-			 (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].g > 200 && iNextColorCheck[2].r >= 0)&&
-			 (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHTTOP)].g >= 255 && iNextColorCheck[3].r >= 255))*/
+		if ((iNextColorCheck[5].g > 200 && iNextColorCheck[5].r <= 0 && iNextColorCheck[5].b <= 0) &&
+			(iNextColorCheck[2].g > 200 && iNextColorCheck[2].r <= 0 && iNextColorCheck[2].b <= 0) &&
+			(iNextColorCheck[1].g != 0 && iNextColorCheck[3].r != 0 && iNextColorCheck[3].b != 0))
+			
 		{	//언덕길은 위로 올리는힘이 추가
 			MovePower += (GetTransform().GetUpVector() * Speed * _DeltaTime);
 			stop = false;
@@ -522,16 +519,14 @@ void Player::FallUpdate(float _DeltaTime, const StateInfo& _Info)
 	Gravity(_DeltaTime);
 	if ((true == GameEngineInput::GetInst()->IsPress("PlayerLeft") ||
 		true == GameEngineInput::GetInst()->IsPress("PlayerRight"))&&
-		(true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN)||
-		(iNextColorCheck[5].g>100 && iNextColorCheck[5].r <= 0)))
+		(true==(iNextColorCheck[5].g>100 && iNextColorCheck[5].r <= 0 && iNextColorCheck[5].b <= 0)))
 	{	//착지했는데 방향키 누르고있으면 Move
 		StateManager.ChangeState("Move");
 		Speed = 150.0f;
 	}
 	else if ((false == GameEngineInput::GetInst()->IsPress("PlayerLeft") ||
 			  false == GameEngineInput::GetInst()->IsPress("PlayerRight")) &&
-			(true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN) ||
-			(iNextColorCheck[5].g > 100 && iNextColorCheck[5].r <= 0)))
+			 (true == (iNextColorCheck[5].g > 100 && iNextColorCheck[5].r <= 0 && iNextColorCheck[5].b <= 0)))
 	{	//착지했는데 방향키 안누르면 Idle
 		StateManager.ChangeState("Idle");
 		Speed = 150.0f;
