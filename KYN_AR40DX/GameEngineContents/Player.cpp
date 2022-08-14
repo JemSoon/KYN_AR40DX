@@ -319,9 +319,13 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		MovePower = GetTransform().GetLeftVector() * Speed * _DeltaTime;
 
-		if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN) &&
+		if ((true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN) &&
 			true == IsNextColor(COLORCHECKDIR::LEFT, float4::GREEN) &&
 			false == IsNextColor(COLORCHECKDIR::LEFTTOP, float4::GREEN))
+										||
+			(iNextColorCheck[5].g>200&&
+			 iNextColorCheck[0].g>200&&
+			 iNextColorCheck[1].g<10))
 		{	//언덕길은 위로 올리는힘이 추가
 			MovePower += (GetTransform().GetUpVector() * Speed * _DeltaTime);
 			stop = false;
@@ -343,9 +347,13 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		//(누르면 점점 알파값 사라짐 MulColor는 기본 흰색 a는 알파값 곱하기레이어에 흰색은 투명색)
 		MovePower = GetTransform().GetRightVector() * Speed * _DeltaTime;
 
-		if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN) &&
+		if ((true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN) &&
 			true == IsNextColor(COLORCHECKDIR::RIGHT, float4::GREEN)&&
-			false == IsNextColor(COLORCHECKDIR::RIGHTTOP, float4::GREEN))
+			false == IsNextColor(COLORCHECKDIR::RIGHTTOP, float4::GREEN)))
+			//||
+			/*((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g > 200 && iNextColorCheck[5].r >=0)&&
+			 (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].g > 200 && iNextColorCheck[2].r >= 0)&&
+			 (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHTTOP)].g >= 255 && iNextColorCheck[3].r >= 255))*/
 		{	//언덕길은 위로 올리는힘이 추가
 			MovePower += (GetTransform().GetUpVector() * Speed * _DeltaTime);
 			stop = false;
@@ -365,8 +373,10 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	ColorCheckUpdateNext(MovePower);
 
-	if (false == IsNextColor(COLORCHECKDIR::LEFT, float4::GREEN) 
-		&& false == IsNextColor(COLORCHECKDIR::RIGHT, float4::GREEN))
+	/*if (false == IsNextColor(COLORCHECKDIR::LEFT, float4::GREEN) 
+		&& false == IsNextColor(COLORCHECKDIR::RIGHT, float4::GREEN))*/
+	if((false == (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].g >200 && iNextColorCheck[0].r==0 && iNextColorCheck[0].b == 0))&&
+		(false == (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].g > 200 && iNextColorCheck[2].r == 0 && iNextColorCheck[2].b == 0)))
 	{
 		//양옆이 벽이 아니라면 움직인다
 		GetTransform().SetWorldMove(MovePower);
