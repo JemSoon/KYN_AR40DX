@@ -68,7 +68,6 @@ protected:
 	void DownJumpStart(const StateInfo& _Info);
 	void DownJumpUpdate(float _DeltaTime, const StateInfo& _Info);
 	//==========================================================//
-	void Gravity(float _DeltaTime) override;
 	//==========================================================//
 	void AttackEnd();
 	//==========================================================//
