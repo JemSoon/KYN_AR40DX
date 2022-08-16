@@ -538,7 +538,39 @@ void Player::DownJumpStart(const StateInfo& _Info)
 }
 void Player::DownJumpUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	Gravity(_DeltaTime);
+	GameEngineTexture* MapTexture = GetLevel<LevelParent>()->GetMap_Col()->GetCurTexture();
+
+	MovePower += float4::DOWN * _DeltaTime * 10.0f;//°¡¼Óµµ
+
+	if (1.0f <= abs(MovePower.y))
+	{
+		MovePower.y = MovePower.y > 0 ? 1.0f : -1.0f;
+	}
+
+	ColorCheckUpdateNext(MovePower);
+
+	if (PrevColor.g > iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g)
+	{
+		StateManager.ChangeState("Idle");
+		return;
+	}
+
+	GetTransform().SetWorldMove(MovePower);
+
+	//if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE))
+	//{	
+	//}
+
+	//else if (MovePower.y > 0 || true == IsNextColor(COLORCHECKDIR::DOWN, float4::BLUE))
+	//{
+	//	GetTransform().SetWorldMove(MovePower);
+	//}
+
+	//else
+	//{
+	//	MovePower = float4::ZERO;
+	//}
+
 }
 
 void Player::Update(float _DeltaTime)
