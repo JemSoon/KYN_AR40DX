@@ -96,6 +96,11 @@ public:
 		return { static_cast<float>(Desc.Width), static_cast<float>(Desc.Height) };
 	}
 
+	float4 GetCutPos(int _Index)
+	{
+		return { CutData[_Index].PosX * static_cast<float>(Desc.Width), CutData[_Index].PosY * static_cast<float>(Desc.Height) };
+	}
+
 	float4 GetCutScale(int _Index)
 	{
 		return { CutData[_Index].SizeX * static_cast<float>(Desc.Width), CutData[_Index].SizeY * static_cast<float>(Desc.Height) };
