@@ -11,6 +11,7 @@ enum class COLORCHECKDIR
 	DOWN,
 	DOWNL,
 	DOWNR,
+	CENTER,
 	MAX,
 };
 
@@ -61,13 +62,13 @@ protected:
 	float4 MovePower;//가속도
 	float4 PurePower;//무시하고지나갈때 파워
 
-	float4 ColorDir[8];
-	float4 ColorCheck[8];
-	float4 NextColorCheck[8];
+	float4 ColorDir[9];
+	float4 ColorCheck[9];
+	float4 NextColorCheck[9];
 
-	PixelColor iColorDir[8];
-	PixelColor iColorCheck[8];
-	PixelColor iNextColorCheck[8];
+	PixelColor iColorDir[9];
+	PixelColor iColorCheck[9];
+	PixelColor iNextColorCheck[9];
 	
 	PixelColor PrevColor;
 	PixelColor CurColor;

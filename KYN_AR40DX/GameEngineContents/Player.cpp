@@ -14,6 +14,7 @@ Player::Player()
 {
 	MainPlayer = this;
 	Speed = 150.0f;
+	PrevColor.g = 255;
 }
 
 Player::~Player()
@@ -298,6 +299,11 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		StateManager.ChangeState("Jump");
 	}
 
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerDown"))
+	{
+		StateManager.ChangeState("Prone");
+	}
+
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerAttack"))
 	{
 		StateManager.ChangeState("Attack");
@@ -432,7 +438,7 @@ void Player::SadariUpdate(float _DeltaTime, const StateInfo& _Info)
 
 		ColorCheckUpdateNext(MovePower);
 
-		if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN))
+		if (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g>=200)
 		{
 			StateManager.ChangeState("Idle");
 		}
@@ -479,6 +485,14 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 			Speed = 150.0f;
 			StateManager.ChangeState("Sadari");
 		}
+
+		if (PrevColor.g > iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g &&
+			iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].b==0 &&
+			iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].r == 0)
+		{	//사다리(블루,레드)방지용r,b포함
+			StateManager.ChangeState("Idle");
+			return;
+		}
 	}
 
 	GetTransform().SetWorldMove(MovePower);
@@ -522,11 +536,29 @@ void Player::FallUpdate(float _DeltaTime, const StateInfo& _Info)
 		StateManager.ChangeState("Idle");
 		Speed = 150.0f;
 	}
+	else if ((false == GameEngineInput::GetInst()->IsPress("PlayerLeft") ||
+			  false == GameEngineInput::GetInst()->IsPress("PlayerRight")) &&
+			  PrevColor.g > iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g)
+	{
+		StateManager.ChangeState("Idle");
+		return;
+	}
+	else if ((true == GameEngineInput::GetInst()->IsPress("PlayerLeft") ||
+			  true == GameEngineInput::GetInst()->IsPress("PlayerRight")) &&
+			  PrevColor.g > iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g)
+	{
+		StateManager.ChangeState("Move");
+		return;
+	}
 	GetTransform().SetWorldMove(MovePower);
 }
 
 void Player::DownJumpStart(const StateInfo& _Info)
 {
+	if (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g < 200)
+	{
+		return;
+	}
 	PrevColor = iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)];
 	Dir = float4::ZERO;
 	{
@@ -538,6 +570,7 @@ void Player::DownJumpStart(const StateInfo& _Info)
 }
 void Player::DownJumpUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	//그라비티를 주는게아니라 직접 설정해줘야한다.
 	GameEngineTexture* MapTexture = GetLevel<LevelParent>()->GetMap_Col()->GetCurTexture();
 
 	MovePower += float4::DOWN * _DeltaTime * 10.0f;//가속도

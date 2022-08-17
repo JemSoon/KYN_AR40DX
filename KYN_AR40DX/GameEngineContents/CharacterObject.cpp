@@ -29,6 +29,7 @@ void CharacterObject::Start()
 	ColorDir[static_cast<unsigned int>(COLORCHECKDIR::DOWN)] = float4::ZERO;
 	ColorDir[static_cast<unsigned int>(COLORCHECKDIR::DOWNL)] = float4::LEFT * 20.0f;
 	ColorDir[static_cast<unsigned int>(COLORCHECKDIR::DOWNR)] = float4::RIGHT * 20.0f;
+	ColorDir[static_cast<unsigned int>(COLORCHECKDIR::CENTER)] = float4::UP * 16.0f;
 
 }
 
