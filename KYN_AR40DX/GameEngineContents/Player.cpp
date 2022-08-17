@@ -542,9 +542,10 @@ void Player::DownJumpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	MovePower += float4::DOWN * _DeltaTime * 10.0f;//가속도
 
-	if (1.0f <= abs(MovePower.y))
+	if (15.0f <= abs(MovePower.y))
 	{
-		MovePower.y = MovePower.y > 0 ? 1.0f : -1.0f;
+		//추락 가속도 최대설정
+		MovePower.y = MovePower.y > 0 ? 15.0f : -15.0f;
 	}
 
 	ColorCheckUpdateNext(MovePower);
@@ -598,7 +599,7 @@ void Player::Update(float _DeltaTime)
 	{
 		// std::placeholders::_1, std::placeholders::_2 니들이 넣어줘야 한다는것을 명시키는것.
 		AttackCollision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::Monster, CollisionType::CT_OBB2D,
-			std::bind(&Player::MonsterCollision, this, std::placeholders::_1, std::placeholders::_2));
+			std::bind(&Player::MonsterHit, this, std::placeholders::_1, std::placeholders::_2));
 
 		//Collision->IsCollision(CollisionType::CT_OBB, OBJECTORDER::Monster, CollisionType::CT_OBB,
 		//	std::bind(&Player::MonsterCollision, this)
@@ -610,7 +611,7 @@ void Player::Update(float _DeltaTime)
 	}
 }
 
-bool Player::MonsterCollision(GameEngineCollision* _This, GameEngineCollision* _Other)
+bool Player::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 {	
 	//플레이어와 몬스터가 충돌하면 해당 몬스터를 죽이고 true 를 리턴
 

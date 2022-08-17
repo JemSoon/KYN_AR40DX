@@ -33,16 +33,15 @@ void FrameAnimation::Update(float _Delta)
 
 	if (Info.Inter <= Info.FrameTime)
 	{
-//============================================================//
 		if (Info.CurFrame == (Info.Frames.size() - 1)
 			&& false == bOnceEnd
 			&& nullptr != End)
-		{							//8월12일 추가된 내용 이거땜에 프레임 끝이 이상할 수있다
+		{							
 			End(Info);
 			bOnceEnd = true;
 			bOnceStart = false;
 		}
-//============================================================//
+
 		++Info.CurFrame;
 		if (nullptr != Frame)
 		{
@@ -61,6 +60,8 @@ void FrameAnimation::Update(float _Delta)
 				Info.CurFrame = static_cast<unsigned int>(Info.Frames.size()) - 1;
 			}
 		}
+		Info.FrameTime -= Info.Inter;
+	}
 
 		if (nullptr != Texture)
 		{
@@ -101,10 +102,6 @@ void FrameAnimation::Update(float _Delta)
 		{
 			MsgBoxAssert("텍스처가 세팅되지 않은 애니메이션 입니다.");
 		}
-
-
-		Info.FrameTime -= Info.Inter;
-	}
 }
 
 GameEngineTextureRenderer::GameEngineTextureRenderer() 
@@ -363,5 +360,5 @@ void GameEngineTextureRenderer::CurAnimationReset()
 
 void GameEngineTextureRenderer::CurAnimationSetStartPivotFrame(int SetFrame)
 {
-	CurAni->Info.CurFrame = SetFrame;
+	CurAni->Reset();
 }

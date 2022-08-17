@@ -29,7 +29,7 @@ public:
 	Player& operator=(const Player& _Other) = delete;
 	Player& operator=(Player&& _Other) noexcept = delete;
 
-	bool MonsterCollision(GameEngineCollision* _This, GameEngineCollision* _Other);
+	bool MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other);
 	bool PortalCollision(GameEngineCollision* _This, GameEngineCollision* _Other);
 
 	float4 GetMovePower()
