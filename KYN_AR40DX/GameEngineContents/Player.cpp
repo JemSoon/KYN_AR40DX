@@ -325,9 +325,9 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		MovePower = GetTransform().GetLeftVector() * Speed * _DeltaTime;
 
-		if ((true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN) &&
-			true == IsNextColor(COLORCHECKDIR::LEFT, float4::GREEN) &&
-			false == IsNextColor(COLORCHECKDIR::LEFTTOP, float4::GREEN)))
+		if(((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g>=200 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].r == 0 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].b == 0) &&//다운이 그린
+			iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].g >= 200 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].r == 0 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].b == 0)&&//왼이 그린
+			iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFTTOP)].g == 255 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFTTOP)].r == 255 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFTTOP)].b == 255)//왼탑이 화이트
 		{	//언덕길은 위로 올리는힘이 추가
 			MovePower += (GetTransform().GetUpVector() * Speed * _DeltaTime);
 			stop = false;
@@ -349,9 +349,9 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		//(누르면 점점 알파값 사라짐 MulColor는 기본 흰색 a는 알파값 곱하기레이어에 흰색은 투명색)
 		MovePower = GetTransform().GetRightVector() * Speed * _DeltaTime;
 
-		if ((true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN) &&
-			true == IsNextColor(COLORCHECKDIR::RIGHT, float4::GREEN) &&
-			false == IsNextColor(COLORCHECKDIR::RIGHTTOP, float4::GREEN)))
+		if (((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g >= 200 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].r == 0 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].b == 0) &&//다운이 그린
+			iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].g >= 200 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].r == 0 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].b == 0) &&//오른이 그린
+			iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHTTOP)].g == 255 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHTTOP)].r == 255 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHTTOP)].b == 255)//오른탑이 화이트
 		{	//언덕길은 위로 올리는힘이 추가
 			MovePower += (GetTransform().GetUpVector() * Speed * _DeltaTime);
 			stop = false;
@@ -497,7 +497,7 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	GetTransform().SetWorldMove(MovePower);
 
-	if ((true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN) && MovePower.y<=0) ||
+	if ((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g >= 200 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].r<=0 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].b <= 0 && MovePower.y<=0) ||
 		(true == IsNextColor(COLORCHECKDIR::DOWN, float4::RED) && MovePower.y <= 0))
 	{	//y속도가 마이너스 && 초록 바닥에 닿는다면 = 착지 = idle
 		StateManager.ChangeState("Idle");
@@ -583,7 +583,7 @@ void Player::DownJumpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	ColorCheckUpdateNext(MovePower);
 
-	if (PrevColor.g > iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g)
+	if (PrevColor.g > iColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g)
 	{
 		StateManager.ChangeState("Idle");
 		return;
