@@ -11,6 +11,9 @@ class GameEngineVertexShader;
 class GameEngineInputLayOut : public GameEngineRes<GameEngineInputLayOut>
 {
 public:
+	static GameEngineInputLayOut* Create(const GameEngineLayOutDesc& _Desc, GameEngineVertexShader* _Shader);
+
+public:
 	//디폴트 생성자
 	GameEngineInputLayOut();
 	//디폴트 소멸자
@@ -29,7 +32,7 @@ public:
 	GameEngineInputLayOut& operator=(const GameEngineInputLayOut& _Other) = delete;
 	GameEngineInputLayOut& operator=(GameEngineInputLayOut&& _Other) noexcept = delete;
 
-	void Create(const GameEngineLayOutDesc& _Desc, GameEngineVertexShader* _Shader);
+	void CreateRes(const GameEngineLayOutDesc& _Desc, GameEngineVertexShader* _Shader);
 
 	void Setting();
 

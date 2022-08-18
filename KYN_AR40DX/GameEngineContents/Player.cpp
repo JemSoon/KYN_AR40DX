@@ -132,6 +132,8 @@ void Player::Start()
 
 	StateManager.ChangeState("Idle");
 
+	//블랜드 옵션만 바꾸기위한 코드(미완성)
+	//Renderer->GetPipeLine()->SetOutputMergerBlend("TransparentBlend");
 }
 
 void Player::IdleStart(const StateInfo& _Info)

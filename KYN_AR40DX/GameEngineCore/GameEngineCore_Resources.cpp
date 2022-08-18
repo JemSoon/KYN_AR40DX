@@ -19,6 +19,7 @@
 #include "GameEngineDepthStencilTexture.h"
 #include "GameEngineDepthStencil.h"
 #include "GameEngineFont.h"
+#include "GameEngineInputLayOut.h"
 
 #include "GameEngineVertexShader.h"
 #include "GameEnginePixelShader.h"
@@ -317,6 +318,7 @@ void GameEngineCore::EngineResourcesDestroy()
 	GameEnginePixelShader::ResourcesDestroy();
 	GameEngineVertexShader::ResourcesDestroy();
 
+	GameEngineInputLayOut::ResourcesDestroy();
 	GameEngineVertexBuffer::ResourcesDestroy();
 	GameEngineIndexBuffer::ResourcesDestroy();
 	GameEngineRenderTarget::ResourcesDestroy();

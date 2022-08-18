@@ -15,11 +15,6 @@ class GameEngineDefaultRenderer : public GameEngineRenderer
 public:
 	GameEngineShaderResourcesHelper ShaderResources;
 
-	GameEngineRenderingPipeLine* GetPipeLine()
-	{
-		return PipeLine;
-	}
-
 	//디폴트 생성자
 	GameEngineDefaultRenderer();
 	//디폴트 소멸자
@@ -38,6 +33,8 @@ public:
 	virtual void Render(float _DeltaTime);//GameEngineRenderer는 순수가상함수로 두고 실질적인 내용물은 디폴트랜더러(여기)
 
 	void SetPipeLine(const std::string& _Name);
+
+	GameEngineRenderingPipeLine* GetPipeLine();
 
 protected:
 	virtual void Start();

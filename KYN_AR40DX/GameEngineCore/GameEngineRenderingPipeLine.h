@@ -16,6 +16,8 @@ class GameEngineRenderingPipeLine :public GameEngineRes<GameEngineRenderingPipeL
 public:
 	static void AllShaderReset();
 
+	static GameEngineRenderingPipeLine* Create();
+
 	static GameEngineRenderingPipeLine* Create(const std::string& _Name);
 
 	//디폴트 생성자
@@ -75,6 +77,8 @@ public:
 	{
 		return PixelShader;
 	}
+
+	void Copy(GameEngineRenderingPipeLine* _Original);
 
 protected:
 
