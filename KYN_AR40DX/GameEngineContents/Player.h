@@ -30,6 +30,7 @@ public:
 	Player& operator=(Player&& _Other) noexcept = delete;
 
 	bool MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other);
+	bool PlayerHit(GameEngineCollision* _This, GameEngineCollision* _Other);
 	bool PortalCollision(GameEngineCollision* _This, GameEngineCollision* _Other);
 
 	float4 GetMovePower()
@@ -67,6 +68,9 @@ protected:
 
 	void DownJumpStart(const StateInfo& _Info);
 	void DownJumpUpdate(float _DeltaTime, const StateInfo& _Info);
+
+	void AlertStart(const StateInfo& _Info);
+	void AlertUpdate(float _DeltaTime, const StateInfo& _Info);
 	//==========================================================//
 	//==========================================================//
 	void AttackEnd();

@@ -57,6 +57,7 @@ void Player::Start()
 		Renderer->CreateFrameAnimationCutTexture("Attack2", FrameAnimation_DESC("attack2.png", Three, 0.2f));
 		Renderer->CreateFrameAnimationCutTexture("Attack3", FrameAnimation_DESC("attack3.png", Three, 0.2f));
 		Renderer->CreateFrameAnimationCutTexture("Attack4", FrameAnimation_DESC("attack4.png", Two, 0.23f));
+		Renderer->CreateFrameAnimationCutTexture("Alert", FrameAnimation_DESC("alert.png", Three, 0.23f));
 
 		Renderer->ChangeFrameAnimation("Idle");
 		Renderer->SetPivot(PIVOTMODE::CUSTOM);
@@ -129,6 +130,9 @@ void Player::Start()
 	StateManager.CreateStateMember("DownJump"
 		, std::bind(&Player::DownJumpUpdate, this, std::placeholders::_1, std::placeholders::_2)
 		, std::bind(&Player::DownJumpStart, this, std::placeholders::_1));
+	StateManager.CreateStateMember("Alert"
+		, std::bind(&Player::AlertUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::AlertStart, this, std::placeholders::_1));
 
 	StateManager.ChangeState("Idle");
 
@@ -325,6 +329,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
 	{
+		Dir = float4::LEFT;
 		MovePower = GetTransform().GetLeftVector() * Speed * _DeltaTime;
 
 		if(((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g>=200 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].r == 0 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].b == 0) &&//다운이 그린
@@ -347,6 +352,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
 	{
+		Dir = float4::RIGHT;
 		//Renderer->GetColorData().MulColor.a -= _DeltaTime;
 		//(누르면 점점 알파값 사라짐 MulColor는 기본 흰색 a는 알파값 곱하기레이어에 흰색은 투명색)
 		MovePower = GetTransform().GetRightVector() * Speed * _DeltaTime;
@@ -609,6 +615,42 @@ void Player::DownJumpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 }
 
+void Player::AlertStart(const StateInfo& _Info)
+{
+	{
+		Renderer->ChangeFrameAnimation("Jump");
+		Speed *= 0.2f;
+		MovePower += float4::UP * 1.0f/* + (-Dir*3.0f)*/;
+		MovePower.x = -Dir.x * 2.0f;
+		//Collision->Off();
+	}
+}
+
+void Player::AlertUpdate(float _DeltaTime, const StateInfo& _Info)
+{
+	Gravity(_DeltaTime);
+
+	if (false == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE))
+	{
+		Speed = 150.0f;
+		Renderer->ChangeFrameAnimation("Alert");
+	}
+
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerAttack"))
+	{
+		StateManager.ChangeState("Attack");
+	}
+	
+	GetTransform().SetWorldMove(MovePower);
+
+	if ((true == GameEngineInput::GetInst()->IsPress("PlayerLeft") ||
+		true == GameEngineInput::GetInst()->IsPress("PlayerRight"))&&
+		false == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE))
+	{
+		StateManager.ChangeState("Move");
+	}
+}
+
 void Player::Update(float _DeltaTime)
 {
 	//GameEngineDebug::DrawSphere(Collision->GetTransform(), { 1.0f, 0.0f,0.0f, 0.5f });
@@ -644,6 +686,10 @@ void Player::Update(float _DeltaTime)
 		Collision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::Portal, CollisionType::CT_OBB2D,
 			std::bind(&Player::PortalCollision, this, std::placeholders::_1, std::placeholders::_2));
 	}
+	{
+		Collision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::Monster, CollisionType::CT_OBB2D,
+			std::bind(&Player::PlayerHit, this, std::placeholders::_1, std::placeholders::_2));
+	}
 }
 
 bool Player::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other)
@@ -652,6 +698,13 @@ bool Player::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 
 	_Other->GetActor()->Death();
 	
+	return true;
+}
+
+bool Player::PlayerHit(GameEngineCollision* _This, GameEngineCollision* _Other)
+{
+	//뒤로 펄쩍 뛰고 Alert상태
+	StateManager.ChangeState("Alert");
 	return true;
 }
 
