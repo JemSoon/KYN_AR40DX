@@ -395,8 +395,10 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	ColorCheckUpdateNext(MovePower);
 
-	if (false == IsNextColor(COLORCHECKDIR::LEFT, float4::GREEN) 
-		&& false == IsNextColor(COLORCHECKDIR::RIGHT, float4::GREEN))
+	/*if (false == IsNextColor(COLORCHECKDIR::LEFT, float4::GREEN) 
+		&& false == IsNextColor(COLORCHECKDIR::RIGHT, float4::GREEN))*/
+	if(((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].g<200) || (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].g == 255 && (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].r == 255)))&&
+		((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].g < 200) || (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].g == 255 && (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].r == 255))))
 	{
 		//양옆이 벽이 아니라면 움직인다
 		GetTransform().SetWorldMove(MovePower);
