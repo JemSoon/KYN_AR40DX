@@ -10,7 +10,10 @@ Player* Player::MainPlayer = nullptr;
 
 Player::Player()
 	:stop(false)
-	,PortalOn(false)
+	, PortalOn(false)
+	, PrevState("Idle")
+	, Hit(false)
+	, HitTime(0.0f)
 {
 	MainPlayer = this;
 	Speed = 150.0f;
@@ -142,6 +145,7 @@ void Player::Start()
 
 void Player::IdleStart(const StateInfo& _Info)
 {
+	PrevState = StateManager.GetCurStateStateName();
 	Speed = 150.0f;
 	Renderer->ChangeFrameAnimation("Idle");
 }
@@ -290,6 +294,18 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	//GameEngineDebug::DrawBox();
 
 	// GameEngineDebug::DebugSphereRender();
+
+	HitTime += GameEngineTime::GetDeltaTime();
+
+	if (false == GameEngineInput::GetInst()->IsPress("PlayerLeft") &&
+		false == GameEngineInput::GetInst()->IsPress("PlayerRight") &&
+		false == GameEngineInput::GetInst()->IsPress("PlayerUp") &&
+		false == GameEngineInput::GetInst()->IsPress("PlayerDown")&&
+		PrevState=="Alert" && Hit==true)
+	{
+		StateManager.ChangeState("Alert");
+		return;
+	}
 
 	if (false == GameEngineInput::GetInst()->IsPress("PlayerLeft") &&
 		false == GameEngineInput::GetInst()->IsPress("PlayerRight") &&
@@ -617,17 +633,31 @@ void Player::DownJumpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::AlertStart(const StateInfo& _Info)
 {
+	PrevState = StateManager.GetCurStateStateName();
+
+	if(Hit==false)
 	{
 		Renderer->ChangeFrameAnimation("Jump");
 		Speed *= 0.2f;
 		MovePower += float4::UP * 1.0f/* + (-Dir*3.0f)*/;
 		MovePower.x = -Dir.x * 2.0f;
-		//Collision->Off();
+		Collision->Off();
+		Hit = true;
 	}
 }
 
 void Player::AlertUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	HitTime += GameEngineTime::GetDeltaTime();
+	if (HitTime > 2.0f)
+	{
+		StateManager.ChangeState("Idle");
+		Collision->On();
+		Hit = false;
+		HitTime = 0.0f;
+		return;
+	}
+
 	Gravity(_DeltaTime);
 
 	if (false == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE))

@@ -79,5 +79,8 @@ private:
 	GameEngineStateManager StateManager;
 	float4 Dir;
 	GameEngineCollision* AttackCollision;
+	std::string PrevState;
+	bool Hit;
+	float HitTime;
 };
 
