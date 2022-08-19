@@ -358,7 +358,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 		if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE)&&
 			true == IsNextColor(COLORCHECKDIR::DOWNR, float4::WHITE)&&
-			false == IsNextColor(COLORCHECKDIR::LEFT, float4::GREEN))
+			true == IsNextColor(COLORCHECKDIR::LEFT, float4::WHITE))
 		{	
 			StateManager.ChangeState("Fall");
 		}
@@ -383,7 +383,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 		if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE)&&
 			true == IsNextColor(COLORCHECKDIR::DOWNL, float4::WHITE)&&
-			false == IsNextColor(COLORCHECKDIR::RIGHT, float4::GREEN))
+			true == IsNextColor(COLORCHECKDIR::RIGHT, float4::WHITE))
 		{	
 			StateManager.ChangeState("Fall");
 		}
