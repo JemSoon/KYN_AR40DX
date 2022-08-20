@@ -47,8 +47,6 @@ void LevelParent::CreateStageObject(const std::string _BG, const std::string _Co
 
 		{
 			Cursor = CreateActor<Mouse>(OBJECTORDER::UI);
-			//Cursor->GetTransform().SetWorldPosition({ Cursor->GetCursorPos()});
-			Cursor->GetTransform().SetWorldPosition({ Cursor->GetCursorPos().x,  Cursor->GetCursorPos().y, -100});
 		}
 		
 	}

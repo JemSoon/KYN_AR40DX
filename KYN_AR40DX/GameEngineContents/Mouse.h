@@ -26,9 +26,14 @@ public:
 		return MouseImage;
 	}
 
-	float4 GetCursorPos()
+	float4 GetCursorPos1()
 	{
-		return CursorPos;
+		return CursorPos1;
+	}
+
+	float4 GetCursorPos2()
+	{
+		return CursorPos2;
 	}
 
 	GameEngineCollision* GetMouseCol()
@@ -47,7 +52,8 @@ private:
 
 	GameEngineTextureRenderer* MouseImage;
 	GameEngineCameraActor* Camera;
-	float4 CursorPos;
+	float4 CursorPos1;
+	float4 CursorPos2;
 	GameEngineCollision* Collision;
 };
 

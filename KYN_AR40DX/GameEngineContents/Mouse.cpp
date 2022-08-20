@@ -18,11 +18,11 @@ void Mouse::Start()
 	GameEngineUIRenderer* Renderer = CreateComponent<GameEngineUIRenderer>();
 	GetTransform().SetLocalScale({ 1, 1, 1 });
 
-	//MouseImage = CreateComponent<GameEngineUIRenderer>();
-	MouseImage = CreateComponent<GameEngineTextureRenderer>();
+	MouseImage = CreateComponent<GameEngineUIRenderer>();
+	//MouseImage = CreateComponent<GameEngineTextureRenderer>();
 	MouseImage->SetTexture("Cursor.png");
 	MouseImage->GetTransform().SetWorldScale({ 24,28,0 });
-	MouseImage->GetTransform().SetWorldPosition({ CursorPos.x,CursorPos.y,-100 });
+	MouseImage->GetTransform().SetWorldPosition({ CursorPos2.x,CursorPos2.y,-100 });
 
 	Collision = CreateComponent<GameEngineCollision>();
 	Collision->SetDebugSetting(CollisionType::CT_OBB2D, float4{ 1.0f,0.0f,0.0f,0.3f });
@@ -32,10 +32,10 @@ void Mouse::Start()
 
 void Mouse::Update(float _DeltaTime)
 {
-	//CursorPos = GetLevel()->GetUICamera()->GetMouseWorldPosition();
-	CursorPos= GetLevel()->GetMainCamera()->GetMouseWorldPositionToActor();
-	MouseImage->GetTransform().SetWorldPosition({ CursorPos.x+5,CursorPos.y-10,-100 });
-	Collision->GetTransform().SetWorldPosition({ CursorPos.x + 5,CursorPos.y - 10, -200 });
+	CursorPos1 = GetLevel()->GetMainCamera()->GetMouseWorldPositionToActor();
+	CursorPos2= GetLevel()->GetUICamera()->GetMouseWorldPositionToActor();
+	MouseImage->GetTransform().SetWorldPosition({ CursorPos2.x+5,CursorPos2.y-10,-100 });
+	Collision->GetTransform().SetWorldPosition({ CursorPos1.x + 5,CursorPos1.y - 10, -200 });
 
 	{
 		Collision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::NPC, CollisionType::CT_OBB2D,
