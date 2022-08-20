@@ -16,17 +16,19 @@ void Monster::Start()
 
 	{
 		Renderer = CreateComponent<GameEngineTextureRenderer>();
-		Renderer->GetTransform().SetLocalScale({ 37, 26, 1 });
+		Renderer->GetTransform().SetLocalScale({ 64, 64, 1 });
 		Renderer->SetTexture("snail_stand.png");
 		//Renderer->ScaleToTexture();//나는 쓰면 늘어난다
 
+		std::vector<unsigned int> Five = { 0, 1, 2 ,3, 4, 3, 2, 1};
 		std::vector<unsigned int> Three = { 0, 1, 2 };
 		std::vector<unsigned int> Two = { 0, 1 };
 		std::vector<unsigned int> One = { 0 };
 
 		Renderer->CreateFrameAnimationCutTexture("Idle", FrameAnimation_DESC("snail_stand.png", One, 0.2f, false));
+		Renderer->CreateFrameAnimationCutTexture("Move", FrameAnimation_DESC("snail_move.png", Five, 0.2f));
 
-		Renderer->ChangeFrameAnimation("Idle");
+		Renderer->ChangeFrameAnimation("Move");
 		Renderer->SetPivot(PIVOTMODE::BOT);
 	}
 

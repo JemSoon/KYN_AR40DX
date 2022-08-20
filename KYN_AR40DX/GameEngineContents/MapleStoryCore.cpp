@@ -70,6 +70,7 @@ void MapleStoryCore::Start()
 	{	//몬스터
 		GameEngineTexture::Cut("stand.png", 2, 1); 
 		GameEngineTexture::Cut("snail_stand.png", 1, 1);
+		GameEngineTexture::Cut("snail_move.png", 5, 1);
 	}
 
 	{	//스테이지 컷
