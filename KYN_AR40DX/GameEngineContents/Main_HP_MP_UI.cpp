@@ -60,6 +60,12 @@ void Main_HP_MP_UI::Start()
 		QuickSlot->GetTransform().SetWorldScale({151, 80, 0});
 		QuickSlot->GetTransform().SetWorldPosition({564, 8, -100});
 		QuickSlot->SetTexture("QuickSlot.png");
+
+		TESTUICollision= CreateComponent<GameEngineCollision>();
+		TESTUICollision->SetDebugSetting(CollisionType::CT_OBB2D, float4{ 0.0f,0.0f,1.0f,0.3f });
+		TESTUICollision->GetTransform().SetWorldScale({ 151, 80, 100.0f });
+		TESTUICollision->GetTransform().SetWorldPosition({ 564, 8, -100 });
+		TESTUICollision->ChangeOrder(OBJECTORDER::UI);
 	}
 }
 

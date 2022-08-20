@@ -24,10 +24,16 @@ void Mouse::Start()
 	MouseImage->GetTransform().SetWorldScale({ 24,28,0 });
 	MouseImage->GetTransform().SetWorldPosition({ CursorPos2.x,CursorPos2.y,-100 });
 
-	Collision = CreateComponent<GameEngineCollision>();
-	Collision->SetDebugSetting(CollisionType::CT_OBB2D, float4{ 1.0f,0.0f,0.0f,0.3f });
-	Collision->GetTransform().SetWorldScale({ 32.0f, 32.0f, 100.0f });
-	Collision->ChangeOrder(OBJECTORDER::Mouse);	
+	ActorCollision = CreateComponent<GameEngineCollision>();
+	ActorCollision->SetDebugSetting(CollisionType::CT_OBB2D, float4{ 1.0f,0.0f,0.0f,0.3f });
+	ActorCollision->GetTransform().SetWorldScale({ 32.0f, 32.0f, 100.0f });
+	ActorCollision->ChangeOrder(OBJECTORDER::Mouse);	
+
+	//현재 UI는 디버그이미지가 구현안되서 안보이지만 충돌인식 확인함
+	UICollision = CreateComponent<GameEngineCollision>();
+	UICollision->SetDebugSetting(CollisionType::CT_OBB2D, float4{ 0.0f,0.0f,1.0f,0.3f });
+	UICollision->GetTransform().SetWorldScale({ 32.0f, 32.0f, 100.0f });
+	UICollision->ChangeOrder(OBJECTORDER::Mouse);
 }
 
 void Mouse::Update(float _DeltaTime)
@@ -35,15 +41,28 @@ void Mouse::Update(float _DeltaTime)
 	CursorPos1 = GetLevel()->GetMainCamera()->GetMouseWorldPositionToActor();
 	CursorPos2= GetLevel()->GetUICamera()->GetMouseWorldPositionToActor();
 	MouseImage->GetTransform().SetWorldPosition({ CursorPos2.x+5,CursorPos2.y-10,-100 });
-	Collision->GetTransform().SetWorldPosition({ CursorPos1.x + 5,CursorPos1.y - 10, -200 });
+	ActorCollision->GetTransform().SetWorldPosition({ CursorPos1.x + 5,CursorPos1.y - 10, -200 });
+	UICollision->GetTransform().SetWorldPosition({ CursorPos2.x + 5,CursorPos2.y - 10, -200 });
 
 	{
-		Collision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::NPC, CollisionType::CT_OBB2D,
+		ActorCollision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::NPC, CollisionType::CT_OBB2D,
 			std::bind(&Mouse::MouseHit, this, std::placeholders::_1, std::placeholders::_2));
+	}
+	{
+		UICollision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::UI, CollisionType::CT_OBB2D,
+			std::bind(&Mouse::UITestHit, this, std::placeholders::_1, std::placeholders::_2));
 	}
 }
 
 bool Mouse::MouseHit(GameEngineCollision* _This, GameEngineCollision* _Other)
+{
+	//클릭하면 퀘스트 대화창이 뜬다.
+	int a = 0;
+
+	return true;
+}
+
+bool Mouse::UITestHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
 	//클릭하면 퀘스트 대화창이 뜬다.
 	int a = 0;

@@ -47,5 +47,6 @@ protected:
 
 private:
 	GameEngineCameraActor* Camera;
+	GameEngineCollision* TESTUICollision;
 };
 
