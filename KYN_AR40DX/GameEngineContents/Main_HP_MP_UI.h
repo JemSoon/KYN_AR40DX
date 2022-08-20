@@ -43,6 +43,7 @@ protected:
 	GameEngineTextureRenderer* HPbar;
 	GameEngineTextureRenderer* MPbar;
 	GameEngineTextureRenderer* EXPbar;
+	GameEngineTextureRenderer* QuickSlot;
 
 private:
 	GameEngineCameraActor* Camera;

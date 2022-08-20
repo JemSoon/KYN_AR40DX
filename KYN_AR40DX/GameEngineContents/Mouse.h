@@ -31,6 +31,13 @@ public:
 		return CursorPos;
 	}
 
+	GameEngineCollision* GetMouseCol()
+	{
+		return Collision;
+	}
+
+	bool MouseHit(GameEngineCollision* _This, GameEngineCollision* _Other);
+
 protected:
 
 private:
@@ -41,5 +48,6 @@ private:
 	GameEngineTextureRenderer* MouseImage;
 	GameEngineCameraActor* Camera;
 	float4 CursorPos;
+	GameEngineCollision* Collision;
 };
 

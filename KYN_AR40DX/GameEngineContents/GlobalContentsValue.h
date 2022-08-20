@@ -10,6 +10,7 @@ enum class OBJECTORDER
 	NPC,
 	Portal,
 	UI = 1000,
+	Mouse,
 };
 
 //enum class COLLISIONORDER

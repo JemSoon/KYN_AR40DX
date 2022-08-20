@@ -54,5 +54,12 @@ void Main_HP_MP_UI::Start()
 		EXPbar->GetTransform().SetWorldPosition({ 7,-35,-100 });
 		EXPbar->SetTexture("EXPbar.png");
 	}
+
+	{
+		QuickSlot = CreateComponent<GameEngineUIRenderer>();
+		QuickSlot->GetTransform().SetWorldScale({151, 80, 0});
+		QuickSlot->GetTransform().SetWorldPosition({564, 8, -100});
+		QuickSlot->SetTexture("QuickSlot.png");
+	}
 }
 
