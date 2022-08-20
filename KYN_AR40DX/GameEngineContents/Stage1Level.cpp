@@ -8,7 +8,6 @@
 #include "Monster.h"
 #include "StageObject.h"
 #include "Sugar.h"
-#include "Main_HP_MP_UI.h"
 
 Stage1Level::Stage1Level()
 	: Camera(nullptr)
@@ -39,11 +38,6 @@ void Stage1Level::Start()
 		CreateStageObject("Stage1_BG.png", "Stage1_Col.png", "Stage1.png");
 
 		{
-			Portal = CreateActor<PortalObject>(OBJECTORDER::Portal);
-			Portal->GetTransform().SetWorldPosition({ 1853.0f,-1235.0f,0.0f });
-		}
-
-		{
 			Monster* actor1 = CreateActor<Monster>(OBJECTORDER::Monster);
 			actor1->GetTransform().SetLocalPosition({ 1200.0f, -1005.0f, 0.0f });
 
@@ -57,8 +51,8 @@ void Stage1Level::Start()
 		}
 
 		{
-			MainUI = CreateActor<Main_HP_MP_UI>(OBJECTORDER::UI);
-			MainUI->GetTransform().SetWorldPosition({ 0.0f,-320.0f,0.0f });
+			Portal = CreateActor<PortalObject>(OBJECTORDER::Portal);
+			Portal->GetTransform().SetWorldPosition({ 1853.0f,-1235.0f,0.0f });
 		}
 	}
 }

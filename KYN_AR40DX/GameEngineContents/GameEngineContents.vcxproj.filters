@@ -43,6 +43,9 @@
     <Filter Include="Global\UI">
       <UniqueIdentifier>{7163d93d-dac8-4f4e-8a3d-a2aca547f0a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Global\UI\Mouse">
+      <UniqueIdentifier>{5ae1bbd2-df25-4bea-b4ae-153f62450571}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MapleStoryCore.h">
@@ -94,6 +97,9 @@
     <ClInclude Include="PortalObject.h">
       <Filter>Actor\Parents\Stage</Filter>
     </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>Global\UI\Mouse</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapleStoryCore.cpp">
@@ -141,6 +147,9 @@
     </ClCompile>
     <ClCompile Include="PortalObject.cpp">
       <Filter>Actor\Parents\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <Filter>Global\UI\Mouse</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

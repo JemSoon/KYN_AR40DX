@@ -5,6 +5,8 @@
 #include "PortalObject.h"
 
 // Ό³Έν :
+class Main_HP_MP_UI;
+class Mouse;
 class LevelParent : public GameEngineLevel
 {
 public:
@@ -46,7 +48,8 @@ protected:
 
 	StageObject* LevelStageObject;
 	PortalObject* Portal;
+	Main_HP_MP_UI* MainUI;
+	Mouse* Cursor;
 private:
-
 };
 

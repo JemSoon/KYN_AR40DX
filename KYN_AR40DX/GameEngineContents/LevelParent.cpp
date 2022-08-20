@@ -1,5 +1,7 @@
 #include "LevelParent.h"
 #include "GlobalContentsValue.h"
+#include "Main_HP_MP_UI.h"
+#include "Mouse.h"
 
 LevelParent::LevelParent() 
 {
@@ -36,6 +38,17 @@ void LevelParent::CreateStageObject(const std::string _BG, const std::string _Co
 			//LevelStageObject->GetMap()->GetTransform().SetLocalScale({ 2270, 1807, 100 });
 			LevelStageObject->GetMap()->SetPivot(PIVOTMODE::LEFTTOP);
 			// LevelStageObject->GetMap()->SetTexture("Stage1.png");
+		}
+
+		{
+			MainUI = CreateActor<Main_HP_MP_UI>(OBJECTORDER::UI);
+			MainUI->GetTransform().SetWorldPosition({ 0.0f,-320.0f,0.0f });
+		}
+
+		{
+			Cursor = CreateActor<Mouse>(OBJECTORDER::UI);
+			//Cursor->GetTransform().SetWorldPosition({ Cursor->GetCursorPos()});
+			Cursor->GetTransform().SetWorldPosition({ Cursor->GetCursorPos().x,  Cursor->GetCursorPos().y, -100});
 		}
 		
 	}
