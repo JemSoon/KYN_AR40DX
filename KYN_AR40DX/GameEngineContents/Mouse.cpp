@@ -38,11 +38,13 @@ void Mouse::Start()
 
 void Mouse::Update(float _DeltaTime)
 {
-	CursorPos1 = GetLevel()->GetMainCamera()->GetMouseWorldPositionToActor();
-	CursorPos2= GetLevel()->GetUICamera()->GetMouseWorldPositionToActor();
+	CursorPos1 = GetLevel()->GetMainCamera()->GetMouseWorldPositionToActor();//메인카메라용
+	CursorPos2= GetLevel()->GetUICamera()->GetMouseWorldPosition();//UI카메라용
+
 	MouseImage->GetTransform().SetWorldPosition({ CursorPos2.x+5,CursorPos2.y-10,-100 });
+
 	ActorCollision->GetTransform().SetWorldPosition({ CursorPos1.x + 5,CursorPos1.y - 10, -200 });
-	UICollision->GetTransform().SetWorldPosition({ CursorPos2.x + 5,CursorPos2.y - 10, -200 });
+	UICollision->GetTransform().SetWorldPosition({ CursorPos2.x + 645,CursorPos2.y - 403, -200 });
 
 	{
 		ActorCollision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::NPC, CollisionType::CT_OBB2D,
@@ -64,7 +66,7 @@ bool Mouse::MouseHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 
 bool Mouse::UITestHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
-	//클릭하면 퀘스트 대화창이 뜬다.
+	//나중에 물약을 클릭해서 마우스 포지션에 귀속시킨후 UI에 클릭하면 거기에 옮겨넣는다.
 	int a = 0;
 
 	return true;
