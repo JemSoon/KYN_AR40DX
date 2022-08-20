@@ -28,6 +28,7 @@ void Mouse::Start()
 void Mouse::Update(float _DeltaTime)
 {
 	CursorPos= GetLevel()->GetUICamera()->GetMouseWorldPosition();
-	MouseImage->GetTransform().SetWorldPosition({ CursorPos.x,CursorPos.y,-100 });
+	MouseImage->GetTransform().SetWorldPosition({ CursorPos.x+5,CursorPos.y-10,-100 });
+	
 }
 
