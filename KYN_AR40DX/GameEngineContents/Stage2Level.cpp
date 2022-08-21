@@ -50,7 +50,7 @@ void Stage2Level::End()
 {
 }
 
-void Stage2Level::OnEvent()
+void Stage2Level::LevelStartEvent()
 {
 	{
 		Camera = GetMainCameraActor();

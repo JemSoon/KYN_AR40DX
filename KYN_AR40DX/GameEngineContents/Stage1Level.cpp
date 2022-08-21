@@ -57,10 +57,8 @@ void Stage1Level::Start()
 	}
 }
 
-void Stage1Level::OnEvent()
+void Stage1Level::LevelStartEvent()
 {
-	
-
 	{
 		if (nullptr == Player::GetMainPlayer())
 		{

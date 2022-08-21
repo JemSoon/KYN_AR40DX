@@ -40,7 +40,7 @@ void TitleLevel::Start()
 	// [0][200][0][0] 뒤로 물러나서
 }
 
-void TitleLevel::OnEvent()
+void TitleLevel::LevelStartEvent()
 {
 
 }
