@@ -662,24 +662,27 @@ void Player::AlertUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	Gravity(_DeltaTime);
 
-	if (false == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE))
+	if (HitTime > 0.5f)//밀쳐지는동안 잠깐 조작불가(안그러면 움직여서 씹음)
 	{
-		Speed = 150.0f;
-		Renderer->ChangeFrameAnimation("Alert");
-	}
+		if (false == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE))
+		{
+			Speed = 150.0f;
+			Renderer->ChangeFrameAnimation("Alert");
+		}
 
-	if (true == GameEngineInput::GetInst()->IsPress("PlayerAttack"))
-	{
-		StateManager.ChangeState("Attack");
-	}
-	
-	GetTransform().SetWorldMove(MovePower);
+		if (true == GameEngineInput::GetInst()->IsPress("PlayerAttack"))
+		{
+			StateManager.ChangeState("Attack");
+		}
 
-	if ((true == GameEngineInput::GetInst()->IsPress("PlayerLeft") ||
-		true == GameEngineInput::GetInst()->IsPress("PlayerRight"))&&
-		false == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE))
-	{
-		StateManager.ChangeState("Move");
+		GetTransform().SetWorldMove(MovePower);
+
+		if ((true == GameEngineInput::GetInst()->IsPress("PlayerLeft") ||
+			true == GameEngineInput::GetInst()->IsPress("PlayerRight")) &&
+			false == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE))
+		{
+			StateManager.ChangeState("Move");
+		}
 	}
 }
 
