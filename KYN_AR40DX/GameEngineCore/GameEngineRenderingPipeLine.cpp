@@ -75,12 +75,6 @@ void GameEngineRenderingPipeLine::SetInputAssembler1VertexBuffer(const std::stri
 		return;
 	}
 
-	if (nullptr != InputLayOut)
-	{
-		delete InputLayOut;
-		InputLayOut = nullptr;
-	}
-
 	if (nullptr == InputLayOut && nullptr != VertexShader)
 	{
 		InputLayOut = GameEngineInputLayOut::Create(*VertexBuffer->GetLayOutDesc(), VertexShader);
