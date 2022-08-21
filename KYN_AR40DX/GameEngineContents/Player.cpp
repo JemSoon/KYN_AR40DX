@@ -685,7 +685,7 @@ void Player::AlertStart(const StateInfo& _Info)
 		Renderer->ChangeFrameAnimation("Jump");
 		//Speed *= 0.2f;
 		MovePower += float4::UP * 1.0f/* + (-Dir*3.0f)*/;
-		MovePower.x = -Dir.x * 3.0f;
+		MovePower.x = -Dir.x * 2.0f;
 		Collision->Off();
 		Hit = true;
 	}
