@@ -222,6 +222,7 @@ void Player::AttackStart(const StateInfo& _Info)
 
 void Player::AttackUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	AlertToIdle();
 	Gravity(_DeltaTime);
 	GetTransform().SetWorldMove(MovePower);
 	stop = true;
@@ -295,7 +296,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	// GameEngineDebug::DebugSphereRender();
 
-	HitTime += GameEngineTime::GetDeltaTime();
+	AlertToIdle();
 
 	if (false == GameEngineInput::GetInst()->IsPress("PlayerLeft") &&
 		false == GameEngineInput::GetInst()->IsPress("PlayerRight") &&
@@ -443,6 +444,8 @@ void Player::SadariStart(const StateInfo& _Info)
 
 void Player::SadariUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	HitTime += GameEngineTime::GetDeltaTime();
+
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerUp"))
 	{	
 		MovePower = GetTransform().GetUpVector() * Speed * _DeltaTime;
@@ -485,6 +488,8 @@ void Player::JumpStart(const StateInfo& _Info)
 
 void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 {	
+	AlertToIdle();
+
 	Gravity(_DeltaTime);
 	{
 		if (true == GameEngineInput::GetInst()->IsPress("PlayerAttack"))
@@ -513,12 +518,23 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 		}
 
 		if (PrevColor.g > iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g &&
+			iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].b == 0 &&
+			iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].r == 0 &&
+			PrevState == "Alert" && Hit == true)
+		{
+			Speed = 150.0f;
+			StateManager.ChangeState("Alert");
+			return;
+		}
+
+		if (PrevColor.g > iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g &&
 			iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].b==0 &&
 			iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].r == 0)
 		{	//사다리(블루,레드)방지용r,b포함
 			StateManager.ChangeState("Idle");
 			return;
 		}
+
 	}
 
 	GetTransform().SetWorldMove(MovePower);
@@ -547,6 +563,8 @@ void Player::FallStart(const StateInfo& _Info)
 
 void Player::FallUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	AlertToIdle();
+
 	Gravity(_DeltaTime);
 	if ((true == GameEngineInput::GetInst()->IsPress("PlayerLeft") ||
 		true == GameEngineInput::GetInst()->IsPress("PlayerRight"))&&
@@ -554,6 +572,23 @@ void Player::FallUpdate(float _DeltaTime, const StateInfo& _Info)
 	{	//착지했는데 방향키 누르고있으면 Move
 		StateManager.ChangeState("Move");
 		Speed = 150.0f;
+	}
+	else if ((false == GameEngineInput::GetInst()->IsPress("PlayerLeft") ||
+			  false == GameEngineInput::GetInst()->IsPress("PlayerRight")) &&
+			  true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN)&&
+			  PrevState == "Alert" && Hit == true)
+	{	//착지했는데 방향키 안누르면 Idle
+		StateManager.ChangeState("Alert");
+		Speed = 150.0f;
+	}
+	else if ((false == GameEngineInput::GetInst()->IsPress("PlayerLeft") ||
+			false == GameEngineInput::GetInst()->IsPress("PlayerRight")) &&
+			PrevColor.g > iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g &&
+			PrevState == "Alert" && Hit == true)
+	{
+		Speed = 150.0f;
+		StateManager.ChangeState("Alert");
+		return;
 	}
 	else if ((false == GameEngineInput::GetInst()->IsPress("PlayerLeft") ||
 			  false == GameEngineInput::GetInst()->IsPress("PlayerRight")) &&
@@ -609,6 +644,14 @@ void Player::DownJumpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	ColorCheckUpdateNext(MovePower);
 
+	HitTime += GameEngineTime::GetDeltaTime();
+	if (PrevColor.g > iColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g &&
+		PrevState == "Alert" && Hit == true)
+	{
+		StateManager.ChangeState("Alert");
+		return;
+	}
+
 	if (PrevColor.g > iColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g)
 	{
 		StateManager.ChangeState("Idle");
@@ -640,50 +683,64 @@ void Player::AlertStart(const StateInfo& _Info)
 	if(Hit==false)
 	{
 		Renderer->ChangeFrameAnimation("Jump");
-		Speed *= 0.2f;
+		//Speed *= 0.2f;
 		MovePower += float4::UP * 1.0f/* + (-Dir*3.0f)*/;
-		MovePower.x = -Dir.x * 2.0f;
+		MovePower.x = -Dir.x * 3.0f;
 		Collision->Off();
 		Hit = true;
 	}
+
 }
 
 void Player::AlertUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	HitTime += GameEngineTime::GetDeltaTime();
-	if (HitTime > 2.0f)
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerJump"))
 	{
-		StateManager.ChangeState("Idle");
-		Collision->On();
-		Hit = false;
-		HitTime = 0.0f;
+		StateManager.ChangeState("Jump");
+	}
+	
+	if ((true == GameEngineInput::GetInst()->IsPress("PlayerLeft") ||
+		true == GameEngineInput::GetInst()->IsPress("PlayerRight")) &&
+		false == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE)&&MovePower.y<=0)
+	{
+		StateManager.ChangeState("Move");
+	}
+	
+	if ((false == GameEngineInput::GetInst()->IsPress("PlayerLeft") &&
+		false == GameEngineInput::GetInst()->IsPress("PlayerRight")) &&
+		false == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE)&&MovePower.y==0)
+	{
+		Speed = 150.0f;
+		Renderer->ChangeFrameAnimation("Alert");
+	}
+	
+	AlertToIdle();
+
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerAttack"))
+	{
+		StateManager.ChangeState("Attack");
+	}
+	
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerUp") &&
+		true == IsNextColor(COLORCHECKDIR::DOWN, float4::BLUE))
+	{
+		StateManager.ChangeState("Sadari");
+	}
+
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerDown") &&
+		true == IsNextColor(COLORCHECKDIR::DOWN, float4::RED))
+	{
+		StateManager.ChangeState("Sadari");
+	}
+
+	GetTransform().SetWorldMove(MovePower);
+
+	if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::BLUE))
+	{
 		return;
 	}
-
+	
 	Gravity(_DeltaTime);
-
-	if (HitTime > 0.5f)//밀쳐지는동안 잠깐 조작불가(안그러면 움직여서 씹음)
-	{
-		if (false == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE))
-		{
-			Speed = 150.0f;
-			Renderer->ChangeFrameAnimation("Alert");
-		}
-
-		if (true == GameEngineInput::GetInst()->IsPress("PlayerAttack"))
-		{
-			StateManager.ChangeState("Attack");
-		}
-
-		GetTransform().SetWorldMove(MovePower);
-
-		if ((true == GameEngineInput::GetInst()->IsPress("PlayerLeft") ||
-			true == GameEngineInput::GetInst()->IsPress("PlayerRight")) &&
-			false == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE))
-		{
-			StateManager.ChangeState("Move");
-		}
-	}
 }
 
 void Player::Update(float _DeltaTime)
@@ -749,5 +806,29 @@ bool Player::PortalCollision(GameEngineCollision* _This, GameEngineCollision* _O
 	{
 		PortalOn = true;
 		return true;
+	}
+}
+
+void Player::AlertToIdle()
+{
+	if (Hit == true)
+	{
+		HitTime += GameEngineTime::GetDeltaTime();
+	}
+
+	if (HitTime > 2.0f)
+	{
+		if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE))
+		{
+			StateManager.ChangeState("Fall");
+		}
+		else
+		{
+			StateManager.ChangeState("Idle");
+		}
+		Collision->On();
+		Hit = false;
+		HitTime = 0.0f;
+		return;
 	}
 }
