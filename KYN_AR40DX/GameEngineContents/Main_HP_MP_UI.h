@@ -35,7 +35,7 @@ public:
 
 protected:
 	void Start() override;
-	void Update(float _DeltaTime) {}
+	void Update(float _DeltaTime);
 	void End() {}
 
 	GameEngineTextureRenderer* HP_MP;
@@ -48,5 +48,7 @@ protected:
 private:
 	GameEngineCameraActor* Camera;
 	GameEngineCollision* TESTUICollision;
+	Player* PlayerInfo;
+	int HPbarMaxSize;
 };
 

@@ -39,7 +39,8 @@ public:
 	}
 	
 	bool PortalOn;
-
+	int HPMax;
+	int CurHP;
 protected:
 	void Start() override;
 	void Update(float _DeltaTime);
@@ -76,6 +77,7 @@ protected:
 	void AttackEnd();
 	//==========================================================//
 	void AlertToIdle();
+
 private:
 	GameEngineStateManager StateManager;
 	float4 Dir;

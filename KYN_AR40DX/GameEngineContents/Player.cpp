@@ -14,6 +14,9 @@ Player::Player()
 	, PrevState("Idle")
 	, Hit(false)
 	, HitTime(0.0f)
+	, HPMax(100)
+	, CurHP(100)
+
 {
 	MainPlayer = this;
 	Speed = 150.0f;
@@ -797,6 +800,7 @@ bool Player::PlayerHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
 	//µÚ·Î ÆÞÂ½ ¶Ù°í Alert»óÅÂ
 	StateManager.ChangeState("Alert");
+	CurHP = CurHP - 5;
 	return true;
 }
 

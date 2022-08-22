@@ -5,6 +5,7 @@
 Main_HP_MP_UI::Main_HP_MP_UI()
 	:HP_MP(nullptr)
 	,EXP(nullptr)
+	,HPbarMaxSize(171)
 {
 
 }
@@ -25,8 +26,9 @@ void Main_HP_MP_UI::Start()
 	{
 		HPbar = CreateComponent<GameEngineUIRenderer>();
 		HPbar->SetTexture("HPbar.png");
-		HPbar->GetTransform().SetWorldScale({ 171,13,0 });
+		HPbar->GetTransform().SetWorldScale({ (float)HPbarMaxSize,13,-100 });
 		HPbar->GetTransform().SetWorldPosition({ 10,0,-100 });
+		//HPbar->SetPivot(PIVOTMODE::LEFTTOP);
 
 		MPbar = CreateComponent<GameEngineUIRenderer>();
 		MPbar->SetTexture("MPbar.png");
@@ -66,6 +68,22 @@ void Main_HP_MP_UI::Start()
 		TESTUICollision->GetTransform().SetWorldScale({ 151, 80, 100.0f });
 		TESTUICollision->GetTransform().SetWorldPosition({ 1204, -392, -100 });
 		TESTUICollision->ChangeOrder(OBJECTORDER::UI);
+	}
+}
+
+void Main_HP_MP_UI::Update(float _DeltaTime)
+{
+	if (PlayerInfo == nullptr)
+	{
+		PlayerInfo = Player::GetMainPlayer();
+	}
+
+	HPbarMaxSize =( 171 * PlayerInfo->CurHP )/ 100;
+	HPbar->GetTransform().SetWorldScale({ (float)HPbarMaxSize,13,0 });
+	
+	if (HPbarMaxSize >= 0)
+	{
+		HPbarMaxSize = 0;
 	}
 }
 
