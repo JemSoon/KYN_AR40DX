@@ -27,8 +27,8 @@ void Main_HP_MP_UI::Start()
 		HPbar = CreateComponent<GameEngineUIRenderer>();
 		HPbar->SetTexture("HPbar.png");
 		HPbar->GetTransform().SetWorldScale({ (float)HPbarMaxSize,13,-100 });
-		//HPbar->GetTransform().SetWorldPosition({ 10,0,-100 });
-		HPbar->SetPivot(PIVOTMODE::LEFTTOP);
+		HPbar->GetTransform().SetLocalPosition({ -75, 0,-100 });
+		HPbar->SetPivot(PIVOTMODE::LEFT);
 
 		MPbar = CreateComponent<GameEngineUIRenderer>();
 		MPbar->SetTexture("MPbar.png");
@@ -79,9 +79,11 @@ void Main_HP_MP_UI::Update(float _DeltaTime)
 	}
 
 	HPbarMaxSize =( 171 * PlayerInfo->CurHP )/ 100;
-	HPbar->SetPivot(PIVOTMODE::LEFTTOP);
-	HPbar->GetTransform().SetWorldScale({ (float)HPbarMaxSize,13,0 });
+	//HPbar->GetTransform().SetWorldScale({ (float)HPbarMaxSize,13,0 });
 	
+	HPbar->GetTransform().AddLocalScale(float4((PlayerInfo->CurHP - PlayerInfo->HPMax)* _DeltaTime, 0.0f, 0.0f, 0.0f));
+	
+
 	if (HPbarMaxSize >= 0)
 	{
 		HPbarMaxSize = 0;
