@@ -184,9 +184,6 @@
     <ClCompile Include="GameEngineFolderTexture.cpp">
       <Filter>Resources\Texture</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineDepthStencilTexture.cpp">
-      <Filter>Resources\OutputMerger</Filter>
-    </ClCompile>
     <ClCompile Include="imgui.cpp">
       <Filter>GUI\IMGUI</Filter>
     </ClCompile>
@@ -331,9 +328,6 @@
     </ClInclude>
     <ClInclude Include="GameEngineFolderTexture.h">
       <Filter>Resources\Texture</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEngineDepthStencilTexture.h">
-      <Filter>Resources\OutputMerger</Filter>
     </ClInclude>
     <ClInclude Include="imgui.h">
       <Filter>GUI\IMGUI</Filter>

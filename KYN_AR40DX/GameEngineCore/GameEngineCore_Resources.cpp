@@ -16,7 +16,6 @@
 #include "GameEngineFolderTexture.h"
 #include "GameEngineSampler.h"
 #include "GameEngineRenderTarget.h"
-#include "GameEngineDepthStencilTexture.h"
 #include "GameEngineDepthStencil.h"
 #include "GameEngineFont.h"
 #include "GameEngineInputLayOut.h"
@@ -27,7 +26,6 @@
 #include "GameEngineBlend.h"
 #include "GameEngineRenderingPipeLine.h"
 
-#include <GameEngineBase/GameEngineSound.h>
 void EngineInputLayOut()
 {
 	// 점 1개
@@ -86,9 +84,10 @@ void EngineSubSetting()
 		Desc.IndependentBlendEnable = FALSE;
 		Desc.RenderTarget[0].BlendEnable = true;
 		Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
-		Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP::D3D11_BLEND_OP_ADD;
+		Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP::D3D11_BLEND_OP_MAX;
 		Desc.RenderTarget[0].SrcBlend = D3D11_BLEND::D3D11_BLEND_ONE;
-		Desc.RenderTarget[0].DestBlend = D3D11_BLEND::D3D11_BLEND_INV_SRC_ALPHA;
+		Desc.RenderTarget[0].DestBlend = D3D11_BLEND::D3D11_BLEND_ONE;
+		// Desc.RenderTarget[0].DestBlend = D3D11_BLEND::D3D11_BLEND_DEST_COLOR;
 		Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP::D3D11_BLEND_OP_ADD;
 		Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND::D3D11_BLEND_ZERO;
 		Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND::D3D11_BLEND_ONE;
@@ -108,11 +107,12 @@ void EngineSubSetting()
 		D3D11_RASTERIZER_DESC Desc = {};
 
 		Desc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
+
+		// 
 		Desc.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
 
 		GameEngineRasterizer::Create("EngineRasterizer", Desc);
 	}
-
 	{
 		D3D11_DEPTH_STENCIL_DESC Desc = { 0 };
 
@@ -121,9 +121,18 @@ void EngineSubSetting()
 		Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ALL;
 		Desc.StencilEnable = false;
 		GameEngineDepthStencil::Create("EngineBaseDepth", Desc);
-
-
 	}
+
+	{
+		D3D11_DEPTH_STENCIL_DESC Desc = { 0 };
+
+		Desc.DepthEnable = true;
+		Desc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_ALWAYS;
+		Desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ALL;
+		Desc.StencilEnable = false;
+		GameEngineDepthStencil::Create("AlwaysDepth", Desc);
+	}
+
 }
 
 void EngineTextureLoad()
@@ -217,11 +226,19 @@ void EngineRenderingPipeLine()
 	}
 
 	{
+		GameEngineRenderingPipeLine* NewPipe = GameEngineRenderingPipeLine::Create("TargetMerge");
+		NewPipe->SetInputAssembler1VertexBuffer("FullRect");
+		NewPipe->SetInputAssembler2IndexBuffer("FullRect");
+		NewPipe->SetVertexShader("TargetMerge.hlsl");
+		NewPipe->SetPixelShader("TargetMerge.hlsl");
+		NewPipe->SetOutputMergerDepthStencil("AlwaysDepth");
+	}
+
+	{
 		GameEngineRenderingPipeLine* NewPipe = GameEngineRenderingPipeLine::Create("DebugTexture");
 		NewPipe->SetVertexShader("DebugTexture.hlsl");
 		NewPipe->SetPixelShader("DebugTexture.hlsl");
 	}
-
 }
 
 void EngineMesh()
@@ -229,10 +246,40 @@ void EngineMesh()
 
 	{
 		std::vector<GameEngineVertex> Vertex;
-		Vertex.push_back({ float4(-0.5f, 0.5f), float4(0.0f, 0.0f) }); // 왼쪽 위
-		Vertex.push_back({ float4(0.5f, 0.5f), float4(1.0f, 0.0f) });  // 오른쪽 위점
-		Vertex.push_back({ float4(0.5f, -0.5f), float4(1.0f, 1.0f) }); // 오른쪽 아래점
-		Vertex.push_back({ float4(-0.5f, -0.5f), float4(0.0f, 1.0f) }); // 왼쪽 아래점
+		Vertex.push_back({ float4(-1.0f, 1.0f)	, float4(0.0f, 0.0f) }); // 왼쪽 위
+		Vertex.push_back({ float4(1.0f, 1.0f)	, float4(1.0f, 0.0f) });  // 오른쪽 위점
+		Vertex.push_back({ float4(1.0f, -1.0f)	, float4(1.0f, 1.0f) }); // 오른쪽 아래점
+		Vertex.push_back({ float4(-1.0f, -1.0f)	, float4(0.0f, 1.0f) }); // 왼쪽 아래점
+		GameEngineVertexBuffer::Create("FullRect", Vertex);
+	}
+
+
+	{
+		std::vector<int> Index;
+
+		// 첫번째 삼각형
+		// 디폴트 생성자로 인자를 뒤에 추가해주는 요소 추가 함수.
+		Index.resize(6);
+
+		// 첫번째
+		Index[0] = 0;
+		Index[1] = 1;
+		Index[2] = 2;
+
+		// 두번째
+		Index[3] = 0;
+		Index[4] = 2;
+		Index[5] = 3;
+
+		GameEngineIndexBuffer::Create("FullRect", Index);
+	}
+
+	{
+		std::vector<GameEngineVertex> Vertex;
+		Vertex.push_back({ float4(-0.5f, 0.5f)	, float4(0.0f, 0.0f) }); // 왼쪽 위
+		Vertex.push_back({ float4(0.5f, 0.5f)	, float4(1.0f, 0.0f) });  // 오른쪽 위점
+		Vertex.push_back({ float4(0.5f, -0.5f)	, float4(1.0f, 1.0f) }); // 오른쪽 아래점
+		Vertex.push_back({ float4(-0.5f, -0.5f)	, float4(0.0f, 1.0f) }); // 왼쪽 아래점
 		GameEngineVertexBuffer::Create("Rect", Vertex);
 	}
 
@@ -302,7 +349,7 @@ void EngineMesh()
 
 	{
 		std::vector<int> Index;
-		//Index.resize(36);
+		// Index.resize(36);
 		for (int i = 0; i < 6; i++)
 		{
 			Index.push_back(i * 4 + 2);
@@ -349,10 +396,8 @@ void GameEngineCore::EngineResourcesDestroy()
 	GameEngineVertexBuffer::ResourcesDestroy();
 	GameEngineIndexBuffer::ResourcesDestroy();
 	GameEngineRenderTarget::ResourcesDestroy();
-
 	GameEngineTexture::ResourcesDestroy();
 	GameEngineDepthStencil::ResourcesDestroy();
-	GameEngineDepthStencilTexture::ResourcesDestroy();
 	GameEngineFolderTexture::ResourcesDestroy();
 	GameEngineSampler::ResourcesDestroy();
 	GameEngineRasterizer::ResourcesDestroy();

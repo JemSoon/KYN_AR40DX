@@ -36,14 +36,18 @@ cbuffer AtlasData : register(b1)
 {
     float2 TextureFramePos;
     float2 TextureFrameSize;
+    float4 PivotPos;
 };
 
 
 Output TextureAtlas_VS(Input _Input)
 {
-    Output NewOutPut = (Output)0;
-    NewOutPut.Pos = mul(_Input.Pos, WorldViewProjection);
+    // -0.5, 0.5,     0.5 0.5
+    // 0.5, 0.5,     0.5 0.5
 
+    Output NewOutPut = (Output)0;
+    _Input.Pos += PivotPos;
+    NewOutPut.Pos = mul(_Input.Pos, WorldViewProjection);
     NewOutPut.PosLocal = _Input.Pos;
 
     // 버텍스가 몇번째 버텍스 인지 알수가 없다.
