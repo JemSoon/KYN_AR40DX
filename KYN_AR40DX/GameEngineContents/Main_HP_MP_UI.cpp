@@ -69,8 +69,8 @@ void Main_HP_MP_UI::Start()
 		TESTUICollision->GetTransform().SetWorldPosition({ 1204, -392, -100 });
 		TESTUICollision->ChangeOrder(OBJECTORDER::UI);
 	}
-	HPbarMaxSize = 171;
-	Hit = 55;
+	HPbarMaxSize = 171;//Test
+	Hit = 55;//Test
 }
 
 void Main_HP_MP_UI::Update(float _DeltaTime)
@@ -80,21 +80,21 @@ void Main_HP_MP_UI::Update(float _DeltaTime)
 		PlayerInfo = Player::GetMainPlayer();
 	}
 
-	//HPbarMaxSize = PlayerInfo->CurHP + Hit;
-
 	if (PlayerInfo->HitCheck == true)
 	{
+		//부딪혔을때 HP+Hit하지않으면 처음부터 HP+Hit하면 오버해버림
 		HPbarMaxSize = PlayerInfo->CurHP + Hit;
 		Hit = Hit - GameEngineTime::GetDeltaTime();
 		if (HPbarMaxSize <= 0)
 		{
+			//HP바를 오버해서 깎지 않게끔
 			Hit = 0;
 		}
 	}
 	
-
 	if (Hit <= 0)
 	{
+		//델타타임으로 다 줄어들면 0고정
 		Hit = 0;
 		PlayerInfo->HitCheck = false;
 		Hit = 55;
