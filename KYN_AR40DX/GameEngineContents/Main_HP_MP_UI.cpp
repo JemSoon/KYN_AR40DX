@@ -69,6 +69,8 @@ void Main_HP_MP_UI::Start()
 		TESTUICollision->GetTransform().SetWorldPosition({ 1204, -392, -100 });
 		TESTUICollision->ChangeOrder(OBJECTORDER::UI);
 	}
+	HPbarMaxSize = 171;
+	Hit = 55;
 }
 
 void Main_HP_MP_UI::Update(float _DeltaTime)
@@ -78,13 +80,29 @@ void Main_HP_MP_UI::Update(float _DeltaTime)
 		PlayerInfo = Player::GetMainPlayer();
 	}
 
-	HPbarMaxSize =( 171 * PlayerInfo->CurHP )/ 100;
-	//HPbar->GetTransform().SetWorldScale({ (float)HPbarMaxSize,13,0 });
-	
-	HPbar->GetTransform().AddLocalScale(float4((PlayerInfo->CurHP - PlayerInfo->HPMax)* _DeltaTime, 0.0f, 0.0f, 0.0f));
+	//HPbarMaxSize = PlayerInfo->CurHP + Hit;
+
+	if (PlayerInfo->HitCheck == true)
+	{
+		HPbarMaxSize = PlayerInfo->CurHP + Hit;
+		Hit = Hit - GameEngineTime::GetDeltaTime();
+		if (HPbarMaxSize <= 0)
+		{
+			Hit = 0;
+		}
+	}
 	
 
-	if (HPbarMaxSize >= 0)
+	if (Hit <= 0)
+	{
+		Hit = 0;
+		PlayerInfo->HitCheck = false;
+		Hit = 55;
+	}
+
+	HPbar->GetTransform().SetWorldScale({ (float)HPbarMaxSize ,13,0 });//줄어든비율로 사이즈세팅
+
+	if (HPbarMaxSize <= 0)
 	{
 		HPbarMaxSize = 0;
 	}

@@ -1,8 +1,10 @@
 #pragma once
 #include <GameEngineCore/CoreMinimal.h>
 #include "CharacterObject.h"
+#include "Monster.h"
 
 // Ό³Έν :
+
 class GameEngineRandom;
 class GameEngineCollision;
 class GameEngineTextureRenderer;
@@ -39,6 +41,8 @@ public:
 	}
 	
 	bool PortalOn;
+	bool HitCheck;
+	int HitDamage;
 	int HPMax;
 	int CurHP;
 protected:
@@ -77,7 +81,6 @@ protected:
 	void AttackEnd();
 	//==========================================================//
 	void AlertToIdle();
-
 private:
 	GameEngineStateManager StateManager;
 	float4 Dir;
@@ -85,5 +88,6 @@ private:
 	std::string PrevState;
 	bool Hit;
 	float HitTime;
+	Monster Mob;
 };
 

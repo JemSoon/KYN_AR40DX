@@ -28,11 +28,15 @@ public:
 		return HP_MP;
 	}
 
+
 	inline GameEngineTextureRenderer* GetEXPRenderer() const
 	{
 		return EXP;
 	}
 
+	void HPSetting();
+
+	GameEngineTextureRenderer* HPbar;
 protected:
 	void Start() override;
 	void Update(float _DeltaTime);
@@ -40,7 +44,6 @@ protected:
 
 	GameEngineTextureRenderer* HP_MP;
 	GameEngineTextureRenderer* EXP;
-	GameEngineTextureRenderer* HPbar;
 	GameEngineTextureRenderer* MPbar;
 	GameEngineTextureRenderer* EXPbar;
 	GameEngineTextureRenderer* QuickSlot;
@@ -50,5 +53,6 @@ private:
 	GameEngineCollision* TESTUICollision;
 	Player* PlayerInfo;
 	int HPbarMaxSize;
+	int Hit;
 };
 

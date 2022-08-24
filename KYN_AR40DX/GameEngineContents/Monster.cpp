@@ -2,6 +2,7 @@
 #include "Monster.h"
 
 Monster::Monster()
+	:Damage(55)
 {
 }
 

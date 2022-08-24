@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "Player.h"
+#include "Monster.h"
 
 #include <GameEngineContents/GlobalContentsValue.h>
 #include <iostream>
@@ -14,9 +15,10 @@ Player::Player()
 	, PrevState("Idle")
 	, Hit(false)
 	, HitTime(0.0f)
-	, HPMax(100)
-	, CurHP(100)
-
+	, HPMax(171)
+	, CurHP(171)
+	, HitDamage(0)
+	, HitCheck(false)
 {
 	MainPlayer = this;
 	Speed = 150.0f;
@@ -29,6 +31,8 @@ Player::~Player()
 
 void Player::Start()
 {
+	HitDamage = Mob.GetDamage();
+
 	CharacterObject::Start();
 
 	if (false == GameEngineInput::GetInst()->IsKey("PlayerLeft"))
@@ -785,6 +789,8 @@ void Player::Update(float _DeltaTime)
 		Collision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::Monster, CollisionType::CT_OBB2D,
 			std::bind(&Player::PlayerHit, this, std::placeholders::_1, std::placeholders::_2));
 	}
+
+
 }
 
 bool Player::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other)
@@ -800,7 +806,9 @@ bool Player::PlayerHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
 	//µÚ·Î ÆÞÂ½ ¶Ù°í Alert»óÅÂ
 	StateManager.ChangeState("Alert");
-	CurHP = CurHP - 5;
+	HitDamage = Mob.GetDamage();
+	CurHP = CurHP - HitDamage;
+	HitCheck = true;
 	return true;
 }
 
