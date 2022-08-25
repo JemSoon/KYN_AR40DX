@@ -69,8 +69,7 @@ void Main_HP_MP_UI::Start()
 		TESTUICollision->GetTransform().SetWorldPosition({ 1204, -392, -100 });
 		TESTUICollision->ChangeOrder(OBJECTORDER::UI);
 	}
-	HPbarMaxSize = 171;//Test
-	Hit = 55;//Test
+
 }
 
 void Main_HP_MP_UI::Update(float _DeltaTime)
@@ -97,7 +96,7 @@ void Main_HP_MP_UI::Update(float _DeltaTime)
 		//델타타임으로 다 줄어들면 0고정
 		Hit = 0;
 		PlayerInfo->HitCheck = false;
-		Hit = 55;
+		Hit = PlayerInfo->HitDamage;
 	}
 
 	HPbar->GetTransform().SetWorldScale({ (float)HPbarMaxSize ,13,0 });//줄어든비율로 사이즈세팅

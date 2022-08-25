@@ -1,7 +1,7 @@
 #pragma once
 #include <GameEngineCore/CoreMinimal.h>
 #include "CharacterObject.h"
-// 설명 :
+// 설명 : 기본 달팽이
 class Monster : public CharacterObject
 {
 public:
