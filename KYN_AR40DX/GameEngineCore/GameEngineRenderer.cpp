@@ -4,6 +4,7 @@
 #include "GameEngineLevel.h"
 #include <Windows.h>
 #include <GameEngineBase/GameEngineWindow.h>
+#include "GameEngineCamera.h"
 
 #include "GameEngineRenderingPipeLine.h"
 #include "GameEngineVertexBuffer.h"
@@ -11,6 +12,7 @@
 
 GameEngineRenderer::GameEngineRenderer()
 	: CameraOrder(CAMERAORDER::MAINCAMERA)
+	, RenderingOrder(0)
 {
 }
 
@@ -26,6 +28,11 @@ void GameEngineRenderer::Start()
 void GameEngineRenderer::PushRendererToMainCamera()
 {
 	GetActor()->GetLevel()->PushRendererToMainCamera(this);
+}
+
+void GameEngineRenderer::SetRenderingOrder(int _Order)
+{
+	Camera->ChangeRenderingOrder(this, _Order);
 }
 
 void GameEngineRenderer::PushRendererToUICamera()

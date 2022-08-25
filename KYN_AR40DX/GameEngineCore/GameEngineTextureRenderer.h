@@ -41,7 +41,8 @@ public:
 	float4 PivotPos;
 };
 
-class FrameAnimation_DESC 
+
+class FrameAnimation_DESC
 {
 public:
 	std::string TextureName;
@@ -87,6 +88,17 @@ public:
 		, Loop(_Loop)
 		, Inter(_Inter)
 		, Frames(_Frames)
+		, FrameTime(0.0f)
+	{
+
+	}
+
+
+	FrameAnimation_DESC(const std::string _TextureName, float _Inter, bool _Loop = true)
+		: TextureName(_TextureName)
+		, Loop(_Loop)
+		, Inter(_Inter)
+		, CurFrame(0)
 		, FrameTime(0.0f)
 	{
 
@@ -163,6 +175,15 @@ public:
 		return ScaleRatio;
 	}
 
+	bool IsCurAnimation()
+	{
+		if (nullptr == CurAni)
+		{
+			return false;
+		}
+		return true;
+	}
+
 	void SetTexture(GameEngineTexture* _Texture);
 
 	void SetTexture(const std::string& _Name);
@@ -194,6 +215,12 @@ public:
 
 	void CurAnimationPauseSwitch();
 
+	void CurAnimationPauseOn();
+
+	void CurAnimationPauseOff();
+
+	bool IsCurAnimationPause();
+
 	void CurAnimationReset();
 
 	void CurAnimationSetStartPivotFrame(int SetFrame);
@@ -202,6 +229,7 @@ public:
 	{
 		return ColorData;
 	}
+
 
 	// 애니메이션 바인드
 	// 시작 프레임에 들어온다.

@@ -13,6 +13,7 @@
     </FxCompile>
     <FxCompile Include="RenderOption.fx" />
     <FxCompile Include="TargetMerge.hlsl" />
+    <FxCompile Include="Blur.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Debug">

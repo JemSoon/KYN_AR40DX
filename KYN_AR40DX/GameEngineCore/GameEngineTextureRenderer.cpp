@@ -14,7 +14,7 @@ void FrameAnimation::Reset()
 	Info.CurFrame = 0;
 }
 
-void FrameAnimation::Update(float _Delta) 
+void FrameAnimation::Update(float _Delta)
 {
 	if (false == Pause)
 	{
@@ -69,48 +69,49 @@ void FrameAnimation::Update(float _Delta)
 		}
 	}
 
-		if (nullptr != Texture)
-		{
-			ParentRenderer->CurTex = Texture;
-			ParentRenderer->SetTexture(Texture, Info.Frames[Info.CurFrame]);
-			ParentRenderer->SetPivot();
 
-			// 잘렸다는 거죠?
-			if (Texture->GetCutCount() != 0)
+	if (nullptr != Texture)
+	{
+		ParentRenderer->CurTex = Texture;
+		ParentRenderer->SetTexture(Texture, Info.Frames[Info.CurFrame]);
+		ParentRenderer->SetPivot();
+
+		// 잘렸다는 거죠?
+		if (Texture->GetCutCount() != 0)
+		{
+			if (ParentRenderer->ScaleMode == SCALEMODE::IMAGE)
 			{
-				if (ParentRenderer->ScaleMode == SCALEMODE::IMAGE)
-				{
-					ParentRenderer->ScaleToCutTexture(Info.Frames[Info.CurFrame]);
-				}
-			}
-			else
-			{
-				if (ParentRenderer->ScaleMode == SCALEMODE::IMAGE)
-				{
-					ParentRenderer->ScaleToTexture();
-				}
+				ParentRenderer->ScaleToCutTexture(Info.Frames[Info.CurFrame]);
 			}
 		}
-
-		else if (nullptr != FolderTexture)
+		else
 		{
-			ParentRenderer->FrameDataReset();
-			ParentRenderer->CurTex = FolderTexture->GetTexture(Info.Frames[Info.CurFrame]);
-			ParentRenderer->SetTexture(FolderTexture->GetTexture(Info.Frames[Info.CurFrame]));
-			ParentRenderer->SetPivot();
-
 			if (ParentRenderer->ScaleMode == SCALEMODE::IMAGE)
 			{
 				ParentRenderer->ScaleToTexture();
 			}
 		}
-		else
+	}
+	else if (nullptr != FolderTexture)
+	{
+		ParentRenderer->FrameDataReset();
+		ParentRenderer->CurTex = FolderTexture->GetTexture(Info.Frames[Info.CurFrame]);
+		ParentRenderer->SetTexture(FolderTexture->GetTexture(Info.Frames[Info.CurFrame]));
+		ParentRenderer->SetPivot();
+
+		if (ParentRenderer->ScaleMode == SCALEMODE::IMAGE)
 		{
-			MsgBoxAssert("텍스처가 세팅되지 않은 애니메이션 입니다.");
+			ParentRenderer->ScaleToTexture();
 		}
+	}
+	else
+	{
+		MsgBoxAssert("텍스처가 세팅되지 않은 애니메이션 입니다.");
+	}
+
 }
 
-GameEngineTextureRenderer::GameEngineTextureRenderer() 
+GameEngineTextureRenderer::GameEngineTextureRenderer()
 	: CurAni(nullptr)
 	, CurTex(nullptr)
 	, PivotMode(PIVOTMODE::CENTER)
@@ -119,12 +120,13 @@ GameEngineTextureRenderer::GameEngineTextureRenderer()
 {
 }
 
-GameEngineTextureRenderer::~GameEngineTextureRenderer() 
+GameEngineTextureRenderer::~GameEngineTextureRenderer()
 {
 }
 
 void GameEngineTextureRenderer::SetTextureRendererSetting()
 {
+
 	SetPipeLine("TextureAtlas");
 
 	AtlasDataInst.FrameData.PosX = 0.0f;
@@ -135,6 +137,7 @@ void GameEngineTextureRenderer::SetTextureRendererSetting()
 
 	ShaderResources.SetConstantBufferLink("AtlasData", AtlasDataInst);
 	ShaderResources.SetConstantBufferLink("ColorData", ColorData);
+
 }
 
 void GameEngineTextureRenderer::CurAnimationPauseSwitch()
@@ -150,7 +153,6 @@ void GameEngineTextureRenderer::Start()
 
 	SetTextureRendererSetting();
 }
-
 
 void GameEngineTextureRenderer::SetSamplingModePoint()
 {
@@ -208,7 +210,7 @@ void GameEngineTextureRenderer::SetPivot(PIVOTMODE _Mode)
 	PivotMode = _Mode;
 }
 
-void GameEngineTextureRenderer::SetPivotToVector(const float4& _Value) 
+void GameEngineTextureRenderer::SetPivotToVector(const float4& _Value)
 {
 	GetTransform().SetLocalPosition(_Value);
 }
@@ -330,7 +332,7 @@ void GameEngineTextureRenderer::ChangeFrameAnimation(const std::string& _Animati
 				ScaleToCutTexture(CurAni->Info.CurFrame);
 			}
 		}
-		else if(nullptr != CurAni->FolderTexture)
+		else if (nullptr != CurAni->FolderTexture)
 		{
 			SetTexture(CurAni->FolderTexture->GetTexture(CurAni->Info.Frames[CurAni->Info.CurFrame]));
 			if (ScaleMode == SCALEMODE::IMAGE)
@@ -343,7 +345,7 @@ void GameEngineTextureRenderer::ChangeFrameAnimation(const std::string& _Animati
 
 void GameEngineTextureRenderer::FrameDataReset()
 {
-	AtlasDataInst.FrameData = { 0.0f , 0.0f, 1.0f, 1.0f};
+	AtlasDataInst.FrameData = { 0.0f , 0.0f, 1.0f, 1.0f };
 }
 
 
@@ -354,6 +356,7 @@ void GameEngineTextureRenderer::Update(float _Delta)
 		CurAni->Update(_Delta);
 	}
 }
+
 
 
 void GameEngineTextureRenderer::ScaleToCutTexture(int _Index)
@@ -394,11 +397,25 @@ void GameEngineTextureRenderer::ScaleToTexture()
 
 void GameEngineTextureRenderer::CurAnimationReset()
 {
-	CurAnimationSetStartPivotFrame(0);
-	// CurAni->Info.CurFrame = CurAni->Info.Start;
+	CurAni->Reset();
 }
 
 void GameEngineTextureRenderer::CurAnimationSetStartPivotFrame(int SetFrame)
 {
-	CurAni->Reset();
+	CurAni->Info.CurFrame = SetFrame;
+}
+
+void GameEngineTextureRenderer::CurAnimationPauseOn()
+{
+	CurAni->Pause = true;
+}
+
+void GameEngineTextureRenderer::CurAnimationPauseOff()
+{
+	CurAni->Pause = false;
+}
+
+bool GameEngineTextureRenderer::IsCurAnimationPause()
+{
+	return CurAni->Pause;
 }

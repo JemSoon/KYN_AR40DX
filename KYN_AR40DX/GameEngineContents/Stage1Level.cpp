@@ -4,6 +4,7 @@
 #include <GameEngineCore/GEngine.h>
 #include <GameEngineCore/GameEngineCameraActor.h>
 #include <GameEngineBase/GameEngineInput.h>
+//#include <GameEngineCore/GameEngineBlur.h>	//블러쓸거라면
 #include "Player.h"
 #include "Monster.h"
 #include "StageObject.h"
@@ -29,6 +30,8 @@ void Stage1Level::Start()
 		Camera->GetTransform().SetWorldPosition({ 0,0,-500.0f });
 
 		//GetMainCamera()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
+		//GetMainCamera()->GetCameraRenderTarget()->AddEffect<GameEngineBlur>();
+		// GetMainCamera()->GetCameraRenderTarget()->AddEffect<디스토션>();
 
 		if (false == GameEngineInput::GetInst()->IsKey("MapOffSwitch"))
 		{
