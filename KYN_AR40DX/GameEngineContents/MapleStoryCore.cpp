@@ -40,6 +40,16 @@ void MapleStoryCore::Start()
 
 	{
 		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("ConstantResources");
+		Dir.Move("ConstantResources");
+		Dir.Move("Texture");
+		Dir.Move("LevelUp");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+
+	{
+		GameEngineDirectory Dir;
 
 		Dir.MoveParentToExitsChildDirectory("ConstantResources");
 		Dir.Move("ConstantResources");

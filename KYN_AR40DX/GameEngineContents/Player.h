@@ -94,5 +94,6 @@ private:
 	bool Hit;
 	float HitTime;
 	Monster Mob;
+	GameEngineTextureRenderer* PlayerLevelUp;
 };
 

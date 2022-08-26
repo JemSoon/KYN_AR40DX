@@ -22,6 +22,7 @@ Player::Player()
 	, EXPMax(10)
 	, CurEXP(0)
 	, PlayerLevel(1)
+	, PlayerLevelUp(nullptr)
 {
 	MainPlayer = this;
 	Speed = 150.0f;
@@ -60,6 +61,12 @@ void Player::Start()
 		std::vector<unsigned int> Three = { 0, 1, 2};
 		std::vector<unsigned int> Two = { 0, 1 };
 		std::vector<unsigned int> One = { 0 };
+
+		PlayerLevelUp = CreateComponent<GameEngineTextureRenderer>();
+		PlayerLevelUp->CreateFrameAnimationFolder("LevelUp", FrameAnimation_DESC("LevelUp", 0.1f, true));
+		PlayerLevelUp->SetScaleModeImage();
+		PlayerLevelUp->ChangeFrameAnimation("LevelUp");
+		PlayerLevelUp->SetPivot(PIVOTMODE::BOT);
 
 		Renderer->CreateFrameAnimationCutTexture("Idle", FrameAnimation_DESC("idle.png", Idle, 0.3f));
 		Renderer->CreateFrameAnimationCutTexture("Move", FrameAnimation_DESC("walk.png", Three, 0.1f));
