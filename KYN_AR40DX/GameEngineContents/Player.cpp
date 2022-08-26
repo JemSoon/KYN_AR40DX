@@ -19,6 +19,9 @@ Player::Player()
 	, CurHP(100)
 	, HitDamage(0)
 	, HitCheck(false)
+	, EXPMax(10)
+	, CurEXP(0)
+	, PlayerLevel(1)
 {
 	MainPlayer = this;
 	Speed = 150.0f;
@@ -790,7 +793,7 @@ void Player::Update(float _DeltaTime)
 			std::bind(&Player::PlayerHit, this, std::placeholders::_1, std::placeholders::_2));
 	}
 
-
+	LevelUp();
 }
 
 bool Player::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other)
@@ -799,6 +802,10 @@ bool Player::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 
 	_Other->GetActor()->Death();
 	
+	if (_Other->GetActor()->IsDeath() == true)
+	{
+		CurEXP += 5;
+	}
 	return true;
 }
 
@@ -842,5 +849,15 @@ void Player::AlertToIdle()
 		Hit = false;
 		HitTime = 0.0f;
 		return;
+	}
+}
+
+void Player::LevelUp()
+{
+	if (CurEXP >= EXPMax)
+	{
+		PlayerLevel += 1;
+		CurEXP = CurEXP - EXPMax;
+		EXPMax += 20;
 	}
 }

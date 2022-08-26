@@ -6,6 +6,8 @@ Main_HP_MP_UI::Main_HP_MP_UI()
 	:HP_MP(nullptr)
 	,EXP(nullptr)
 	,HPbarMaxSize(171)
+	,EXPbarSize(0)
+	,Hit(0)
 {
 
 }
@@ -52,9 +54,10 @@ void Main_HP_MP_UI::Start()
 
 	{
 		EXPbar = CreateComponent<GameEngineUIRenderer>();
-		EXPbar->GetTransform().SetWorldScale({ 1264, 7, 0 });
-		EXPbar->GetTransform().SetWorldPosition({ 7,-35,-100 });
+		EXPbar->GetTransform().SetWorldScale({ (float)EXPbarSize, 7, 0 });
+		EXPbar->GetTransform().SetWorldPosition({ -626,-35,-100 });
 		EXPbar->SetTexture("EXPbar.png");
+		EXPbar->SetPivot(PIVOTMODE::LEFT);
 	}
 
 	{
@@ -78,7 +81,14 @@ void Main_HP_MP_UI::Update(float _DeltaTime)
 	{
 		PlayerInfo = Player::GetMainPlayer();
 	}
+	
+	HPSetting();
 
+	EXPSetting();
+}
+
+void Main_HP_MP_UI::HPSetting()
+{
 	if (PlayerInfo->HitCheck == true)
 	{
 		//부딪혔을때 HP+Hit하지않으면 처음부터 HP+Hit하면 오버해버림
@@ -91,7 +101,7 @@ void Main_HP_MP_UI::Update(float _DeltaTime)
 			Hit = 0;
 		}
 	}
-	
+
 	if (Hit <= 0)
 	{
 		//델타타임으로 다 줄어들면 0고정
@@ -108,3 +118,9 @@ void Main_HP_MP_UI::Update(float _DeltaTime)
 	}
 }
 
+void Main_HP_MP_UI::EXPSetting()
+{
+	//1264가 경험치바 최대치
+	EXPbarSize = (1264 * PlayerInfo->CurEXP) / PlayerInfo->EXPMax;
+	EXPbar->GetTransform().SetWorldScale({ (float)EXPbarSize, 7, 0 });
+}

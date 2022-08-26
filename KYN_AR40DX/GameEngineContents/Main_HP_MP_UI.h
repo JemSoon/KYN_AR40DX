@@ -35,6 +35,7 @@ public:
 	}
 
 	void HPSetting();
+	void EXPSetting();
 
 	GameEngineTextureRenderer* HPbar;
 protected:
@@ -53,6 +54,7 @@ private:
 	GameEngineCollision* TESTUICollision;
 	Player* PlayerInfo;
 	int HPbarMaxSize;
+	int EXPbarSize;
 	int Hit;
 };
 

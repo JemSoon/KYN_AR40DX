@@ -45,6 +45,9 @@ public:
 	int HitDamage;
 	int HPMax;
 	int CurHP;
+	int EXPMax;
+	int CurEXP;
+	int PlayerLevel;
 protected:
 	void Start() override;
 	void Update(float _DeltaTime);
@@ -81,6 +84,8 @@ protected:
 	void AttackEnd();
 	//==========================================================//
 	void AlertToIdle();
+
+	void LevelUp();
 private:
 	GameEngineStateManager StateManager;
 	float4 Dir;
