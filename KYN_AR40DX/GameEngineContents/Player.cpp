@@ -66,7 +66,7 @@ void Player::Start()
 		PlayerLevelUp->CreateFrameAnimationFolder("LevelUp", FrameAnimation_DESC("LevelUp", 0.1f, true));
 		PlayerLevelUp->SetScaleModeImage();
 		PlayerLevelUp->ChangeFrameAnimation("LevelUp");
-		PlayerLevelUp->SetPivot(PIVOTMODE::BOT);
+		PlayerLevelUp->SetPivotToVector({ 0.0f, 260.0f });
 
 		Renderer->CreateFrameAnimationCutTexture("Idle", FrameAnimation_DESC("idle.png", Idle, 0.3f));
 		Renderer->CreateFrameAnimationCutTexture("Move", FrameAnimation_DESC("walk.png", Three, 0.1f));
