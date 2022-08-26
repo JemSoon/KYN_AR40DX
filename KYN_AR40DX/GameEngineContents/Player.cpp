@@ -63,10 +63,11 @@ void Player::Start()
 		std::vector<unsigned int> One = { 0 };
 
 		PlayerLevelUp = CreateComponent<GameEngineTextureRenderer>();
-		PlayerLevelUp->CreateFrameAnimationFolder("LevelUp", FrameAnimation_DESC("LevelUp", 0.1f, true));
+		PlayerLevelUp->CreateFrameAnimationFolder("LevelUp", FrameAnimation_DESC("LevelUp", 0.1f, false));
 		PlayerLevelUp->SetScaleModeImage();
 		PlayerLevelUp->ChangeFrameAnimation("LevelUp");
 		PlayerLevelUp->SetPivotToVector({ 0.0f, 260.0f });
+		PlayerLevelUp->Off();
 
 		Renderer->CreateFrameAnimationCutTexture("Idle", FrameAnimation_DESC("idle.png", Idle, 0.3f));
 		Renderer->CreateFrameAnimationCutTexture("Move", FrameAnimation_DESC("walk.png", Three, 0.1f));
@@ -863,6 +864,7 @@ void Player::LevelUp()
 {
 	if (CurEXP >= EXPMax)
 	{
+		PlayerLevelUp->On();
 		PlayerLevel += 1;
 		CurEXP = CurEXP - EXPMax;
 		EXPMax += 20;
