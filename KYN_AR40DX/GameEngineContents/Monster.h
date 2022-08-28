@@ -37,5 +37,6 @@ private:
 	void MoveStart(const StateInfo& _Info);
 	void MoveUpdate(float _DeltaTime, const StateInfo& _Info);
 	int Damage;
+	float PatternTime;
 };
 

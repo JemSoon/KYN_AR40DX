@@ -1,8 +1,11 @@
 #include "PreCompile.h"
 #include "Monster.h"
 
+#include <GameEngineBase/GameEngineRandom.h>
+
 Monster::Monster()
 	:Damage(15)
+	,PatternTime(0)
 {
 	Speed = 75;
 }
@@ -15,7 +18,7 @@ void Monster::Start()
 {
 	//상속에 써둠
 	//GetTransform().SetLocalScale({ 1, 1, 1 });
-
+	CharacterObject::Start();
 	{
 		Renderer = CreateComponent<GameEngineTextureRenderer>();
 		Renderer->GetTransform().SetLocalScale({ 64, 64, 1 });
@@ -30,7 +33,7 @@ void Monster::Start()
 		Renderer->CreateFrameAnimationCutTexture("Idle", FrameAnimation_DESC("snail_stand.png", One, 0.2f, false));
 		Renderer->CreateFrameAnimationCutTexture("Move", FrameAnimation_DESC("snail_move.png", Five, 0.2f));
 
-		Renderer->ChangeFrameAnimation("Move");
+		Renderer->ChangeFrameAnimation("Idle");
 		Renderer->SetPivot(PIVOTMODE::BOT);
 	}
 
@@ -43,13 +46,138 @@ void Monster::Start()
 	}
 
 	{
-		//StateManager.CreateStateMember("Idle"
-		//	, std::bind(&Monster::IdleUpdate, this, std::placeholders::_1, std::placeholders::_2)
-		//	, std::bind(&Monster::IdleStart, this, std::placeholders::_1));
+		StateManager.CreateStateMember("Idle"
+			, std::bind(&Monster::IdleUpdate, this, std::placeholders::_1, std::placeholders::_2)
+			, std::bind(&Monster::IdleStart, this, std::placeholders::_1));
+
+		StateManager.CreateStateMember("Move"
+			, std::bind(&Monster::MoveUpdate, this, std::placeholders::_1, std::placeholders::_2)
+			, std::bind(&Monster::MoveStart, this, std::placeholders::_1));
+
+		StateManager.ChangeState("Idle");
 	}
 }
 
+void Monster::IdleStart(const StateInfo& _Info)
+{
+	PatternTime = 0;
+	Renderer->ChangeFrameAnimation("Idle");
+	Speed = 75.0f;
+}
+
+void Monster::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
+{
+	PatternTime += GameEngineTime::GetDeltaTime();
+	int Time = GameEngineRandom::MainRandom.RandomInt(1, 4);
+
+	if (Time == 1)
+	{
+		if (PatternTime >= 1.0f)
+		{
+			StateManager.ChangeState("Move");
+			PatternTime = 0;
+		}
+	}
+
+	if (Time == 2)
+	{
+		if (PatternTime >= 2.0f)
+		{
+			StateManager.ChangeState("Move");
+			PatternTime = 0;
+		}
+	}
+
+	if (Time == 3)
+	{
+		if (PatternTime >= 3.0f)
+		{
+			StateManager.ChangeState("Move");
+			PatternTime = 0;
+		}
+	}
+
+	if (Time == 4)
+	{
+		if (PatternTime >= 4.0f)
+		{
+			StateManager.ChangeState("Move");
+			PatternTime = 0;
+		}
+	}
+}
+
+void Monster::MoveStart(const StateInfo& _Info)
+{
+	Renderer->ChangeFrameAnimation("Move");
+}
+
+void Monster::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
+{
+	PatternTime += GameEngineTime::GetDeltaTime();
+	int Time = GameEngineRandom::MainRandom.RandomInt(1, 4);
+	if (Time == 1)
+	{
+		if (PatternTime >= 1.0f)
+		{
+			StateManager.ChangeState("Idle");
+			PatternTime = 0;
+		}
+	}
+
+	if (Time == 2)
+	{
+		if (PatternTime >= 2.0f)
+		{
+			StateManager.ChangeState("Idle");
+			PatternTime = 0;
+		}
+	}
+
+	if (Time == 3)
+	{
+		if (PatternTime >= 3.0f)
+		{
+			StateManager.ChangeState("Idle");
+			PatternTime = 0;
+		}
+	}
+
+	if (Time == 4)
+	{
+		if (PatternTime >= 4.0f)
+		{
+			StateManager.ChangeState("Idle");
+			PatternTime = 0;
+		}
+	}
+
+	MovePower = GetTransform().GetLeftVector() * Speed * _DeltaTime;
+
+	if (((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g >= 200 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].r == 0 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].b == 0) &&//다운이 그린
+		iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].g >= 200 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].r == 0 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].b == 0) &&//왼이 그린
+		iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFTTOP)].g == 255 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFTTOP)].r == 255 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFTTOP)].b == 255)//왼탑이 화이트
+	{	//언덕길은 위로 올리는힘이 추가
+		MovePower += (GetTransform().GetUpVector() * Speed * _DeltaTime);
+	}
+
+	ColorCheckUpdateNext(MovePower);
+
+	if (((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].g < 200) || (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].g == 255 && (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].r == 255))) &&
+		((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].g < 200) || (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].g == 255 && (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].r == 255))))
+	{
+		//양옆이 벽이 아니라면 움직인다
+		GetTransform().SetWorldMove(MovePower);
+	}
+}
+//====================================================================================//
+//====================================================================================//
+//====================================================================================//
+//====================================================================================//
+//====================================================================================//
+
 void Monster::Update(float _DeltaTime)
 {
+	StateManager.Update(_DeltaTime);
 	Gravity(_DeltaTime);
 }
