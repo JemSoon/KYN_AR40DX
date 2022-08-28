@@ -75,6 +75,7 @@ void MapleStoryCore::Start()
 		GameEngineTexture::Cut("attack3.png", 3, 1);
 		GameEngineTexture::Cut("attack4.png", 2, 1);
 		GameEngineTexture::Cut("alert.png", 3, 1);
+		GameEngineTexture::Cut("dead.png", 1, 1);
 	}
 	
 	{	//∏ÛΩ∫≈Õ

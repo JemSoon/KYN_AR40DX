@@ -68,6 +68,7 @@ void Player::Start()
 		PlayerLevelUp->ChangeFrameAnimation("LevelUp");
 		PlayerLevelUp->SetPivotToVector({ 0.0f, 260.0f });
 		PlayerLevelUp->Off();
+		PlayerLevelUp->AnimationBindEnd("LevelUp", std::bind(&Player::LevelUpEnd, this));
 
 		Renderer->CreateFrameAnimationCutTexture("Idle", FrameAnimation_DESC("idle.png", Idle, 0.3f));
 		Renderer->CreateFrameAnimationCutTexture("Move", FrameAnimation_DESC("walk.png", Three, 0.1f));
@@ -79,6 +80,7 @@ void Player::Start()
 		Renderer->CreateFrameAnimationCutTexture("Attack3", FrameAnimation_DESC("attack3.png", Three, 0.2f));
 		Renderer->CreateFrameAnimationCutTexture("Attack4", FrameAnimation_DESC("attack4.png", Two, 0.23f));
 		Renderer->CreateFrameAnimationCutTexture("Alert", FrameAnimation_DESC("alert.png", Three, 0.23f));
+		Renderer->CreateFrameAnimationCutTexture("Dead", FrameAnimation_DESC("dead.png", One, 0.23f, false));
 
 		Renderer->ChangeFrameAnimation("Idle");
 		Renderer->SetPivot(PIVOTMODE::CUSTOM);
@@ -154,11 +156,25 @@ void Player::Start()
 	StateManager.CreateStateMember("Alert"
 		, std::bind(&Player::AlertUpdate, this, std::placeholders::_1, std::placeholders::_2)
 		, std::bind(&Player::AlertStart, this, std::placeholders::_1));
+	StateManager.CreateStateMember("Dead"
+		, std::bind(&Player::DeadUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::DeadStart, this, std::placeholders::_1));
 
 	StateManager.ChangeState("Idle");
 
 	//블랜드 옵션만 바꾸기위한 코드(미완성)
 	//Renderer->GetPipeLine()->SetOutputMergerBlend("TransparentBlend");
+}
+
+void Player::DeadStart(const StateInfo& _Info)
+{
+	Renderer->ChangeFrameAnimation("Dead");
+}
+
+void Player::DeadUpdate(float _DeltaTime, const StateInfo& _Info)
+{
+
+	return;
 }
 
 void Player::IdleStart(const StateInfo& _Info)
@@ -761,6 +777,12 @@ void Player::AlertUpdate(float _DeltaTime, const StateInfo& _Info)
 	Gravity(_DeltaTime);
 }
 
+//==============================================================================//
+//==============================================================================//
+//=========================여기까지가 상태창=====================================//
+//==============================================================================//
+//==============================================================================//
+
 void Player::Update(float _DeltaTime)
 {
 	//GameEngineDebug::DrawSphere(Collision->GetTransform(), { 1.0f, 0.0f,0.0f, 0.5f });
@@ -780,6 +802,7 @@ void Player::Update(float _DeltaTime)
 		float4 Test2 = GetLevel()->GetMainCamera()->GetMouseWorldPosition(); 
 	}
 
+	Dead();
 	//카메라가 플레이어 중심으로 쫓아다닌다
 	//GetLevel()->GetMainCameraActorTransform().SetLocalPosition({ GetTransform().GetLocalPosition()});
 	
@@ -865,8 +888,25 @@ void Player::LevelUp()
 	if (CurEXP >= EXPMax)
 	{
 		PlayerLevelUp->On();
+		
 		PlayerLevel += 1;
 		CurEXP = CurEXP - EXPMax;
 		EXPMax += 20;
+	}
+}
+
+void Player::LevelUpEnd()
+{
+	//레벨업 애니메이션이 끝나면 끈다
+	PlayerLevelUp->Off();
+}
+
+void Player::Dead()
+{
+	if (CurHP <= 0)
+	{
+		StateManager.ChangeState("Dead");
+		Collision->Off();
+		stop = true;
 	}
 }

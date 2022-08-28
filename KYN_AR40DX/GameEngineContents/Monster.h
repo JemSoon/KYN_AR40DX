@@ -30,6 +30,7 @@ protected:
 	void End() {}
 
 private:
+	GameEngineStateManager StateManager;
 	void IdleStart(const StateInfo& _Info);
 	void IdleUpdate(float _DeltaTime, const StateInfo& _Info);
 

@@ -4,6 +4,7 @@
 Monster::Monster()
 	:Damage(15)
 {
+	Speed = 75;
 }
 
 Monster::~Monster()
@@ -39,6 +40,12 @@ void Monster::Start()
 		Collision->GetTransform().SetLocalScale({ 32.0f, 24.0f, 100.0f });
 		Collision->GetTransform().SetLocalPosition({ 0.0f, 13.0f, 0.0f });
 		Collision->ChangeOrder(OBJECTORDER::Monster);
+	}
+
+	{
+		//StateManager.CreateStateMember("Idle"
+		//	, std::bind(&Monster::IdleUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		//	, std::bind(&Monster::IdleStart, this, std::placeholders::_1));
 	}
 }
 

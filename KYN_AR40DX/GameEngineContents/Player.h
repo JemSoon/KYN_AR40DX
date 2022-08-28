@@ -53,6 +53,9 @@ protected:
 	void Update(float _DeltaTime);
 	void End() {}
 	//==========================================================//
+	void DeadStart(const StateInfo& _Info);
+	void DeadUpdate(float _DeltaTime, const StateInfo& _Info);
+
 	void IdleStart(const StateInfo& _Info);
 	void IdleUpdate(float _DeltaTime, const StateInfo& _Info);
 
@@ -82,9 +85,11 @@ protected:
 	//==========================================================//
 	//==========================================================//
 	void AttackEnd();
+	void LevelUpEnd();
 	//==========================================================//
 	void AlertToIdle();
 
+	void Dead();
 	void LevelUp();
 private:
 	GameEngineStateManager StateManager;
