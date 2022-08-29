@@ -39,5 +39,6 @@ private:
 	int Damage;
 	float PatternTime;
 	int Random;
+	int RandomDir;
 };
 

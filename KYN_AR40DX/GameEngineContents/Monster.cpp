@@ -6,6 +6,8 @@
 Monster::Monster()
 	:Damage(15)
 	,PatternTime(0)
+	,Random(0)
+	,RandomDir(0)
 {
 	Speed = 75;
 }
@@ -90,6 +92,8 @@ void Monster::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 void Monster::MoveStart(const StateInfo& _Info)
 {
 	Renderer->ChangeFrameAnimation("Move");
+	Random = GameEngineRandom::MainRandom.RandomInt(1, 2);
+	RandomDir = Random = GameEngineRandom::MainRandom.RandomInt(1, 2);
 }
 
 void Monster::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -114,25 +118,17 @@ void Monster::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		}
 	}
 
-	if (Random == 3)
+	if (RandomDir == 1)
 	{
-		if (PatternTime >= 3.0f)
-		{
-			StateManager.ChangeState("Idle");
-			PatternTime = 0;
-		}
+		MovePower = GetTransform().GetLeftVector() * Speed * _DeltaTime;
+		Renderer->GetTransform().PixLocalPositiveX();
 	}
 
-	if (Random == 4)
+	if (RandomDir == 2)
 	{
-		if (PatternTime >= 4.0f)
-		{
-			StateManager.ChangeState("Idle");
-			PatternTime = 0;
-		}
+		MovePower = GetTransform().GetRightVector() * Speed * _DeltaTime;
+		Renderer->GetTransform().PixLocalNegativeX();
 	}
-
-	MovePower = GetTransform().GetLeftVector() * Speed * _DeltaTime;
 
 	if (((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g >= 200 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].r == 0 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].b == 0) &&//다운이 그린
 		iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].g >= 200 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].r == 0 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].b == 0) &&//왼이 그린
