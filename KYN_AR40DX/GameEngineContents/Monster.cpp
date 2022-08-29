@@ -120,14 +120,26 @@ void Monster::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (RandomDir == 1)
 	{
+		//랜덤 방향1 == 왼쪽
 		MovePower = GetTransform().GetLeftVector() * Speed * _DeltaTime;
 		Renderer->GetTransform().PixLocalPositiveX();
+
+		if (true == IsNextColor(COLORCHECKDIR::DOWNL, float4::WHITE))
+		{
+			MovePower.x = 0.0f;
+		}
 	}
 
 	if (RandomDir == 2)
 	{
+		//랜덤 방향2 == 오른쪽
 		MovePower = GetTransform().GetRightVector() * Speed * _DeltaTime;
 		Renderer->GetTransform().PixLocalNegativeX();
+
+		if (true == IsNextColor(COLORCHECKDIR::DOWNR, float4::WHITE))
+		{
+			MovePower.x = 0.0f;
+		}
 	}
 
 	if (((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g >= 200 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].r == 0 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].b == 0) &&//다운이 그린
