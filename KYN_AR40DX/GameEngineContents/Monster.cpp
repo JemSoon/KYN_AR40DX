@@ -60,7 +60,7 @@ void Monster::Start()
 
 void Monster::IdleStart(const StateInfo& _Info)
 {
-	PatternTime = 0;
+	Random = GameEngineRandom::MainRandom.RandomInt(1, 2);
 	Renderer->ChangeFrameAnimation("Idle");
 	Speed = 75.0f;
 }
@@ -68,9 +68,7 @@ void Monster::IdleStart(const StateInfo& _Info)
 void Monster::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	PatternTime += GameEngineTime::GetDeltaTime();
-	int Time = GameEngineRandom::MainRandom.RandomInt(1, 4);
-
-	if (Time == 1)
+	if (Random == 1)
 	{
 		if (PatternTime >= 1.0f)
 		{
@@ -79,27 +77,9 @@ void Monster::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 		}
 	}
 
-	if (Time == 2)
+	if (Random == 2)
 	{
 		if (PatternTime >= 2.0f)
-		{
-			StateManager.ChangeState("Move");
-			PatternTime = 0;
-		}
-	}
-
-	if (Time == 3)
-	{
-		if (PatternTime >= 3.0f)
-		{
-			StateManager.ChangeState("Move");
-			PatternTime = 0;
-		}
-	}
-
-	if (Time == 4)
-	{
-		if (PatternTime >= 4.0f)
 		{
 			StateManager.ChangeState("Move");
 			PatternTime = 0;
@@ -115,8 +95,8 @@ void Monster::MoveStart(const StateInfo& _Info)
 void Monster::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	PatternTime += GameEngineTime::GetDeltaTime();
-	int Time = GameEngineRandom::MainRandom.RandomInt(1, 4);
-	if (Time == 1)
+	//Random = GameEngineRandom::MainRandom.RandomInt(1, 4);
+	if (Random == 1)
 	{
 		if (PatternTime >= 1.0f)
 		{
@@ -125,7 +105,7 @@ void Monster::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		}
 	}
 
-	if (Time == 2)
+	if (Random == 2)
 	{
 		if (PatternTime >= 2.0f)
 		{
@@ -134,7 +114,7 @@ void Monster::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		}
 	}
 
-	if (Time == 3)
+	if (Random == 3)
 	{
 		if (PatternTime >= 3.0f)
 		{
@@ -143,7 +123,7 @@ void Monster::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		}
 	}
 
-	if (Time == 4)
+	if (Random == 4)
 	{
 		if (PatternTime >= 4.0f)
 		{

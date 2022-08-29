@@ -38,5 +38,6 @@ private:
 	void MoveUpdate(float _DeltaTime, const StateInfo& _Info);
 	int Damage;
 	float PatternTime;
+	int Random;
 };
 
