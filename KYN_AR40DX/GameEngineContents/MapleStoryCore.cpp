@@ -82,6 +82,8 @@ void MapleStoryCore::Start()
 		GameEngineTexture::Cut("stand.png", 2, 1); 
 		GameEngineTexture::Cut("snail_stand.png", 1, 1);
 		GameEngineTexture::Cut("snail_move.png", 5, 1);
+		GameEngineTexture::Cut("snail_hit.png", 1, 1);
+		GameEngineTexture::Cut("snail_die.png", 9, 1);
 	}
 
 	{	//½ºÅ×ÀÌÁö ÄÆ

@@ -18,6 +18,8 @@ public:
 	
 	bool MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other);
 
+	void Dead();
+
 	int GetDamage()
 	{
 		return Damage;
@@ -32,24 +34,34 @@ public:
 		return HP;
 	}
 
-
 protected:
 	void Start() override;
 	void Update(float _DeltaTime);
 	void End() {}
 
-private:
-	GameEngineStateManager StateManager;
-	Player* PlayerInfo;
 	void IdleStart(const StateInfo& _Info);
 	void IdleUpdate(float _DeltaTime, const StateInfo& _Info);
 
 	void MoveStart(const StateInfo& _Info);
 	void MoveUpdate(float _DeltaTime, const StateInfo& _Info);
+
+	void HitStart(const StateInfo& _Info);
+	void HitUpdate(float _DeltaTime, const StateInfo& _Info);
+
+	void DeadStart(const StateInfo& _Info);
+	void DeadUpdate(float _DeltaTime, const StateInfo& _Info);
+
+	void DieEnd();
+
+private:
+	GameEngineStateManager StateManager;
+	Player* PlayerInfo;	
+
 	int Damage;
 	float PatternTime;
 	int Random;
 	int RandomDir;
 	int HP;
+	bool Hit;
 };
 

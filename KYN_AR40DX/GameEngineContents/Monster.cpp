@@ -10,6 +10,7 @@ Monster::Monster()
 	,Random(0)
 	,RandomDir(0)
 	,HP(15)
+	,Hit(false)
 {
 	Speed = 75;
 }
@@ -29,6 +30,7 @@ void Monster::Start()
 		Renderer->SetTexture("snail_stand.png");
 		//Renderer->ScaleToTexture();//나는 쓰면 늘어난다
 
+		std::vector<unsigned int> Nine = { 0,1,2,3,4,5,6,7,8 };
 		std::vector<unsigned int> Five = { 0, 1, 2 ,3, 4, 3, 2, 1};
 		std::vector<unsigned int> Three = { 0, 1, 2 };
 		std::vector<unsigned int> Two = { 0, 1 };
@@ -36,9 +38,16 @@ void Monster::Start()
 
 		Renderer->CreateFrameAnimationCutTexture("Idle", FrameAnimation_DESC("snail_stand.png", One, 0.2f, false));
 		Renderer->CreateFrameAnimationCutTexture("Move", FrameAnimation_DESC("snail_move.png", Five, 0.2f));
+		Renderer->CreateFrameAnimationCutTexture("Hit", FrameAnimation_DESC("snail_hit.png", One, 0.2f, false));
+		Renderer->CreateFrameAnimationCutTexture("Die", FrameAnimation_DESC("snail_die.png", Nine, 0.1f, false));
 
 		Renderer->ChangeFrameAnimation("Idle");
 		Renderer->SetPivot(PIVOTMODE::BOT);
+	}
+
+	{
+		//애니메이션 엔드 관련
+		Renderer->AnimationBindEnd("Die", std::bind(&Monster::DieEnd, this));
 	}
 
 	{
@@ -57,6 +66,14 @@ void Monster::Start()
 		StateManager.CreateStateMember("Move"
 			, std::bind(&Monster::MoveUpdate, this, std::placeholders::_1, std::placeholders::_2)
 			, std::bind(&Monster::MoveStart, this, std::placeholders::_1));
+
+		StateManager.CreateStateMember("Hit"
+			, std::bind(&Monster::HitUpdate, this, std::placeholders::_1, std::placeholders::_2)
+			, std::bind(&Monster::HitStart, this, std::placeholders::_1));
+
+		StateManager.CreateStateMember("Dead"
+			, std::bind(&Monster::DeadUpdate, this, std::placeholders::_1, std::placeholders::_2)
+			, std::bind(&Monster::DeadStart, this, std::placeholders::_1));
 
 		StateManager.ChangeState("Idle");
 	}
@@ -160,6 +177,46 @@ void Monster::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		GetTransform().SetWorldMove(MovePower);
 	}
 }
+
+void Monster::HitStart(const StateInfo& _Info)
+{
+	Renderer->ChangeFrameAnimation("Hit");
+
+	MovePower.x = (PlayerInfo->GetDirX()) * 0.5f;
+
+	{	
+		//맞아서 보는 방향 설정
+		if (PlayerInfo->GetDirX() > 0)
+		{
+			Renderer->GetTransform().PixLocalPositiveX();
+		}
+
+		if (PlayerInfo->GetDirX() < 0)
+		{
+			Renderer->GetTransform().PixLocalNegativeX();
+		}
+	}
+}
+
+void Monster::HitUpdate(float _DeltaTime, const StateInfo& _Info)
+{
+	GetTransform().SetWorldMove(MovePower);
+	StateManager.ChangeState("Idle");
+}
+
+void Monster::DeadStart(const StateInfo& _Info)
+{
+	PlayerInfo->CurEXP += 5;//달팽이는 5의 경험치를 준다
+	MovePower = 0.0f;
+	Renderer->ChangeFrameAnimation("Die");
+	Collision->Off();
+}
+
+void Monster::DeadUpdate(float _DeltaTime, const StateInfo& _Info)
+{
+	GetTransform().SetWorldMove(MovePower);
+}
+
 //====================================================================================//
 //====================================================================================//
 //====================================================================================//
@@ -189,11 +246,25 @@ bool Monster::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other
 		HP = HP - (PlayerInfo->GetPlayerAtt());
 		PlayerInfo->OneAtt = true;
 	}
+
+	//StateManager.ChangeState("Hit");
 	
 	if (HP <= 0)
 	{
 		HP = 0;
-		_This->GetActor()->Death();
+		StateManager.ChangeState("Dead");
+		//_This->GetActor()->Death();
 	}
+
+	else
+	{
+		StateManager.ChangeState("Hit");
+	}
+
 	return true;
+}
+
+void Monster::DieEnd()
+{
+	Death();
 }

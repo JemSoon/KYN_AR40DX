@@ -45,6 +45,11 @@ public:
 		return PlayerAtt;
 	}
 
+	float GetDirX()
+	{
+		return Dir.x;
+	}
+
 	bool PortalOn;
 	bool HitCheck;
 	int HitDamage;
