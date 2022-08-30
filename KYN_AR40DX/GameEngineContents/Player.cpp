@@ -887,6 +887,7 @@ void Player::LevelUp()
 		PlayerLevelUp->On();
 		
 		PlayerLevel += 1;
+		PlayerAtt += 10;
 		CurEXP = CurEXP - EXPMax;
 		EXPMax += 20;
 	}
