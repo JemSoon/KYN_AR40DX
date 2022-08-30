@@ -2,6 +2,7 @@
 #include <GameEngineCore/CoreMinimal.h>
 #include "CharacterObject.h"
 // 설명 : 기본 달팽이
+class Player;
 class Monster : public CharacterObject
 {
 public:
@@ -15,6 +16,8 @@ public:
 	Monster& operator=(const Monster& _Other) = delete;
 	Monster& operator=(Monster&& _Other) noexcept = delete;
 	
+	bool MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other);
+
 	int GetDamage()
 	{
 		return Damage;
@@ -24,6 +27,12 @@ public:
 		Damage = _Att;
 		return Damage;
 	}
+	int GetHP()
+	{
+		return HP;
+	}
+
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime);
@@ -31,6 +40,7 @@ protected:
 
 private:
 	GameEngineStateManager StateManager;
+	Player* PlayerInfo;
 	void IdleStart(const StateInfo& _Info);
 	void IdleUpdate(float _DeltaTime, const StateInfo& _Info);
 
@@ -40,5 +50,6 @@ private:
 	float PatternTime;
 	int Random;
 	int RandomDir;
+	int HP;
 };
 

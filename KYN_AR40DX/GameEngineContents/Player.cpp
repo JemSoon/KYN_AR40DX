@@ -23,6 +23,7 @@ Player::Player()
 	, CurEXP(0)
 	, PlayerLevel(1)
 	, PlayerLevelUp(nullptr)
+	, PlayerAtt(10)
 {
 	MainPlayer = this;
 	Speed = 150.0f;
@@ -104,7 +105,7 @@ void Player::Start()
 		AttackCollision = CreateComponent<GameEngineCollision>();
 		AttackCollision->SetDebugSetting(CollisionType::CT_OBB2D, float4{ 1.0f,0.0f,0.0f,0.3f });
 		AttackCollision->GetTransform().SetLocalScale({ 84.0f, 64.0f, 100.0f });
-		AttackCollision->ChangeOrder(OBJECTORDER::Player);
+		AttackCollision->ChangeOrder(OBJECTORDER::PlayerAtt);
 		AttackCollision->GetTransform().SetWorldPosition({ -35.0f,35.0f });
 		AttackCollision->Off();
 	}
@@ -264,6 +265,7 @@ void Player::AttackUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::AttackEnd()
 {
+	OneAtt = false;
 
 	if (true == GameEngineInput::GetInst()->IsFree("PlayerAttack"))
 	{
@@ -829,9 +831,8 @@ void Player::Update(float _DeltaTime)
 
 bool Player::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 {	
-	//플레이어와 몬스터가 충돌하면 해당 몬스터를 죽이고 true 를 리턴
-
-	_Other->GetActor()->Death();
+	//플레이어의 공격력 만큼 상대의 HP가 깎이고 0이되면 죽는다
+	//_Other->GetActor()->Death();
 	
 	if (_Other->GetActor()->IsDeath() == true)
 	{

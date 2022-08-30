@@ -40,6 +40,11 @@ public:
 		return MovePower;
 	}
 	
+	int GetPlayerAtt()
+	{
+		return PlayerAtt;
+	}
+
 	bool PortalOn;
 	bool HitCheck;
 	int HitDamage;
@@ -48,6 +53,7 @@ public:
 	int EXPMax;
 	int CurEXP;
 	int PlayerLevel;
+	bool OneAtt;
 protected:
 	void Start() override;
 	void Update(float _DeltaTime);
@@ -99,6 +105,7 @@ private:
 	bool Hit;
 	float HitTime;
 	Monster Mob;
+	int PlayerAtt;
 	GameEngineTextureRenderer* PlayerLevelUp;
 };
 

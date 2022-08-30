@@ -6,6 +6,7 @@ enum class OBJECTORDER
 {
 	Map,
 	Player,
+	PlayerAtt,
 	Monster,
 	NPC,
 	Portal,

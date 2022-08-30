@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "Monster.h"
+#include "Player.h"
 
 #include <GameEngineBase/GameEngineRandom.h>
 
@@ -8,6 +9,7 @@ Monster::Monster()
 	,PatternTime(0)
 	,Random(0)
 	,RandomDir(0)
+	,HP(15)
 {
 	Speed = 75;
 }
@@ -166,6 +168,32 @@ void Monster::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Monster::Update(float _DeltaTime)
 {
+	if (PlayerInfo == nullptr)
+	{
+		PlayerInfo = Player::GetMainPlayer();
+	}
+
 	StateManager.Update(_DeltaTime);
 	Gravity(_DeltaTime);
+
+	{
+		Collision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::PlayerAtt, CollisionType::CT_OBB2D,
+			std::bind(&Monster::MonsterHit, this, std::placeholders::_1, std::placeholders::_2));
+	}
+}
+
+bool Monster::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other)
+{
+	if (PlayerInfo->OneAtt == false)
+	{
+		HP = HP - (PlayerInfo->GetPlayerAtt());
+		PlayerInfo->OneAtt = true;
+	}
+	
+	if (HP <= 0)
+	{
+		HP = 0;
+		_This->GetActor()->Death();
+	}
+	return true;
 }
