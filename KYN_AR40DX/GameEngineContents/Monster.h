@@ -51,6 +51,9 @@ protected:
 	void DeadStart(const StateInfo& _Info);
 	void DeadUpdate(float _DeltaTime, const StateInfo& _Info);
 
+	void ChaseStart(const StateInfo& _Info);
+	void ChaseUpdate(float _DeltaTime, const StateInfo& _Info);
+
 	void DieEnd();
 
 private:

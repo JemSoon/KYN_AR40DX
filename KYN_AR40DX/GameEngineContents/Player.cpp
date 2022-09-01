@@ -180,6 +180,7 @@ void Player::DeadUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::IdleStart(const StateInfo& _Info)
 {
+	AttackCollision->Off();
 	PrevState = StateManager.GetCurStateStateName();
 	Speed = 150.0f;
 	Renderer->ChangeFrameAnimation("Idle");
@@ -888,6 +889,8 @@ void Player::LevelUp()
 		
 		PlayerLevel += 1;
 		PlayerAtt += 10;
+		HPMax += 100;
+		CurHP = HPMax;
 		CurEXP = CurEXP - EXPMax;
 		EXPMax += 20;
 	}

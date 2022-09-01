@@ -12,7 +12,7 @@ Monster::Monster()
 	,HP(15)
 	,Hit(false)
 {
-	Speed = 75;
+	Speed = 50;
 }
 
 Monster::~Monster()
@@ -74,6 +74,10 @@ void Monster::Start()
 		StateManager.CreateStateMember("Dead"
 			, std::bind(&Monster::DeadUpdate, this, std::placeholders::_1, std::placeholders::_2)
 			, std::bind(&Monster::DeadStart, this, std::placeholders::_1));
+
+		StateManager.CreateStateMember("Chase"
+			, std::bind(&Monster::ChaseUpdate, this, std::placeholders::_1, std::placeholders::_2)
+			, std::bind(&Monster::ChaseStart, this, std::placeholders::_1));
 
 		StateManager.ChangeState("Idle");
 	}
@@ -180,20 +184,23 @@ void Monster::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Monster::HitStart(const StateInfo& _Info)
 {
-	Renderer->ChangeFrameAnimation("Hit");
+	if (PlayerInfo->OneAtt == true )
+	{
+		Renderer->ChangeFrameAnimation("Hit");
 
-	MovePower.x = (PlayerInfo->GetDirX()) * 0.5f;
+		MovePower.x = (PlayerInfo->GetDirX()) * 0.5f;
 
-	{	
-		//맞아서 보는 방향 설정
-		if (PlayerInfo->GetDirX() > 0)
 		{
-			Renderer->GetTransform().PixLocalPositiveX();
-		}
+			//맞아서 보는 방향 설정
+			if (PlayerInfo->GetDirX() > 0)
+			{
+				Renderer->GetTransform().PixLocalPositiveX();
+			}
 
-		if (PlayerInfo->GetDirX() < 0)
-		{
-			Renderer->GetTransform().PixLocalNegativeX();
+			if (PlayerInfo->GetDirX() < 0)
+			{
+				Renderer->GetTransform().PixLocalNegativeX();
+			}
 		}
 	}
 }
@@ -201,7 +208,7 @@ void Monster::HitStart(const StateInfo& _Info)
 void Monster::HitUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	GetTransform().SetWorldMove(MovePower);
-	StateManager.ChangeState("Idle");
+	StateManager.ChangeState("Chase");
 }
 
 void Monster::DeadStart(const StateInfo& _Info)
@@ -214,6 +221,33 @@ void Monster::DeadStart(const StateInfo& _Info)
 
 void Monster::DeadUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	GetTransform().SetWorldMove(MovePower);
+}
+
+void Monster::ChaseStart(const StateInfo& _Info)
+{
+	Renderer->ChangeFrameAnimation("Move");
+	Speed = 50.0f;
+}
+
+void Monster::ChaseUpdate(float _DeltaTime, const StateInfo& _Info)
+{
+	float4 Target = PlayerInfo->GetTransform().GetWorldPosition();
+	float4 Me = this->GetTransform().GetWorldPosition();
+	float Distance = (Target - Me).x;
+
+	if (Distance < 0)
+	{
+		MovePower = GetTransform().GetLeftVector() * Speed * _DeltaTime;
+		Renderer->GetTransform().PixLocalPositiveX();
+	}
+
+	else if (Distance > 0)
+	{
+		MovePower = GetTransform().GetRightVector() * Speed * _DeltaTime;
+		Renderer->GetTransform().PixLocalNegativeX();
+	}
+
 	GetTransform().SetWorldMove(MovePower);
 }
 
