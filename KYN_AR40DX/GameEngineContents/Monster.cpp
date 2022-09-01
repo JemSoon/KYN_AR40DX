@@ -235,7 +235,7 @@ void Monster::ChaseUpdate(float _DeltaTime, const StateInfo& _Info)
 	float4 Target = PlayerInfo->GetTransform().GetWorldPosition();
 	float4 Me = this->GetTransform().GetWorldPosition();
 	float Distance = (Target - Me).x;
-
+	
 	if (Distance < 0)
 	{
 		MovePower = GetTransform().GetLeftVector() * Speed * _DeltaTime;
