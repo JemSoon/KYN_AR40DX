@@ -34,17 +34,19 @@ void Mouse::Start()
 	UICollision->SetDebugSetting(CollisionType::CT_OBB2D, float4{ 0.0f,0.0f,1.0f,0.3f });
 	UICollision->GetTransform().SetWorldScale({ 32.0f, 32.0f, 100.0f });
 	UICollision->ChangeOrder(OBJECTORDER::Mouse);
+	UICollision->SetUIDebugCamera();
 }
 
 void Mouse::Update(float _DeltaTime)
 {
 	CursorPos1 = GetLevel()->GetMainCamera()->GetMouseWorldPositionToActor();//메인카메라용
-	CursorPos2= GetLevel()->GetUICamera()->GetMouseWorldPosition();//UI카메라용
+	CursorPos2= GetLevel()->GetUICamera()->GetMouseWorldPositionToActor();//UI카메라용
 
-	MouseImage->GetTransform().SetWorldPosition({ CursorPos2.x+5,CursorPos2.y-10,-100 });
+	MouseImage->GetTransform().SetWorldPosition({ CursorPos2.x+5,CursorPos2.y-10,-300 });
 
 	ActorCollision->GetTransform().SetWorldPosition({ CursorPos1.x + 5,CursorPos1.y - 10, -200 });
-	UICollision->GetTransform().SetWorldPosition({ CursorPos2.x + 645,CursorPos2.y - 403, -200 });
+	UICollision->GetTransform().SetWorldPosition({ CursorPos2.x + 10,CursorPos2.y - 10, -200 });
+	//UICollision->GetTransform().SetWorldPosition({ CursorPos2.x + 645,CursorPos2.y - 403, -200 });
 
 	{
 		ActorCollision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::NPC, CollisionType::CT_OBB2D,

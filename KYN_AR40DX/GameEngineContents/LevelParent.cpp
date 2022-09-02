@@ -20,7 +20,8 @@ void LevelParent::CreateStageObject(const std::string _BG, const std::string _Co
 			LevelStageObject->GetBG()->SetTexture(_BG);
 			LevelStageObject->GetBG()->ScaleToTexture();
 			//LevelStageObject->GetBG()->GetTransform().SetLocalScale({ 4270, 1807, 100 });
-			LevelStageObject->GetBG()->SetPivot(PIVOTMODE::TOP);
+			LevelStageObject->GetBG()->SetPivot(PIVOTMODE::MIDDLETOP);
+
 		}
 		{
 			//컬러충돌 맵

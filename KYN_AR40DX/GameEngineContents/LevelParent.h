@@ -40,7 +40,7 @@ public:
 
 	inline GameEngineTextureRenderer* GetMap_Col() const
 	{
-		return LevelStageObject->GetMap_Col();
+ 		return LevelStageObject->GetMap_Col();
 	}
 
 protected:

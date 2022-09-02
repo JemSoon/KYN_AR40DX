@@ -60,10 +60,6 @@ void Stage2Level::LevelStartEvent()
 
 	CreateStageObject("Stage2_BG.png", "Stage2_Col.png", "Stage2.png");
 
-	{
-		Portal = CreateActor<PortalObject>(OBJECTORDER::Portal);
-		Portal->GetTransform().SetWorldPosition({ 1285.0f,-428.0f,-10.0f });
-	}
 
 	{
 		Monster* actor = CreateActor<Monster>(OBJECTORDER::Monster);
@@ -89,6 +85,11 @@ void Stage2Level::LevelStartEvent()
 			NewPlayer = Player::GetMainPlayer();
 			NewPlayer->GetTransform().SetWorldPosition({ 200.0f, -500.0f, -10.0f });
 		}
+	}
+
+	{
+		Portal = CreateActor<PortalObject>(OBJECTORDER::Portal);
+		Portal->GetTransform().SetWorldPosition({ 1285.0f,-428.0f,-10.0f });
 	}
 
 }

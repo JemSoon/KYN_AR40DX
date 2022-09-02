@@ -188,6 +188,9 @@ void GameEngineTextureRenderer::SetPivot(PIVOTMODE _Mode)
 	case PIVOTMODE::RIGHT:
 		AtlasDataInst.PivotPos = float4(-0.5f, 0.0f, 0.0f, 0.0f);
 		break;
+	case PIVOTMODE::MIDDLETOP:
+		AtlasDataInst.PivotPos = float4(0.25f, -0.5f, 0.0f, 0.0f);
+		break;
 	case PIVOTMODE::LEFTTOP:
 		AtlasDataInst.PivotPos = float4(0.5f, -0.5f, 0.0f, 0.0f);
 		break;
