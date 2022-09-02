@@ -71,6 +71,7 @@ void Main_HP_MP_UI::Start()
 		TESTUICollision->GetTransform().SetWorldScale({ 151, 80, 100.0f });
 		TESTUICollision->GetTransform().SetWorldPosition({ 1204, -392, -100 });
 		TESTUICollision->ChangeOrder(OBJECTORDER::UI);
+		TESTUICollision->SetUIDebugCamera();
 	}
 
 }

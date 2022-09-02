@@ -109,10 +109,10 @@ bool GameEngineCollision::IsCollision(CollisionType _ThisType, int _GroupOrder
 
 void GameEngineCollision::DebugRender()
 {
+	GameEngineCamera* DebugRenderCamera = GetActor()->GetLevel()->Cameras[static_cast<UINT>(DebugCameraOrder)];
+
 	switch (DebugType)
 	{
-		GameEngineCamera* DebugRenderCamera = GetActor()->GetLevel()->Cameras[static_cast<UINT>(DebugCameraOrder)];
-
 	case CollisionType::CT_POINT2D:
 		break;
 	case CollisionType::CT_SPHERE2D:

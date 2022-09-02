@@ -112,12 +112,8 @@ void Stage1Level::End()
 void Stage1Level::CameraChase()
 {
 	//레벨이 만들어지고 액터가만들어져서 Player에 만들어두면 레벨에서0으로 설정해도 액터넘어가면서 다시 값이바뀌어서 작동이 안된다. 
-	//Camera->GetLevel()->GetMainCameraActorTransform().SetLocalPosition({ NewPlayer->GetTransform().GetLocalPosition() });
-	float4 f4CurrentPosition = Camera->GetTransform().GetWorldPosition();
-	float4 f4DestinationPosition = Camera->GetTransform().GetWorldPosition();
-	float4 f4MoveToPosition = float4::Lerp(f4CurrentPosition, f4DestinationPosition, GameEngineTime::GetDeltaTime() * 10.f);
+	Camera->GetLevel()->GetMainCameraActorTransform().SetLocalPosition({ NewPlayer->GetTransform().GetLocalPosition() });
 
-	Camera->GetLevel()->GetMainCameraActorTransform().SetWorldPosition(f4MoveToPosition);
 }
 
 void Stage1Level::NextStage()
