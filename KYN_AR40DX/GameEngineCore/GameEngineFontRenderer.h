@@ -60,6 +60,11 @@ public:
 		ScreenPostion = _ScreenPostion;
 	}
 
+	float4 SetScreenPostion()
+	{
+		return ScreenPostion;
+	}
+
 	void SetColor(float4 _Color)
 	{
 		Color = _Color;
