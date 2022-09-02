@@ -77,19 +77,19 @@ void Stage2Level::LevelStartEvent()
 		{
 			NewPlayer = CreateActor<Player>(OBJECTORDER::Player);
 			NewPlayer->SetLevelOverOn();
-			NewPlayer->GetTransform().SetWorldPosition({ 200.0f, -500.0f, -10.0f });
+			NewPlayer->GetTransform().SetWorldPosition({ 200.0f, -500.0f, 0.0f });
 		}
 
 		else if (nullptr == NewPlayer)
 		{
 			NewPlayer = Player::GetMainPlayer();
-			NewPlayer->GetTransform().SetWorldPosition({ 200.0f, -500.0f, -10.0f });
+			NewPlayer->GetTransform().SetWorldPosition({ 200.0f, -500.0f, 0.0f });
 		}
 	}
 
 	{
 		Portal = CreateActor<PortalObject>(OBJECTORDER::Portal);
-		Portal->GetTransform().SetWorldPosition({ 1285.0f,-428.0f,-10.0f });
+		Portal->GetTransform().SetWorldPosition({ 1285.0f,-428.0f,0.0f });
 	}
 
 }

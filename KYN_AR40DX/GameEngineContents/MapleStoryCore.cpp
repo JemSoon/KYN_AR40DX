@@ -104,7 +104,7 @@ void MapleStoryCore::Start()
 	CreateLevel<TitleLevel>("Title");
 	CreateLevel<Stage1Level>("Stage1");
 	CreateLevel<Stage2Level>("Stage2");
-	ChangeLevel("Stage1");
+	ChangeLevel("Stage2");
 
 	GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
 
