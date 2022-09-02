@@ -59,6 +59,11 @@ public:
 	int CurEXP;
 	int PlayerLevel;
 	bool OneAtt;
+	bool IsLevelUp;
+
+	void Dead();
+	void LevelUp();
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime);
@@ -100,8 +105,6 @@ protected:
 	//==========================================================//
 	void AlertToIdle();
 
-	void Dead();
-	void LevelUp();
 private:
 	GameEngineStateManager StateManager;
 	float4 Dir;

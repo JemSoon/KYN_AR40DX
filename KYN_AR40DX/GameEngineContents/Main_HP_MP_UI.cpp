@@ -117,6 +117,11 @@ void Main_HP_MP_UI::HPSetting()
 	{
 		HPbarMaxSize = 0;
 	}
+
+	if (true == PlayerInfo->IsLevelUp)
+	{
+		HPbarMaxSize = (171 * (PlayerInfo->CurHP)) / PlayerInfo->HPMax;
+	}
 }
 
 void Main_HP_MP_UI::EXPSetting()

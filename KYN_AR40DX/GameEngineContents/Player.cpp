@@ -885,6 +885,8 @@ void Player::LevelUp()
 {
 	if (CurEXP >= EXPMax)
 	{
+		IsLevelUp = true;
+
 		PlayerLevelUp->On();
 		
 		PlayerLevel += 1;
