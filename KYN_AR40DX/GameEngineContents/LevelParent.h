@@ -6,6 +6,7 @@
 
 // Ό³Έν :
 class Main_HP_MP_UI;
+class Inventory;
 class Mouse;
 class LevelParent : public GameEngineLevel
 {
@@ -50,6 +51,7 @@ protected:
 	PortalObject* Portal;
 	Main_HP_MP_UI* MainUI;
 	Mouse* Cursor;
+	Inventory* Item;
 private:
 };
 

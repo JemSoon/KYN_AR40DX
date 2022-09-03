@@ -46,6 +46,12 @@
     <Filter Include="Global\UI\Mouse">
       <UniqueIdentifier>{5ae1bbd2-df25-4bea-b4ae-153f62450571}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Global\UI\HP_MP">
+      <UniqueIdentifier>{64a710f6-a783-428d-9b0b-f3629d0b3316}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global\UI\Inventory">
+      <UniqueIdentifier>{beaefe27-aee2-4f25-8bb7-1549c7f99478}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MapleStoryCore.h">
@@ -79,9 +85,6 @@
     <ClInclude Include="Stage2Level.h">
       <Filter>Level</Filter>
     </ClInclude>
-    <ClInclude Include="Main_HP_MP_UI.h">
-      <Filter>Global\UI</Filter>
-    </ClInclude>
     <ClInclude Include="StageObject.h">
       <Filter>Actor\Parents\Stage</Filter>
     </ClInclude>
@@ -99,6 +102,12 @@
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Actor\Play</Filter>
+    </ClInclude>
+    <ClInclude Include="Main_HP_MP_UI.h">
+      <Filter>Global\UI\HP_MP</Filter>
+    </ClInclude>
+    <ClInclude Include="Inventory.h">
+      <Filter>Global\UI\Inventory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -133,9 +142,6 @@
     <ClCompile Include="Stage2Level.cpp">
       <Filter>Level</Filter>
     </ClCompile>
-    <ClCompile Include="Main_HP_MP_UI.cpp">
-      <Filter>Global\UI</Filter>
-    </ClCompile>
     <ClCompile Include="CharacterObject.cpp">
       <Filter>Actor\Parents\Character</Filter>
     </ClCompile>
@@ -150,6 +156,12 @@
     </ClCompile>
     <ClCompile Include="Mouse.cpp">
       <Filter>Global\UI\Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="Main_HP_MP_UI.cpp">
+      <Filter>Global\UI\HP_MP</Filter>
+    </ClCompile>
+    <ClCompile Include="Inventory.cpp">
+      <Filter>Global\UI\Inventory</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
