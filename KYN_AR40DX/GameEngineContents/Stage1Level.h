@@ -21,7 +21,7 @@ public:
 
 	void CameraRange();
 	void NextStage();
-	void CameraChase();
+	void CameraChase(float _Delta);
 
 	void LevelMove();
 

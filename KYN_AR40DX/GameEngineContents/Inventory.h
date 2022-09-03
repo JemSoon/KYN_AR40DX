@@ -26,7 +26,7 @@ protected:
 
 private:
 	GameEngineCameraActor* Camera;
-	GameEngineCollision* TESTUICollision;
+	GameEngineCollision* UICollision;
 	Player* PlayerInfo;
 };
 

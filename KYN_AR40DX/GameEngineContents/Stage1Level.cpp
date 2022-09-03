@@ -94,7 +94,7 @@ void Stage1Level::Update(float _DeltaTime)
 {
 	if (false == Camera->IsFreeCameraMode())
 	{	//프리카메라 모드가 아닐때만 카메라가 플레이어를 쫓아다니고 맵 범위 안으로 카메라가 제한된다
-		CameraChase();
+		CameraChase(_DeltaTime);
 		CameraRange();
 	}
 
@@ -109,10 +109,15 @@ void Stage1Level::End()
 {
 }
 
-void Stage1Level::CameraChase()
+void Stage1Level::CameraChase(float _Delta)
 {
 	//레벨이 만들어지고 액터가만들어져서 Player에 만들어두면 레벨에서0으로 설정해도 액터넘어가면서 다시 값이바뀌어서 작동이 안된다. 
-	Camera->GetLevel()->GetMainCameraActorTransform().SetLocalPosition({ NewPlayer->GetTransform().GetLocalPosition() });
+	//Camera->GetLevel()->GetMainCameraActorTransform().SetLocalPosition({ NewPlayer->GetTransform().GetLocalPosition() });
+	float4 f4CurrentPosition = Camera->GetTransform().GetWorldPosition();
+	float4 f4DestinationPosition = NewPlayer->GetTransform().GetWorldPosition();
+	float4 f4MoveToPosition = float4::Lerp(f4CurrentPosition, f4DestinationPosition, _Delta * 10.f);
+
+	Camera->GetTransform().SetWorldPosition(f4MoveToPosition);
 
 }
 
