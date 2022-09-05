@@ -52,6 +52,9 @@
     <Filter Include="Global\UI\Inventory">
       <UniqueIdentifier>{beaefe27-aee2-4f25-8bb7-1549c7f99478}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\DamageFontRender">
+      <UniqueIdentifier>{b841ab4a-dfc9-4699-87c5-8e50d8273bc0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MapleStoryCore.h">
@@ -109,6 +112,9 @@
     <ClInclude Include="Inventory.h">
       <Filter>Global\UI\Inventory</Filter>
     </ClInclude>
+    <ClInclude Include="DamageNumber.h">
+      <Filter>Actor\DamageFontRender</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapleStoryCore.cpp">
@@ -162,6 +168,9 @@
     </ClCompile>
     <ClCompile Include="Inventory.cpp">
       <Filter>Global\UI\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="DamageNumber.cpp">
+      <Filter>Actor\DamageFontRender</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

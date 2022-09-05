@@ -795,6 +795,11 @@ void Player::Update(float _DeltaTime)
 		return;
 	}
 
+	if (OneAtt == true)
+	{
+		AttackCollision->Off();
+	}
+
 	// 색깔 체크하고
 	ColorCheckUpdate();
 	StateManager.Update(_DeltaTime);
@@ -834,7 +839,6 @@ bool Player::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 {	
 	//플레이어의 공격력 만큼 상대의 HP가 깎이고 0이되면 죽는다
 	//_Other->GetActor()->Death();
-
 	return true;
 }
 

@@ -11,6 +11,7 @@ Monster::Monster()
 	,RandomDir(0)
 	,HP(15)
 	,Hit(false)
+	
 {
 	Speed = 50;
 }
@@ -184,11 +185,12 @@ void Monster::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Monster::HitStart(const StateInfo& _Info)
 {
+	PatternTime = 0.0f;
 	if (PlayerInfo->OneAtt == true )
 	{
 		Renderer->ChangeFrameAnimation("Hit");
 
-		MovePower.x = (PlayerInfo->GetDirX()) * 0.5f;
+		//MovePower.x = (PlayerInfo->GetDirX()) * 0.5f;
 
 		{
 			//맞아서 보는 방향 설정
@@ -207,8 +209,14 @@ void Monster::HitStart(const StateInfo& _Info)
 
 void Monster::HitUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	PatternTime += GameEngineTime::GetDeltaTime();
+	MovePower.x = (PlayerInfo->GetDirX()) * 0.5f;
 	GetTransform().SetWorldMove(MovePower);
-	StateManager.ChangeState("Chase");
+	
+	if (PatternTime >= 0.5f)
+	{
+		StateManager.ChangeState("Chase");
+	}
 }
 
 void Monster::DeadStart(const StateInfo& _Info)
