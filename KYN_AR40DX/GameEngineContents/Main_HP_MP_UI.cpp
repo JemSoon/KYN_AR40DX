@@ -8,6 +8,8 @@ Main_HP_MP_UI::Main_HP_MP_UI()
 	,HPbarMaxSize(171)
 	,EXPbarSize(0)
 	,Hit(0)
+	,Level(nullptr)
+	,LevelNum(nullptr)
 {
 
 }
@@ -74,6 +76,17 @@ void Main_HP_MP_UI::Start()
 		TESTUICollision->SetUIDebugCamera();
 	}
 
+	{
+		Level= CreateComponent<GameEngineUIRenderer>();
+		Level->GetTransform().SetWorldScale({ 15, 10, 0 });
+		Level->GetTransform().SetWorldPosition({ -65, 23, -100 });
+		Level->SetTexture("Level.png");
+
+		LevelNum = CreateComponent<GameEngineUIRenderer>();
+		LevelNum->GetTransform().SetWorldScale({ 7, 10, 0 });
+		LevelNum->GetTransform().SetWorldPosition({ -35, 23, -100 });
+		LevelNum->SetTexture("Level1.png");
+	}
 }
 
 void Main_HP_MP_UI::Update(float _DeltaTime)
@@ -86,6 +99,8 @@ void Main_HP_MP_UI::Update(float _DeltaTime)
 	HPSetting();
 
 	EXPSetting();
+
+	LevelSetting();
 }
 
 void Main_HP_MP_UI::HPSetting()
@@ -129,4 +144,20 @@ void Main_HP_MP_UI::EXPSetting()
 	//1264가 경험치바 최대치
 	EXPbarSize = (1264 * PlayerInfo->CurEXP) / PlayerInfo->EXPMax;
 	EXPbar->GetTransform().SetWorldScale({ (float)EXPbarSize, 7, 0 });
+}
+
+void Main_HP_MP_UI::LevelSetting()
+{
+	int A = PlayerInfo->PlayerLevel;
+	switch (A)
+	{
+	case 1:
+		LevelNum->SetTexture("Level1.png");
+		break;
+	case 2:
+		LevelNum->SetTexture("Level2.png");
+		break;
+	default:
+		LevelNum->SetTexture("Level0.png");
+	}
 }

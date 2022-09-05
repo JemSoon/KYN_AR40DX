@@ -36,6 +36,7 @@ public:
 
 	void HPSetting();
 	void EXPSetting();
+	void LevelSetting();
 
 	GameEngineTextureRenderer* HPbar;
 protected:
@@ -48,6 +49,8 @@ protected:
 	GameEngineTextureRenderer* MPbar;
 	GameEngineTextureRenderer* EXPbar;
 	GameEngineTextureRenderer* QuickSlot;
+	GameEngineTextureRenderer* Level;
+	GameEngineTextureRenderer* LevelNum;
 
 private:
 	GameEngineCameraActor* Camera;
