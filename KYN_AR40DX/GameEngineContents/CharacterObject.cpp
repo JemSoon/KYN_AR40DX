@@ -54,7 +54,8 @@ void CharacterObject::Gravity(float _DeltaTime)
 
 	else
 	{	
-		MovePower = float4::ZERO;
+		//MovePower = float4::ZERO;
+		MovePower.y = 0.0f;
 	}
 
 }

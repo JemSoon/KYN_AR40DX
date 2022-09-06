@@ -184,6 +184,7 @@ void Player::IdleStart(const StateInfo& _Info)
 	PrevState = StateManager.GetCurStateStateName();
 	Speed = 150.0f;
 	Renderer->ChangeFrameAnimation("Idle");
+	MovePower = float4::ZERO;
 }
 void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 {
@@ -351,6 +352,8 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		false == GameEngineInput::GetInst()->IsPress("PlayerDown"))
 	{	//아무것도 안누르고 있고 바닥에있으면 Idle상태로 변경
 		StateManager.ChangeState("Idle");
+		//MovePower = float4::ZERO;
+		MovePower.x = 0.0f;
 		return;
 	}
 
@@ -433,33 +436,33 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	ColorCheckUpdateNext(MovePower);
 
-	/*if (false == IsNextColor(COLORCHECKDIR::LEFT, float4::GREEN) 
-		&& false == IsNextColor(COLORCHECKDIR::RIGHT, float4::GREEN))*/
-	if(((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].g<200) || (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].g == 255 && (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].r == 255)))&&
-		((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].g < 200) || (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].g == 255 && (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].r == 255))))
-	{
-		//양옆이 벽이 아니라면 움직인다
-		GetTransform().SetWorldMove(MovePower);
-		stop = false;
-	}
-	else if ((true == GameEngineInput::GetInst()->IsPress("PlayerRight") &&
-			(true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN) &&
-			true == IsNextColor(COLORCHECKDIR::RIGHT, float4::GREEN) &&
-			false == IsNextColor(COLORCHECKDIR::RIGHTTOP, float4::GREEN)))
-										||
-			(true == GameEngineInput::GetInst()->IsPress("PlayerLeft")&&
-			(true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN) &&
-			true == IsNextColor(COLORCHECKDIR::LEFT, float4::GREEN) &&
-			false == IsNextColor(COLORCHECKDIR::LEFTTOP, float4::GREEN))))
-	{
-		//언덕길 오르막길도 stop=false
-		stop = false;
-	}
-	else 
-	{	
-		//그 외엔 벽에 부딪힌거니 BG는 멈추기 위해 stop=true
-		stop = true;
-	}
+	///*if (false == IsNextColor(COLORCHECKDIR::LEFT, float4::GREEN) 
+	//	&& false == IsNextColor(COLORCHECKDIR::RIGHT, float4::GREEN))*/
+	//if(((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].g<200) || (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].g == 255 && (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].r == 255)))&&
+	//	((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].g < 200) || (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].g == 255 && (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].r == 255))))
+	//{
+	//	//양옆이 벽이 아니라면 움직인다
+	//	GetTransform().SetWorldMove(MovePower);
+	//	stop = false;
+	//}
+	//else if ((true == GameEngineInput::GetInst()->IsPress("PlayerRight") &&
+	//		(true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN) &&
+	//		true == IsNextColor(COLORCHECKDIR::RIGHT, float4::GREEN) &&
+	//		false == IsNextColor(COLORCHECKDIR::RIGHTTOP, float4::GREEN)))
+	//									||
+	//		(true == GameEngineInput::GetInst()->IsPress("PlayerLeft")&&
+	//		(true == IsNextColor(COLORCHECKDIR::DOWN, float4::GREEN) &&
+	//		true == IsNextColor(COLORCHECKDIR::LEFT, float4::GREEN) &&
+	//		false == IsNextColor(COLORCHECKDIR::LEFTTOP, float4::GREEN))))
+	//{
+	//	//언덕길 오르막길도 stop=false
+	//	stop = false;
+	//}
+	//else 
+	//{	
+	//	//그 외엔 벽에 부딪힌거니 BG는 멈추기 위해 stop=true
+	//	stop = true;
+	//}
 
 	if (true == GameEngineInput::GetInst()->IsDown("PlayerJump"))
 	{
@@ -569,12 +572,13 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 			iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].r == 0)
 		{	//사다리(블루,레드)방지용r,b포함
 			StateManager.ChangeState("Idle");
+			MovePower.x = 0.0f;
 			return;
 		}
 
 	}
 
-	GetTransform().SetWorldMove(MovePower);
+	//GetTransform().SetWorldMove(MovePower);
 
 	if ((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g >= 200 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].r<=0 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].b <= 0 && MovePower.y<=0) ||
 		(true == IsNextColor(COLORCHECKDIR::DOWN, float4::RED) && MovePower.y <= 0))
@@ -804,15 +808,10 @@ void Player::Update(float _DeltaTime)
 	ColorCheckUpdate();
 	StateManager.Update(_DeltaTime);
 
-	{
-		float4 Test1 = GetLevel()->GetMainCamera()->GetMouseScreenPosition();
-
-		float4 Test2 = GetLevel()->GetMainCamera()->GetMouseWorldPosition(); 
-	}
+	//양옆이 벽이 아니라면 움직인다
+	GetTransform().SetWorldMove(MovePower);
 
 	Dead();
-	//카메라가 플레이어 중심으로 쫓아다닌다
-	//GetLevel()->GetMainCameraActorTransform().SetLocalPosition({ GetTransform().GetLocalPosition()});
 	
 	{
 		// std::placeholders::_1, std::placeholders::_2 니들이 넣어줘야 한다는것을 명시키는것.

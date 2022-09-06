@@ -116,7 +116,7 @@ void Stage1Level::CameraChase(float _Delta)
 	float4 f4CurrentPosition = Camera->GetTransform().GetWorldPosition();
 	float4 f4DestinationPosition = NewPlayer->GetTransform().GetWorldPosition();
 	float4 f4MoveToPosition = float4::Lerp(f4CurrentPosition, f4DestinationPosition, _Delta * 10.f);
-
+	
 	Camera->GetTransform().SetWorldPosition(f4MoveToPosition);
 
 }
