@@ -111,7 +111,7 @@ void Player::Start()
 	}
 
 	GameEngineFontRenderer* Font = CreateComponent<GameEngineFontRenderer>();
-	Font->SetText("테스트", "궁서");
+	Font->SetText("12345", "메이플스토리");
 	Font->SetColor({ 1.0f, 0.0f, 0.0f });
 	Font->SetScreenPostion({ 100.0f, 100.0f });
 

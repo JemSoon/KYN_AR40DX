@@ -109,6 +109,7 @@ void MapleStoryCore::Start()
 	GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
 
 	GameEngineFont::Load("궁서");
+	GameEngineFont::Load("메이플스토리");
 }
 
 void MapleStoryCore::Update(float _DeltaTime)
