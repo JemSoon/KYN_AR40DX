@@ -9,7 +9,6 @@
 #include "Monster.h"
 #include "StageObject.h"
 #include "Sugar.h"
-#include "DamageNumber.h"
 
 Stage1Level::Stage1Level()
 	: Camera(nullptr)

@@ -112,9 +112,6 @@
     <ClInclude Include="Inventory.h">
       <Filter>Global\UI\Inventory</Filter>
     </ClInclude>
-    <ClInclude Include="DamageNumber.h">
-      <Filter>Actor\DamageFontRender</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapleStoryCore.cpp">
@@ -168,9 +165,6 @@
     </ClCompile>
     <ClCompile Include="Inventory.cpp">
       <Filter>Global\UI\Inventory</Filter>
-    </ClCompile>
-    <ClCompile Include="DamageNumber.cpp">
-      <Filter>Actor\DamageFontRender</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
