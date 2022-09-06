@@ -3,6 +3,7 @@
 #include "CharacterObject.h"
 // 설명 : 기본 달팽이
 class Player;
+class DamageNumber;
 class Monster : public CharacterObject
 {
 public:
@@ -34,6 +35,8 @@ public:
 		return HP;
 	}
 
+	int nDamage;
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime);
@@ -59,6 +62,8 @@ protected:
 private:
 	GameEngineStateManager StateManager;
 	Player* PlayerInfo;	
+
+	DamageNumber* Num;
 
 	int Damage;
 	float PatternTime;

@@ -28,9 +28,16 @@ public:
 	void Update(float _DeltaTime);
 	void End() {}
 
+	void DamageRender();
+	GameEngineTextureRenderer* GetRenderer()
+	{
+		return Renderer;
+	}
 protected:
 
 private:
 	GameEngineTextureRenderer* Renderer;
+	Monster* Mob;
+	int nDamageFont;
 };
 

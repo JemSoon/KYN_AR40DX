@@ -1,7 +1,9 @@
 #include "PreCompile.h"
 #include "DamageNumber.h"
+#include "Monster.h"
 
 DamageNumber::DamageNumber()
+	:nDamageFont(0)
 {
 
 }
@@ -21,5 +23,56 @@ void DamageNumber::Start()
 
 void DamageNumber::Update(float _DeltaTime)
 {
+	DamageRender();
 }
 
+void DamageNumber::DamageRender()
+{
+	while (Mob->nDamage >= 0)
+	{
+		nDamageFont = Mob->nDamage % 10;
+		Mob->nDamage = Mob->nDamage / 10;
+		switch (nDamageFont)
+		{
+		case 1:
+			Renderer->SetTexture("1.png");
+			break;
+
+		case 2:
+			Renderer->SetTexture("2.png");
+			break;
+
+		case 3:
+			Renderer->SetTexture("3.png");
+			break;
+
+		case 4:
+			Renderer->SetTexture("4.png");
+			break;
+
+		case 5:
+			Renderer->SetTexture("5.png");
+			break;
+
+		case 6:
+			Renderer->SetTexture("6.png");
+			break;
+
+		case 7:
+			Renderer->SetTexture("7.png");
+			break;
+
+		case 8:
+			Renderer->SetTexture("8.png");
+			break;
+
+		case 9:
+			Renderer->SetTexture("9.png");
+			break;
+
+		default:
+			Renderer->SetTexture("0.png");
+			break;
+		}
+	}
+}

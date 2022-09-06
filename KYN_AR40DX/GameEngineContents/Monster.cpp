@@ -2,6 +2,8 @@
 #include "Monster.h"
 #include "Player.h"
 
+#include "DamageNumber.h"
+
 #include <GameEngineBase/GameEngineRandom.h>
 
 Monster::Monster()
@@ -11,6 +13,7 @@ Monster::Monster()
 	,RandomDir(0)
 	,HP(15)
 	,Hit(false)
+	,nDamage(0)
 	
 {
 	Speed = 50;
@@ -205,6 +208,8 @@ void Monster::HitStart(const StateInfo& _Info)
 			}
 		}
 	}
+
+	Num->GetRenderer()->SetPivot(PIVOTMODE::TOP);
 }
 
 void Monster::HitUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -285,6 +290,7 @@ bool Monster::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other
 {
 	if (PlayerInfo->OneAtt == false)
 	{
+		nDamage = PlayerInfo->GetPlayerAtt();
 		HP = HP - (PlayerInfo->GetPlayerAtt());
 		PlayerInfo->OneAtt = true;
 	}
