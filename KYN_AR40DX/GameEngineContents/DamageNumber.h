@@ -33,6 +33,12 @@ public:
 	{
 		return Renderer;
 	}
+
+	void SetParentMonster(Monster* _Parent)
+	{
+		Mob = _Parent;
+	}
+
 protected:
 
 private:

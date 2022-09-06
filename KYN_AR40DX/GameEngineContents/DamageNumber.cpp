@@ -28,10 +28,11 @@ void DamageNumber::Update(float _DeltaTime)
 
 void DamageNumber::DamageRender()
 {
-	while (Mob->nDamage >= 0)
+	int Damage = Mob->nDamage;
+	while (Damage > 0)
 	{
-		nDamageFont = Mob->nDamage % 10;
-		Mob->nDamage = Mob->nDamage / 10;
+		nDamageFont = Damage % 10;
+		Damage = Damage / 10;
 		switch (nDamageFont)
 		{
 		case 1:

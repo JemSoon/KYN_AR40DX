@@ -85,6 +85,9 @@ void Monster::Start()
 
 		StateManager.ChangeState("Idle");
 	}
+
+	Num = GetLevel()->CreateActor<DamageNumber>();
+	Num->SetParentMonster(this);
 }
 
 void Monster::IdleStart(const StateInfo& _Info)
