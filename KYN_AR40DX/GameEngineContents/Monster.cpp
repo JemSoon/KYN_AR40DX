@@ -11,6 +11,7 @@ Monster::Monster()
 	,RandomDir(0)
 	,HP(15)
 	,Hit(false)
+	,PlayerInfo(nullptr)
 	
 {
 	Speed = 50;
