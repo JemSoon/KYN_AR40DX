@@ -541,14 +541,14 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 		if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
 		{	//점프중 오른쪽 이동키 누를시
-			MovePower += (float4::RIGHT * _DeltaTime);
+			MovePower = (float4::RIGHT * _DeltaTime);
 			Renderer->GetTransform().PixLocalNegativeX();
 			
 		}
 
 		if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
 		{	//점프중 왼쪽 이동키 누를시
-			MovePower += (float4::LEFT * _DeltaTime);
+			MovePower = (float4::LEFT);
 			Renderer->GetTransform().PixLocalPositiveX();
 		}
 
@@ -844,7 +844,8 @@ bool Player::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 	//_Other->GetActor()->Death();
 	DamageNumber* tmp = _Other->GetActor()->GetLevel()->CreateActor<DamageNumber>();
 	float4 Pos = _Other->GetActor()->GetTransform().GetWorldPosition();
-	tmp->GetTransform().SetWorldPosition({ Pos.x,Pos.y+32,Pos.z});
+	tmp->GetTransform().SetWorldPosition({ Pos.x,Pos.y+32,-400});
+	tmp->NumberSetting(PlayerAtt);
 	return true;
 }
 
@@ -860,7 +861,7 @@ bool Player::PlayerHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 
 bool Player::PortalCollision(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
-	if (true == GameEngineInput::GetInst()->IsPress("PlayerUp"))
+	if (true == GameEngineInput::GetInst()->IsDown("PlayerUp"))
 	{
 		PortalOn = true;
 		return true;

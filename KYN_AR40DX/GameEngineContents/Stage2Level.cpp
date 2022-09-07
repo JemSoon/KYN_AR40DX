@@ -79,13 +79,13 @@ void Stage2Level::LevelStartEvent()
 		{
 			NewPlayer = CreateActor<Player>(OBJECTORDER::Player);
 			NewPlayer->SetLevelOverOn();
-			NewPlayer->GetTransform().SetWorldPosition({ 200.0f, -500.0f, 0.0f });
+			NewPlayer->GetTransform().SetWorldPosition({ 200.0f, -500.0f, -1000.0f });
 		}
 
 		else if (nullptr == NewPlayer)
 		{
 			NewPlayer = Player::GetMainPlayer();
-			NewPlayer->GetTransform().SetWorldPosition({ 200.0f, -500.0f, 0.0f });
+			NewPlayer->GetTransform().SetWorldPosition({ 200.0f, -500.0f, -1000.0f });
 		}
 
 		else if (nullptr != NewPlayer)

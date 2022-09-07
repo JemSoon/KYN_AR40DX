@@ -15,12 +15,13 @@ public:
 	DamageNumber& operator=(const DamageNumber& _Other) = delete;
 	DamageNumber& operator=(DamageNumber&& _Other) noexcept = delete;
 
-
+	void NumberSetting(int _Damage);
 protected:
 	void Start() override;
 	void Update(float _DeltaTime);
 	void End() {}
 private:
 	GameEngineTextureRenderer* Number;
+	int nDamageFont;
 };
 
