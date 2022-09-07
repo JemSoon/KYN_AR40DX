@@ -7,6 +7,8 @@
 #include "LevelParent.h"
 #include <GameEngineBase/GameEngineRandom.h>
 
+#include "DamageNumber.h"
+
 Player* Player::MainPlayer = nullptr;
 
 Player::Player()
@@ -387,7 +389,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
 	{
 		Dir = float4::LEFT;
-		MovePower = GetTransform().GetLeftVector() * Speed * _DeltaTime;
+		MovePower = GetTransform().GetLeftVector() * Speed /** _DeltaTime*/;
 
 		if(((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g>=200 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].r == 0 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].b == 0) &&//다운이 그린
 			iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].g >= 200 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].r == 0 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].b == 0)&&//왼이 그린
@@ -412,7 +414,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		Dir = float4::RIGHT;
 		//Renderer->GetColorData().MulColor.a -= _DeltaTime;
 		//(누르면 점점 알파값 사라짐 MulColor는 기본 흰색 a는 알파값 곱하기레이어에 흰색은 투명색)
-		MovePower = GetTransform().GetRightVector() * Speed * _DeltaTime;
+		MovePower = GetTransform().GetRightVector() * Speed /** _DeltaTime*/;
 
 		if (((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g >= 200 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].r == 0 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].b == 0) &&//다운이 그린
 			iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].g >= 200 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].r == 0 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].b == 0) &&//오른이 그린
@@ -699,7 +701,7 @@ void Player::DownJumpUpdate(float _DeltaTime, const StateInfo& _Info)
 		return;
 	}
 
-	GetTransform().SetWorldMove(MovePower);
+	//GetTransform().SetWorldMove(MovePower);
 
 	//if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE))
 	//{	
@@ -719,6 +721,8 @@ void Player::DownJumpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::AlertStart(const StateInfo& _Info)
 {
+	MovePower.x = 0.0f;
+
 	PrevState = StateManager.GetCurStateStateName();
 
 	if(Hit==false)
@@ -774,7 +778,7 @@ void Player::AlertUpdate(float _DeltaTime, const StateInfo& _Info)
 		StateManager.ChangeState("Sadari");
 	}
 
-	GetTransform().SetWorldMove(MovePower);
+	//GetTransform().SetWorldMove(MovePower);
 
 	if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::BLUE))
 	{
@@ -809,7 +813,7 @@ void Player::Update(float _DeltaTime)
 	StateManager.Update(_DeltaTime);
 
 	//양옆이 벽이 아니라면 움직인다
-	GetTransform().SetWorldMove(MovePower);
+	GetTransform().SetWorldMove(MovePower * _DeltaTime);
 
 	Dead();
 	
@@ -838,6 +842,9 @@ bool Player::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 {	
 	//플레이어의 공격력 만큼 상대의 HP가 깎이고 0이되면 죽는다
 	//_Other->GetActor()->Death();
+	DamageNumber* tmp = _Other->GetActor()->GetLevel()->CreateActor<DamageNumber>();
+	float4 Pos = _Other->GetActor()->GetTransform().GetWorldPosition();
+	tmp->GetTransform().SetWorldPosition({ Pos.x,Pos.y+32,Pos.z});
 	return true;
 }
 

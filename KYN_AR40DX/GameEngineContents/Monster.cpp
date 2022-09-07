@@ -2,6 +2,8 @@
 #include "Monster.h"
 #include "Player.h"
 
+#include "DamageNumber.h"
+
 #include <GameEngineBase/GameEngineRandom.h>
 
 Monster::Monster()
@@ -284,9 +286,11 @@ void Monster::Update(float _DeltaTime)
 
 bool Monster::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
+	Damage = PlayerInfo->GetPlayerAtt();
+
 	if (PlayerInfo->OneAtt == false)
 	{
-		HP = HP - (PlayerInfo->GetPlayerAtt());
+		HP = HP - Damage;
 		PlayerInfo->OneAtt = true;
 	}
 

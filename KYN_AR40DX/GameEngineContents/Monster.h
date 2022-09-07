@@ -3,6 +3,7 @@
 #include "CharacterObject.h"
 // 설명 : 기본 달팽이
 class Player;
+class DamageNumber;
 class Monster : public CharacterObject
 {
 public:
@@ -56,6 +57,7 @@ protected:
 
 private:
 	GameEngineStateManager StateManager;
+	DamageNumber* Num;
 	Player* PlayerInfo;	
 
 	int Damage;
