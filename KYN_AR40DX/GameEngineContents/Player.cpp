@@ -128,18 +128,7 @@ void Player::Start()
 
 	StateManager.CreateStateMember("Move"
 		, std::bind(&Player::MoveUpdate, this, std::placeholders::_1, std::placeholders::_2)
-		, [/*&*/=](const StateInfo& _Info)
-		{
-			// static const int MyValue = 바깥 MyValue;
-
-			int Test = MyValue;//저장해서 가져와 쓸수있다
-			// = 지역변수도 쓸수있다.
-			// MyValue가 하나더 생기는 방식으로 컴파일러가 해석한다.
-			// ????????
-			// & 외부의 있는 값의 참조형을 받아오는 것이기 때문에
-			// 지역변수를 쓰면 결과를 장담할수가 없다. = 참조는 안된다
-			Renderer->ChangeFrameAnimation("Move");
-		});
+		, std::bind(&Player::MoveStart, this, std::placeholders::_1));
 
 	StateManager.CreateStateMember("Sadari"
 		, std::bind(&Player::SadariUpdate, this, std::placeholders::_1, std::placeholders::_2)
@@ -196,6 +185,11 @@ void Player::IdleStart(const StateInfo& _Info)
 }
 void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	Gravity(_DeltaTime);
+	ColorCheckUpdate();
+	ColorCheckUpdateNext(MovePower);
+
+
 
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft") ||
 		true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
@@ -204,20 +198,11 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 		return;
 	}
 
-	Gravity(_DeltaTime);
-	ColorCheckUpdate();
-	ColorCheckUpdateNext(MovePower);
-
-
-
-
-
 	if (true == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE))
 	{
 		StateManager.ChangeState("Fall");
 		return;
 	}
-
 
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerJump"))
 	{
@@ -226,14 +211,18 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 
 
-
-
 	if (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE))
 	{
 		MovePower.y = 0.0f;
-		return;
+		while (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE))
+		{
+			GetTransform().SetWorldMove(float4::UP);
+			ColorCheckUpdate();
+		}
+		GetTransform().SetWorldMove(float4::DOWN);
+		ColorCheckUpdate();
+		ColorCheckUpdateNext(MovePower);
 	}
-
 
 	return;
 
@@ -364,28 +353,20 @@ void Player::ProneUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 }
 
-//void Player::MoveStart(const StateInfo& _Info)
-//{
-//	Renderer->ChangeFrameAnimation("Move");
-//}
+void Player::MoveStart(const StateInfo& _Info)
+{
+	Speed = GroundMoveSpeed;
+	Renderer->ChangeFrameAnimation("Move");
+}
 
 void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	//GameEngineDebug::DrawBox();
 
 	// GameEngineDebug::DebugSphereRender();
-
-	AlertToIdle();
-
-	if (false == GameEngineInput::GetInst()->IsPress("PlayerLeft") &&
-		false == GameEngineInput::GetInst()->IsPress("PlayerRight") &&
-		false == GameEngineInput::GetInst()->IsPress("PlayerUp") &&
-		false == GameEngineInput::GetInst()->IsPress("PlayerDown")&&
-		PrevState=="Alert" && Hit==true)
-	{
-		StateManager.ChangeState("Alert");
-		return;
-	}
+	Gravity(_DeltaTime);
+	ColorCheckUpdate();
+	ColorCheckUpdateNext(MovePower);
 
 	if (false == GameEngineInput::GetInst()->IsPress("PlayerLeft") &&
 		false == GameEngineInput::GetInst()->IsPress("PlayerRight") &&
@@ -398,84 +379,27 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		return;
 	}
 
+
+
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
+	{	//점프중 오른쪽 이동키 누를시
+		MovePower.x = Speed;
+		Renderer->GetTransform().PixLocalNegativeX();
+		return;
+	}
+
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
+	{	//점프중 왼쪽 이동키 누를시
+		MovePower.x = -Speed;
+		Renderer->GetTransform().PixLocalPositiveX();
+		return;
+	}
+
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerJump"))
 	{
 		StateManager.ChangeState("Jump");
+		return;
 	}
-
-	if (true == GameEngineInput::GetInst()->IsPress("PlayerDown"))
-	{
-		StateManager.ChangeState("Prone");
-	}
-
-	if (true == GameEngineInput::GetInst()->IsPress("PlayerAttack"))
-	{
-		StateManager.ChangeState("Attack");
-	}
-
-	//if (true == GameEngineInput::GetInst()->IsPress("PlayerUp") &&
-	//	true == IsNextColor(COLORCHECKDIR::UP, float4::BLUE))
-	//{
-	//	StateManager.ChangeState("Sadari");
-	//}
-
-	//if (true == GameEngineInput::GetInst()->IsPress("PlayerDown") &&
-	//	true == IsNextColor(COLORCHECKDIR::DOWN, float4::RED))
-	//{
-	//	StateManager.ChangeState("Sadari");
-	//}
-
-	//if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
-	//{
-	//	Dir = float4::LEFT;
-	//	MovePower = GetTransform().GetLeftVector() * Speed /** _DeltaTime*/;
-
-	//	if(((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g>=200 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].r == 0 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].b == 0) &&//다운이 그린
-	//		iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].g >= 200 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].r == 0 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].b == 0)&&//왼이 그린
-	//		iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFTTOP)].g == 255 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFTTOP)].r == 255 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFTTOP)].b == 255)//왼탑이 화이트
-	//	{	//언덕길은 위로 올리는힘이 추가
-	//		MovePower += (GetTransform().GetUpVector() * Speed * _DeltaTime);
-	//		stop = false;
-	//	}
-
-	//	if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE)&&
-	//		true == IsNextColor(COLORCHECKDIR::DOWNR, float4::WHITE)&&
-	//		true == IsNextColor(COLORCHECKDIR::LEFT, float4::WHITE))
-	//	{	
-	//		StateManager.ChangeState("Fall");
-	//	}
-	//	Renderer->GetTransform().PixLocalPositiveX();
-	//	AttackCollision->GetTransform().SetLocalPosition({ -35.0f,35.0f });
-	//}
-
-	//if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
-	//{
-	//	Dir = float4::RIGHT;
-	//	//Renderer->GetColorData().MulColor.a -= _DeltaTime;
-	//	//(누르면 점점 알파값 사라짐 MulColor는 기본 흰색 a는 알파값 곱하기레이어에 흰색은 투명색)
-	//	MovePower = GetTransform().GetRightVector() * Speed /** _DeltaTime*/;
-
-	//	if (((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g >= 200 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].r == 0 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].b == 0) &&//다운이 그린
-	//		iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].g >= 200 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].r == 0 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].b == 0) &&//오른이 그린
-	//		iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHTTOP)].g == 255 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHTTOP)].r == 255 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHTTOP)].b == 255)//오른탑이 화이트
-	//	{	//언덕길은 위로 올리는힘이 추가
-	//		MovePower += (GetTransform().GetUpVector() * Speed * _DeltaTime);
-	//		stop = false;
-	//	}
-
-	//	if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE)&&
-	//		true == IsNextColor(COLORCHECKDIR::DOWNL, float4::WHITE)&&
-	//		true == IsNextColor(COLORCHECKDIR::RIGHT, float4::WHITE))
-	//	{	
-	//		StateManager.ChangeState("Fall");
-	//	}
-
-	//	Renderer->GetTransform().PixLocalNegativeX();
-	//	AttackCollision->GetTransform().SetLocalPosition({ 35.0f,35.0f});
-	//}
-
-
-	ColorCheckUpdateNext(MovePower);
 
 	///*if (false == IsNextColor(COLORCHECKDIR::LEFT, float4::GREEN) 
 	//	&& false == IsNextColor(COLORCHECKDIR::RIGHT, float4::GREEN))*/
@@ -505,17 +429,12 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	//	stop = true;
 	//}
 
-	if (true == GameEngineInput::GetInst()->IsDown("PlayerJump"))
-	{
-		StateManager.ChangeState("Jump");
-	}
 	//
 	//if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::BLUE))
 	//{	//바닥이 파랑일땐 중력 안받는다
 	//	return;
 	//}
 	
-	Gravity(_DeltaTime);
 }
 
 void Player::SadariStart(const StateInfo& _Info)
@@ -578,25 +497,28 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 		if (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE))
 		{	//착지했는데 방향키 안누르면 Idle
 			StateManager.ChangeState("Idle");
+
 			return;
 		}
 
 		if (true == GameEngineInput::GetInst()->IsPress("PlayerAttack"))
 		{
 			StateManager.ChangeState("Attack");
+			return;
 		}
 
 		if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
 		{	//점프중 오른쪽 이동키 누를시
 			MovePower.x = Speed * _DeltaTime;
 			Renderer->GetTransform().PixLocalNegativeX();
-
+			return;
 		}
 
 		if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
 		{	//점프중 왼쪽 이동키 누를시
 			MovePower.x = Speed * _DeltaTime;
 			Renderer->GetTransform().PixLocalPositiveX();
+			return;
 		}
 	}
 //
@@ -651,12 +573,28 @@ void Player::FallUpdate(float _DeltaTime, const StateInfo& _Info)
 	Gravity(_DeltaTime);
 	ColorCheckUpdate();
 
+
+
 	// 내가 땅에 박혔다면.
 	if (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE))
 	{	//착지했는데 방향키 안누르면 Idle
 		StateManager.ChangeState("Idle");
+
+		if (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE))
+		{
+			MovePower.y = 0.0f;
+			while (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE))
+			{
+				GetTransform().SetWorldMove(float4::UP);
+				ColorCheckUpdate();
+			}
+			GetTransform().SetWorldMove(float4::DOWN);
+		}
+
 		return;
 	}
+
+
 }
 
 void Player::DownJumpStart(const StateInfo& _Info)
@@ -814,6 +752,9 @@ void Player::Update(float _DeltaTime)
 	ColorCheckUpdate();
 	StateManager.Update(_DeltaTime);
 
+
+	MovePower.x = static_cast<int>(MovePower.x);
+	MovePower.y = static_cast<int>(MovePower.y);
 	//양옆이 벽이 아니라면 움직인다
 	GetTransform().SetWorldMove(MovePower * _DeltaTime);
 
