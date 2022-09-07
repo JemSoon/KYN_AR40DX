@@ -20,6 +20,9 @@ class GameEngineTextureRenderer;
 class CharacterObject : public GameEngineActor
 {
 public:
+	static const PixelColor WHITE;
+
+public:
 	//디폴트 생성자
 	CharacterObject();
 	//디폴트 소멸자
@@ -58,22 +61,21 @@ protected:
 	GameEngineTextureRenderer* Renderer;
 	GameEngineCollision* Collision;
 
+	float GravitySpeed;
 	float Speed;//이속
 	float4 MovePower;//가속도
 	float4 PurePower;//무시하고지나갈때 파워
 
 	float4 ColorDir[9];
-	float4 ColorCheck[9];
-	float4 NextColorCheck[9];
 
-	PixelColor iColorDir[9];
-	PixelColor iColorCheck[9];
-	PixelColor iNextColorCheck[9];
+	PixelColor NextColorCheck[9];
+	PixelColor ColorCheck[9];
 	
 	PixelColor PrevColor;
 	PixelColor CurColor;
 
-	bool IsNextColor(COLORCHECKDIR _Dir, float4 _Color);
+	bool IsNextColor(COLORCHECKDIR _Dir, PixelColor _Color);
+	bool IsColor(COLORCHECKDIR _Dir, PixelColor _Color);
 
 private:
 };

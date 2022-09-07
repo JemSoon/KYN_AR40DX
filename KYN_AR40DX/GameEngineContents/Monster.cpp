@@ -145,45 +145,45 @@ void Monster::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		}
 	}
 
-	if (RandomDir == 1)
-	{
-		//랜덤 방향1 == 왼쪽
-		MovePower = GetTransform().GetLeftVector() * Speed * _DeltaTime;
-		Renderer->GetTransform().PixLocalPositiveX();
+	//if (RandomDir == 1)
+	//{
+	//	//랜덤 방향1 == 왼쪽
+	//	MovePower = GetTransform().GetLeftVector() * Speed * _DeltaTime;
+	//	Renderer->GetTransform().PixLocalPositiveX();
 
-		if (true == IsNextColor(COLORCHECKDIR::DOWNL, float4::WHITE))
-		{
-			MovePower.x = 0.0f;
-		}
-	}
+	//	if (true == IsNextColor(COLORCHECKDIR::DOWNL, float4::WHITE))
+	//	{
+	//		MovePower.x = 0.0f;
+	//	}
+	//}
 
-	if (RandomDir == 2)
-	{
-		//랜덤 방향2 == 오른쪽
-		MovePower = GetTransform().GetRightVector() * Speed * _DeltaTime;
-		Renderer->GetTransform().PixLocalNegativeX();
+	//if (RandomDir == 2)
+	//{
+	//	//랜덤 방향2 == 오른쪽
+	//	MovePower = GetTransform().GetRightVector() * Speed * _DeltaTime;
+	//	Renderer->GetTransform().PixLocalNegativeX();
 
-		if (true == IsNextColor(COLORCHECKDIR::DOWNR, float4::WHITE))
-		{
-			MovePower.x = 0.0f;
-		}
-	}
+	//	if (true == IsNextColor(COLORCHECKDIR::DOWNR, float4::WHITE))
+	//	{
+	//		MovePower.x = 0.0f;
+	//	}
+	//}
 
-	if (((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g >= 200 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].r == 0 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].b == 0) &&//다운이 그린
-		iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].g >= 200 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].r == 0 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].b == 0) &&//왼이 그린
-		iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFTTOP)].g == 255 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFTTOP)].r == 255 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFTTOP)].b == 255)//왼탑이 화이트
-	{	//언덕길은 위로 올리는힘이 추가
-		MovePower += (GetTransform().GetUpVector() * Speed * _DeltaTime);
-	}
+	//if (((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g >= 200 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].r == 0 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].b == 0) &&//다운이 그린
+	//	iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].g >= 200 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].r == 0 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].b == 0) &&//왼이 그린
+	//	iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFTTOP)].g == 255 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFTTOP)].r == 255 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFTTOP)].b == 255)//왼탑이 화이트
+	//{	//언덕길은 위로 올리는힘이 추가
+	//	MovePower += (GetTransform().GetUpVector() * Speed * _DeltaTime);
+	//}
 
 	ColorCheckUpdateNext(MovePower);
 
-	if (((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].g < 200) || (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].g == 255 && (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].r == 255))) &&
-		((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].g < 200) || (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].g == 255 && (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].r == 255))))
-	{
-		//양옆이 벽이 아니라면 움직인다
-		GetTransform().SetWorldMove(MovePower);
-	}
+	//if (((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].g < 200) || (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].g == 255 && (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].r == 255))) &&
+	//	((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].g < 200) || (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].g == 255 && (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].r == 255))))
+	//{
+	//	//양옆이 벽이 아니라면 움직인다
+	//	GetTransform().SetWorldMove(MovePower);
+	//}
 }
 
 void Monster::HitStart(const StateInfo& _Info)

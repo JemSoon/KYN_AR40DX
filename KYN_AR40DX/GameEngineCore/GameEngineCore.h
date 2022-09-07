@@ -28,7 +28,7 @@ public:
 protected:
 	virtual std::string GetWindowTitle() { return "MainWindow"; }
 	virtual float4 StartWindowSize() { return { 1280.0f, 720.0f }; };//기본 윈도 사이즈
-	virtual float4 StartWindowPosition() { return { 1400,200 }; };//카메라 줌
+	virtual float4 StartWindowPosition() { return { 0,0 }; };//카메라 줌
 
 	// 너희들이 간섭할수 있는 내용.
 	virtual void Start() = 0;

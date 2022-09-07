@@ -60,6 +60,9 @@ public:
 	int PlayerLevel;
 	bool OneAtt;
 	bool IsLevelUp;
+	float GroundMoveSpeed;
+	float JumpMoveSpeed;
+	float JumpPower;
 
 	void Dead();
 	void LevelUp();

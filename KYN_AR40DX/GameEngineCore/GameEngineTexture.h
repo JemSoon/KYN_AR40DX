@@ -21,7 +21,27 @@ struct PixelColor
 		unsigned int Color;
 	};
 
+	bool operator==(const PixelColor& _Power) 
+	{
+		return r == _Power.r && g == _Power.g && b == _Power.b && b == _Power.b;
+	}
+
 public:
+	PixelColor(
+		unsigned char _r,
+		unsigned char _g,
+		unsigned char _b,
+		unsigned char _a
+	)
+		: r(_r)
+		, g(_g)
+		, b(_b)
+		, a(_a)
+	{
+
+	}
+
+
 	PixelColor()
 		: Color(0)
 	{

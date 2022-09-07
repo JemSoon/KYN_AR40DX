@@ -2,10 +2,14 @@
 #include "CharacterObject.h"
 #include "LevelParent.h"
 
+const PixelColor CharacterObject::WHITE = {255, 255, 255, 255};
+
+
 CharacterObject::CharacterObject()
 	:Renderer(nullptr)
 	, Speed(100.0f)
 	, MovePower(0.0f)
+	, GravitySpeed(100.0f)
 {
 
 }
@@ -37,26 +41,10 @@ void CharacterObject::Gravity(float _DeltaTime)
 {
 	GameEngineTexture* MapTexture = GetLevel<LevelParent>()->GetMap_Col()->GetCurTexture();
 
-	MovePower += float4::DOWN * _DeltaTime * 10.0f;//가속도
+	MovePower += float4::DOWN * _DeltaTime * GravitySpeed;//가속도
 
-	ColorCheckUpdateNext(MovePower);
-
-	if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE))
-	{	//발바닥이 흰색이라면 추락
-		GetTransform().SetWorldMove(MovePower);
-	}
+	// ColorCheckUpdateNext(MovePower);
 	
-	else if (MovePower.y > 0|| true == IsNextColor(COLORCHECKDIR::DOWN, float4::BLUE))
-	{
-		//y힘이 양수라면 그대로 힘을 유지한다
-		GetTransform().SetWorldMove(MovePower);
-	}
-
-	else
-	{	
-		//MovePower = float4::ZERO;
-		MovePower.y = 0.0f;
-	}
 
 }
 
@@ -73,8 +61,7 @@ void CharacterObject::ColorCheckUpdateNext(float4 _Move)
 	{
 		float4 CheckDir = GetTransform().GetWorldPosition() + ColorDir[i] + _Move;
 
-		NextColorCheck[i] = MapTexture->GetPixelToFloat4(CheckDir.ix(), -CheckDir.iy());
-		iNextColorCheck[i] = MapTexture->GetPixelToPixelColor(CheckDir.ix(), -CheckDir.iy());
+		NextColorCheck[i] = MapTexture->GetPixelToPixelColor(CheckDir.ix(), -CheckDir.iy());
 		//이걸 쓰려면 밑의 IsNexColor에 인자 두번째껄 PixelColor로 수정된게 필요
 	}
 
@@ -82,7 +69,7 @@ void CharacterObject::ColorCheckUpdateNext(float4 _Move)
 
 }
 
-bool CharacterObject::IsNextColor(COLORCHECKDIR _Dir, float4 _Color)
+bool CharacterObject::IsNextColor(COLORCHECKDIR _Dir, PixelColor _Color)
 {
 	if (_Dir == COLORCHECKDIR::MAX)
 	{
@@ -91,7 +78,19 @@ bool CharacterObject::IsNextColor(COLORCHECKDIR _Dir, float4 _Color)
 
 	unsigned int Index = static_cast<unsigned int>(_Dir);
 
-	return NextColorCheck[Index].CompareInt3D(_Color);
+	return NextColorCheck[Index] == _Color;
+}
+
+bool CharacterObject::IsColor(COLORCHECKDIR _Dir, PixelColor _Color)
+{
+	if (_Dir == COLORCHECKDIR::MAX)
+	{
+		MsgBoxAssert("방향 범위를 넘어갔습니다.");
+	}
+
+	unsigned int Index = static_cast<unsigned int>(_Dir);
+
+	return ColorCheck[Index] == _Color;
 }
 
 void CharacterObject::ColorCheckUpdate()
@@ -109,7 +108,7 @@ void CharacterObject::ColorCheckUpdate()
 
 		//ColorCheck[i] = MapTexture->GetPixelToFloat4(CheckDir.ix(), -CheckDir.iy());
 
-		iColorCheck[i] = MapTexture->GetPixelToPixelColor(CheckDir.ix(), -CheckDir.iy());
+		ColorCheck[i] = MapTexture->GetPixelToPixelColor(CheckDir.ix(), -CheckDir.iy());
 	}
 
 	return;
