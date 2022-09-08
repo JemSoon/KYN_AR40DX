@@ -373,7 +373,23 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		return;
 	}
 
+	{
+		//양끝 머리부분이 벽에 부딪히면 움직이는 힘은 0이된다
+		if (false == IsColor(COLORCHECKDIR::LEFTTOP, CharacterObject::WHITE) &&
+			true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
+		{
+			MovePower = 0.0f;
+			return;
+		}
+		if (false == IsColor(COLORCHECKDIR::RIGHTTOP, CharacterObject::WHITE) &&
+			true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
+		{
+			MovePower = 0.0f;
+			return;
+		}
+	}
 	NoGravity();
+
 
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
 	{	
@@ -600,7 +616,6 @@ void Player::DownJumpUpdate(float _DeltaTime, const StateInfo& _Info)
 	//	MovePower.y = MovePower.y > 0 ? 300.0f : -300.0f;
 	//}
 
-	//ColorCheckUpdateNext(MovePower);
 	ColorCheckUpdate();
 
 	HitTime += GameEngineTime::GetDeltaTime();
