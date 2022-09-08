@@ -4,6 +4,7 @@
 
 const PixelColor CharacterObject::WHITE = {255, 255, 255, 255};
 const PixelColor CharacterObject::BLUE = { 0, 0, 255, 255 };
+const PixelColor CharacterObject::RED = { 255, 0, 0, 255 };
 
 
 CharacterObject::CharacterObject()

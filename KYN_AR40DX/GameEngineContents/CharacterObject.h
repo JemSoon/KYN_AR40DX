@@ -22,6 +22,7 @@ class CharacterObject : public GameEngineActor
 public:
 	static const PixelColor WHITE;
 	static const PixelColor BLUE;
+	static const PixelColor RED;
 
 public:
 	//디폴트 생성자

@@ -278,7 +278,7 @@ void Player::AttackStart(const StateInfo& _Info)
 	}
 
 
-	Speed = 150.0f;//어택할때 왠지모르게 스피드가 -75로 변경됨;;
+	Speed = GroundMoveSpeed;//어택할때 왠지모르게 스피드가 -75로 변경됨;;
 }
 
 void Player::AttackUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -376,20 +376,30 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		//양끝 머리부분이 벽에 부딪히면 움직이는 힘은 0이된다
 		if (false == IsColor(COLORCHECKDIR::LEFTTOP, CharacterObject::WHITE) &&
+			false == IsColor(COLORCHECKDIR::LEFTTOP, CharacterObject::BLUE) &&
 			true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
 		{
 			MovePower = 0.0f;
+			stop = true;
 			return;
 		}
 		if (false == IsColor(COLORCHECKDIR::RIGHTTOP, CharacterObject::WHITE) &&
+			false == IsColor(COLORCHECKDIR::RIGHTTOP, CharacterObject::BLUE) &&
 			true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
 		{
 			MovePower = 0.0f;
+			stop = true;
 			return;
 		}
 	}
+
 	NoGravity();
 
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerJump"))
+	{
+		StateManager.ChangeState("Jump");
+		
+	}
 
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
 	{	
@@ -405,11 +415,6 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		return;
 	}
 
-	if (true == GameEngineInput::GetInst()->IsPress("PlayerJump"))
-	{
-		StateManager.ChangeState("Jump");
-		return;
-	}
 
 	///*if (false == IsNextColor(COLORCHECKDIR::LEFT, float4::GREEN) 
 	//	&& false == IsNextColor(COLORCHECKDIR::RIGHT, float4::GREEN))*/
@@ -444,7 +449,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	//{	//바닥이 파랑일땐 중력 안받는다
 	//	return;
 	//}
-	
+
 }
 
 void Player::SadariStart(const StateInfo& _Info)
@@ -487,7 +492,7 @@ void Player::SadariUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::JumpStart(const StateInfo& _Info)
 {
-	Dir = float4::ZERO;
+	//Dir = float4::ZERO;
 	{
 		Renderer->ChangeFrameAnimation("Jump");
 		Speed = JumpMoveSpeed;
@@ -504,7 +509,9 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 		ColorCheckUpdate();
 
 		// 내가 땅에 박혔다면.
-		if (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE))
+		if (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE) 
+			&& false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::BLUE)
+			&& MovePower.y <= 0)
 		{	//착지했는데 방향키 안누르면 Idle
 			StateManager.ChangeState("Idle");
 
@@ -517,19 +524,6 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 			return;
 		}
 
-		if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
-		{	//점프중 오른쪽 이동키 누를시
-			MovePower.x = Speed * _DeltaTime;
-			Renderer->GetTransform().PixLocalNegativeX();
-			return;
-		}
-
-		if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
-		{	//점프중 왼쪽 이동키 누를시
-			MovePower.x = Speed * _DeltaTime;
-			Renderer->GetTransform().PixLocalPositiveX();
-			return;
-		}
 	}
 //
 //		if (true == GameEngineInput::GetInst()->IsPress("PlayerUp") &&
@@ -569,6 +563,7 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 //		Speed = 150.0f;
 //	}
 //
+
 }
 
 void Player::FallStart(const StateInfo& _Info)
@@ -883,14 +878,16 @@ void Player::UpToGround()
 
 void Player::NoGravity()
 {
-	if (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE))
+	if (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE) &&
+		false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::BLUE))
 	{
-		//발바닥이 흰색이 아니라면
+		//발바닥이 흰색,파란색이 아니라면
 		MovePower.y = 0.0f;
 		//y힘(중력)은 0이된다
-		while (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE))
+		while (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE)&&
+			   false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::BLUE))
 		{
-			//발바닥이 화이트가 아닌동안 바닥에서 올리는 힘이 가해진다
+			//발바닥이 화이트,블루가 아닌동안 바닥에서 올리는 힘이 가해진다
 			GetTransform().SetWorldMove(float4::UP);
 			//올린후 다시 발바닥체크를 업데이트해 확인한다
 			ColorCheckUpdate();
