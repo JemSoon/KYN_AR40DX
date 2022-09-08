@@ -171,7 +171,7 @@ void Player::DeadStart(const StateInfo& _Info)
 
 void Player::DeadUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	Renderer->GetTransform().SetAddWorldRotation({0,0,10,0});
+	Renderer->GetTransform().SetLocalRotate({0,0,10,0});
 	return;
 }
 
@@ -210,19 +210,13 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 		return;
 	}
 
-
-	if (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE))
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerDown"))
 	{
-		MovePower.y = 0.0f;
-		while (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE))
-		{
-			GetTransform().SetWorldMove(float4::UP);
-			ColorCheckUpdate();
-		}
-		GetTransform().SetWorldMove(float4::DOWN);
-		ColorCheckUpdate();
-		ColorCheckUpdateNext(MovePower);
+		StateManager.ChangeState("Prone");
+		return;
 	}
+
+	NoGravity();
 
 	return;
 
@@ -379,17 +373,17 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		return;
 	}
 
-
+	NoGravity();
 
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
-	{	//점프중 오른쪽 이동키 누를시
+	{	
 		MovePower.x = Speed;
 		Renderer->GetTransform().PixLocalNegativeX();
 		return;
 	}
 
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
-	{	//점프중 왼쪽 이동키 누를시
+	{	
 		MovePower.x = -Speed;
 		Renderer->GetTransform().PixLocalPositiveX();
 		return;
@@ -573,43 +567,23 @@ void Player::FallUpdate(float _DeltaTime, const StateInfo& _Info)
 	Gravity(_DeltaTime);
 	ColorCheckUpdate();
 
-
-
-	// 내가 땅에 박혔다면.
-	if (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE))
-	{	//착지했는데 방향키 안누르면 Idle
-		StateManager.ChangeState("Idle");
-
-		if (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE))
-		{
-			MovePower.y = 0.0f;
-			while (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE))
-			{
-				GetTransform().SetWorldMove(float4::UP);
-				ColorCheckUpdate();
-			}
-			GetTransform().SetWorldMove(float4::DOWN);
-		}
-
-		return;
-	}
-
-
+	UpToGround();
 }
 
 void Player::DownJumpStart(const StateInfo& _Info)
 {
-	if (NextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g < 200)
+	if (ColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g < 200)
 	{
+		//200보다 그린값이 작다면 안함
 		return;
 	}
-	PrevColor = NextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)];
+	PrevColor = ColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)];
 	Dir = float4::ZERO;
 	{
 		Renderer->ChangeFrameAnimation("Jump");
-		Speed *= 0.5f;
+		Speed = JumpMoveSpeed;
 		//Speed += -75.0f;
-		MovePower += float4::UP * 1.0f;
+		MovePower += float4::UP * (JumpPower * 0.5f);
 	}
 }
 void Player::DownJumpUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -617,15 +591,17 @@ void Player::DownJumpUpdate(float _DeltaTime, const StateInfo& _Info)
 	//그라비티를 주는게아니라 직접 설정해줘야한다.
 	GameEngineTexture* MapTexture = GetLevel<LevelParent>()->GetMap_Col()->GetCurTexture();
 
-	MovePower += float4::DOWN * _DeltaTime * 10.0f;//가속도
+	//MovePower += float4::DOWN * _DeltaTime * 10.0f;//가속도
+	Gravity(_DeltaTime);
 
-	if (15.0f <= abs(MovePower.y))
-	{
-		//추락 가속도 최대설정
-		MovePower.y = MovePower.y > 0 ? 15.0f : -15.0f;
-	}
+	//if (300.0f <= abs(MovePower.y))
+	//{
+	//	//추락 가속도 최대설정
+	//	MovePower.y = MovePower.y > 0 ? 300.0f : -300.0f;
+	//}
 
-	ColorCheckUpdateNext(MovePower);
+	//ColorCheckUpdateNext(MovePower);
+	ColorCheckUpdate();
 
 	HitTime += GameEngineTime::GetDeltaTime();
 	if (PrevColor.g > ColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g &&
@@ -865,5 +841,47 @@ void Player::Dead()
 		StateManager.ChangeState("Dead");
 		Collision->Off();
 		stop = true;
+	}
+}
+
+void Player::UpToGround()
+{
+	// 내가 땅에 박혔다면.
+	if (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE))
+	{	//착지했는데 방향키 안누르면 Idle
+		StateManager.ChangeState("Idle");
+
+		if (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE))
+		{
+			MovePower.y = 0.0f;
+			while (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE))
+			{
+				GetTransform().SetWorldMove(float4::UP);
+				ColorCheckUpdate();
+			}
+			GetTransform().SetWorldMove(float4::DOWN);
+		}
+
+		return;
+	}
+}
+
+void Player::NoGravity()
+{
+	if (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE))
+	{
+		//발바닥이 흰색이 아니라면
+		MovePower.y = 0.0f;
+		//y힘(중력)은 0이된다
+		while (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE))
+		{
+			//발바닥이 화이트가 아닌동안 바닥에서 올리는 힘이 가해진다
+			GetTransform().SetWorldMove(float4::UP);
+			//올린후 다시 발바닥체크를 업데이트해 확인한다
+			ColorCheckUpdate();
+		}
+		GetTransform().SetWorldMove(float4::DOWN);
+		ColorCheckUpdate();
+		ColorCheckUpdateNext(MovePower);
 	}
 }
