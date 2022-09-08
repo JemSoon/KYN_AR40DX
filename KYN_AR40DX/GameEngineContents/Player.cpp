@@ -374,6 +374,17 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 
 	{
+		//양 발끝이 화이트라면 Fall상태
+		if (true == IsColor(COLORCHECKDIR::DOWNL, CharacterObject::WHITE)&&
+			true == IsColor(COLORCHECKDIR::DOWNR, CharacterObject::WHITE))
+		{
+			StateManager.ChangeState("Fall");
+			return;
+		}
+	}
+
+
+	{
 		//양끝 머리부분이 벽에 부딪히면 움직이는 힘은 0이된다
 		if (false == IsColor(COLORCHECKDIR::LEFTTOP, CharacterObject::WHITE) &&
 			false == IsColor(COLORCHECKDIR::LEFTTOP, CharacterObject::BLUE) &&
