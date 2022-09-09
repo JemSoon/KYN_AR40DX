@@ -381,7 +381,6 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (false == GameEngineInput::GetInst()->IsPress("PlayerLeft") &&
 		false == GameEngineInput::GetInst()->IsPress("PlayerRight") &&
-		false == GameEngineInput::GetInst()->IsPress("PlayerUp") &&
 		false == GameEngineInput::GetInst()->IsPress("PlayerDown"))
 	{	//아무것도 안누르고 있고 바닥에있으면 Idle상태로 변경
 		StateManager.ChangeState("Idle");
