@@ -157,7 +157,7 @@ void Player::Start()
 
 	StateManager.ChangeState("Idle");
 
-	JumpPower = 1000.0f;
+	JumpPower = 500.0f;
 	GravitySpeed = 1500.0f;
 
 	//블랜드 옵션만 바꾸기위한 코드(미완성)
@@ -210,14 +210,30 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 		return;
 	}
 
+	if ((true == IsColor(COLORCHECKDIR::DOWN, CharacterObject::RED) ||
+		true == IsColor(COLORCHECKDIR::DOWN, CharacterObject::BLUE)) &&
+		true == GameEngineInput::GetInst()->IsPress("PlayerDown"))
+	{
+		StateManager.ChangeState("Sadari");
+		MovePower.y = 0.0f;
+		return;
+	}
+
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerDown"))
 	{
 		StateManager.ChangeState("Prone");
 		return;
 	}
 
-	NoGravity();
+	if (true == IsColor(COLORCHECKDIR::CENTER, CharacterObject::BLUE) &&
+		true == GameEngineInput::GetInst()->IsPress("PlayerUp"))
+	{
+		StateManager.ChangeState("Sadari");
+		MovePower.y = 0.0f;
+		return;
+	}
 
+	NoGravity();
 	return;
 
 
@@ -351,6 +367,7 @@ void Player::MoveStart(const StateInfo& _Info)
 {
 	Speed = GroundMoveSpeed;
 	Renderer->ChangeFrameAnimation("Move");
+	MovePower.y = 0.0f;
 }
 
 void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -373,6 +390,13 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		return;
 	}
 
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerDown"))
+	{
+		StateManager.ChangeState("Prone");
+		MovePower.x = 0.0f;
+		return;
+	}
+
 	{
 		//양 발끝이 화이트라면 Fall상태
 		if (true == IsColor(COLORCHECKDIR::DOWNL, CharacterObject::WHITE)&&
@@ -383,6 +407,11 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		}
 	}
 
+	if (true == IsColor(COLORCHECKDIR::DOWN, CharacterObject::BLUE))
+	{
+		MovePower.y = 0.0f;
+		return;
+	}
 
 	{
 		//양끝 머리부분이 벽에 부딪히면 움직이는 힘은 0이된다
@@ -394,13 +423,18 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 			stop = true;
 			return;
 		}
-		if (false == IsColor(COLORCHECKDIR::RIGHTTOP, CharacterObject::WHITE) &&
+		else if (false == IsColor(COLORCHECKDIR::RIGHTTOP, CharacterObject::WHITE) &&
 			false == IsColor(COLORCHECKDIR::RIGHTTOP, CharacterObject::BLUE) &&
 			true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
 		{
 			MovePower = 0.0f;
 			stop = true;
 			return;
+		}
+		else
+		{
+			//벽에 부딪힌게 아니라면 배경도 따라움직인다
+			stop = false;
 		}
 	}
 
@@ -466,10 +500,45 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 void Player::SadariStart(const StateInfo& _Info)
 {
 	Renderer->ChangeFrameAnimation("Sadari");
+	//MovePower.y = 0.0f;
 }
 
 void Player::SadariUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerUp"))
+	{
+		MovePower.y = Speed;
+	}
+	else if (false == GameEngineInput::GetInst()->IsPress("PlayerUp") &&
+		false == GameEngineInput::GetInst()->IsPress("PlayerDown"))
+	{
+		MovePower.y = 0.0f;
+	}
+	else if (true == GameEngineInput::GetInst()->IsPress("PlayerDown"))
+	{
+		MovePower.y = -Speed;
+	}
+
+
+	if (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::RED) &&
+		false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::BLUE) &&
+		true == GameEngineInput::GetInst()->IsPress("PlayerDown"))
+	{
+		StateManager.ChangeState("Idle");
+		MovePower.y = 0.0f;
+		return;
+	}
+
+	if (false == IsColor(COLORCHECKDIR::CENTER, CharacterObject::BLUE)&&
+		false == IsColor(COLORCHECKDIR::CENTER, CharacterObject::RED)&&
+		true == GameEngineInput::GetInst()->IsPress("PlayerUp"))
+	{
+		StateManager.ChangeState("Idle");
+		MovePower.y = 0.0f;
+		return;
+	}
+
+
 	//HitTime += GameEngineTime::GetDeltaTime();
 
 	//if (true == GameEngineInput::GetInst()->IsPress("PlayerUp"))
@@ -519,7 +588,6 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		ColorCheckUpdate();
 
-		// 내가 땅에 박혔다면.
 		if (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE) 
 			&& false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::BLUE)
 			&& MovePower.y <= 0)
@@ -588,7 +656,7 @@ void Player::FallUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	Gravity(_DeltaTime);
 	ColorCheckUpdate();
-
+	
 	UpToGround();
 }
 
@@ -875,7 +943,8 @@ void Player::UpToGround()
 		if (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE))
 		{
 			MovePower.y = 0.0f;
-			while (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE))
+			while (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE)&&
+				   false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::RED))
 			{
 				GetTransform().SetWorldMove(float4::UP);
 				ColorCheckUpdate();
@@ -889,8 +958,7 @@ void Player::UpToGround()
 
 void Player::NoGravity()
 {
-	if (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE) &&
-		false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::BLUE))
+	if (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE))
 	{
 		//발바닥이 흰색,파란색이 아니라면
 		MovePower.y = 0.0f;

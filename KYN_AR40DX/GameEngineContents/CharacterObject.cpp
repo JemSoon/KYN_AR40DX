@@ -7,6 +7,7 @@ const PixelColor CharacterObject::BLUE = { 0, 0, 255, 255 };
 const PixelColor CharacterObject::RED = { 255, 0, 0, 255 };
 
 
+
 CharacterObject::CharacterObject()
 	:Renderer(nullptr)
 	, Speed(100.0f)
@@ -35,7 +36,7 @@ void CharacterObject::Start()
 	ColorDir[static_cast<unsigned int>(COLORCHECKDIR::DOWN)] = float4::ZERO;
 	ColorDir[static_cast<unsigned int>(COLORCHECKDIR::DOWNL)] = float4::LEFT * 20.0f;
 	ColorDir[static_cast<unsigned int>(COLORCHECKDIR::DOWNR)] = float4::RIGHT * 20.0f;
-	ColorDir[static_cast<unsigned int>(COLORCHECKDIR::CENTER)] = float4::UP * 16.0f;
+	ColorDir[static_cast<unsigned int>(COLORCHECKDIR::CENTER)] = float4::UP * 2.0f;
 
 }
 
