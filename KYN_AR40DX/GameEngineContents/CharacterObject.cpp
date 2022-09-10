@@ -12,7 +12,7 @@ CharacterObject::CharacterObject()
 	:Renderer(nullptr)
 	, Speed(100.0f)
 	, MovePower(0.0f)
-	, GravitySpeed(100.0f)
+	, GravitySpeed(1500.0f)
 {
 
 }

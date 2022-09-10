@@ -25,14 +25,11 @@ Monster::~Monster()
 
 void Monster::Start()
 {
-	//상속에 써둠
-	//GetTransform().SetLocalScale({ 1, 1, 1 });
 	CharacterObject::Start();
 	{
 		Renderer = CreateComponent<GameEngineTextureRenderer>();
 		Renderer->GetTransform().SetLocalScale({ 64, 64, 1 });
 		Renderer->SetTexture("snail_stand.png");
-		//Renderer->ScaleToTexture();//나는 쓰면 늘어난다
 
 		std::vector<unsigned int> Nine = { 0,1,2,3,4,5,6,7,8 };
 		std::vector<unsigned int> Five = { 0, 1, 2 ,3, 4, 3, 2, 1};
@@ -91,7 +88,6 @@ void Monster::IdleStart(const StateInfo& _Info)
 {
 	Random = GameEngineRandom::MainRandom.RandomInt(1, 2);
 	Renderer->ChangeFrameAnimation("Idle");
-	Speed = 75.0f;
 	MovePower = float4::ZERO;
 }
 
@@ -119,7 +115,7 @@ void Monster::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 			PatternTime = 0;
 		}
 	}
-
+	
 	NoGravity();
 	return;
 }
@@ -133,12 +129,31 @@ void Monster::MoveStart(const StateInfo& _Info)
 
 void Monster::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	Gravity(_DeltaTime);
+	ColorCheckUpdate();
+	ColorCheckUpdateNext(MovePower);
+
 	PatternTime += GameEngineTime::GetDeltaTime();
-	//Random = GameEngineRandom::MainRandom.RandomInt(1, 4);
+
+	if (RandomDir == 1)
+	{
+		//랜덤 방향1 == 왼쪽
+		MovePower.x = -Speed;
+		Renderer->GetTransform().PixLocalPositiveX();
+	}
+
+	if (RandomDir == 2)
+	{
+		//랜덤 방향2 == 오른쪽
+		MovePower.x = Speed;
+		Renderer->GetTransform().PixLocalNegativeX();
+	}
+
 	if (Random == 1)
 	{
 		if (PatternTime >= 1.0f)
 		{
+			MovePower.x = 0.0f;
 			StateManager.ChangeState("Idle");
 			PatternTime = 0;
 		}
@@ -148,34 +163,13 @@ void Monster::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		if (PatternTime >= 2.0f)
 		{
+			MovePower.x = 0.0f;
 			StateManager.ChangeState("Idle");
 			PatternTime = 0;
 		}
 	}
 
-	//if (RandomDir == 1)
-	//{
-	//	//랜덤 방향1 == 왼쪽
-	//	MovePower = GetTransform().GetLeftVector() * Speed * _DeltaTime;
-	//	Renderer->GetTransform().PixLocalPositiveX();
-
-	//	if (true == IsNextColor(COLORCHECKDIR::DOWNL, float4::WHITE))
-	//	{
-	//		MovePower.x = 0.0f;
-	//	}
-	//}
-
-	//if (RandomDir == 2)
-	//{
-	//	//랜덤 방향2 == 오른쪽
-	//	MovePower = GetTransform().GetRightVector() * Speed * _DeltaTime;
-	//	Renderer->GetTransform().PixLocalNegativeX();
-
-	//	if (true == IsNextColor(COLORCHECKDIR::DOWNR, float4::WHITE))
-	//	{
-	//		MovePower.x = 0.0f;
-	//	}
-	//}
+	NoGravity();
 
 	//if (((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g >= 200 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].r == 0 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].b == 0) &&//다운이 그린
 	//	iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].g >= 200 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].r == 0 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].b == 0) &&//왼이 그린
@@ -183,8 +177,6 @@ void Monster::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	//{	//언덕길은 위로 올리는힘이 추가
 	//	MovePower += (GetTransform().GetUpVector() * Speed * _DeltaTime);
 	//}
-
-	ColorCheckUpdateNext(MovePower);
 
 	//if (((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].g < 200) || (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].g == 255 && (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].r == 255))) &&
 	//	((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].g < 200) || (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].g == 255 && (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].r == 255))))
@@ -240,7 +232,6 @@ void Monster::DeadStart(const StateInfo& _Info)
 
 void Monster::DeadUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	GetTransform().SetWorldMove(MovePower);
 }
 
 void Monster::ChaseStart(const StateInfo& _Info)
@@ -266,8 +257,6 @@ void Monster::ChaseUpdate(float _DeltaTime, const StateInfo& _Info)
 		MovePower = GetTransform().GetRightVector() * Speed * _DeltaTime;
 		Renderer->GetTransform().PixLocalNegativeX();
 	}
-
-	GetTransform().SetWorldMove(MovePower);
 }
 
 //====================================================================================//
@@ -283,8 +272,13 @@ void Monster::Update(float _DeltaTime)
 		PlayerInfo = Player::GetMainPlayer();
 	}
 
+	ColorCheckUpdate();
 	StateManager.Update(_DeltaTime);
-	Gravity(_DeltaTime);
+
+	MovePower.x = static_cast<int>(MovePower.x);
+	MovePower.y = static_cast<int>(MovePower.y);
+
+	GetTransform().SetWorldMove(MovePower * _DeltaTime);
 
 	{
 		Collision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::PlayerAtt, CollisionType::CT_OBB2D,
