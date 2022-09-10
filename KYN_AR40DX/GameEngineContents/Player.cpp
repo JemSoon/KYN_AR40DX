@@ -189,8 +189,6 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 	ColorCheckUpdate();
 	ColorCheckUpdateNext(MovePower);
 
-
-
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft") ||
 		true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
 	{
@@ -207,6 +205,12 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerJump"))
 	{
 		StateManager.ChangeState("Jump");
+		return;
+	}
+
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerAttack"))
+	{
+		StateManager.ChangeState("Attack");
 		return;
 	}
 
@@ -300,14 +304,26 @@ void Player::AttackStart(const StateInfo& _Info)
 void Player::AttackUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	AlertToIdle();
+
 	Gravity(_DeltaTime);
-	GetTransform().SetWorldMove(MovePower);
+	ColorCheckUpdate();
+	ColorCheckUpdateNext(MovePower);
+	NoGravity();
+
+	{
+		//점프하면서 무빙치며 공격할때 방향키 움직이면 계속 움직이면서 공격해서 그거 방지용
+		if (MovePower.y == 0.0f)
+		{
+			MovePower.x = 0.0f;
+		}
+	}
+
 	stop = true;
 }
 
 void Player::AttackEnd()
 {
-	OneAtt = false;
+	OneAtt =  false;
 
 	if (true == GameEngineInput::GetInst()->IsFree("PlayerAttack"))
 	{
@@ -438,6 +454,13 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 
 	NoGravity();
+
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerAttack"))
+	{
+		MovePower.x = 0.0f;
+		StateManager.ChangeState("Attack");
+		return;
+	}
 
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerJump"))
 	{
@@ -592,7 +615,7 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 			&& MovePower.y <= 0)
 		{	//착지했는데 방향키 안누르면 Idle
 			StateManager.ChangeState("Idle");
-
+			MovePower.x = 0.0f;
 			return;
 		}
 
@@ -657,6 +680,14 @@ void Player::FallUpdate(float _DeltaTime, const StateInfo& _Info)
 	ColorCheckUpdate();
 	
 	UpToGround();
+
+	if (true == GameEngineInput::GetInst()->IsPress("PlayerAttack"))
+	{
+		MovePower.x = 0.0f;
+		StateManager.ChangeState("Attack");
+		return;
+	}
+
 }
 
 void Player::DownJumpStart(const StateInfo& _Info)
