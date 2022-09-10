@@ -560,6 +560,25 @@ void Player::SadariUpdate(float _DeltaTime, const StateInfo& _Info)
 		return;
 	}
 
+	{
+		//사다리중 방향키 눌러서 점프
+		if (true == GameEngineInput::GetInst()->IsPress("PlayerJump") &&
+			(true == GameEngineInput::GetInst()->IsPress("PlayerLeft")))
+		{
+			MovePower.x = -Speed;
+			Renderer->GetTransform().PixLocalPositiveX();
+			StateManager.ChangeState("Jump");
+		}
+		else if (true == GameEngineInput::GetInst()->IsPress("PlayerJump") &&
+			(true == GameEngineInput::GetInst()->IsPress("PlayerRight")))
+		{
+			MovePower.x = Speed;
+			Renderer->GetTransform().PixLocalNegativeX();
+			StateManager.ChangeState("Jump");
+			return;
+		}
+	}
+
 
 	//HitTime += GameEngineTime::GetDeltaTime();
 
