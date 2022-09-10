@@ -33,6 +33,19 @@ void Sugar::Start()
 
 void Sugar::Update(float _DeltaTime)
 {
-	Gravity(_DeltaTime);
+	ColorCheckUpdate();
+
+	if (true == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE))
+	{	
+		//조건문 안해주면 계속 중력받아서 오차땜에 부들부들 떰
+		Gravity(_DeltaTime);
+	}
+
+	MovePower.x = static_cast<int>(MovePower.x);
+	MovePower.y = static_cast<int>(MovePower.y);
+
+	GetTransform().SetWorldMove(MovePower * _DeltaTime);
+
+	NoGravity();
 }
 
