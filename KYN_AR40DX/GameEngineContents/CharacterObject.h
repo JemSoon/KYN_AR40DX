@@ -55,6 +55,8 @@ protected:
 	virtual void End() {}
 	virtual void Gravity(float _DeltaTime);
 
+	virtual void NoGravity();
+
 	void ColorCheckUpdate();
 
 	void ColorCheckUpdateNext(float4 MoveColor);

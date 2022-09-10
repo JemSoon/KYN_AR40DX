@@ -67,7 +67,6 @@ public:
 	void Dead();
 	void LevelUp();
 	void UpToGround();
-	void NoGravity();
 
 protected:
 	void Start() override;

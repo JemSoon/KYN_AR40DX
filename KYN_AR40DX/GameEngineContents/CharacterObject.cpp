@@ -47,8 +47,27 @@ void CharacterObject::Gravity(float _DeltaTime)
 	MovePower += float4::DOWN * _DeltaTime * GravitySpeed;//가속도
 
 	// ColorCheckUpdateNext(MovePower);
-	
+}
 
+void CharacterObject::NoGravity()
+{
+	if (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE))
+	{
+		//발바닥이 흰색,파란색이 아니라면
+		MovePower.y = 0.0f;
+		//y힘(중력)은 0이된다
+		while (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE) &&
+			false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::BLUE))
+		{
+			//발바닥이 화이트,블루가 아닌동안 바닥에서 올리는 힘이 가해진다
+			GetTransform().SetWorldMove(float4::UP);
+			//올린후 다시 발바닥체크를 업데이트해 확인한다
+			ColorCheckUpdate();
+		}
+		GetTransform().SetWorldMove(float4::DOWN);
+		ColorCheckUpdate();
+		ColorCheckUpdateNext(MovePower);
+	}
 }
 
 void CharacterObject::ColorCheckUpdateNext(float4 _Move)

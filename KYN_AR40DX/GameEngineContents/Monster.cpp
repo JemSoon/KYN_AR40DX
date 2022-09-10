@@ -92,10 +92,15 @@ void Monster::IdleStart(const StateInfo& _Info)
 	Random = GameEngineRandom::MainRandom.RandomInt(1, 2);
 	Renderer->ChangeFrameAnimation("Idle");
 	Speed = 75.0f;
+	MovePower = float4::ZERO;
 }
 
 void Monster::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	Gravity(_DeltaTime);
+	ColorCheckUpdate();
+	ColorCheckUpdateNext(MovePower);
+
 	PatternTime += GameEngineTime::GetDeltaTime();
 	if (Random == 1)
 	{
@@ -114,6 +119,9 @@ void Monster::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 			PatternTime = 0;
 		}
 	}
+
+	NoGravity();
+	return;
 }
 
 void Monster::MoveStart(const StateInfo& _Info)
