@@ -41,8 +41,8 @@ void Stage1Level::Start()
 		CreateStageObject("Stage1_BG.png", "Stage1_Col.png", "Stage1.png");
 
 		{
-			//Monster* actor1 = CreateActor<Monster>(OBJECTORDER::Monster);
-			//actor1->GetTransform().SetLocalPosition({ 1200.0f, -1005.0f, 0.0f });
+			Monster* actor1 = CreateActor<Monster>(OBJECTORDER::Monster);
+			actor1->GetTransform().SetLocalPosition({ 1200.0f, -1005.0f, 0.0f });
 
 			Monster* actor2 = CreateActor<Monster>(OBJECTORDER::Monster);
 			actor2->GetTransform().SetLocalPosition({ 1300.0f, -1005.0f, 0.0f });

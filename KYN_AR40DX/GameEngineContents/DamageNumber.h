@@ -21,7 +21,11 @@ protected:
 	void Update(float _DeltaTime);
 	void End() {}
 private:
-	GameEngineTextureRenderer* Number;
-	int nDamageFont;
+	GameEngineTextureRenderer* NumOne;
+	GameEngineTextureRenderer* NumTen;
+	GameEngineTextureRenderer* NumHun;
+	int nDamageOne;
+	int nDamageTen;
+	int nDamageHun;
 };
 
