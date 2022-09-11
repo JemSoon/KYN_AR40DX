@@ -238,6 +238,8 @@ void Monster::HitUpdate(float _DeltaTime, const StateInfo& _Info)
 	{
 		StateManager.ChangeState("Chase");
 	}
+	
+	NoGravity();
 }
 
 void Monster::DeadStart(const StateInfo& _Info)
@@ -260,21 +262,27 @@ void Monster::ChaseStart(const StateInfo& _Info)
 
 void Monster::ChaseUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	Gravity(_DeltaTime);
+	ColorCheckUpdate();
+	ColorCheckUpdateNext(MovePower);
+
 	float4 Target = PlayerInfo->GetTransform().GetWorldPosition();
 	float4 Me = this->GetTransform().GetWorldPosition();
 	float Distance = (Target - Me).x;
 	
 	if (Distance < 0)
 	{
-		MovePower = GetTransform().GetLeftVector() * Speed * _DeltaTime;
+		MovePower = GetTransform().GetLeftVector() * Speed;
 		Renderer->GetTransform().PixLocalPositiveX();
 	}
 
 	else if (Distance > 0)
 	{
-		MovePower = GetTransform().GetRightVector() * Speed * _DeltaTime;
+		MovePower = GetTransform().GetRightVector() * Speed;
 		Renderer->GetTransform().PixLocalNegativeX();
 	}
+
+	NoGravity();
 }
 
 //====================================================================================//

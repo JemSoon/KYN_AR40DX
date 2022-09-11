@@ -944,8 +944,7 @@ bool Player::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 
 bool Player::PlayerHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
-	Renderer->ChangeFrameAnimation("Jump");
-	Speed = JumpMoveSpeed;
+	Speed = GroundMoveSpeed;
 	MovePower += float4::UP * (JumpPower * 0.5f);
 	MovePower.x = -Dir.x * Speed;
 	Collision->Off();
