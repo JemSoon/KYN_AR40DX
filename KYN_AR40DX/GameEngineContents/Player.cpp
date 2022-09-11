@@ -180,7 +180,18 @@ void Player::IdleStart(const StateInfo& _Info)
 	AttackCollision->Off();
 	PrevState = StateManager.GetCurStateStateName();
 	Speed = GroundMoveSpeed;
-	Renderer->ChangeFrameAnimation("Idle");
+
+	if (Hit == false)
+	{
+		//평소엔 idle애니메이션
+		Renderer->ChangeFrameAnimation("Idle");
+	}
+	else
+	{
+		//맞았으면 Alert
+		Renderer->ChangeFrameAnimation("Alert");
+	}
+
 	MovePower = float4::ZERO;
 }
 void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -188,6 +199,14 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 	Gravity(_DeltaTime);
 	ColorCheckUpdate();
 	ColorCheckUpdateNext(MovePower);
+
+	if (HitTime >= 3.0f)
+	{
+		Renderer->ChangeFrameAnimation("Idle");
+		Collision->On();
+		Hit = false;
+		HitTime = 0.0f;
+	}
 
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft") ||
 		true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
@@ -372,9 +391,9 @@ void Player::ProneUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerDown")&&
 		true == GameEngineInput::GetInst()->IsDown("PlayerJump")&&
-		(NextColorCheck[5].g>245 && NextColorCheck[5].r <= 0))
+		(ColorCheck[5].g>200 && ColorCheck[5].r <= 0 && ColorCheck[5].b <= 0))
 	{
-		//그린245가 최종 밑바닥 여기서 더 내려가지 몬한다
+		//그린200 최종 밑바닥 200바닥은 더 내려가지 몬한다
 		StateManager.ChangeState("DownJump");
 	}
 }
@@ -470,6 +489,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
 	{	
+		AttackCollision->GetTransform().SetLocalPosition({ 35.0f,35.0f });
 		MovePower.x = Speed;
 		Renderer->GetTransform().PixLocalNegativeX();
 		return;
@@ -477,6 +497,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
 	{	
+		AttackCollision->GetTransform().SetLocalPosition({ -35.0f,35.0f });
 		MovePower.x = -Speed;
 		Renderer->GetTransform().PixLocalPositiveX();
 		return;
@@ -730,7 +751,6 @@ void Player::DownJumpUpdate(float _DeltaTime, const StateInfo& _Info)
 	//그라비티를 주는게아니라 직접 설정해줘야한다.
 	GameEngineTexture* MapTexture = GetLevel<LevelParent>()->GetMap_Col()->GetCurTexture();
 
-	//MovePower += float4::DOWN * _DeltaTime * 10.0f;//가속도
 	Gravity(_DeltaTime);
 
 	//if (300.0f <= abs(MovePower.y))
@@ -782,8 +802,8 @@ void Player::AlertStart(const StateInfo& _Info)
 	if(Hit==false)
 	{
 		Renderer->ChangeFrameAnimation("Jump");
-		//Speed *= 0.2f;
-		MovePower += float4::UP * 1.0f/* + (-Dir*3.0f)*/;
+		Speed = JumpMoveSpeed;
+		MovePower += float4::UP * (JumpPower * 0.5f);
 		MovePower.x = -Dir.x * 2.0f;
 		Collision->Off();
 		Hit = true;
@@ -793,6 +813,10 @@ void Player::AlertStart(const StateInfo& _Info)
 
 void Player::AlertUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	Gravity(_DeltaTime);
+	ColorCheckUpdate();
+	ColorCheckUpdateNext(MovePower);
+
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerJump"))
 	{
 		StateManager.ChangeState("Jump");
@@ -839,7 +863,8 @@ void Player::AlertUpdate(float _DeltaTime, const StateInfo& _Info)
 	//	return;
 	//}
 	
-	Gravity(_DeltaTime);
+	NoGravity();
+	return;
 }
 
 //==============================================================================//
@@ -870,7 +895,7 @@ void Player::Update(float _DeltaTime)
 	MovePower.x = static_cast<int>(MovePower.x);
 	MovePower.y = static_cast<int>(MovePower.y);
 	//양옆이 벽이 아니라면 움직인다
-	GetTransform().SetWorldMove(MovePower * _DeltaTime);
+	//GetTransform().SetWorldMove(MovePower * _DeltaTime);
 
 	Dead();
 	
@@ -893,6 +918,14 @@ void Player::Update(float _DeltaTime)
 	}
 
 	LevelUp();
+
+	if (Hit == true)
+	{
+		//맞은순간부터 HitTime진행(3초후 Idle로 바꾸기위해)
+		HitTime += _DeltaTime;
+	}
+
+	GetTransform().SetWorldMove(MovePower * _DeltaTime);
 }
 
 bool Player::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other)
@@ -908,8 +941,16 @@ bool Player::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 
 bool Player::PlayerHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
+	Renderer->ChangeFrameAnimation("Jump");
+	Speed = JumpMoveSpeed;
+	MovePower += float4::UP * (JumpPower * 0.5f);
+	MovePower.x = -Dir.x * 2.0f;
+	Collision->Off();
+	Hit = true;
+	StateManager.ChangeState("Idle");
+
 	//뒤로 펄쩍 뛰고 Alert상태
-	StateManager.ChangeState("Alert");
+	//StateManager.ChangeState("Alert");
 	HitDamage = Mob.GetDamage();
 	CurHP = CurHP - HitDamage;
 	HitCheck = true;
