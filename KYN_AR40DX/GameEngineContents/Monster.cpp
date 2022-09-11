@@ -140,6 +140,15 @@ void Monster::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		//랜덤 방향1 == 왼쪽
 		MovePower.x = -Speed;
 		Renderer->GetTransform().PixLocalPositiveX();
+		
+		{
+			//머리가 벽에 부딪히면 x움직임 0(MovePower.x로하면 부딪히면 떨어짐)
+			if (false == IsColor(COLORCHECKDIR::LEFTTOP, CharacterObject::WHITE) &&
+				false == IsColor(COLORCHECKDIR::LEFTTOP, CharacterObject::BLUE))
+			{
+				MovePower = 0.0f;
+			}
+		}
 	}
 
 	if (RandomDir == 2)
@@ -147,6 +156,15 @@ void Monster::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		//랜덤 방향2 == 오른쪽
 		MovePower.x = Speed;
 		Renderer->GetTransform().PixLocalNegativeX();
+
+		{
+			//머리가 벽에 부딪히면 x움직임 0
+			if (false == IsColor(COLORCHECKDIR::RIGHTTOP, CharacterObject::WHITE) &&
+				false == IsColor(COLORCHECKDIR::RIGHTTOP, CharacterObject::BLUE))
+			{
+				MovePower = 0.0f;
+			}
+		}
 	}
 
 	if (Random == 1)
