@@ -55,7 +55,7 @@ void Stage1Level::Start()
 
 		{
 			Portal = CreateActor<PortalObject>(OBJECTORDER::Portal);
-			Portal->GetTransform().SetWorldPosition({ 1853.0f,-1235.0f,0.0f });
+			Portal->GetTransform().SetWorldPosition({ 1853.0f,-1235.0f,-20.0f });
 		}
 	}
 }

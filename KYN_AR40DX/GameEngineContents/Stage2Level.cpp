@@ -51,7 +51,7 @@ void Stage2Level::Start()
 
 	{
 		Portal = CreateActor<PortalObject>(OBJECTORDER::Portal);
-		Portal->GetTransform().SetWorldPosition({ 1285.0f,-428.0f,0.0f });
+		Portal->GetTransform().SetWorldPosition({ 1285.0f,-428.0f, 0.0f });
 	}
 }
 
@@ -79,19 +79,19 @@ void Stage2Level::LevelStartEvent()
 		{
 			NewPlayer = CreateActor<Player>(OBJECTORDER::Player);
 			NewPlayer->SetLevelOverOn();
-			NewPlayer->GetTransform().SetWorldPosition({ 200.0f, -500.0f, -1000.0f });
+			NewPlayer->GetTransform().SetWorldPosition({ 200.0f, -500.0f, 0.0f });
 		}
 
 		else if (nullptr == NewPlayer)
 		{
 			NewPlayer = Player::GetMainPlayer();
-			NewPlayer->GetTransform().SetWorldPosition({ 200.0f, -500.0f, -1000.0f });
+			NewPlayer->GetTransform().SetWorldPosition({ 200.0f, -500.0f, 0.0f });
 		}
 
 		else if (nullptr != NewPlayer)
 		{
 			//이미 다 만들어져 있다==다른맵에서 왔을때(얘는 왜 z값 앞으로 안땡겨주면 사라짐?)
-			NewPlayer->GetTransform().SetWorldPosition({ 100, -500.0f, -1000.0f });
+			NewPlayer->GetTransform().SetWorldPosition({ 100, -500.0f, 0.0f });
 		}
 
 	}

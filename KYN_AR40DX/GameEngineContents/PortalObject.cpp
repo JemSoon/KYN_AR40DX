@@ -28,8 +28,8 @@ void PortalObject::Start()
 	{
 		Collision = CreateComponent<GameEngineCollision>();
 		Collision->SetDebugSetting(CollisionType::CT_OBB2D, float4{ 1.0f,0.0f,0.0f,0.3f });
-		Collision->GetTransform().SetLocalScale({ 32.0f, 64.0f, 1.0f });
-		Collision->GetTransform().SetLocalPosition({ 0.0f, -45.0f, -100.0f });
+		Collision->GetTransform().SetWorldScale({ 32.0f, 64.0f, -100.0f });
+		Collision->GetTransform().SetWorldPosition({ 0.0f, -45.0f, -100.0f });
 		Collision->ChangeOrder(OBJECTORDER::Portal);
 	}
 }
