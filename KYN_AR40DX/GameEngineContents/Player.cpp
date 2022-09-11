@@ -27,6 +27,7 @@ Player::Player()
 	, PlayerLevelUp(nullptr)
 	, PlayerAtt(10)
 	, JumpPower(500.0f)
+	, Dir(float4::RIGHT)
 {
 	MainPlayer = this;
 	Speed = 150.0f;
@@ -181,6 +182,8 @@ void Player::IdleStart(const StateInfo& _Info)
 	PrevState = StateManager.GetCurStateStateName();
 	Speed = GroundMoveSpeed;
 
+	MovePower = float4::ZERO;
+
 	if (Hit == false)
 	{
 		//평소엔 idle애니메이션
@@ -191,8 +194,6 @@ void Player::IdleStart(const StateInfo& _Info)
 		//맞았으면 Alert
 		Renderer->ChangeFrameAnimation("Alert");
 	}
-
-	MovePower = float4::ZERO;
 }
 void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 {
@@ -489,6 +490,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
 	{	
+		Dir = float4::RIGHT;
 		AttackCollision->GetTransform().SetLocalPosition({ 35.0f,35.0f });
 		MovePower.x = Speed;
 		Renderer->GetTransform().PixLocalNegativeX();
@@ -497,6 +499,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
 	{	
+		Dir = float4::LEFT;
 		AttackCollision->GetTransform().SetLocalPosition({ -35.0f,35.0f });
 		MovePower.x = -Speed;
 		Renderer->GetTransform().PixLocalPositiveX();
@@ -944,10 +947,13 @@ bool Player::PlayerHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 	Renderer->ChangeFrameAnimation("Jump");
 	Speed = JumpMoveSpeed;
 	MovePower += float4::UP * (JumpPower * 0.5f);
-	MovePower.x = -Dir.x * 2.0f;
+	MovePower.x = -Dir.x * Speed;
 	Collision->Off();
 	Hit = true;
-	StateManager.ChangeState("Idle");
+	if (HitTime >= 0.2f)
+	{
+		StateManager.ChangeState("Idle");
+	}
 
 	//뒤로 펄쩍 뛰고 Alert상태
 	//StateManager.ChangeState("Alert");
