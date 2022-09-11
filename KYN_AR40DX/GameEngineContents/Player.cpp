@@ -935,6 +935,8 @@ bool Player::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 {	
 	//플레이어의 공격력 만큼 상대의 HP가 깎이고 0이되면 죽는다
 	//_Other->GetActor()->Death();
+
+	//플레이어의 공격력을 가져와 몬스터 액터에 그 숫자(데미지)를 머리위에 띄운다
 	DamageNumber* tmp = _Other->GetActor()->GetLevel()->CreateActor<DamageNumber>();
 	float4 Pos = _Other->GetActor()->GetTransform().GetWorldPosition();
 	tmp->GetTransform().SetWorldPosition({ Pos.x,Pos.y+32,-400});
@@ -944,21 +946,34 @@ bool Player::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 
 bool Player::PlayerHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
-	Speed = GroundMoveSpeed;
-	MovePower += float4::UP * (JumpPower * 0.5f);
-	MovePower.x = -Dir.x * Speed;
-	Collision->Off();
-	Hit = true;
-	if (HitTime >= 0.2f)
 	{
-		StateManager.ChangeState("Idle");
+		//플레이어 폴짝뛰면서 뒤로 후퇴
+		Speed = GroundMoveSpeed;
+		MovePower += float4::UP * (JumpPower * 0.5f);
+		MovePower.x = -Dir.x * Speed;
+		Collision->Off();
+		Hit = true;
+		if (HitTime >= 0.2f)
+		{
+			StateManager.ChangeState("Idle");
+		}
 	}
 
-	//뒤로 펄쩍 뛰고 Alert상태
-	//StateManager.ChangeState("Alert");
-	HitDamage = Mob.GetDamage();
-	CurHP = CurHP - HitDamage;
-	HitCheck = true;
+	{
+		//피격시 내 머리위에 데미지 띄움
+		DamageNumber* tmp = _This->GetActor()->GetLevel()->CreateActor<DamageNumber>();
+		float4 Pos = _This->GetActor()->GetTransform().GetWorldPosition();
+		tmp->GetTransform().SetWorldPosition({ Pos.x,(Pos.y + 32),-400});
+		tmp->NumberSetting(HitDamage);
+	}
+
+	{
+		//몬스터의 공격력을 가져와 내 체력에서 뺌
+		//StateManager.ChangeState("Alert");
+		HitDamage = Mob.GetDamage();
+		CurHP = CurHP - HitDamage;
+		HitCheck = true;
+	}
 	return true;
 }
 

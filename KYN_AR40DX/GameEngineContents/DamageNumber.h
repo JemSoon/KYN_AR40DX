@@ -27,5 +27,7 @@ private:
 	int nDamageOne;
 	int nDamageTen;
 	int nDamageHun;
+
+	float Time;
 };
 

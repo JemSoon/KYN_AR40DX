@@ -1,9 +1,10 @@
 #include "DamageNumber.h"
 
-DamageNumber::DamageNumber() 
-	:nDamageOne(0)
-	,nDamageTen(0)
-	,nDamageHun(0)
+DamageNumber::DamageNumber()
+	: nDamageOne(0)
+	, nDamageTen(0)
+	, nDamageHun(0)
+	, Time(0.0f)
 {
 }
 
@@ -32,6 +33,20 @@ void DamageNumber::Start()
 
 void DamageNumber::Update(float _DeltaTime)
 {
+	Time += (GameEngineTime::GetDeltaTime()*10.0f);
+
+	NumOne->GetTransform().SetLocalPosition({ 25, 64 + Time,-400 });
+	NumTen->GetTransform().SetLocalPosition({ 0, 59 + Time,-400 });
+	NumHun->GetTransform().SetLocalPosition({ -25, 64 + Time,-400 });
+
+	NumOne->GetPixelData().MulColor.a -= _DeltaTime;
+	NumTen->GetPixelData().MulColor.a -= _DeltaTime;
+	NumHun->GetPixelData().MulColor.a -= _DeltaTime;
+
+	if (Time >= 10.0f)
+	{
+		this->Death();
+	}
 }
 
 void DamageNumber::NumberSetting(int _Damage)
