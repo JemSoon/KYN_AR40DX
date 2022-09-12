@@ -16,7 +16,7 @@ PortalObject::~PortalObject()
 void PortalObject::Start()
 {
 	Portal = CreateComponent<GameEngineTextureRenderer>();
-	Portal->GetTransform().SetLocalScale({ 90, 201, 1 });
+	Portal->GetTransform().SetWorldScale({ 90, 201, 1 });
 	Portal->SetTexture("Portal.png");
 
 	std::vector<unsigned int> Four = { 0, 1, 2, 3 };

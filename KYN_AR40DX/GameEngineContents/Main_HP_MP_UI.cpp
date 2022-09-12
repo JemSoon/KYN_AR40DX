@@ -105,16 +105,30 @@ void Main_HP_MP_UI::Update(float _DeltaTime)
 
 void Main_HP_MP_UI::HPSetting()
 {
-	if (PlayerInfo->HitCheck == true)
 	{
-		//부딪혔을때 HP+Hit하지않으면 처음부터 HP+Hit하면 오버해버림
-		//HPbarMaxSize = PlayerInfo->CurHP + Hit;//이게 원본인데 플레이어 체력비례로 만들기↓
-		HPbarMaxSize = (171 * (PlayerInfo->CurHP + Hit)) / PlayerInfo->HPMax;
-		Hit = Hit - GameEngineTime::GetDeltaTime();
-		if (HPbarMaxSize <= 0)
+		if (PlayerInfo->HitCheck == true)
 		{
-			//HP바를 오버해서 깎지 않게끔
-			Hit = 0;
+			//부딪혔을때 HP+Hit하지않으면 처음부터 HP+Hit하면 오버해버림
+			//HPbarMaxSize = PlayerInfo->CurHP + Hit;//이게 원본인데 플레이어 체력비례로 만들기↓
+			HPbarMaxSize = (171 * (PlayerInfo->CurHP + Hit)) / PlayerInfo->HPMax;
+			Hit = Hit - GameEngineTime::GetDeltaTime();
+			if (HPbarMaxSize <= 0)
+			{
+				//HP바를 오버해서 깎지 않게끔
+				Hit = 0;
+			}
+		}
+
+		else
+		{
+			//else안해주면 레벨넘어갈대 체크안해서 풀피처럼 보임
+			HPbarMaxSize = (171 * (PlayerInfo->CurHP)) / PlayerInfo->HPMax;
+
+			if (HPbarMaxSize <= 0)
+			{
+				//HP바를 오버해서 깎지 않게끔
+				Hit = 0;
+			}
 		}
 	}
 

@@ -79,9 +79,6 @@
       <Filter>PreCompile</Filter>
     </ClInclude>
     <ClInclude Include="GlobalContentsValue.h" />
-    <ClInclude Include="Monster.h">
-      <Filter>Actor\Monster</Filter>
-    </ClInclude>
     <ClInclude Include="Sugar.h">
       <Filter>Actor\NPC</Filter>
     </ClInclude>
@@ -114,6 +111,12 @@
     </ClInclude>
     <ClInclude Include="DamageNumber.h">
       <Filter>Actor\DamageFontRender</Filter>
+    </ClInclude>
+    <ClInclude Include="BossMano.h">
+      <Filter>Actor\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>Actor\Monster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -171,6 +174,9 @@
     </ClCompile>
     <ClCompile Include="DamageNumber.cpp">
       <Filter>Actor\DamageFontRender</Filter>
+    </ClCompile>
+    <ClCompile Include="BossMano.cpp">
+      <Filter>Actor\Monster</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

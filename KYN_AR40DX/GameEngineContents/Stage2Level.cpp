@@ -24,19 +24,18 @@ Stage2Level::~Stage2Level()
 
 void Stage2Level::Start()
 {
-	if (false == GameEngineInput::GetInst()->IsKey("MapOffSwitch"))
-	{
-		GameEngineInput::GetInst()->CreateKey("MapOffSwitch", 'I');
-	}
-
 	{
 		Camera = GetMainCameraActor();
 		Camera->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
 		Camera->GetTransform().SetWorldPosition({ 0,0,-500.0f });
 	}
 
-	CreateStageObject("Stage2_BG.png", "Stage2_Col.png", "Stage2.png");
+	if (false == GameEngineInput::GetInst()->IsKey("MapOffSwitch"))
+	{
+		GameEngineInput::GetInst()->CreateKey("MapOffSwitch", 'I');
+	}
 
+	CreateStageObject("Stage2_BG.png", "Stage2_Col.png", "Stage2.png");
 
 	{
 		Monster* actor = CreateActor<Monster>(OBJECTORDER::Monster);
@@ -51,7 +50,7 @@ void Stage2Level::Start()
 
 	{
 		Portal = CreateActor<PortalObject>(OBJECTORDER::Portal);
-		Portal->GetTransform().SetWorldPosition({ 1285.0f,-428.0f, 0.0f });
+		Portal->GetTransform().SetWorldPosition({ 1285.0f,-428.0f, -20.0f });
 	}
 }
 
@@ -59,13 +58,15 @@ void Stage2Level::Update(float _DeltaTime)
 {	
 	if (false == Camera->IsFreeCameraMode())
 	{	//프리카메라 모드가 아닐때만 카메라가 플레이어를 쫓아다니고 맵 범위 안으로 카메라가 제한된다
-		CameraChase();
+		CameraChase(_DeltaTime);
 		CameraRange();
 	}
 
 	SetMapOnOffSwitch();
 
 	NextStage();
+
+	float4 PlayerPos = NewPlayer->GetTransform().GetWorldPosition();
 }
 
 void Stage2Level::End()
@@ -79,28 +80,34 @@ void Stage2Level::LevelStartEvent()
 		{
 			NewPlayer = CreateActor<Player>(OBJECTORDER::Player);
 			NewPlayer->SetLevelOverOn();
-			NewPlayer->GetTransform().SetWorldPosition({ 200.0f, -500.0f, 0.0f });
+			NewPlayer->GetTransform().SetWorldPosition({ 200.0f, -500.0f, -1000.0f });
 		}
 
 		else if (nullptr == NewPlayer)
 		{
 			NewPlayer = Player::GetMainPlayer();
-			NewPlayer->GetTransform().SetWorldPosition({ 200.0f, -500.0f, 0.0f });
+			NewPlayer->GetTransform().SetWorldPosition({ 200.0f, -500.0f, -1000.0f });
 		}
 
 		else if (nullptr != NewPlayer)
 		{
 			//이미 다 만들어져 있다==다른맵에서 왔을때(얘는 왜 z값 앞으로 안땡겨주면 사라짐?)
-			NewPlayer->GetTransform().SetWorldPosition({ 100, -500.0f, 0.0f });
+			NewPlayer->GetTransform().SetWorldPosition({ 100, -500.0f, -1000.0f });
 		}
 
 	}
 }
 
-void Stage2Level::CameraChase()
+void Stage2Level::CameraChase(float _Delta)
 {
 	//레벨이 만들어지고 액터가만들어져서 Player에 만들어두면 레벨에서0으로 설정해도 액터넘어가면서 다시 값이바뀌어서 작동이 안된다. 
-	Camera->GetLevel()->GetMainCameraActorTransform().SetLocalPosition({ NewPlayer->GetTransform().GetLocalPosition() });
+	//Camera->GetLevel()->GetMainCameraActorTransform().SetLocalPosition({ NewPlayer->GetTransform().GetLocalPosition() });
+
+	float4 f4CurrentPosition = Camera->GetTransform().GetWorldPosition();
+	float4 f4DestinationPosition = NewPlayer->GetTransform().GetWorldPosition();
+	float4 f4MoveToPosition = float4::Lerp(f4CurrentPosition, f4DestinationPosition, _Delta * 10.f);
+
+	Camera->GetTransform().SetWorldPosition(f4MoveToPosition);
 }
 
 void Stage2Level::NextStage()
