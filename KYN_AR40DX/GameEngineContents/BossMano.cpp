@@ -25,6 +25,7 @@ BossMano::~BossMano()
 
 void BossMano::Start()
 {
+	CharacterObject::Start();
 
 	Renderer = CreateComponent<GameEngineTextureRenderer>();
 	Renderer->GetTransform().SetLocalScale({ 256, 256, 1 });
