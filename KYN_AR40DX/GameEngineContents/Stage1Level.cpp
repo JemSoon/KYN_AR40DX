@@ -9,6 +9,7 @@
 #include "Monster.h"
 #include "StageObject.h"
 #include "Sugar.h"
+#include "BossMano.h"
 
 Stage1Level::Stage1Level()
 	: Camera(nullptr)
@@ -46,6 +47,9 @@ void Stage1Level::Start()
 
 			Monster* actor2 = CreateActor<Monster>(OBJECTORDER::Monster);
 			actor2->GetTransform().SetLocalPosition({ 1300.0f, -1005.0f, 0.0f });
+
+			BossMano* actor3 = CreateActor<BossMano>(OBJECTORDER::Monster);
+			actor3->GetTransform().SetLocalPosition({ 1100.0f, -1005.0f, 0.0f });
 		}
 
 		{

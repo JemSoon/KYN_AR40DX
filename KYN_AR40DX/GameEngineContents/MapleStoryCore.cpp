@@ -79,11 +79,18 @@ void MapleStoryCore::Start()
 	}
 	
 	{	//몬스터
-		GameEngineTexture::Cut("stand.png", 2, 1); 
+
+		//주황버섯
+		GameEngineTexture::Cut("stand.png", 2, 1);
+
+		//달팽이
 		GameEngineTexture::Cut("snail_stand.png", 1, 1);
 		GameEngineTexture::Cut("snail_move.png", 5, 1);
 		GameEngineTexture::Cut("snail_hit.png", 1, 1);
 		GameEngineTexture::Cut("snail_die.png", 9, 1);
+
+		//마노(보스)
+		GameEngineTexture::Cut("mano_idle.png", 9, 1);
 	}
 
 	{	//스테이지 컷

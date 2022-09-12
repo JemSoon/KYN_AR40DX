@@ -1,11 +1,11 @@
 #pragma once
-#include "Monster.h"
+#include "CharacterObject.h"
 
 //선생님은 생략된 것들도 명시적으로 칠 것이다
 //직접 만들지 않아도 자동으로 생략되어 생성되 있는것들
 
 //설명 : 보스 달팽이 마노
-class BossMano : public Monster
+class BossMano : public CharacterObject
 {
 public:
 	//디폴트 생성자
@@ -23,10 +23,54 @@ public:
 	BossMano& operator=(const BossMano& _Other) = delete;
 	BossMano& operator=(BossMano&& _Other) noexcept = delete;
 
+	bool BossManoHit(GameEngineCollision* _This, GameEngineCollision* _Other);
+
+	int GetDamage()
+	{
+		return Damage;
+	}
+	int SetDamage(int _Att)
+	{
+		Damage = _Att;
+		return Damage;
+	}
+	int GetHP()
+	{
+		return HP;
+	}
 
 protected:
+	void Start() override;
+	void Update(float _DeltaTime);
+	void End() {}
+
+	void IdleStart(const StateInfo& _Info);
+	void IdleUpdate(float _DeltaTime, const StateInfo& _Info);
+
+	void MoveStart(const StateInfo& _Info);
+	void MoveUpdate(float _DeltaTime, const StateInfo& _Info);
+
+	void HitStart(const StateInfo& _Info);
+	void HitUpdate(float _DeltaTime, const StateInfo& _Info);
+
+	void DeadStart(const StateInfo& _Info);
+	void DeadUpdate(float _DeltaTime, const StateInfo& _Info);
+
+	void ChaseStart(const StateInfo& _Info);
+	void ChaseUpdate(float _DeltaTime, const StateInfo& _Info);
+
+	void DieEnd();
 
 private:
+	GameEngineStateManager StateManager;
+	DamageNumber* Num;
+	Player* PlayerInfo;
 
+	int Damage;
+	float PatternTime;
+	int Random;
+	int RandomDir;
+	int HP;
+	bool Hit;
 };
 
