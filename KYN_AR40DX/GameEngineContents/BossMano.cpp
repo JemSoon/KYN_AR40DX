@@ -32,8 +32,15 @@ void BossMano::Start()
 	Renderer->SetTexture("mano_idle.png");
 
 	std::vector<unsigned int> Nine = { 0,1,2,3,4,5,6,7,8 };
+	std::vector<unsigned int> Ten = { 0,1,2,3,4,5,6,7,8,9 };
+	std::vector<unsigned int> Six = { 0,1,2,3,4,5 };
+	std::vector<unsigned int> One = { 0};
 
 	Renderer->CreateFrameAnimationCutTexture("Idle", FrameAnimation_DESC("mano_idle.png", Nine, 0.2f));
+	Renderer->CreateFrameAnimationCutTexture("Move", FrameAnimation_DESC("mano_move.png", Six, 0.2f));
+	Renderer->CreateFrameAnimationCutTexture("Die", FrameAnimation_DESC("mano_die.png", Nine, 0.2f));
+	Renderer->CreateFrameAnimationCutTexture("Buff", FrameAnimation_DESC("mano_skill1.png", Ten, 0.2f));
+	Renderer->CreateFrameAnimationCutTexture("Hit", FrameAnimation_DESC("mano_hit.png", One, 0.2f, false));
 
 	Renderer->ChangeFrameAnimation("Idle");
 	Renderer->SetPivot(PIVOTMODE::BOT);
@@ -115,7 +122,7 @@ void BossMano::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void BossMano::MoveStart(const StateInfo& _Info)
 {
-	//Renderer->ChangeFrameAnimation("Move");
+	Renderer->ChangeFrameAnimation("Move");
 	Random = GameEngineRandom::MainRandom.RandomInt(1, 2);
 	RandomDir = Random = GameEngineRandom::MainRandom.RandomInt(1, 2);
 }
@@ -210,6 +217,10 @@ void BossMano::HitStart(const StateInfo& _Info)
 
 void BossMano::HitUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	Gravity(_DeltaTime);
+	ColorCheckUpdate();
+	ColorCheckUpdateNext(MovePower);
+
 	PatternTime += GameEngineTime::GetDeltaTime();
 	MovePower.x = (PlayerInfo->GetDirX()) * 0.5f;
 	GetTransform().SetWorldMove(MovePower);
@@ -226,7 +237,7 @@ void BossMano::DeadStart(const StateInfo& _Info)
 {
 	PlayerInfo->CurEXP += 5;//달팽이는 5의 경험치를 준다
 	MovePower = 0.0f;
-	//Renderer->ChangeFrameAnimation("Die");
+	Renderer->ChangeFrameAnimation("Die");
 	Collision->Off();
 }
 
@@ -236,7 +247,7 @@ void BossMano::DeadUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void BossMano::ChaseStart(const StateInfo& _Info)
 {
-	//Renderer->ChangeFrameAnimation("Move");
+	Renderer->ChangeFrameAnimation("Move");
 	Speed = 25.0f;
 }
 

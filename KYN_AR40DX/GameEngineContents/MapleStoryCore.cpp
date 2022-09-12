@@ -91,6 +91,10 @@ void MapleStoryCore::Start()
 
 		//마노(보스)
 		GameEngineTexture::Cut("mano_idle.png", 9, 1);
+		GameEngineTexture::Cut("mano_die.png", 9, 1);
+		GameEngineTexture::Cut("mano_move.png", 6, 1);
+		GameEngineTexture::Cut("mano_skill1.png", 10, 1);
+		GameEngineTexture::Cut("mano_hit.png", 1, 1);
 	}
 
 	{	//스테이지 컷
