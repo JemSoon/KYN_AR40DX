@@ -1,9 +1,9 @@
 #include "Monster.h"
 
 Monster::Monster()
-	:MonsterAtt(0)
-	,MonsterCurHP(0)
-	,MonsterHPMax(0)
+	:MonsterAtt(1)
+	,MonsterCurHP(1)
+	,MonsterHPMax(1)
 	,HPRenderer(nullptr)
 	,HPbarRenderer(nullptr)
 {

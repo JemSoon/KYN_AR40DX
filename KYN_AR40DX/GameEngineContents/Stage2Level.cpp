@@ -5,7 +5,7 @@
 #include <GameEngineCore/GameEngineCameraActor.h>
 #include <GameEngineBase/GameEngineInput.h>
 #include "Player.h"
-#include "Monster.h"
+#include "Snail.h"
 #include "Sugar.h"
 #include "StageObject.h"
 
@@ -38,7 +38,7 @@ void Stage2Level::Start()
 	CreateStageObject("Stage2_BG.png", "Stage2_Col.png", "Stage2.png");
 
 	{
-		Monster* actor = CreateActor<Monster>(OBJECTORDER::Monster);
+		Snail* actor = CreateActor<Snail>(OBJECTORDER::Monster);
 		actor->GetTransform().SetLocalPosition({ 1000.0f, -500.0f, 0.0f });
 	}
 
