@@ -42,7 +42,7 @@ Player::~Player()
 
 void Player::Start()
 {
-	HitDamage = Mob.GetDamage();
+	HitDamage = Mob.GetAtt();
 
 	CharacterObject::Start();
 
@@ -962,7 +962,7 @@ bool Player::PlayerHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 	{
 		//몬스터의 공격력을 가져와 내 체력에서 뺌
 		//StateManager.ChangeState("Alert");
-		HitDamage = _Other->GetActor<Monster>()->GetDamage();
+		HitDamage = _Other->GetActor<Monster>()->GetAtt();
 		CurHP = CurHP - HitDamage;
 		HitCheck = true;
 	}

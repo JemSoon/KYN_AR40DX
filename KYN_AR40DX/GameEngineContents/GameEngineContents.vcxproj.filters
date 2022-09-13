@@ -55,6 +55,9 @@
     <Filter Include="Actor\DamageFontRender">
       <UniqueIdentifier>{b841ab4a-dfc9-4699-87c5-8e50d8273bc0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\Monster\ParentMonster">
+      <UniqueIdentifier>{ac52ceeb-f133-4010-9bd5-937e727771fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MapleStoryCore.h">
@@ -115,8 +118,11 @@
     <ClInclude Include="BossMano.h">
       <Filter>Actor\Monster</Filter>
     </ClInclude>
-    <ClInclude Include="Monster.h">
+    <ClInclude Include="Snail.h">
       <Filter>Actor\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>Actor\Monster\ParentMonster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -142,7 +148,7 @@
       <Filter>PreCompile</Filter>
     </ClCompile>
     <ClCompile Include="GlobalContentsValue.cpp" />
-    <ClCompile Include="Monster.cpp">
+    <ClCompile Include="Snail.cpp">
       <Filter>Actor\Monster</Filter>
     </ClCompile>
     <ClCompile Include="Sugar.cpp">
@@ -177,6 +183,9 @@
     </ClCompile>
     <ClCompile Include="BossMano.cpp">
       <Filter>Actor\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>Actor\Monster\ParentMonster</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
