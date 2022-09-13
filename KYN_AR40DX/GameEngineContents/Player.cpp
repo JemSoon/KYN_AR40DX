@@ -29,6 +29,7 @@ Player::Player()
 	, JumpPower(500.0f)
 	, Dir(float4::RIGHT)
 	, RIP(nullptr)
+	, MonsterCount(0)
 {
 	MainPlayer = this;
 	Speed = 150.0f;
@@ -158,9 +159,6 @@ void Player::Start()
 	StateManager.CreateStateMember("DownJump"
 		, std::bind(&Player::DownJumpUpdate, this, std::placeholders::_1, std::placeholders::_2)
 		, std::bind(&Player::DownJumpStart, this, std::placeholders::_1));
-	StateManager.CreateStateMember("Alert"
-		, std::bind(&Player::AlertUpdate, this, std::placeholders::_1, std::placeholders::_2)
-		, std::bind(&Player::AlertStart, this, std::placeholders::_1));
 	StateManager.CreateStateMember("Dead"
 		, std::bind(&Player::DeadUpdate, this, std::placeholders::_1, std::placeholders::_2)
 		, std::bind(&Player::DeadStart, this, std::placeholders::_1));
@@ -358,7 +356,7 @@ void Player::AttackUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::AttackEnd()
 {
-	OneAtt =  false;
+	MonsterCount = 0;
 
 	if (true == GameEngineInput::GetInst()->IsFree("PlayerAttack"))
 	{
@@ -792,97 +790,6 @@ void Player::DownJumpUpdate(float _DeltaTime, const StateInfo& _Info)
 		StateManager.ChangeState("Idle");
 		return;
 	}
-
-	//GetTransform().SetWorldMove(MovePower);
-
-	//if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE))
-	//{	
-	//}
-
-	//else if (MovePower.y > 0 || true == IsNextColor(COLORCHECKDIR::DOWN, float4::BLUE))
-	//{
-	//	GetTransform().SetWorldMove(MovePower);
-	//}
-
-	//else
-	//{
-	//	MovePower = float4::ZERO;
-	//}
-
-}
-
-void Player::AlertStart(const StateInfo& _Info)
-{
-	MovePower.x = 0.0f;
-
-	PrevState = StateManager.GetCurStateStateName();
-
-	if(Hit==false)
-	{
-		Renderer->ChangeFrameAnimation("Jump");
-		Speed = JumpMoveSpeed;
-		MovePower += float4::UP * (JumpPower * 0.5f);
-		MovePower.x = -Dir.x * 2.0f;
-		Collision->Off();
-		Hit = true;
-	}
-
-}
-
-void Player::AlertUpdate(float _DeltaTime, const StateInfo& _Info)
-{
-	Gravity(_DeltaTime);
-	ColorCheckUpdate();
-	ColorCheckUpdateNext(MovePower);
-
-	if (true == GameEngineInput::GetInst()->IsPress("PlayerJump"))
-	{
-		StateManager.ChangeState("Jump");
-	}
-	//
-	//if ((true == GameEngineInput::GetInst()->IsPress("PlayerLeft") ||
-	//	true == GameEngineInput::GetInst()->IsPress("PlayerRight")) &&
-	//	false == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE)&&MovePower.y<=0)
-	//{
-	//	StateManager.ChangeState("Move");
-	//}
-	//
-	//if ((false == GameEngineInput::GetInst()->IsPress("PlayerLeft") &&
-	//	false == GameEngineInput::GetInst()->IsPress("PlayerRight")) &&
-	//	false == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE)&&MovePower.y==0)
-	//{
-	//	Speed = 150.0f;
-	//	Renderer->ChangeFrameAnimation("Alert");
-	//}
-	//
-	//AlertToIdle();
-
-	//if (true == GameEngineInput::GetInst()->IsPress("PlayerAttack"))
-	//{
-	//	StateManager.ChangeState("Attack");
-	//}
-	//
-	//if (true == GameEngineInput::GetInst()->IsPress("PlayerUp") &&
-	//	true == IsNextColor(COLORCHECKDIR::DOWN, float4::BLUE))
-	//{
-	//	StateManager.ChangeState("Sadari");
-	//}
-
-	//if (true == GameEngineInput::GetInst()->IsPress("PlayerDown") &&
-	//	true == IsNextColor(COLORCHECKDIR::DOWN, float4::RED))
-	//{
-	//	StateManager.ChangeState("Sadari");
-	//}
-
-	////GetTransform().SetWorldMove(MovePower);
-
-	//if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::BLUE))
-	//{
-	//	return;
-	//}
-	
-	NoGravity();
-	return;
 }
 
 //==============================================================================//
@@ -898,11 +805,6 @@ void Player::Update(float _DeltaTime)
 	if (true == GetLevel()->GetMainCameraActor()->IsFreeCameraMode())
 	{	//프리카메라 모드일땐 카메라가 플레이어 안움직이게 여기서 리턴
 		return;
-	}
-
-	if (OneAtt == true)
-	{
-		AttackCollision->Off();
 	}
 
 	// 색깔 체크하고
@@ -948,15 +850,26 @@ void Player::Update(float _DeltaTime)
 
 bool Player::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 {	
-	//플레이어의 공격력 만큼 상대의 HP가 깎이고 0이되면 죽는다
-	//_Other->GetActor()->Death();
-
-	//플레이어의 공격력을 가져와 몬스터 액터에 그 숫자(데미지)를 머리위에 띄운다
-	DamageNumber* tmp = _Other->GetActor()->GetLevel()->CreateActor<DamageNumber>();
-	float4 Pos = _Other->GetActor()->GetTransform().GetWorldPosition();
-	tmp->GetTransform().SetWorldPosition({ Pos.x,Pos.y+32,-400});
-	tmp->NumberSetting(PlayerAtt);
-	return true;
+	if (MonsterCount <= 1)
+	{	
+		//몬스터를 한마리 쳤을때만 띄운다
+		//플레이어의 공격력을 가져와 몬스터 액터에 그 숫자(데미지)를 머리위에 띄운다
+		DamageNumber* tmp = _Other->GetActor()->GetLevel()->CreateActor<DamageNumber>();
+		float4 Pos = _Other->GetActor()->GetTransform().GetWorldPosition();
+		tmp->GetTransform().SetWorldPosition({ Pos.x,Pos.y + 32,-400 });
+		tmp->NumberSetting(PlayerAtt);
+	}
+	
+	if (MonsterCount <= 1)
+	{
+		//충돌이 한마리 이하면 true
+		return true;
+	}
+	else
+	{
+		//그 외엔 false
+		return false;
+	}
 }
 
 bool Player::PlayerHit(GameEngineCollision* _This, GameEngineCollision* _Other)

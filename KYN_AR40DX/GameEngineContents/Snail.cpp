@@ -191,30 +191,14 @@ void Snail::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 
 	NoGravity();
-
-	//if (((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g >= 200 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].r == 0 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].b == 0) &&//다운이 그린
-	//	iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].g >= 200 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].r == 0 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].b == 0) &&//왼이 그린
-	//	iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFTTOP)].g == 255 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFTTOP)].r == 255 && iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFTTOP)].b == 255)//왼탑이 화이트
-	//{	//언덕길은 위로 올리는힘이 추가
-	//	MovePower += (GetTransform().GetUpVector() * Speed * _DeltaTime);
-	//}
-
-	//if (((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].g < 200) || (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].g == 255 && (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::LEFT)].r == 255))) &&
-	//	((iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].g < 200) || (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].g == 255 && (iNextColorCheck[static_cast<unsigned int>(COLORCHECKDIR::RIGHT)].r == 255))))
-	//{
-	//	//양옆이 벽이 아니라면 움직인다
-	//	GetTransform().SetWorldMove(MovePower);
-	//}
+	return;
 }
 
 void Snail::HitStart(const StateInfo& _Info)
 {
 	PatternTime = 0.0f;
-	if (PlayerInfo->OneAtt == true )
 	{
 		Renderer->ChangeFrameAnimation("Hit");
-
-		//MovePower.x = (PlayerInfo->GetDirX()) * 0.5f;
 
 		{
 			//맞아서 보는 방향 설정
@@ -233,16 +217,20 @@ void Snail::HitStart(const StateInfo& _Info)
 
 void Snail::HitUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	Gravity(_DeltaTime);
+	ColorCheckUpdate();
+	ColorCheckUpdateNext(MovePower);
+
 	PatternTime += GameEngineTime::GetDeltaTime();
-	MovePower.x = (PlayerInfo->GetDirX()) * 0.5f;
-	GetTransform().SetWorldMove(MovePower);
+	MovePower.x = (PlayerInfo->GetDirX()) *25.0f;
 	
 	if (PatternTime >= 0.5f)
 	{
 		StateManager.ChangeState("Chase");
 	}
-	
+
 	NoGravity();
+	return;
 }
 
 void Snail::DeadStart(const StateInfo& _Info)
@@ -275,17 +263,18 @@ void Snail::ChaseUpdate(float _DeltaTime, const StateInfo& _Info)
 	
 	if (Distance < 0)
 	{
-		MovePower = GetTransform().GetLeftVector() * Speed;
+		MovePower.x = -Speed;
 		Renderer->GetTransform().PixLocalPositiveX();
 	}
 
 	else if (Distance > 0)
 	{
-		MovePower = GetTransform().GetRightVector() * Speed;
+		MovePower.x = Speed;
 		Renderer->GetTransform().PixLocalNegativeX();
 	}
 
 	NoGravity();
+	return;
 }
 
 //====================================================================================//
@@ -296,11 +285,6 @@ void Snail::ChaseUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Snail::Update(float _DeltaTime)
 {
-	//if (PlayerInfo == nullptr)
-	//{
-	//	PlayerInfo = Player::GetMainPlayer();
-	//}
-
 	Monster::Update(_DeltaTime);
 
 	ColorCheckUpdate();
@@ -319,29 +303,39 @@ void Snail::Update(float _DeltaTime)
 
 bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
+	//충돌한 몬스터만큼 ++
+	PlayerInfo->MonsterCount += 1;
+
 	Damage = PlayerInfo->GetPlayerAtt();
 
-	if (PlayerInfo->OneAtt == false)
+	if (PlayerInfo->MonsterHit(PlayerInfo->GetCollision(), this->GetCollision()) == true)
 	{
+		//플레이어 충돌 판정true시에만 피를 깐다
 		MonsterCurHP = MonsterCurHP - Damage;
-		PlayerInfo->OneAtt = true;
 	}
 
-	//StateManager.ChangeState("Hit");
-	
 	if (MonsterCurHP <= 0)
 	{
 		MonsterCurHP = 0;
 		StateManager.ChangeState("Dead");
-		//_This->GetActor()->Death();
 	}
 
 	else
 	{
-		StateManager.ChangeState("Hit");
-	}
+		//else 안걸어주면 몬스터가 안죽는다
+		if (PlayerInfo->MonsterHit(PlayerInfo->GetCollision(), this->GetCollision()) == true)
+		{
+			//한마리 판정이 true면 Hit상태 당첨이고 충돌역시 true
+			StateManager.ChangeState("Hit");
+			return true;
+		}
 
-	return true;
+		else
+		{
+			//아니라면 아닌거
+			return false;
+		}
+	}
 }
 
 void Snail::DieEnd()

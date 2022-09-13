@@ -58,11 +58,13 @@ public:
 	int EXPMax;
 	int CurEXP;
 	int PlayerLevel;
-	bool OneAtt;
+	//bool OneAtt;
 	bool IsLevelUp;
 	float GroundMoveSpeed;
 	float JumpMoveSpeed;
 	float JumpPower;
+
+	int MonsterCount;
 
 	void Dead();
 	void LevelUp();
@@ -100,8 +102,6 @@ protected:
 	void DownJumpStart(const StateInfo& _Info);
 	void DownJumpUpdate(float _DeltaTime, const StateInfo& _Info);
 
-	void AlertStart(const StateInfo& _Info);
-	void AlertUpdate(float _DeltaTime, const StateInfo& _Info);
 	//==========================================================//
 	//==========================================================//
 	void AttackEnd();

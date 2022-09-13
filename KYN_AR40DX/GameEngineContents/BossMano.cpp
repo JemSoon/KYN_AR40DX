@@ -16,7 +16,7 @@ BossMano::BossMano()
 	Speed = 25;
 
 	MonsterAtt = 40;
-	MonsterHPMax = 6250;
+	MonsterHPMax = 250;
 	MonsterCurHP = MonsterHPMax;
 }
 
@@ -40,7 +40,7 @@ void BossMano::Start()
 
 	Renderer->CreateFrameAnimationCutTexture("Idle", FrameAnimation_DESC("mano_idle.png", Nine, 0.2f));
 	Renderer->CreateFrameAnimationCutTexture("Move", FrameAnimation_DESC("mano_move.png", Six, 0.2f));
-	Renderer->CreateFrameAnimationCutTexture("Die", FrameAnimation_DESC("mano_die.png", Nine, 0.2f));
+	Renderer->CreateFrameAnimationCutTexture("Die", FrameAnimation_DESC("mano_die.png", Nine, 0.2f, false));
 	Renderer->CreateFrameAnimationCutTexture("Buff", FrameAnimation_DESC("mano_skill1.png", Ten, 0.2f));
 	Renderer->CreateFrameAnimationCutTexture("Hit", FrameAnimation_DESC("mano_hit.png", One, 0.2f, false));
 
@@ -49,7 +49,7 @@ void BossMano::Start()
 
 	{
 		//애니메이션 엔드 관련
-		//Renderer->AnimationBindEnd("Die", std::bind(&BossMano::DieEnd, this));
+		Renderer->AnimationBindEnd("Die", std::bind(&BossMano::DieEnd, this));
 	}
 
 	{
@@ -190,13 +190,13 @@ void BossMano::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 
 	NoGravity();
-
+	return;
 }
 
 void BossMano::HitStart(const StateInfo& _Info)
 {
 	PatternTime = 0.0f;
-	if (PlayerInfo->OneAtt == true)
+	if (PlayerInfo->MonsterHit(PlayerInfo->GetCollision(),this->GetCollision()) == false)
 	{
 		Renderer->ChangeFrameAnimation("Hit");
 
@@ -225,7 +225,6 @@ void BossMano::HitUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	PatternTime += GameEngineTime::GetDeltaTime();
 	MovePower.x = (PlayerInfo->GetDirX()) * 0.5f;
-	GetTransform().SetWorldMove(MovePower);
 
 	if (PatternTime >= 0.5f)
 	{
@@ -233,6 +232,7 @@ void BossMano::HitUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 
 	NoGravity();
+	return;
 }
 
 void BossMano::DeadStart(const StateInfo& _Info)
@@ -265,17 +265,18 @@ void BossMano::ChaseUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (Distance < 0)
 	{
-		MovePower = GetTransform().GetLeftVector() * Speed;
+		MovePower.x = -Speed;
 		Renderer->GetTransform().PixLocalPositiveX();
 	}
 
 	else if (Distance > 0)
 	{
-		MovePower = GetTransform().GetRightVector() * Speed;
+		MovePower.x = Speed;
 		Renderer->GetTransform().PixLocalNegativeX();
 	}
 
 	NoGravity();
+	return;
 }
 
 //====================================================================================//
@@ -309,11 +310,11 @@ bool BossMano::BossManoHit(GameEngineCollision* _This, GameEngineCollision* _Oth
 {
 	Damage = PlayerInfo->GetPlayerAtt();
 
-	if (PlayerInfo->OneAtt == false)
+	/*if (PlayerInfo->OneAtt == false)
 	{
 		MonsterCurHP = MonsterCurHP - Damage;
 		PlayerInfo->OneAtt = true;
-	}
+	}*/
 
 
 	if (MonsterCurHP <= 0)
