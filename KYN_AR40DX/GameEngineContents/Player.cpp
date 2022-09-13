@@ -960,19 +960,19 @@ bool Player::PlayerHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 	}
 
 	{
+		//몬스터의 공격력을 가져와 내 체력에서 뺌
+		//StateManager.ChangeState("Alert");
+		HitDamage = _Other->GetActor<Monster>()->GetDamage();
+		CurHP = CurHP - HitDamage;
+		HitCheck = true;
+	}
+		//계산후 머리위에 띄워야지(순서의 중요성)
+	{
 		//피격시 내 머리위에 데미지 띄움
 		DamageNumber* tmp = _This->GetActor()->GetLevel()->CreateActor<DamageNumber>();
 		float4 Pos = _This->GetActor()->GetTransform().GetWorldPosition();
 		tmp->GetTransform().SetWorldPosition({ Pos.x,(Pos.y + 32),-400});
 		tmp->NumberSetting(HitDamage);
-	}
-
-	{
-		//몬스터의 공격력을 가져와 내 체력에서 뺌
-		//StateManager.ChangeState("Alert");
-		HitDamage = Mob.GetDamage();
-		CurHP = CurHP - HitDamage;
-		HitCheck = true;
 	}
 	return true;
 }

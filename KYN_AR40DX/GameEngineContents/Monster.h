@@ -55,7 +55,6 @@ protected:
 
 	void DieEnd();
 
-private:
 	GameEngineStateManager StateManager;
 	DamageNumber* Num;
 	Player* PlayerInfo;
@@ -66,5 +65,16 @@ private:
 	int RandomDir;
 	int HP;
 	bool Hit;
+private:
+	//GameEngineStateManager StateManager;
+	//DamageNumber* Num;
+	//Player* PlayerInfo;
+
+	//int Damage;
+	//float PatternTime;
+	//int Random;
+	//int RandomDir;
+	//int HP;
+	//bool Hit;
 };
 

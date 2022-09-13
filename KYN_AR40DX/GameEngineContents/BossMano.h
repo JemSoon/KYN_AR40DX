@@ -1,11 +1,11 @@
 #pragma once
-#include "CharacterObject.h"
+#include "Monster.h"
 
 //선생님은 생략된 것들도 명시적으로 칠 것이다
 //직접 만들지 않아도 자동으로 생략되어 생성되 있는것들
 
 //설명 : 보스 달팽이 마노
-class BossMano : public CharacterObject
+class BossMano : public Monster
 {
 public:
 	//디폴트 생성자
@@ -23,28 +23,28 @@ public:
 	BossMano& operator=(const BossMano& _Other) = delete;
 	BossMano& operator=(BossMano&& _Other) noexcept = delete;
 
-	bool BossManoHit(GameEngineCollision* _This, GameEngineCollision* _Other);
+	//bool BossManoHit(GameEngineCollision* _This, GameEngineCollision* _Other);
 
-	int GetDamage()
-	{
-		return Damage;
-	}
-	int SetDamage(int _Att)
-	{
-		Damage = _Att;
-		return Damage;
-	}
-	int GetHP()
-	{
-		return HP;
-	}
+	//int GetDamage()
+	//{
+	//	return Damage;
+	//}
+	//int SetDamage(int _Att)
+	//{
+	//	Damage = _Att;
+	//	return Damage;
+	//}
+	//int GetHP()
+	//{
+	//	return HP;
+	//}
 
 protected:
 	void Start() override;
 	void Update(float _DeltaTime);
 	void End() {}
 
-	void IdleStart(const StateInfo& _Info);
+	/*void IdleStart(const StateInfo& _Info);
 	void IdleUpdate(float _DeltaTime, const StateInfo& _Info);
 
 	void MoveStart(const StateInfo& _Info);
@@ -59,10 +59,10 @@ protected:
 	void ChaseStart(const StateInfo& _Info);
 	void ChaseUpdate(float _DeltaTime, const StateInfo& _Info);
 
-	void DieEnd();
+	void DieEnd();*/
 
 private:
-	GameEngineStateManager StateManager;
+	/*GameEngineStateManager StateManager;
 	DamageNumber* Num;
 	Player* PlayerInfo;
 
@@ -71,6 +71,6 @@ private:
 	int Random;
 	int RandomDir;
 	int HP;
-	bool Hit;
+	bool Hit;*/
 };
 
