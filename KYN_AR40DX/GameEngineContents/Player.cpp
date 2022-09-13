@@ -28,6 +28,7 @@ Player::Player()
 	, PlayerAtt(10)
 	, JumpPower(500.0f)
 	, Dir(float4::RIGHT)
+	, RIP(nullptr)
 {
 	MainPlayer = this;
 	Speed = 150.0f;
@@ -42,8 +43,6 @@ Player::~Player()
 
 void Player::Start()
 {
-	//HitDamage = Mob.GetAtt();
-
 	CharacterObject::Start();
 
 	if (false == GameEngineInput::GetInst()->IsKey("PlayerLeft"))
@@ -59,9 +58,19 @@ void Player::Start()
 	GetTransform().SetLocalScale({ 1, 1, 1 });
 
 	{
+		std::vector<unsigned int> Seven = { 0, 1, 2, 3, 4, 5, 6 };
+
+		RIP = CreateComponent<GameEngineTextureRenderer>();
+		RIP->GetTransform().SetWorldScale({ 128,128,1 });
+		RIP->CreateFrameAnimationCutTexture("RIP", FrameAnimation_DESC("RIP.png", Seven, 0.1f, false));
+		RIP->ChangeFrameAnimation("RIP");
+		RIP->SetPivot(PIVOTMODE::BOT);
+		RIP->Off();
+
 		Renderer = CreateComponent<GameEngineTextureRenderer>();
 		Renderer->GetTransform().SetLocalScale({ 256, 256, 1 });
 		Renderer->SetTexture("idle.png");
+
 		//Renderer->ScaleToTexture();//아직 생성전이라 그런지 쓰면 터짐
 
 		std::vector<unsigned int> Idle = { 0, 1, 2, 1 };//프레임 골라 실행 테스트
@@ -172,7 +181,13 @@ void Player::DeadStart(const StateInfo& _Info)
 
 void Player::DeadUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	Gravity(_DeltaTime);
+	ColorCheckUpdate();
+	ColorCheckUpdateNext(MovePower);
+
 	Renderer->GetTransform().SetLocalRotate({0,0,10,0});
+
+	NoGravity();
 	return;
 }
 
@@ -1040,6 +1055,8 @@ void Player::Dead()
 		StateManager.ChangeState("Dead");
 		Collision->Off();
 		stop = true;
+		RIP->On();
+		MovePower = 0.0f;
 	}
 }
 

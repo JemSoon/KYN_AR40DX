@@ -114,6 +114,7 @@ void Main_HP_MP_UI::HPSetting()
 			Hit = Hit - GameEngineTime::GetDeltaTime();
 			if (HPbarMaxSize <= 0)
 			{
+				HPbarMaxSize = 0;
 				//HP바를 오버해서 깎지 않게끔
 				Hit = 0;
 			}
@@ -126,6 +127,7 @@ void Main_HP_MP_UI::HPSetting()
 
 			if (HPbarMaxSize <= 0)
 			{
+				HPbarMaxSize = 0;
 				//HP바를 오버해서 깎지 않게끔
 				Hit = 0;
 			}
@@ -144,6 +146,7 @@ void Main_HP_MP_UI::HPSetting()
 
 	if (HPbarMaxSize <= 0)
 	{
+		Hit = 0;
 		HPbarMaxSize = 0;
 	}
 

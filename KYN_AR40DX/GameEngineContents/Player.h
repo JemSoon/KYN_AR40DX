@@ -119,5 +119,6 @@ private:
 	//Monster Mob;
 	int PlayerAtt;
 	GameEngineTextureRenderer* PlayerLevelUp;
+	GameEngineTextureRenderer* RIP;
 };
 
