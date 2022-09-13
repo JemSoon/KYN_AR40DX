@@ -116,7 +116,7 @@ private:
 	std::string PrevState;
 	bool Hit;
 	float HitTime;
-	Monster Mob;
+	//Monster Mob;
 	int PlayerAtt;
 	GameEngineTextureRenderer* PlayerLevelUp;
 };

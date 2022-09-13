@@ -42,7 +42,7 @@ Player::~Player()
 
 void Player::Start()
 {
-	HitDamage = Mob.GetAtt();
+	//HitDamage = Mob.GetAtt();
 
 	CharacterObject::Start();
 

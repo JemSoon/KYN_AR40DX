@@ -12,12 +12,12 @@ BossMano::BossMano()
 	,Random(0)
 	,RandomDir(0)
 	,Hit(false)
-	,PlayerInfo(nullptr)
 {
 	Speed = 25;
 
 	MonsterAtt = 40;
-	MonsterHP = 6250;
+	MonsterHPMax = 6250;
+	MonsterCurHP = MonsterHPMax;
 }
 
 BossMano::~BossMano()
@@ -311,14 +311,14 @@ bool BossMano::BossManoHit(GameEngineCollision* _This, GameEngineCollision* _Oth
 
 	if (PlayerInfo->OneAtt == false)
 	{
-		MonsterHP = MonsterHP - Damage;
+		MonsterCurHP = MonsterCurHP - Damage;
 		PlayerInfo->OneAtt = true;
 	}
 
 
-	if (MonsterHP <= 0)
+	if (MonsterCurHP <= 0)
 	{
-		MonsterHP = 0;
+		MonsterCurHP = 0;
 		StateManager.ChangeState("Dead");
 		//_This->GetActor()->Death();
 	}

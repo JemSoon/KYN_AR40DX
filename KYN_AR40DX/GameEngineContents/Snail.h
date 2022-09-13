@@ -44,7 +44,6 @@ protected:
 private:
 	GameEngineStateManager StateManager;
 	DamageNumber* Num;
-	Player* PlayerInfo;
 
 	int Damage;
 	float PatternTime;

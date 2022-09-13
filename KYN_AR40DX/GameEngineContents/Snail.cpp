@@ -12,11 +12,12 @@ Snail::Snail()
 	,Random(0)
 	,RandomDir(0)
 	,Hit(false)
-	,PlayerInfo(nullptr)
+	
 	
 {
 	MonsterAtt = 15;
-	MonsterHP = 15;
+	MonsterHPMax = 15;
+	MonsterCurHP = MonsterHPMax;
 	Speed = 50;
 }
 
@@ -26,7 +27,8 @@ Snail::~Snail()
 
 void Snail::Start()
 {
-	CharacterObject::Start();
+	//CharacterObject::Start();
+	Monster::Start();
 	{
 		Renderer = CreateComponent<GameEngineTextureRenderer>();
 		Renderer->GetTransform().SetLocalScale({ 64, 64, 1 });
@@ -294,10 +296,12 @@ void Snail::ChaseUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Snail::Update(float _DeltaTime)
 {
-	if (PlayerInfo == nullptr)
-	{
-		PlayerInfo = Player::GetMainPlayer();
-	}
+	//if (PlayerInfo == nullptr)
+	//{
+	//	PlayerInfo = Player::GetMainPlayer();
+	//}
+
+	Monster::Update(_DeltaTime);
 
 	ColorCheckUpdate();
 	StateManager.Update(_DeltaTime);
@@ -319,15 +323,15 @@ bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 
 	if (PlayerInfo->OneAtt == false)
 	{
-		MonsterHP = MonsterHP - Damage;
+		MonsterCurHP = MonsterCurHP - Damage;
 		PlayerInfo->OneAtt = true;
 	}
 
 	//StateManager.ChangeState("Hit");
 	
-	if (MonsterHP <= 0)
+	if (MonsterCurHP <= 0)
 	{
-		MonsterHP = 0;
+		MonsterCurHP = 0;
 		StateManager.ChangeState("Dead");
 		//_This->GetActor()->Death();
 	}

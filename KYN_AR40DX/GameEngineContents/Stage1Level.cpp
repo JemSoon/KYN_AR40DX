@@ -48,8 +48,8 @@ void Stage1Level::Start()
 			Snail* actor2 = CreateActor<Snail>(OBJECTORDER::Monster);
 			actor2->GetTransform().SetLocalPosition({ 1300.0f, -1005.0f, 0.0f });
 
-			BossMano* actor3 = CreateActor<BossMano>(OBJECTORDER::Monster);
-			actor3->GetTransform().SetLocalPosition({ 1100.0f, -1005.0f, 0.0f });
+			//BossMano* actor3 = CreateActor<BossMano>(OBJECTORDER::Monster);
+			//actor3->GetTransform().SetLocalPosition({ 1100.0f, -1005.0f, 0.0f });
 		}
 
 		{
