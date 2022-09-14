@@ -78,6 +78,7 @@ void Player::Start()
 			Effect->CreateFrameAnimationCutTexture("SuperJump", FrameAnimation_DESC("SuperJump.png", Seven, 0.1f, false));
 			Effect->ChangeFrameAnimation("SuperJump");
 			Effect->Off();
+			Effect->AnimationBindEnd("SuperJump", std::bind(&Player::SuperJumpEnd, this));
 		}
 
 		Renderer = CreateComponent<GameEngineTextureRenderer>();
@@ -609,6 +610,7 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::SuperJumpStart(const StateInfo& _Info)
 {
+	Effect->CurAnimationReset();
 	Renderer->ChangeFrameAnimation("Jump");
 	Speed = GroundMoveSpeed;
 	MovePower += (float4::UP * JumpPower * 0.2) + (Dir * SuperJumpPower);
@@ -835,6 +837,7 @@ void Player::LevelUp()
 {
 	if (CurEXP >= EXPMax)
 	{
+		PlayerLevelUp->CurAnimationReset();
 		IsLevelUp = true;
 
 		PlayerLevelUp->On();
@@ -852,6 +855,12 @@ void Player::LevelUpEnd()
 {
 	//레벨업 애니메이션이 끝나면 끈다
 	PlayerLevelUp->Off();
+}
+
+void Player::SuperJumpEnd()
+{
+	//레벨업 애니메이션이 끝나면 끈다
+	Effect->Off();
 }
 
 void Player::Dead()
