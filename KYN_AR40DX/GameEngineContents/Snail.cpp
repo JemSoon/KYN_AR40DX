@@ -30,6 +30,9 @@ void Snail::Start()
 	//CharacterObject::Start();
 	Monster::Start();
 	{
+		HPRenderer->Off();
+		HPbarRenderer->Off();
+
 		Renderer = CreateComponent<GameEngineTextureRenderer>();
 		Renderer->GetTransform().SetLocalScale({ 64, 64, 1 });
 		Renderer->SetTexture("snail_stand.png");
@@ -311,6 +314,8 @@ bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 	if (PlayerInfo->MonsterHit(PlayerInfo->GetCollision(), this->GetCollision()) == true)
 	{
 		//플레이어 충돌 판정true시에만 피를 깐다
+		HPRenderer->On();
+		HPbarRenderer->On();
 		MonsterCurHP = MonsterCurHP - Damage;
 	}
 

@@ -22,13 +22,13 @@ void Monster::Start()
 	HPRenderer = CreateComponent<GameEngineTextureRenderer>();
 	HPRenderer->GetTransform().SetLocalScale({ 50, 10, 1 });
 	HPRenderer->SetTexture("MonsterHP.png");
-	HPRenderer->GetTransform().SetWorldPosition({ -25, 50,-50 });
+	HPRenderer->GetTransform().SetWorldPosition({ -25, 50,0 });
 	HPRenderer->SetPivot(PIVOTMODE::LEFT);
 
 	HPbarRenderer = CreateComponent<GameEngineTextureRenderer>();
 	HPbarRenderer->GetTransform().SetLocalScale({ 50, 10, 1 });
 	HPbarRenderer->SetTexture("MonsterHPbar.png");
-	HPbarRenderer->GetTransform().SetWorldPosition({ -25, 50,-50 });
+	HPbarRenderer->GetTransform().SetWorldPosition({ -25, 50,0 });
 	HPbarRenderer->SetPivot(PIVOTMODE::LEFT);
 }
 
