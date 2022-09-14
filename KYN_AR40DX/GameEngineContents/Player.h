@@ -63,6 +63,7 @@ public:
 	float GroundMoveSpeed;
 	float JumpMoveSpeed;
 	float JumpPower;
+	float SuperJumpPower;
 
 	int MonsterCount;
 
@@ -89,6 +90,9 @@ protected:
 
 	void JumpStart(const StateInfo& _Info);
 	void JumpUpdate(float _DeltaTime, const StateInfo& _Info);
+
+	void SuperJumpStart(const StateInfo& _Info);
+	void SuperJumpUpdate(float _DeltaTime, const StateInfo& _Info);
 
 	void FallStart(const StateInfo& _Info);
 	void FallUpdate(float _DeltaTime, const StateInfo& _Info);
