@@ -107,7 +107,6 @@ protected:
 	void AttackEnd();
 	void LevelUpEnd();
 	//==========================================================//
-	void AlertToIdle();
 
 private:
 	GameEngineStateManager StateManager;
@@ -116,7 +115,6 @@ private:
 	std::string PrevState;
 	bool Hit;
 	float HitTime;
-	//Monster Mob;
 	int PlayerAtt;
 	GameEngineTextureRenderer* PlayerLevelUp;
 	GameEngineTextureRenderer* RIP;

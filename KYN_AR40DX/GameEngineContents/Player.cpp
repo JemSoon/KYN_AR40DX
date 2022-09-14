@@ -178,14 +178,9 @@ void Player::DeadStart(const StateInfo& _Info)
 }
 
 void Player::DeadUpdate(float _DeltaTime, const StateInfo& _Info)
-{
-	Gravity(_DeltaTime);
-	ColorCheckUpdate();
-	ColorCheckUpdateNext(MovePower);
+{	
+	Renderer->GetTransform().SetLocalRotate({ 0,0,10,0 });
 
-	Renderer->GetTransform().SetLocalRotate({0,0,10,0});
-
-	NoGravity();
 	return;
 }
 
@@ -336,7 +331,6 @@ void Player::AttackStart(const StateInfo& _Info)
 
 void Player::AttackUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	AlertToIdle();
 
 	Gravity(_DeltaTime);
 	ColorCheckUpdate();
@@ -911,30 +905,6 @@ bool Player::PortalCollision(GameEngineCollision* _This, GameEngineCollision* _O
 	{
 		PortalOn = true;
 		return true;
-	}
-}
-
-void Player::AlertToIdle()
-{
-	if (Hit == true)
-	{
-		HitTime += GameEngineTime::GetDeltaTime();
-	}
-
-	if (HitTime > 2.0f)
-	{
-		//if (true == IsNextColor(COLORCHECKDIR::DOWN, float4::WHITE))
-		//{
-		//	StateManager.ChangeState("Fall");
-		//}
-		//else
-		//{
-		//	StateManager.ChangeState("Idle");
-		//}
-		//Collision->On();
-		//Hit = false;
-		//HitTime = 0.0f;
-		return;
 	}
 }
 

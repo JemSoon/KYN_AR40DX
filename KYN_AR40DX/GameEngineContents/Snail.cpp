@@ -27,7 +27,6 @@ Snail::~Snail()
 
 void Snail::Start()
 {
-	//CharacterObject::Start();
 	Monster::Start();
 	{
 		HPRenderer->Off();
