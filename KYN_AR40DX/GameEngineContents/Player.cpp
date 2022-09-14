@@ -30,6 +30,7 @@ Player::Player()
 	, Dir(float4::LEFT)
 	, RIP(nullptr)
 	, MonsterCount(0)
+	, Effect(nullptr)
 {
 	MainPlayer = this;
 	Speed = 150.0f;
@@ -68,6 +69,16 @@ void Player::Start()
 		RIP->ChangeFrameAnimation("RIP");
 		RIP->SetPivot(PIVOTMODE::BOT);
 		RIP->Off();
+
+		{
+			//¿Ã∆Â∆Æ
+			Effect = CreateComponent<GameEngineTextureRenderer>();
+			Effect->GetTransform().SetWorldScale({ 400,400,1 });
+			Effect->GetTransform().SetWorldPosition({ 100,50,0 });
+			Effect->CreateFrameAnimationCutTexture("SuperJump", FrameAnimation_DESC("SuperJump.png", Seven, 0.1f, false));
+			Effect->ChangeFrameAnimation("SuperJump");
+			Effect->Off();
+		}
 
 		Renderer = CreateComponent<GameEngineTextureRenderer>();
 		Renderer->GetTransform().SetLocalScale({ 256, 256, 1 });
@@ -472,6 +483,8 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		AttackCollision->GetTransform().SetLocalPosition({ 35.0f,35.0f });
 		MovePower.x = Speed;
 		Renderer->GetTransform().PixLocalNegativeX();
+		Effect->GetTransform().PixLocalNegativeX();
+		Effect->SetPivotToVector({ -100,50,0 });
 		return;
 	}
 
@@ -481,6 +494,8 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		AttackCollision->GetTransform().SetLocalPosition({ -35.0f,35.0f });
 		MovePower.x = -Speed;
 		Renderer->GetTransform().PixLocalPositiveX();
+		Effect->GetTransform().PixLocalPositiveX();
+		Effect->SetPivotToVector({ 100,50,0 });
 		return;
 	}
 
@@ -597,6 +612,7 @@ void Player::SuperJumpStart(const StateInfo& _Info)
 	Renderer->ChangeFrameAnimation("Jump");
 	Speed = GroundMoveSpeed;
 	MovePower += (float4::UP * JumpPower * 0.2) + (Dir * SuperJumpPower);
+	Effect->On();
 }
 
 void Player::SuperJumpUpdate(float _DeltaTime, const StateInfo& _Info)

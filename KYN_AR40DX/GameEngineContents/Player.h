@@ -121,6 +121,7 @@ private:
 	float HitTime;
 	int PlayerAtt;
 	GameEngineTextureRenderer* PlayerLevelUp;
+	GameEngineTextureRenderer* Effect;
 	GameEngineTextureRenderer* RIP;
 };
 
