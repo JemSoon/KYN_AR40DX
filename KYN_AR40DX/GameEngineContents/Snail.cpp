@@ -266,7 +266,6 @@ void Snail::ChaseUpdate(float _DeltaTime, const StateInfo& _Info)
 	
 	if (Distance < -10)
 	{	
-		PatternTime -= _DeltaTime;
 		MovePower.x = -Speed;
 		Renderer->GetTransform().PixLocalPositiveX();
 	}
