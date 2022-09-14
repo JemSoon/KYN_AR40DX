@@ -496,15 +496,18 @@ void Player::SadariUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerUp"))
 	{
+		Renderer->CurAnimationPauseOff();
 		MovePower.y = Speed;
 	}
 	else if (false == GameEngineInput::GetInst()->IsPress("PlayerUp") &&
 		false == GameEngineInput::GetInst()->IsPress("PlayerDown"))
 	{
+		Renderer->CurAnimationPauseOn();
 		MovePower.y = 0.0f;
 	}
 	else if (true == GameEngineInput::GetInst()->IsPress("PlayerDown"))
 	{
+		Renderer->CurAnimationPauseOff();
 		MovePower.y = -Speed;
 	}
 
