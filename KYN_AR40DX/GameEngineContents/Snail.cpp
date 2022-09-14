@@ -344,5 +344,9 @@ bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 
 void Snail::DieEnd()
 {
-	Death();
+	Renderer->Off();
+	HPbarRenderer->Off();
+	HPRenderer->Off();
+	Collision->Off();
+	//Death();
 }

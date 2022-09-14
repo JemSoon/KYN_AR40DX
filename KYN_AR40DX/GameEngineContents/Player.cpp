@@ -75,7 +75,7 @@ void Player::Start()
 			Effect = CreateComponent<GameEngineTextureRenderer>();
 			Effect->GetTransform().SetWorldScale({ 400,400,1 });
 			Effect->GetTransform().SetWorldPosition({ 100,50,0 });
-			Effect->CreateFrameAnimationCutTexture("SuperJump", FrameAnimation_DESC("SuperJump.png", Seven, 0.1f, false));
+			Effect->CreateFrameAnimationCutTexture("SuperJump", FrameAnimation_DESC("SuperJump.png", Seven, 0.05f, false));
 			Effect->ChangeFrameAnimation("SuperJump");
 			Effect->Off();
 			Effect->AnimationBindEnd("SuperJump", std::bind(&Player::SuperJumpEnd, this));
