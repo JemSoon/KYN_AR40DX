@@ -264,13 +264,14 @@ void Snail::ChaseUpdate(float _DeltaTime, const StateInfo& _Info)
 	float4 Me = this->GetTransform().GetWorldPosition();
 	float Distance = (Target - Me).x;
 	
-	if (Distance < 0)
-	{
+	if (Distance < -10)
+	{	
+		PatternTime -= _DeltaTime;
 		MovePower.x = -Speed;
 		Renderer->GetTransform().PixLocalPositiveX();
 	}
 
-	else if (Distance > 0)
+	if (Distance > 10)
 	{
 		MovePower.x = Speed;
 		Renderer->GetTransform().PixLocalNegativeX();
