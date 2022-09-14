@@ -19,6 +19,8 @@ Player::Player()
 	, HitTime(0.0f)
 	, HPMax(100)
 	, CurHP(100)
+	, MPMax(100)
+	, CurMP(100)
 	, HitDamage(0)
 	, HitCheck(false)
 	, EXPMax(10)
@@ -31,6 +33,7 @@ Player::Player()
 	, RIP(nullptr)
 	, MonsterCount(0)
 	, Effect(nullptr)
+	, IsSuperJump(false)
 {
 	MainPlayer = this;
 	Speed = 150.0f;
@@ -610,6 +613,16 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::SuperJumpStart(const StateInfo& _Info)
 {
+	ManaDamage = 10;
+	if (CurMP < ManaDamage)
+	{
+		IsSuperJump = false;
+		//현재마나사 소모 마나량보다 적다면 작동안한다(나중에 함수로만들자)
+		return;
+	}
+	IsSuperJump = true;
+	CurMP = CurMP - ManaDamage;
+
 	Effect->CurAnimationReset();
 	Renderer->ChangeFrameAnimation("Jump");
 	Speed = GroundMoveSpeed;
@@ -764,6 +777,11 @@ void Player::Update(float _DeltaTime)
 		HitTime += _DeltaTime;
 	}
 
+	if (CurMP <= 0)
+	{
+		CurMP = 0;
+	}
+
 	GetTransform().SetWorldMove(MovePower * _DeltaTime);
 }
 
@@ -846,6 +864,8 @@ void Player::LevelUp()
 		PlayerAtt += 10;
 		HPMax += 100;
 		CurHP = HPMax;
+		MPMax += 50;
+		CurMP = MPMax;
 		CurEXP = CurEXP - EXPMax;
 		EXPMax += 20;
 	}

@@ -6,12 +6,13 @@ Main_HP_MP_UI::Main_HP_MP_UI()
 	:HP_MP(nullptr)
 	,EXP(nullptr)
 	,HPbarMaxSize(171)
+	,MPbarMaxSize(171)
 	,EXPbarSize(0)
 	,Hit(0)
+	,UseMana(0)
 	,Level(nullptr)
 	,LevelNum(nullptr)
 {
-
 }
 
 Main_HP_MP_UI::~Main_HP_MP_UI()
@@ -26,7 +27,6 @@ void Main_HP_MP_UI::Start()
 	GameEngineUIRenderer* Renderer = CreateComponent<GameEngineUIRenderer>();
 	GetTransform().SetLocalScale({ 1, 1, 1 });
 	//Renderer->ChangeCamera(CAMERAORDER::MAINCAMERA);
-
 	{
 		HPbar = CreateComponent<GameEngineUIRenderer>();
 		HPbar->SetTexture("HPbar.png");
@@ -37,7 +37,8 @@ void Main_HP_MP_UI::Start()
 		MPbar = CreateComponent<GameEngineUIRenderer>();
 		MPbar->SetTexture("MPbar.png");
 		MPbar->GetTransform().SetWorldScale({ 171,13,0 });
-		MPbar->GetTransform().SetWorldPosition({ 10,-15,-100 });
+		MPbar->GetTransform().SetWorldPosition({ -75,-15,-100 });
+		MPbar->SetPivot(PIVOTMODE::LEFT);
 	}
 
 	{
@@ -87,6 +88,7 @@ void Main_HP_MP_UI::Start()
 		LevelNum->GetTransform().SetWorldPosition({ -35, 23, -100 });
 		LevelNum->SetTexture("Level1.png");
 	}
+
 }
 
 void Main_HP_MP_UI::Update(float _DeltaTime)
@@ -97,6 +99,8 @@ void Main_HP_MP_UI::Update(float _DeltaTime)
 	}
 	
 	HPSetting();
+
+	MPSetting();
 
 	EXPSetting();
 
@@ -153,6 +157,41 @@ void Main_HP_MP_UI::HPSetting()
 	if (true == PlayerInfo->IsLevelUp)
 	{
 		HPbarMaxSize = (171 * (PlayerInfo->CurHP)) / PlayerInfo->HPMax;
+	}
+}
+
+void Main_HP_MP_UI::MPSetting()
+{
+	if (PlayerInfo->IsSuperJump == true)
+	{
+		UseMana = UseMana - GameEngineTime::GetDeltaTime();
+		MPbarMaxSize = (171 * (PlayerInfo->CurMP + UseMana)) / PlayerInfo->MPMax;
+		if (HPbarMaxSize <= 0)
+		{
+			HPbarMaxSize = 0;
+			//MP바를 오버해서 깎지 않게끔
+			UseMana = 0;
+		}
+	}
+	if (UseMana <= 0)
+	{
+		//델타타임으로 다 줄어들면 0고정
+		UseMana = 0;
+		PlayerInfo->IsSuperJump = false;
+		UseMana = PlayerInfo->ManaDamage;
+	}
+
+	MPbar->GetTransform().SetWorldScale({ (float)MPbarMaxSize ,13,0 });//줄어든비율로 사이즈세팅
+
+	if (MPbarMaxSize <= 0)
+	{
+		UseMana = 0;
+		MPbarMaxSize = 0;
+	}
+
+	if (true == PlayerInfo->IsLevelUp)
+	{
+		MPbarMaxSize = (171 * (PlayerInfo->CurMP)) / PlayerInfo->MPMax;
 	}
 }
 

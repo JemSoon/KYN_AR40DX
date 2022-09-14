@@ -52,9 +52,13 @@ public:
 
 	bool PortalOn;
 	bool HitCheck;
+	bool IsSuperJump;
 	int HitDamage;
+	int ManaDamage;
 	int HPMax;
 	int CurHP;
+	int MPMax;
+	int CurMP;
 	int EXPMax;
 	int CurEXP;
 	int PlayerLevel;

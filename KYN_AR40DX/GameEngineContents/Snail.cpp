@@ -349,4 +349,5 @@ void Snail::DieEnd()
 	HPRenderer->Off();
 	Collision->Off();
 	//Death();
+	//해당 레벨의 리스폰 좌표를 어떻게 가져오느냐?
 }
