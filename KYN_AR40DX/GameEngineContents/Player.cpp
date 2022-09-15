@@ -34,6 +34,7 @@ Player::Player()
 	, MonsterCount(0)
 	, Effect(nullptr)
 	, IsSuperJump(false)
+	, MyJob(JOB::NONE)
 {
 	MainPlayer = this;
 	Speed = 150.0f;
@@ -601,7 +602,7 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 		}
 
 		//나중에 전직하면 따로빼야하는 슈퍼점프
-		if (true == GameEngineInput::GetInst()->IsDown("PlayerJump"))
+		if (true == GameEngineInput::GetInst()->IsDown("PlayerJump")/* && MyJob == JOB::WARRIOR*/)
 		{
 			StateManager.ChangeState("SuperJump");
 			return;
@@ -613,15 +614,15 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::SuperJumpStart(const StateInfo& _Info)
 {
-	ManaDamage = 30;
+	ManaDamage = 5;
 	if (CurMP < ManaDamage)
 	{
 		IsSuperJump = false;
 		//현재마나사 소모 마나량보다 적다면 작동안한다(나중에 함수로만들자)
 		return;
 	}
-	IsSuperJump = true;
 	CurMP = CurMP - ManaDamage;
+	IsSuperJump = true;
 
 	Effect->CurAnimationReset();
 	Renderer->ChangeFrameAnimation("Jump");

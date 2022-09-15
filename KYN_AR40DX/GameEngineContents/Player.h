@@ -3,6 +3,16 @@
 #include "CharacterObject.h"
 #include "Monster.h"
 
+enum class JOB
+{
+	NONE,
+	WARRIOR,
+	MAGITION,
+	THIEF,
+	ARCHER,
+	MAX
+};
+
 // Ό³Έν :
 
 class GameEngineRandom;
@@ -128,5 +138,7 @@ private:
 	GameEngineTextureRenderer* PlayerLevelUp;
 	GameEngineTextureRenderer* Effect;
 	GameEngineTextureRenderer* RIP;
+
+	JOB MyJob;
 };
 
