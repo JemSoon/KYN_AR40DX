@@ -39,7 +39,7 @@ Player::Player()
 	MainPlayer = this;
 	Speed = 150.0f;
 	GroundMoveSpeed = 150.0f;
-	JumpMoveSpeed = 75.0f;
+	JumpMoveSpeed = 100.0f;
 	SuperJumpPower = 500.0f;
 	PrevColor.g = 255;
 }
@@ -509,11 +509,28 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 void Player::SadariStart(const StateInfo& _Info)
 {
 	Renderer->ChangeFrameAnimation("Sadari");
-	//MovePower.y = 0.0f;
 }
 
 void Player::SadariUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	{
+		//사다리중 점프시 방향설정용
+		if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
+		{
+			Dir = float4::LEFT;
+			Effect->GetTransform().PixLocalPositiveX();
+			Effect->SetPivotToVector({ 100,50,0 });
+
+		}
+
+		if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
+		{
+			Dir = float4::RIGHT;
+			Effect->GetTransform().PixLocalNegativeX();
+			Effect->SetPivotToVector({ -100,50,0 });
+		}
+	}
+
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerUp"))
 	{
 		Renderer->CurAnimationPauseOff();
@@ -607,6 +624,15 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 			StateManager.ChangeState("SuperJump");
 			return;
 		}
+
+		if (true == IsColor(COLORCHECKDIR::DOWN, CharacterObject::BLUE) &&
+			true == GameEngineInput::GetInst()->IsPress("PlayerUp"))
+		{
+			MovePower = 0.0f;
+			Speed = GroundMoveSpeed;
+			StateManager.ChangeState("Sadari");
+			return;
+		}
 	}
 
 	NoGravity();
@@ -649,6 +675,14 @@ void Player::SuperJumpUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerAttack"))
 	{
 		StateManager.ChangeState("Attack");
+		return;
+	}
+
+	if (true == IsColor(COLORCHECKDIR::DOWN, CharacterObject::BLUE) &&
+		true == GameEngineInput::GetInst()->IsPress("PlayerUp"))
+	{
+		MovePower = 0.0f;
+		StateManager.ChangeState("Sadari");
 		return;
 	}
 
