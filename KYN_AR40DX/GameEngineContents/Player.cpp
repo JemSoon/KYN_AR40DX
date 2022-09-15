@@ -613,7 +613,7 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::SuperJumpStart(const StateInfo& _Info)
 {
-	ManaDamage = 10;
+	ManaDamage = 30;
 	if (CurMP < ManaDamage)
 	{
 		IsSuperJump = false;

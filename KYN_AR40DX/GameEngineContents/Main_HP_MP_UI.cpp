@@ -172,13 +172,26 @@ void Main_HP_MP_UI::MPSetting()
 			//MP바를 오버해서 깎지 않게끔
 			UseMana = 0;
 		}
+		if (UseMana <= 0)
+		{
+			//델타타임으로 다 줄어들면 0고정
+			UseMana = 0;
+			PlayerInfo->IsSuperJump = false;
+			UseMana = PlayerInfo->ManaDamage;
+		}
+
 	}
-	if (UseMana <= 0)
+	else
 	{
-		//델타타임으로 다 줄어들면 0고정
-		UseMana = 0;
-		PlayerInfo->IsSuperJump = false;
-		UseMana = PlayerInfo->ManaDamage;
+		//else안해주면 레벨넘어갈대 체크안해서 풀피처럼 보임
+		MPbarMaxSize = (171 * (PlayerInfo->CurMP)) / PlayerInfo->MPMax;
+
+		if (MPbarMaxSize <= 0)
+		{
+			MPbarMaxSize = 0;
+			//HP바를 오버해서 깎지 않게끔
+			UseMana = 0;
+		}
 	}
 
 	MPbar->GetTransform().SetWorldScale({ (float)MPbarMaxSize ,13,0 });//줄어든비율로 사이즈세팅
