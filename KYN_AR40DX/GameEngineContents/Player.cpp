@@ -34,6 +34,7 @@ Player::Player()
 	, MonsterCount(0)
 	, Effect(nullptr)
 	, IsSuperJump(false)
+	, UseSuperJump(30)
 	, MyJob(JOB::NONE)
 {
 	MainPlayer = this;
@@ -640,7 +641,7 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::SuperJumpStart(const StateInfo& _Info)
 {
-	ManaDamage = 5;
+	ManaDamage = UseSuperJump;
 	if (CurMP < ManaDamage)
 	{
 		IsSuperJump = false;

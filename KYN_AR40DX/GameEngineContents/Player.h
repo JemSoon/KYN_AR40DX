@@ -138,6 +138,7 @@ private:
 	GameEngineTextureRenderer* PlayerLevelUp;
 	GameEngineTextureRenderer* Effect;
 	GameEngineTextureRenderer* RIP;
+	int UseSuperJump;
 
 	JOB MyJob;
 };
