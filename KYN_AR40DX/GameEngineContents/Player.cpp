@@ -34,8 +34,9 @@ Player::Player()
 	, MonsterCount(0)
 	, Effect(nullptr)
 	, IsSuperJump(false)
-	, UseSuperJump(30)
+	, UseSuperJump(5)
 	, MyJob(JOB::NONE)
+	, ManaDamage(0)
 {
 	MainPlayer = this;
 	Speed = 150.0f;
@@ -648,7 +649,9 @@ void Player::SuperJumpStart(const StateInfo& _Info)
 		//현재마나사 소모 마나량보다 적다면 작동안한다(나중에 함수로만들자)
 		return;
 	}
+
 	CurMP = CurMP - ManaDamage;
+
 	IsSuperJump = true;
 
 	Effect->CurAnimationReset();

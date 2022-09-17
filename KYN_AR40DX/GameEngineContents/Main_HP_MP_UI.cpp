@@ -9,7 +9,7 @@ Main_HP_MP_UI::Main_HP_MP_UI()
 	,MPbarMaxSize(171)
 	,EXPbarSize(0)
 	,Hit(0)
-	,UseMana(0)
+	,UseMana(-1)
 	,Level(nullptr)
 	,LevelNum(nullptr)
 {
@@ -164,22 +164,26 @@ void Main_HP_MP_UI::MPSetting()
 {
 	if (PlayerInfo->IsSuperJump == true)
 	{
-		UseMana = UseMana - GameEngineTime::GetDeltaTime();
-		MPbarMaxSize = (171 * (PlayerInfo->CurMP + UseMana)) / PlayerInfo->MPMax;
-		if (HPbarMaxSize <= 0)
-		{
-			HPbarMaxSize = 0;
-			//MP바를 오버해서 깎지 않게끔
-			UseMana = 0;
-		}
-		if (UseMana <= 0)
+		if (UseMana == -1)
 		{
 			//델타타임으로 다 줄어들면 0고정
-			UseMana = 0;
-			PlayerInfo->IsSuperJump = false;
 			UseMana = PlayerInfo->ManaDamage;
 		}
 
+		static_cast<float>(UseMana);
+		UseMana = UseMana - GameEngineTime::GetDeltaTime();
+
+		if (UseMana >= 0)
+		{
+			MPbarMaxSize = (171 * (PlayerInfo->CurMP + UseMana)) / PlayerInfo->MPMax;
+		}
+
+		if (MPbarMaxSize <= 0)
+		{
+			MPbarMaxSize = 0;
+			//MP바를 오버해서 깎지 않게끔
+			UseMana = 0;
+		}
 	}
 	else
 	{
@@ -195,6 +199,12 @@ void Main_HP_MP_UI::MPSetting()
 	}
 
 	MPbar->GetTransform().SetWorldScale({ (float)MPbarMaxSize ,13,0 });//줄어든비율로 사이즈세팅
+
+	if (UseMana <= 0)
+	{
+		PlayerInfo->IsSuperJump = false;
+		UseMana = -1;
+	}
 
 	if (MPbarMaxSize <= 0)
 	{
