@@ -38,6 +38,7 @@ public:
 	void EXPSetting();
 	void LevelSetting();
 	void MPSetting();
+	void HPNumberSetting();
 
 	GameEngineTextureRenderer* HPbar;
 protected:
@@ -62,5 +63,21 @@ private:
 	int EXPbarSize;
 	int Hit;
 	int UseMana;
+	int CurHPNumber;
+	int MaxHPNumber;
+	int CurOne;
+	int CurTen;
+	int CurHun;
+	int CurTho;
+
+	GameEngineTextureRenderer* HPNumOne;
+	GameEngineTextureRenderer* HPNumTen;
+	GameEngineTextureRenderer* HPNumHun;
+	GameEngineTextureRenderer* HPNumTho;
+	GameEngineTextureRenderer* HPNumSlash;
+	GameEngineTextureRenderer* HPMaxNumOne;
+	GameEngineTextureRenderer* HPMaxNumTen;
+	GameEngineTextureRenderer* HPMaxNumHun;
+	GameEngineTextureRenderer* HPMaxNumTho;
 };
 

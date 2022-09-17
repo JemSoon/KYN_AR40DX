@@ -12,6 +12,8 @@ Main_HP_MP_UI::Main_HP_MP_UI()
 	,UseMana(-1)
 	,Level(nullptr)
 	,LevelNum(nullptr)
+	,CurHPNumber(0)
+	,MaxHPNumber(0)
 {
 }
 
@@ -39,6 +41,65 @@ void Main_HP_MP_UI::Start()
 		MPbar->GetTransform().SetWorldScale({ 171,13,0 });
 		MPbar->GetTransform().SetWorldPosition({ -75,-15,-100 });
 		MPbar->SetPivot(PIVOTMODE::LEFT);
+	}
+
+	{
+		HPNumSlash = CreateComponent<GameEngineUIRenderer>();
+		HPNumSlash->SetTexture("HPMPNum.png");
+		HPNumSlash->GetTransform().SetWorldScale({ 7,9,-100 });
+		HPNumSlash->GetTransform().SetLocalPosition({ 10, 1,-101 });
+		HPNumSlash->SetPivot(PIVOTMODE::CENTER);
+
+		//현재체력 숫자렌더러
+		HPNumOne = CreateComponent<GameEngineUIRenderer>();
+		HPNumOne->SetTexture("HPMPNum0.png");
+		HPNumOne->GetTransform().SetWorldScale({ 7,9,-100 });
+		HPNumOne->GetTransform().SetLocalPosition({ -8, 1,-101 });
+		HPNumOne->SetPivot(PIVOTMODE::CENTER);
+
+		HPNumTen = CreateComponent<GameEngineUIRenderer>();
+		HPNumTen->SetTexture("HPMPNum0.png");
+		HPNumTen->GetTransform().SetWorldScale({ 7,9,-100 });
+		HPNumTen->GetTransform().SetLocalPosition({ -16, 1,-101 });
+		HPNumTen->SetPivot(PIVOTMODE::CENTER);
+
+		HPNumHun = CreateComponent<GameEngineUIRenderer>();
+		HPNumHun->SetTexture("HPMPNum0.png");
+		HPNumHun->GetTransform().SetWorldScale({ 7,9,-100 });
+		HPNumHun->GetTransform().SetLocalPosition({ -24, 1,-101 });
+		HPNumHun->SetPivot(PIVOTMODE::CENTER);
+
+		HPNumTho = CreateComponent<GameEngineUIRenderer>();
+		HPNumTho->SetTexture("HPMPNum0.png");
+		HPNumTho->GetTransform().SetWorldScale({ 7,9,-100 });
+		HPNumTho->GetTransform().SetLocalPosition({ -32, 1,-101 });
+		HPNumTho->SetPivot(PIVOTMODE::CENTER);
+
+		//최대체력 출력 렌더러
+		HPMaxNumTho = CreateComponent<GameEngineUIRenderer>();
+		HPMaxNumTho->SetTexture("HPMPNum0.png");
+		HPMaxNumTho->GetTransform().SetWorldScale({ 7,9,-100 });
+		HPMaxNumTho->GetTransform().SetLocalPosition({ 28, 1,-101 });
+		HPMaxNumTho->SetPivot(PIVOTMODE::CENTER);
+
+		HPMaxNumHun = CreateComponent<GameEngineUIRenderer>();
+		HPMaxNumHun->SetTexture("HPMPNum0.png");
+		HPMaxNumHun->GetTransform().SetWorldScale({ 7,9,-100 });
+		HPMaxNumHun->GetTransform().SetLocalPosition({ 36, 1,-101 });
+		HPMaxNumHun->SetPivot(PIVOTMODE::CENTER);
+
+		HPMaxNumTen = CreateComponent<GameEngineUIRenderer>();
+		HPMaxNumTen->SetTexture("HPMPNum0.png");
+		HPMaxNumTen->GetTransform().SetWorldScale({ 7,9,-100 });
+		HPMaxNumTen->GetTransform().SetLocalPosition({ 44, 1,-101 });
+		HPMaxNumTen->SetPivot(PIVOTMODE::CENTER);
+
+		HPMaxNumOne = CreateComponent<GameEngineUIRenderer>();
+		HPMaxNumOne->SetTexture("HPMPNum0.png");
+		HPMaxNumOne->GetTransform().SetWorldScale({ 7,9,-100 });
+		HPMaxNumOne->GetTransform().SetLocalPosition({ 52, 1,-101 });
+		HPMaxNumOne->SetPivot(PIVOTMODE::CENTER);
+
 	}
 
 	{
@@ -99,6 +160,7 @@ void Main_HP_MP_UI::Update(float _DeltaTime)
 	}
 	
 	HPSetting();
+	HPNumberSetting();
 
 	MPSetting();
 
@@ -240,3 +302,165 @@ void Main_HP_MP_UI::LevelSetting()
 		LevelNum->SetTexture("Level0.png");
 	}
 }
+
+void Main_HP_MP_UI::HPNumberSetting()
+{
+	CurHPNumber = PlayerInfo->CurHP;
+	MaxHPNumber = PlayerInfo->HPMax;
+
+	{
+		CurTho = CurHPNumber / 1000;
+		CurHun = CurHPNumber / 100;
+		CurTen = CurHPNumber / 10;
+		CurOne = CurHPNumber % 10;
+
+		switch (CurTho)
+		{
+		case 0:
+			HPNumTho->SetTexture("HPMPNum0.png");
+			break;
+		case 1:
+			HPNumTho->SetTexture("HPMPNum1.png");
+			break;
+		case 2:
+			HPNumTho->SetTexture("HPMPNum2.png");
+			break;
+		case 3:
+			HPNumTho->SetTexture("HPMPNum3.png");
+			break;
+		case 4:
+			HPNumTho->SetTexture("HPMPNum4.png");
+			break;
+		case 5:
+			HPNumTho->SetTexture("HPMPNum5.png");
+			break;
+		case 6:
+			HPNumTho->SetTexture("HPMPNum6.png");
+			break;
+		case 7:
+			HPNumTho->SetTexture("HPMPNum7.png");
+			break;
+		case 8:
+			HPNumTho->SetTexture("HPMPNum8.png");
+			break;
+		case 9:
+			HPNumTho->SetTexture("HPMPNum9.png");
+			break;
+		default:
+			HPNumTho->SetTexture("HPMPNum0.png");
+			break;
+		}
+
+		switch (CurHun)
+		{
+		case 0:
+			HPNumHun->SetTexture("HPMPNum0.png");
+			break;
+		case 1:
+			HPNumHun->SetTexture("HPMPNum1.png");
+			break;
+		case 2:
+			HPNumHun->SetTexture("HPMPNum2.png");
+			break;
+		case 3:
+			HPNumHun->SetTexture("HPMPNum3.png");
+			break;
+		case 4:
+			HPNumHun->SetTexture("HPMPNum4.png");
+			break;
+		case 5:
+			HPNumHun->SetTexture("HPMPNum5.png");
+			break;
+		case 6:
+			HPNumHun->SetTexture("HPMPNum6.png");
+			break;
+		case 7:
+			HPNumHun->SetTexture("HPMPNum7.png");
+			break;
+		case 8:
+			HPNumHun->SetTexture("HPMPNum8.png");
+			break;
+		case 9:
+			HPNumHun->SetTexture("HPMPNum9.png");
+			break;
+		default:
+			HPNumHun->SetTexture("HPMPNum0.png");
+			break;
+		}
+
+		switch (CurTen)
+		{
+		case 0:
+			HPNumTen->SetTexture("HPMPNum0.png");
+			break;
+		case 1:
+			HPNumTen->SetTexture("HPMPNum1.png");
+			break;
+		case 2:
+			HPNumTen->SetTexture("HPMPNum2.png");
+			break;
+		case 3:
+			HPNumTen->SetTexture("HPMPNum3.png");
+			break;
+		case 4:
+			HPNumTen->SetTexture("HPMPNum4.png");
+			break;
+		case 5:
+			HPNumTen->SetTexture("HPMPNum5.png");
+			break;
+		case 6:
+			HPNumTen->SetTexture("HPMPNum6.png");
+			break;
+		case 7:
+			HPNumTen->SetTexture("HPMPNum7.png");
+			break;
+		case 8:
+			HPNumTen->SetTexture("HPMPNum8.png");
+			break;
+		case 9:
+			HPNumTen->SetTexture("HPMPNum9.png");
+			break;
+		default:
+			HPNumTen->SetTexture("HPMPNum0.png");
+			break;
+		}
+
+		switch (CurOne)
+		{
+		case 0:
+			HPNumOne->SetTexture("HPMPNum0.png");
+			break;
+		case 1:
+			HPNumOne->SetTexture("HPMPNum1.png");
+			break;
+		case 2:
+			HPNumOne->SetTexture("HPMPNum2.png");
+			break;
+		case 3:
+			HPNumOne->SetTexture("HPMPNum3.png");
+			break;
+		case 4:
+			HPNumOne->SetTexture("HPMPNum4.png");
+			break;
+		case 5:
+			HPNumOne->SetTexture("HPMPNum5.png");
+			break;
+		case 6:
+			HPNumOne->SetTexture("HPMPNum6.png");
+			break;
+		case 7:
+			HPNumOne->SetTexture("HPMPNum7.png");
+			break;
+		case 8:
+			HPNumOne->SetTexture("HPMPNum8.png");
+			break;
+		case 9:
+			HPNumOne->SetTexture("HPMPNum9.png");
+			break;
+		default:
+			HPNumTen->SetTexture("HPMPNum0.png");
+			break;
+		}
+	}
+}
+
