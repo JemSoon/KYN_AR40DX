@@ -309,158 +309,70 @@ void Main_HP_MP_UI::HPNumberSetting()
 	MaxHPNumber = PlayerInfo->HPMax;
 
 	{
-		CurTho = CurHPNumber / 1000;
-		CurHun = CurHPNumber / 100;
-		CurTen = CurHPNumber / 10;
-		CurOne = CurHPNumber % 10;
-
-		switch (CurTho)
 		{
-		case 0:
-			HPNumTho->SetTexture("HPMPNum0.png");
-			break;
-		case 1:
-			HPNumTho->SetTexture("HPMPNum1.png");
-			break;
-		case 2:
-			HPNumTho->SetTexture("HPMPNum2.png");
-			break;
-		case 3:
-			HPNumTho->SetTexture("HPMPNum3.png");
-			break;
-		case 4:
-			HPNumTho->SetTexture("HPMPNum4.png");
-			break;
-		case 5:
-			HPNumTho->SetTexture("HPMPNum5.png");
-			break;
-		case 6:
-			HPNumTho->SetTexture("HPMPNum6.png");
-			break;
-		case 7:
-			HPNumTho->SetTexture("HPMPNum7.png");
-			break;
-		case 8:
-			HPNumTho->SetTexture("HPMPNum8.png");
-			break;
-		case 9:
-			HPNumTho->SetTexture("HPMPNum9.png");
-			break;
-		default:
-			HPNumTho->SetTexture("HPMPNum0.png");
-			break;
+			//현재 체력 숫자 렌더링
+			CurTho = CurHPNumber / 1000;
+			CurHun = CurHPNumber / 100;
+			CurTen = CurHPNumber / 10;
+			CurOne = CurHPNumber % 10;
+
+			HPNumRendererSetting(CurTho, HPNumTho);
+			HPNumRendererSetting(CurHun, HPNumHun);
+			HPNumRendererSetting(CurTen, HPNumTen);
+			HPNumRendererSetting(CurOne, HPNumOne);
 		}
 
-		switch (CurHun)
 		{
-		case 0:
-			HPNumHun->SetTexture("HPMPNum0.png");
-			break;
-		case 1:
-			HPNumHun->SetTexture("HPMPNum1.png");
-			break;
-		case 2:
-			HPNumHun->SetTexture("HPMPNum2.png");
-			break;
-		case 3:
-			HPNumHun->SetTexture("HPMPNum3.png");
-			break;
-		case 4:
-			HPNumHun->SetTexture("HPMPNum4.png");
-			break;
-		case 5:
-			HPNumHun->SetTexture("HPMPNum5.png");
-			break;
-		case 6:
-			HPNumHun->SetTexture("HPMPNum6.png");
-			break;
-		case 7:
-			HPNumHun->SetTexture("HPMPNum7.png");
-			break;
-		case 8:
-			HPNumHun->SetTexture("HPMPNum8.png");
-			break;
-		case 9:
-			HPNumHun->SetTexture("HPMPNum9.png");
-			break;
-		default:
-			HPNumHun->SetTexture("HPMPNum0.png");
-			break;
-		}
+			//최대 체력 숫자 렌더링
+			MaxTho = MaxHPNumber / 1000;
+			MaxHun = MaxHPNumber / 100;
+			MaxTen = MaxHPNumber / 10;
+			MaxOne = MaxHPNumber % 10;
 
-		switch (CurTen)
-		{
-		case 0:
-			HPNumTen->SetTexture("HPMPNum0.png");
-			break;
-		case 1:
-			HPNumTen->SetTexture("HPMPNum1.png");
-			break;
-		case 2:
-			HPNumTen->SetTexture("HPMPNum2.png");
-			break;
-		case 3:
-			HPNumTen->SetTexture("HPMPNum3.png");
-			break;
-		case 4:
-			HPNumTen->SetTexture("HPMPNum4.png");
-			break;
-		case 5:
-			HPNumTen->SetTexture("HPMPNum5.png");
-			break;
-		case 6:
-			HPNumTen->SetTexture("HPMPNum6.png");
-			break;
-		case 7:
-			HPNumTen->SetTexture("HPMPNum7.png");
-			break;
-		case 8:
-			HPNumTen->SetTexture("HPMPNum8.png");
-			break;
-		case 9:
-			HPNumTen->SetTexture("HPMPNum9.png");
-			break;
-		default:
-			HPNumTen->SetTexture("HPMPNum0.png");
-			break;
-		}
-
-		switch (CurOne)
-		{
-		case 0:
-			HPNumOne->SetTexture("HPMPNum0.png");
-			break;
-		case 1:
-			HPNumOne->SetTexture("HPMPNum1.png");
-			break;
-		case 2:
-			HPNumOne->SetTexture("HPMPNum2.png");
-			break;
-		case 3:
-			HPNumOne->SetTexture("HPMPNum3.png");
-			break;
-		case 4:
-			HPNumOne->SetTexture("HPMPNum4.png");
-			break;
-		case 5:
-			HPNumOne->SetTexture("HPMPNum5.png");
-			break;
-		case 6:
-			HPNumOne->SetTexture("HPMPNum6.png");
-			break;
-		case 7:
-			HPNumOne->SetTexture("HPMPNum7.png");
-			break;
-		case 8:
-			HPNumOne->SetTexture("HPMPNum8.png");
-			break;
-		case 9:
-			HPNumOne->SetTexture("HPMPNum9.png");
-			break;
-		default:
-			HPNumTen->SetTexture("HPMPNum0.png");
-			break;
+			HPNumRendererSetting(MaxTho, HPMaxNumTho);
+			HPNumRendererSetting(MaxHun, HPMaxNumHun);
+			HPNumRendererSetting(MaxTen, HPMaxNumTen);
+			HPNumRendererSetting(MaxOne, HPMaxNumOne);
 		}
 	}
 }
 
+void Main_HP_MP_UI::HPNumRendererSetting(int _Value, GameEngineTextureRenderer* _Render)
+{
+	switch (_Value)
+	{
+	case 0:
+		_Render->SetTexture("HPMPNum0.png");
+		break;
+	case 1:
+		_Render->SetTexture("HPMPNum1.png");
+		break;
+	case 2:
+		_Render->SetTexture("HPMPNum2.png");
+		break;
+	case 3:
+		_Render->SetTexture("HPMPNum3.png");
+		break;
+	case 4:
+		_Render->SetTexture("HPMPNum4.png");
+		break;
+	case 5:
+		_Render->SetTexture("HPMPNum5.png");
+		break;
+	case 6:
+		_Render->SetTexture("HPMPNum6.png");
+		break;
+	case 7:
+		_Render->SetTexture("HPMPNum7.png");
+		break;
+	case 8:
+		_Render->SetTexture("HPMPNum8.png");
+		break;
+	case 9:
+		_Render->SetTexture("HPMPNum9.png");
+		break;
+	default:
+		_Render->SetTexture("HPMPNum0.png");
+		break;
+	}
+}

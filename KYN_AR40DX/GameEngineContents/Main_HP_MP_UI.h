@@ -39,6 +39,7 @@ public:
 	void LevelSetting();
 	void MPSetting();
 	void HPNumberSetting();
+	void HPNumRendererSetting(int _Value, GameEngineTextureRenderer* _Render);
 
 	GameEngineTextureRenderer* HPbar;
 protected:
@@ -65,10 +66,16 @@ private:
 	int UseMana;
 	int CurHPNumber;
 	int MaxHPNumber;
+
 	int CurOne;
 	int CurTen;
 	int CurHun;
 	int CurTho;
+
+	int MaxOne;
+	int MaxTen;
+	int MaxHun;
+	int MaxTho;
 
 	GameEngineTextureRenderer* HPNumOne;
 	GameEngineTextureRenderer* HPNumTen;
