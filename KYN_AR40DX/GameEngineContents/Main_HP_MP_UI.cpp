@@ -312,8 +312,20 @@ void Main_HP_MP_UI::HPNumberSetting()
 		{
 			//현재 체력 숫자 렌더링
 			CurTho = CurHPNumber / 1000;
+			if (CurTho >= 10)
+			{
+				CurTho = CurTho % 10;
+			}
 			CurHun = CurHPNumber / 100;
+			if (CurHun >= 10)
+			{
+				CurHun = CurHun % 10;
+			}
 			CurTen = CurHPNumber / 10;
+			if (CurTen >= 10)
+			{
+				CurTen = CurTen % 10;
+			}
 			CurOne = CurHPNumber % 10;
 
 			HPNumRendererSetting(CurTho, HPNumTho);
@@ -325,8 +337,20 @@ void Main_HP_MP_UI::HPNumberSetting()
 		{
 			//최대 체력 숫자 렌더링
 			MaxTho = MaxHPNumber / 1000;
+			if (MaxTho >= 10)
+			{
+				MaxTho = MaxTho % 10;
+			}
 			MaxHun = MaxHPNumber / 100;
+			if (MaxHun >= 10)
+			{
+				MaxHun = MaxHun % 10;
+			}
 			MaxTen = MaxHPNumber / 10;
+			if (MaxTen >= 10)
+			{
+				MaxTen = MaxTen % 10;
+			}
 			MaxOne = MaxHPNumber % 10;
 
 			HPNumRendererSetting(MaxTho, HPMaxNumTho);
@@ -370,6 +394,9 @@ void Main_HP_MP_UI::HPNumRendererSetting(int _Value, GameEngineTextureRenderer* 
 		break;
 	case 9:
 		_Render->SetTexture("HPMPNum9.png");
+		break;
+	case 10:
+		_Render->SetTexture("HPMPNum0.png");
 		break;
 	default:
 		_Render->SetTexture("HPMPNum0.png");
