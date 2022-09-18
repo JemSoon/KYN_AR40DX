@@ -78,7 +78,12 @@ Texture2D Tex : register(t0);
 SamplerState Smp : register(s0);
 float4 TextureAtlas_PS(Output _Input) : SV_Target0
 {
-        if (_Input.Tex.x < Slice.x)
+    if (_Input.Tex.x < Slice.x)
+    {
+        clip(-1);
+    }
+
+    if (_Input.Tex.y < Slice.y)
     {
         clip(-1);
     }
