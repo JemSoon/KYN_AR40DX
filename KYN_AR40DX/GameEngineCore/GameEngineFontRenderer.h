@@ -17,6 +17,12 @@ enum class TopAndBotSort
 	BOTTOM = 0x8,
 };
 
+enum class FontPositionMode
+{
+	WORLD = 0x4,
+	SCREEN = 0x8,
+};
+
 // Ό³Έν :
 class GameEngineDevice;
 class GameEngineFontRenderer : public GameEngineDefaultRenderer
@@ -55,6 +61,11 @@ public:
 		return Text;
 	}
 
+	void SetPositionMode(FontPositionMode _Mode)
+	{
+		Mode = _Mode;
+	}
+
 	void SetScreenPostion(float4 _ScreenPostion)
 	{
 		ScreenPostion = _ScreenPostion;
@@ -87,6 +98,7 @@ private:
 	float4 Color;
 	float4 ScreenPostion;
 
+	FontPositionMode Mode;
 	LeftAndRightSort LR;
 	TopAndBotSort TB;
 };

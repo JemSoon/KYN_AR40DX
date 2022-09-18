@@ -36,14 +36,20 @@ public:
 
 	GameEngineRenderingPipeLine* GetPipeLine();
 
+	void InstanceOn();
+
 protected:
 	virtual void Start();
 	virtual void Update(float _DeltaTime) {}
 	virtual void End() {}
 
+	virtual void InstanceSetting() {}
+
 private:
 	//네모난 빨간색을 출력한다 등등..
 	// 공통적인 메모리 공유하는 메로리들을 들고 있고
 	GameEngineRenderingPipeLine* PipeLine;
+	
+	bool IsInstancing;
 };
 

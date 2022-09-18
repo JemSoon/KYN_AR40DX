@@ -3,8 +3,9 @@
 #include "CharacterObject.h"
 #include "Player.h"
 
-//선생님은 생략된 것들도 명시적으로 칠 것이다
-//직접 만들지 않아도 자동으로 생략되어 생성되 있는것들
+// 자신이 맨처음 서있던 위치를 기억
+// 업데이트에서 DeathUpdate에서 death 애니메이션이 종료되면 자신의 모든 랜더러를 off
+// LiveTime = 5.0f
 
 //설명 : 몬스터들의 상위 부모 Att와 HP설정용(공통적인걸 넣는곳)
 class Player;
@@ -45,6 +46,25 @@ protected:
 	GameEngineTextureRenderer* HPbarRenderer;
 
 	void Start() override;
+
+
+	//void Update(float _DeltaTime) 
+	//{
+	//	if (hp가 0이라면)
+	//	{
+	//		LiveTime -= 델타타임
+	//		if (0.0 >= LiveTime)
+	//		{
+	//			랜더러를 다시 다 켜고
+	//			GetTransform()->worldpostition(StartPostion);
+	//			Renderer->ChangeAnimation(idle);
+	//		}
+	//		return;
+	//	}
+	//	// 일반적인 코드
+	//}
+
+
 	void Update(float _DeltaTime);
 	void End() {}
 

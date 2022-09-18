@@ -25,6 +25,8 @@ public:
 
 	void AllResourcesSetting();
 
+	void AllResourcesReset();
+
 	void ResourcesCheck(GameEngineRenderingPipeLine* _Line);
 
 	// 상수버퍼 계열

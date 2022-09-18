@@ -29,7 +29,7 @@ class GameEngineRenderer : public GameEngineTransformComponent
 	friend class GameEngineCamera;
 
 public:
-    RenderOption Option;//마스크등의 옵션넣기용
+    RenderOption renderOption;//마스크등의 옵션넣기용
 
 	// constrcuter destructer
 	GameEngineRenderer();

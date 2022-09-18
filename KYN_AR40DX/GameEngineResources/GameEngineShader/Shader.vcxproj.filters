@@ -14,6 +14,8 @@
     <FxCompile Include="RenderOption.fx" />
     <FxCompile Include="TargetMerge.hlsl" />
     <FxCompile Include="Blur.hlsl" />
+    <FxCompile Include="TextureAtlas_Inst.hlsl" />
+    <FxCompile Include="iTextureAtlas.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Debug">

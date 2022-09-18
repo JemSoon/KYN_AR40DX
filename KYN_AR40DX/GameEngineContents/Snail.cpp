@@ -29,6 +29,24 @@ void Snail::Start()
 {
 	Monster::Start();
 	{
+		{
+			//선생님 예제코드
+			//{
+			//	//GameEngineTextureRenderer* Renderer = CreateComponent<GameEngineTextureRenderer>();
+			//	//Renderer->SetFolderTextureToIndex("Test", 0);
+			//	//Renderer->ScaleToTexture();
+
+			//	for (size_t i = 0; i < 100; i++)
+			//	{
+			//		float X = GameEngineRandom::MainRandom.RandomFloat(-1280 / 2, 1280 / 2);
+			//		float Y = GameEngineRandom::MainRandom.RandomFloat(-720 / 2, 720 / 2);
+			//		GameEngineTextureRenderer* Renderer = CreateComponent<GameEngineTextureRenderer>();
+			//		Renderer->GetTransform().SetLocalPosition({ X, Y, 0 });
+			//		Renderer->SetFolderTextureToIndex("Test", 0);
+			//		Renderer->ScaleToTexture();
+			//	}
+			//}
+		}
 		HPRenderer->Off();
 		HPbarRenderer->Off();
 

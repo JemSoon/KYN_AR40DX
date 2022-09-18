@@ -9,10 +9,16 @@ enum class CAMERAPROJECTIONMODE
 	Orthographic,
 };
 
+class RenderingInstancing
+{
+
+};
+
 // 설명 :
 class GameEngineLevel;
 class GameEngineCamera;
 class GameEngineRenderTarget;
+class GameEngineRenderingPipeLine;
 class GameEngineCamera : public GameEngineTransformComponent
 {
 	friend GameEngineLevel;
@@ -99,6 +105,8 @@ private:
 	class GameEngineRenderTarget* CameraRenderTarget;
 
 	std::map<int, std::list<class GameEngineRenderer*>> AllRenderer_;
+
+	std::map<GameEngineRenderingPipeLine*, RenderingInstancing*> InstancingMap;
 
 	float4x4 View; // 바라보는것
 	float4x4 Projection;

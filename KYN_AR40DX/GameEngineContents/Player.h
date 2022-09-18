@@ -143,3 +143,34 @@ private:
 	JOB MyJob;
 };
 
+//class 잔상 : public GameEngineActor
+//{
+//	std::vector<GameEngineTextureRenderer*> AllPartsRenderer;
+//
+//public:
+//	void Start() 
+//	{
+//		Death(0.2f);
+//
+//		// 
+//		//HPRenderer->renderOption.Option00 = 1;
+//	}
+//
+//	텍스처세팅(Player* _Player) 
+//	{
+//		for (size_t i = 0; i < _Player->AllPartsRenderer.size(); i++)
+//		{
+//			AllPartsRenderer[i]->SetTexture(_Player->AllPartsRenderer[i]->GetCurTexture());
+//		}
+//	}
+//
+//	업데이트() 
+//	{
+//		for (size_t i = 0; i < _Player->AllPartsRenderer.size(); i++)
+//		{
+//			AllPartsRenderer[i]->GetPixelData().PlusColor.a -= 델타타임;
+//		}
+//
+//		// 점점 
+//	}
+//};
