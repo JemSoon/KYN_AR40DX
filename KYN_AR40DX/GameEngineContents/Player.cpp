@@ -667,6 +667,22 @@ void Player::SuperJumpUpdate(float _DeltaTime, const StateInfo& _Info)
 	ColorCheckUpdate();
 	ColorCheckUpdateNext(MovePower);
 
+	{
+		//양끝 머리부분이 벽에 부딪히면 움직이는 힘은 0이된다
+		if (false == IsColor(COLORCHECKDIR::LEFTTOP, CharacterObject::WHITE) &&
+			false == IsColor(COLORCHECKDIR::LEFTTOP, CharacterObject::BLUE))
+		{
+			MovePower.x = 0.0f;
+			stop = true;
+		}
+
+		else
+		{
+			//벽에 부딪힌게 아니라면 배경도 따라움직인다
+			stop = false;
+		}
+	}
+
 	if (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE)
 		&& false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::BLUE)
 		&& MovePower.y <= 0)
