@@ -16,7 +16,7 @@ BossMano::BossMano()
 	Speed = 25;
 
 	MonsterAtt = 40;
-	MonsterHPMax = 250;
+	MonsterHPMax = 50;
 	MonsterCurHP = MonsterHPMax;
 }
 
@@ -27,7 +27,18 @@ BossMano::~BossMano()
 
 void BossMano::Start()
 {
-	CharacterObject::Start();
+	Monster::Start();
+
+	HPRenderer->SetTexture("boss_hp_bg.png");
+	HPRenderer->GetTransform().SetWorldScale({ 801, 37});
+	HPRenderer->GetTransform().SetWorldPosition({ 0, 0, -100 });
+	HPRenderer->SetPivot(PIVOTMODE::LEFT);
+
+	HPbarRenderer->SetTexture("boss_hp_bar.png");
+	HPbarRenderer->GetTransform().SetWorldScale({ 801, 37});
+	HPbarRenderer->GetTransform().SetWorldPosition({ 39, -1, -100 });
+	HPbarRenderer->SetPivot(PIVOTMODE::LEFT);
+	
 
 	Renderer = CreateComponent<GameEngineTextureRenderer>();
 	Renderer->GetTransform().SetLocalScale({ 256, 256, 1 });
@@ -200,8 +211,6 @@ void BossMano::HitStart(const StateInfo& _Info)
 	{
 		Renderer->ChangeFrameAnimation("Hit");
 
-		//MovePower.x = (PlayerInfo->GetDirX()) * 0.5f;
-
 		{
 			//맞아서 보는 방향 설정
 			if (PlayerInfo->GetDirX() > 0)
@@ -224,7 +233,7 @@ void BossMano::HitUpdate(float _DeltaTime, const StateInfo& _Info)
 	ColorCheckUpdateNext(MovePower);
 
 	PatternTime += GameEngineTime::GetDeltaTime();
-	MovePower.x = (PlayerInfo->GetDirX()) * 0.5f;
+	MovePower.x = (PlayerInfo->GetDirX()) * 25.0f;
 
 	if (PatternTime >= 0.5f)
 	{
@@ -237,7 +246,7 @@ void BossMano::HitUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void BossMano::DeadStart(const StateInfo& _Info)
 {
-	PlayerInfo->CurEXP += 5;//달팽이는 5의 경험치를 준다
+	PlayerInfo->CurEXP += 100;//달팽이는 5의 경험치를 준다
 	MovePower = 0.0f;
 	Renderer->ChangeFrameAnimation("Die");
 	Collision->Off();
@@ -263,13 +272,13 @@ void BossMano::ChaseUpdate(float _DeltaTime, const StateInfo& _Info)
 	float4 Me = this->GetTransform().GetWorldPosition();
 	float Distance = (Target - Me).x;
 
-	if (Distance < 0)
+	if (Distance < -10)
 	{
 		MovePower.x = -Speed;
 		Renderer->GetTransform().PixLocalPositiveX();
 	}
 
-	else if (Distance > 0)
+	if (Distance > 10)
 	{
 		MovePower.x = Speed;
 		Renderer->GetTransform().PixLocalNegativeX();
@@ -287,10 +296,7 @@ void BossMano::ChaseUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void BossMano::Update(float _DeltaTime)
 {
-	if (PlayerInfo == nullptr)
-	{
-		PlayerInfo = Player::GetMainPlayer();
-	}
+	Monster::Update(_DeltaTime);
 
 	ColorCheckUpdate();
 	StateManager.Update(_DeltaTime);
@@ -308,14 +314,18 @@ void BossMano::Update(float _DeltaTime)
 
 bool BossMano::BossManoHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
+	//충돌한 몬스터만큼 ++
+	PlayerInfo->MonsterCount += 1;
+
 	Damage = PlayerInfo->GetPlayerAtt();
 
-	/*if (PlayerInfo->OneAtt == false)
+	if (PlayerInfo->MonsterHit(PlayerInfo->GetCollision(), this->GetCollision()) == true)
 	{
+		//플레이어 충돌 판정true시에만 피를 깐다
+		HPRenderer->On();
+		HPbarRenderer->On();
 		MonsterCurHP = MonsterCurHP - Damage;
-		PlayerInfo->OneAtt = true;
-	}*/
-
+	}
 
 	if (MonsterCurHP <= 0)
 	{
@@ -326,13 +336,27 @@ bool BossMano::BossManoHit(GameEngineCollision* _This, GameEngineCollision* _Oth
 
 	else
 	{
-		StateManager.ChangeState("Hit");
-	}
+		//else 안걸어주면 몬스터가 안죽는다
+		if (PlayerInfo->MonsterHit(PlayerInfo->GetCollision(), this->GetCollision()) == true)
+		{
+			//한마리 판정이 true면 Hit상태 당첨이고 충돌역시 true
+			StateManager.ChangeState("Hit");
+			return true;
+		}
 
-	return true;
+		else
+		{
+			//아니라면 아닌거
+			return false;
+		}
+	}
 }
 
 void BossMano::DieEnd()
 {
-	Death();
+	Renderer->Off();
+	HPbarRenderer->Off();
+	HPRenderer->Off();
+	Collision->Off();
+	//Death();
 }

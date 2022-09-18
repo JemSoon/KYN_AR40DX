@@ -1,4 +1,5 @@
 #pragma once
+#include <GameEngineCore/CoreMinimal.h>
 #include "Monster.h"
 
 //선생님은 생략된 것들도 명시적으로 칠 것이다
@@ -26,20 +27,6 @@ public:
 	BossMano& operator=(BossMano&& _Other) noexcept = delete;
 
 	bool BossManoHit(GameEngineCollision* _This, GameEngineCollision* _Other);
-
-	//int GetDamage()
-	//{
-	//	return Damage;
-	//}
-	//int SetDamage(int _Att)
-	//{
-	//	Damage = _Att;
-	//	return Damage;
-	//}
-	//int GetHP()
-	//{
-	//	return HP;
-	//}
 
 protected:
 	void Start() override;

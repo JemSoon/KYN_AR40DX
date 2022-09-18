@@ -44,7 +44,7 @@ void Monster::Update(float _DeltaTime)
 
 void Monster::MonsterHPSetting()
 {
-	int HPbarSize = (50 * MonsterCurHP) / MonsterHPMax;
+	int HPbarSize = (HPRenderer->GetTransform().GetLocalScale().x * MonsterCurHP) / MonsterHPMax;
 	HPbarRenderer->GetTransform().SetWorldScale({ (float)HPbarSize, 10, 0 });
 }
 
