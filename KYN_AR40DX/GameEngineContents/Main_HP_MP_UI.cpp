@@ -8,7 +8,7 @@ Main_HP_MP_UI::Main_HP_MP_UI()
 	,HPbarMaxSize(171)
 	,MPbarMaxSize(171)
 	,EXPbarSize(0)
-	,Hit(0)
+	,Hit(-1)
 	,UseMana(-1)
 	,Level(nullptr)
 	,LevelNum(nullptr)
@@ -174,8 +174,14 @@ void Main_HP_MP_UI::HPSetting()
 	{
 		if (PlayerInfo->HitCheck == true)
 		{
-			//부딪혔을때 HP+Hit하지않으면 처음부터 HP+Hit하면 오버해버림
-			//HPbarMaxSize = PlayerInfo->CurHP + Hit;//이게 원본인데 플레이어 체력비례로 만들기↓
+			if (Hit == -1)
+			{
+				Hit = PlayerInfo->HitDamage;
+			}
+
+			static_cast<float>(Hit);
+			Hit = Hit - GameEngineTime::GetDeltaTime();
+
 			HPbarMaxSize = (171 * (PlayerInfo->CurHP + Hit)) / PlayerInfo->HPMax;
 			Hit = Hit - GameEngineTime::GetDeltaTime();
 			if (HPbarMaxSize <= 0)
@@ -199,16 +205,15 @@ void Main_HP_MP_UI::HPSetting()
 			}
 		}
 	}
+	
+	HPbar->GetTransform().SetWorldScale({ (float)HPbarMaxSize ,13,0 });//줄어든비율로 사이즈세팅
 
 	if (Hit <= 0)
 	{
 		//델타타임으로 다 줄어들면 0고정
-		Hit = 0;
 		PlayerInfo->HitCheck = false;
-		Hit = PlayerInfo->HitDamage;
+		Hit = -1;
 	}
-
-	HPbar->GetTransform().SetWorldScale({ (float)HPbarMaxSize ,13,0 });//줄어든비율로 사이즈세팅
 
 	if (HPbarMaxSize <= 0)
 	{
