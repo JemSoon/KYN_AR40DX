@@ -103,6 +103,65 @@ void Main_HP_MP_UI::Start()
 	}
 
 	{
+		MPNumSlash = CreateComponent<GameEngineUIRenderer>();
+		MPNumSlash->SetTexture("HPMPNum.png");
+		MPNumSlash->GetTransform().SetWorldScale({ 7,9,-100 });
+		MPNumSlash->GetTransform().SetLocalPosition({ 10, -15,-101 });
+		MPNumSlash->SetPivot(PIVOTMODE::CENTER);
+
+		//현재체력 숫자렌더러
+		MPNumOne = CreateComponent<GameEngineUIRenderer>();
+		MPNumOne->SetTexture("HPMPNum0.png");
+		MPNumOne->GetTransform().SetWorldScale({ 7,9,-100 });
+		MPNumOne->GetTransform().SetLocalPosition({ -8, -15,-101 });
+		MPNumOne->SetPivot(PIVOTMODE::CENTER);
+
+		MPNumTen = CreateComponent<GameEngineUIRenderer>();
+		MPNumTen->SetTexture("HPMPNum0.png");
+		MPNumTen->GetTransform().SetWorldScale({ 7,9,-100 });
+		MPNumTen->GetTransform().SetLocalPosition({ -16, -15,-101 });
+		MPNumTen->SetPivot(PIVOTMODE::CENTER);
+
+		MPNumHun = CreateComponent<GameEngineUIRenderer>();
+		MPNumHun->SetTexture("HPMPNum0.png");
+		MPNumHun->GetTransform().SetWorldScale({ 7,9,-100 });
+		MPNumHun->GetTransform().SetLocalPosition({ -24, -15,-101 });
+		MPNumHun->SetPivot(PIVOTMODE::CENTER);
+
+		MPNumTho = CreateComponent<GameEngineUIRenderer>();
+		MPNumTho->SetTexture("HPMPNum0.png");
+		MPNumTho->GetTransform().SetWorldScale({ 7,9,-100 });
+		MPNumTho->GetTransform().SetLocalPosition({ -32, -15,-101 });
+		MPNumTho->SetPivot(PIVOTMODE::CENTER);
+
+		//최대체력 출력 렌더러
+		MPMaxNumTho = CreateComponent<GameEngineUIRenderer>();
+		MPMaxNumTho->SetTexture("HPMPNum0.png");
+		MPMaxNumTho->GetTransform().SetWorldScale({ 7,9,-100 });
+		MPMaxNumTho->GetTransform().SetLocalPosition({ 28, -15,-101 });
+		MPMaxNumTho->SetPivot(PIVOTMODE::CENTER);
+
+		MPMaxNumHun = CreateComponent<GameEngineUIRenderer>();
+		MPMaxNumHun->SetTexture("HPMPNum0.png");
+		MPMaxNumHun->GetTransform().SetWorldScale({ 7,9,-100 });
+		MPMaxNumHun->GetTransform().SetLocalPosition({ 36, -15,-101 });
+		MPMaxNumHun->SetPivot(PIVOTMODE::CENTER);
+
+		MPMaxNumTen = CreateComponent<GameEngineUIRenderer>();
+		MPMaxNumTen->SetTexture("HPMPNum0.png");
+		MPMaxNumTen->GetTransform().SetWorldScale({ 7,9,-100 });
+		MPMaxNumTen->GetTransform().SetLocalPosition({ 44, -15,-101 });
+		MPMaxNumTen->SetPivot(PIVOTMODE::CENTER);
+
+		MPMaxNumOne = CreateComponent<GameEngineUIRenderer>();
+		MPMaxNumOne->SetTexture("HPMPNum0.png");
+		MPMaxNumOne->GetTransform().SetWorldScale({ 7,9,-100 });
+		MPMaxNumOne->GetTransform().SetLocalPosition({ 52, -15,-101 });
+		MPMaxNumOne->SetPivot(PIVOTMODE::CENTER);
+
+	}
+
+	{
 		HP_MP = CreateComponent<GameEngineUIRenderer>();
 		HP_MP->GetTransform().SetWorldScale({ 204,70,-100 });
 		HP_MP->GetTransform().SetWorldPosition({ 0,0,-100 });
@@ -163,6 +222,7 @@ void Main_HP_MP_UI::Update(float _DeltaTime)
 	HPNumberSetting();
 
 	MPSetting();
+	MPNumberSetting();
 
 	EXPSetting();
 
@@ -316,57 +376,115 @@ void Main_HP_MP_UI::HPNumberSetting()
 	{
 		{
 			//현재 체력 숫자 렌더링
-			CurTho = CurHPNumber / 1000;
-			if (CurTho >= 10)
+			HPCurTho = CurHPNumber / 1000;
+			if (HPCurTho >= 10)
 			{
-				CurTho = CurTho % 10;
+				HPCurTho = HPCurTho % 10;
 			}
-			CurHun = CurHPNumber / 100;
-			if (CurHun >= 10)
+			HPCurHun = CurHPNumber / 100;
+			if (HPCurHun >= 10)
 			{
-				CurHun = CurHun % 10;
+				HPCurHun = HPCurHun % 10;
 			}
-			CurTen = CurHPNumber / 10;
-			if (CurTen >= 10)
+			HPCurTen = CurHPNumber / 10;
+			if (HPCurTen >= 10)
 			{
-				CurTen = CurTen % 10;
+				HPCurTen = HPCurTen % 10;
 			}
-			CurOne = CurHPNumber % 10;
+			HPCurOne = CurHPNumber % 10;
 
-			HPNumRendererSetting(CurTho, HPNumTho);
-			HPNumRendererSetting(CurHun, HPNumHun);
-			HPNumRendererSetting(CurTen, HPNumTen);
-			HPNumRendererSetting(CurOne, HPNumOne);
+			HPMPNumRendererSetting(HPCurTho, HPNumTho);
+			HPMPNumRendererSetting(HPCurHun, HPNumHun);
+			HPMPNumRendererSetting(HPCurTen, HPNumTen);
+			HPMPNumRendererSetting(HPCurOne, HPNumOne);
 		}
 
 		{
 			//최대 체력 숫자 렌더링
-			MaxTho = MaxHPNumber / 1000;
-			if (MaxTho >= 10)
+			HPMaxTho = MaxHPNumber / 1000;
+			if (HPMaxTho >= 10)
 			{
-				MaxTho = MaxTho % 10;
+				HPMaxTho = HPMaxTho % 10;
 			}
-			MaxHun = MaxHPNumber / 100;
-			if (MaxHun >= 10)
+			HPMaxHun = MaxHPNumber / 100;
+			if (HPMaxHun >= 10)
 			{
-				MaxHun = MaxHun % 10;
+				HPMaxHun = HPMaxHun % 10;
 			}
-			MaxTen = MaxHPNumber / 10;
-			if (MaxTen >= 10)
+			HPMaxTen = MaxHPNumber / 10;
+			if (HPMaxTen >= 10)
 			{
-				MaxTen = MaxTen % 10;
+				HPMaxTen = HPMaxTen % 10;
 			}
-			MaxOne = MaxHPNumber % 10;
+			HPMaxOne = MaxHPNumber % 10;
 
-			HPNumRendererSetting(MaxTho, HPMaxNumTho);
-			HPNumRendererSetting(MaxHun, HPMaxNumHun);
-			HPNumRendererSetting(MaxTen, HPMaxNumTen);
-			HPNumRendererSetting(MaxOne, HPMaxNumOne);
+			HPMPNumRendererSetting(HPMaxTho, HPMaxNumTho);
+			HPMPNumRendererSetting(HPMaxHun, HPMaxNumHun);
+			HPMPNumRendererSetting(HPMaxTen, HPMaxNumTen);
+			HPMPNumRendererSetting(HPMaxOne, HPMaxNumOne);
 		}
 	}
 }
 
-void Main_HP_MP_UI::HPNumRendererSetting(int _Value, GameEngineTextureRenderer* _Render)
+void Main_HP_MP_UI::MPNumberSetting()
+{
+	CurMPNumber = PlayerInfo->CurMP;
+	MaxMPNumber = PlayerInfo->MPMax;
+
+	{
+		{
+			//현재 체력 숫자 렌더링
+			MPCurTho = CurMPNumber / 1000;
+			if (MPCurTho >= 10)
+			{
+				MPCurTho = MPCurTho % 10;
+			}
+			MPCurHun = CurMPNumber / 100;
+			if (MPCurHun >= 10)
+			{
+				MPCurHun = MPCurHun % 10;
+			}
+			MPCurTen = CurMPNumber / 10;
+			if (MPCurTen >= 10)
+			{
+				MPCurTen = MPCurTen % 10;
+			}
+			MPCurOne = CurMPNumber % 10;
+
+			HPMPNumRendererSetting(MPCurTho, MPNumTho);
+			HPMPNumRendererSetting(MPCurHun, MPNumHun);
+			HPMPNumRendererSetting(MPCurTen, MPNumTen);
+			HPMPNumRendererSetting(MPCurOne, MPNumOne);
+		}
+
+		{
+			//최대 체력 숫자 렌더링
+			MPMaxTho = MaxMPNumber / 1000;
+			if (MPMaxTho >= 10)
+			{
+				MPMaxTho = MPMaxTho % 10;
+			}
+			MPMaxHun = MaxMPNumber / 100;
+			if (MPMaxHun >= 10)
+			{
+				MPMaxHun = MPMaxHun % 10;
+			}
+			MPMaxTen = MaxMPNumber / 10;
+			if (MPMaxTen >= 10)
+			{
+				MPMaxTen = MPMaxTen % 10;
+			}
+			MPMaxOne = MaxMPNumber % 10;
+
+			HPMPNumRendererSetting(MPMaxTho, MPMaxNumTho);
+			HPMPNumRendererSetting(MPMaxHun, MPMaxNumHun);
+			HPMPNumRendererSetting(MPMaxTen, MPMaxNumTen);
+			HPMPNumRendererSetting(MPMaxOne, MPMaxNumOne);
+		}
+	}
+}
+
+void Main_HP_MP_UI::HPMPNumRendererSetting(int _Value, GameEngineTextureRenderer* _Render)
 {
 	switch (_Value)
 	{

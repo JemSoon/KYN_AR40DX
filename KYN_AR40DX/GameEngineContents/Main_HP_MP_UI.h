@@ -39,7 +39,8 @@ public:
 	void LevelSetting();
 	void MPSetting();
 	void HPNumberSetting();
-	void HPNumRendererSetting(int _Value, GameEngineTextureRenderer* _Render);
+	void MPNumberSetting();
+	void HPMPNumRendererSetting(int _Value, GameEngineTextureRenderer* _Render);
 
 	GameEngineTextureRenderer* HPbar;
 protected:
@@ -62,20 +63,35 @@ private:
 	int HPbarMaxSize;
 	int MPbarMaxSize;
 	int EXPbarSize;
+	
 	int Hit;
 	int UseMana;
+
 	int CurHPNumber;
 	int MaxHPNumber;
 
-	int CurOne;
-	int CurTen;
-	int CurHun;
-	int CurTho;
+	int CurMPNumber;
+	int MaxMPNumber;
 
-	int MaxOne;
-	int MaxTen;
-	int MaxHun;
-	int MaxTho;
+	int HPCurOne;
+	int HPCurTen;
+	int HPCurHun;
+	int HPCurTho;
+
+	int HPMaxOne;
+	int HPMaxTen;
+	int HPMaxHun;
+	int HPMaxTho;
+
+	int MPCurOne;
+	int MPCurTen;
+	int MPCurHun;
+	int MPCurTho;
+
+	int MPMaxOne;
+	int MPMaxTen;
+	int MPMaxHun;
+	int MPMaxTho;
 
 	GameEngineTextureRenderer* HPNumOne;
 	GameEngineTextureRenderer* HPNumTen;
@@ -86,5 +102,15 @@ private:
 	GameEngineTextureRenderer* HPMaxNumTen;
 	GameEngineTextureRenderer* HPMaxNumHun;
 	GameEngineTextureRenderer* HPMaxNumTho;
+
+	GameEngineTextureRenderer* MPNumOne;
+	GameEngineTextureRenderer* MPNumTen;
+	GameEngineTextureRenderer* MPNumHun;
+	GameEngineTextureRenderer* MPNumTho;
+	GameEngineTextureRenderer* MPNumSlash;
+	GameEngineTextureRenderer* MPMaxNumOne;
+	GameEngineTextureRenderer* MPMaxNumTen;
+	GameEngineTextureRenderer* MPMaxNumHun;
+	GameEngineTextureRenderer* MPMaxNumTho;
 };
 
