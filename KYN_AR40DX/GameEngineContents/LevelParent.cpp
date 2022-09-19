@@ -52,11 +52,6 @@ void LevelParent::CreateStageObject(const std::string _BG, const std::string _Co
 		}
 
 		{
-			BossUI = CreateActor<BossHPUI>(OBJECTORDER::UI);
-			BossUI->GetTransform().SetWorldPosition({ -329.0f,320.0f,-100.0f });
-		}
-
-		{
 			Cursor = CreateActor<Mouse>(OBJECTORDER::UI);
 		}
 		

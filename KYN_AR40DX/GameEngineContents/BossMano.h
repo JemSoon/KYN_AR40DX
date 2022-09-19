@@ -60,6 +60,6 @@ private:
 	float PatternTime;
 	int Random;
 	int RandomDir;
-
+	BossHPUI* BossUI;
 };
 

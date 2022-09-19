@@ -40,6 +40,8 @@ void BossMano::Start()
 	//HPbarRenderer->GetTransform().SetWorldPosition({ 39, -1, -100 });
 	//HPbarRenderer->SetPivot(PIVOTMODE::LEFT);
 
+	BossUI = GetLevel()->CreateActor<BossHPUI>();
+	BossUI->GetTransform().SetWorldPosition({ -329.0f,320.0f,-100.0f });
 
 	Renderer = CreateComponent<GameEngineTextureRenderer>();
 	Renderer->GetTransform().SetLocalScale({ 256, 256, 1 });
@@ -297,6 +299,8 @@ void BossMano::ChaseUpdate(float _DeltaTime, const StateInfo& _Info)
 void BossMano::Update(float _DeltaTime)
 {
 	Monster::Update(_DeltaTime);
+
+	BossUI->SetBoss(this);
 
 	ColorCheckUpdate();
 	StateManager.Update(_DeltaTime);

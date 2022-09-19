@@ -108,7 +108,6 @@ void Stage1Level::Update(float _DeltaTime)
 
 	LevelMove();
 
-	BossUI->SetBoss(Mano);
 }
 
 void Stage1Level::End()

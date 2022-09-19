@@ -3,12 +3,10 @@
 #include <GameEngineBase/GameEngineSound.h>
 #include "StageObject.h"
 #include "PortalObject.h"
-#include "BossHPUI.h"
 // Ό³Έν :
 class Main_HP_MP_UI;
 class Inventory;
 class Mouse;
-class BossHPUI;
 class LevelParent : public GameEngineLevel
 {
 public:
@@ -53,7 +51,6 @@ protected:
 	Main_HP_MP_UI* MainUI;
 	Mouse* Cursor;
 	Inventory* Item;
-	BossHPUI* BossUI;
 private:
 };
 

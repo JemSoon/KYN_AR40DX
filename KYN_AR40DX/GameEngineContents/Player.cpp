@@ -201,7 +201,7 @@ void Player::DeadStart(const StateInfo& _Info)
 
 void Player::DeadUpdate(float _DeltaTime, const StateInfo& _Info)
 {	
-	Renderer->GetTransform().SetLocalRotate({ 0,0,10,0 });
+	Renderer->GetTransform().SetAddWorldRotation({ 0,0,_DeltaTime,0 });
 
 	return;
 }
