@@ -3,7 +3,7 @@
 #include <GameEngineBase/GameEngineSound.h>
 #include "StageObject.h"
 #include "PortalObject.h"
-
+#include "BossHPUI.h"
 // Ό³Έν :
 class Main_HP_MP_UI;
 class Inventory;

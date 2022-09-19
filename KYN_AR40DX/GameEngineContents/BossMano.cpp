@@ -6,6 +6,7 @@
 
 #include <GameEngineBase/GameEngineRandom.h>
 
+#include "BossHPUI.h"
 BossMano::BossMano()
 	:Damage(0)
 	,PatternTime(0)
@@ -29,16 +30,16 @@ void BossMano::Start()
 {
 	Monster::Start();
 
-	HPRenderer->SetTexture("boss_hp_bg.png");
-	HPRenderer->GetTransform().SetWorldScale({ 801, 37});
-	HPRenderer->GetTransform().SetWorldPosition({ 0, 0, -100 });
-	HPRenderer->SetPivot(PIVOTMODE::LEFT);
+	//HPRenderer->SetTexture("boss_hp_bg.png");
+	//HPRenderer->GetTransform().SetWorldScale({ 801, 37});
+	//HPRenderer->GetTransform().SetWorldPosition({ 0, 0, -100 });
+	//HPRenderer->SetPivot(PIVOTMODE::LEFT);
+	//
+	//HPbarRenderer->SetTexture("boss_hp_bar.png");
+	//HPbarRenderer->GetTransform().SetWorldScale({ 801, 37});
+	//HPbarRenderer->GetTransform().SetWorldPosition({ 39, -1, -100 });
+	//HPbarRenderer->SetPivot(PIVOTMODE::LEFT);
 
-	HPbarRenderer->SetTexture("boss_hp_bar.png");
-	HPbarRenderer->GetTransform().SetWorldScale({ 801, 37});
-	HPbarRenderer->GetTransform().SetWorldPosition({ 39, -1, -100 });
-	HPbarRenderer->SetPivot(PIVOTMODE::LEFT);
-	
 
 	Renderer = CreateComponent<GameEngineTextureRenderer>();
 	Renderer->GetTransform().SetLocalScale({ 256, 256, 1 });

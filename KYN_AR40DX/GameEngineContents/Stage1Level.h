@@ -6,6 +6,7 @@
 // 설명 : 메이플 동산
 class Player;
 class StageObject;
+class BossMano;
 class Stage1Level : public LevelParent
 {
 public:
@@ -36,6 +37,6 @@ private:
 	Player* NewPlayer;
 	GameEngineSoundPlayer BgmPlayer;
 	bool BgmOn;
-	
+	BossMano* Mano;
 };
 

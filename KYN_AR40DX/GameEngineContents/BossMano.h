@@ -8,6 +8,7 @@
 //설명 : 보스 달팽이 마노
 class Player;
 class DamageNumber;
+class BossHPUI;
 class BossMano : public Monster
 {
 public:
@@ -59,6 +60,6 @@ private:
 	float PatternTime;
 	int Random;
 	int RandomDir;
-	
+
 };
 

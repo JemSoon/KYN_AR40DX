@@ -3,6 +3,7 @@
 
 //설명 : 보스 체력 ui용 클래스
 class GameEngineUIRenderer;
+class Monster;
 class BossHPUI : public GameEngineActor
 {
 public:
@@ -11,9 +12,6 @@ public:
 	//디폴트 소멸자
 	~BossHPUI();
 
-	
-	
-	
 	//======아래것들은 명시적으로 안쓰겠습니다(delete)======
 	
 	//디폴트 복사 생성자
@@ -23,7 +21,8 @@ public:
 	//operater= (자기자신을 리턴하는)
 	BossHPUI& operator=(const BossHPUI& _Other) = delete;
 	BossHPUI& operator=(BossHPUI&& _Other) noexcept = delete;
-
+	
+	void SetBoss(Monster* _Boss);
 
 protected:
 	void Start() override;
@@ -35,5 +34,8 @@ protected:
 private:
 	int HPbarMaxSize;
 	int HPbackMaxSize;
+
+	int CurHP;
+	int HPMax;
 };
 

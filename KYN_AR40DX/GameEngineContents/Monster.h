@@ -32,11 +32,14 @@ public:
 		return MonsterAtt;
 	}
 
-	int GetHP()
+	int GetCurHP()
 	{
 		return MonsterCurHP;
 	}
-
+	int GetMaxHP()
+	{
+		return MonsterHPMax;
+	}
 protected:
 	int MonsterAtt;
 	int MonsterCurHP;
