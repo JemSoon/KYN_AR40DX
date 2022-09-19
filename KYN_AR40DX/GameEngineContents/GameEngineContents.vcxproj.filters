@@ -58,6 +58,9 @@
     <Filter Include="Actor\Monster\ParentMonster">
       <UniqueIdentifier>{ac52ceeb-f133-4010-9bd5-937e727771fd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Global\UI\BossUI">
+      <UniqueIdentifier>{8521da86-b918-4cb1-81f0-86c37229033a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MapleStoryCore.h">
@@ -124,6 +127,9 @@
     <ClInclude Include="Monster.h">
       <Filter>Actor\Monster\ParentMonster</Filter>
     </ClInclude>
+    <ClInclude Include="BossHPUI.h">
+      <Filter>Global\UI\BossUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapleStoryCore.cpp">
@@ -186,6 +192,9 @@
     </ClCompile>
     <ClCompile Include="Monster.cpp">
       <Filter>Actor\Monster\ParentMonster</Filter>
+    </ClCompile>
+    <ClCompile Include="BossHPUI.cpp">
+      <Filter>Global\UI\BossUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

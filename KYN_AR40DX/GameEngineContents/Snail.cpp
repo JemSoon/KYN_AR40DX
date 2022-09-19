@@ -11,7 +11,6 @@ Snail::Snail()
 	,PatternTime(0)
 	,Random(0)
 	,RandomDir(0)
-	,Hit(false)
 	
 	
 {

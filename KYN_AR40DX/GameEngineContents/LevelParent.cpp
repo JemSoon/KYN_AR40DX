@@ -3,6 +3,7 @@
 #include "Main_HP_MP_UI.h"
 #include "Mouse.h"
 #include "Inventory.h"
+#include "BossHPUI.h"
 
 LevelParent::LevelParent() 
 {
@@ -48,6 +49,11 @@ void LevelParent::CreateStageObject(const std::string _BG, const std::string _Co
 
 			Item = CreateActor<Inventory>(OBJECTORDER::UI);
 			Item->GetTransform().SetWorldPosition({ 300.0f,0.0f,-100.0f });
+		}
+
+		{
+			BossUI = CreateActor<BossHPUI>(OBJECTORDER::UI);
+			BossUI->GetTransform().SetWorldPosition({ -329.0f,320.0f,-100.0f });
 		}
 
 		{

@@ -11,7 +11,7 @@ BossMano::BossMano()
 	,PatternTime(0)
 	,Random(0)
 	,RandomDir(0)
-	,Hit(false)
+	,BossUIOn(false)
 {
 	Speed = 25;
 
@@ -207,23 +207,22 @@ void BossMano::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 void BossMano::HitStart(const StateInfo& _Info)
 {
 	PatternTime = 0.0f;
-	if (PlayerInfo->MonsterHit(PlayerInfo->GetCollision(),this->GetCollision()) == false)
+
+	Renderer->ChangeFrameAnimation("Hit");
+
 	{
-		Renderer->ChangeFrameAnimation("Hit");
-
+		//맞아서 보는 방향 설정
+		if (PlayerInfo->GetDirX() > 0)
 		{
-			//맞아서 보는 방향 설정
-			if (PlayerInfo->GetDirX() > 0)
-			{
-				Renderer->GetTransform().PixLocalPositiveX();
-			}
+			Renderer->GetTransform().PixLocalPositiveX();
+		}
 
-			if (PlayerInfo->GetDirX() < 0)
-			{
-				Renderer->GetTransform().PixLocalNegativeX();
-			}
+		if (PlayerInfo->GetDirX() < 0)
+		{
+			Renderer->GetTransform().PixLocalNegativeX();
 		}
 	}
+	
 }
 
 void BossMano::HitUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -325,6 +324,7 @@ bool BossMano::BossManoHit(GameEngineCollision* _This, GameEngineCollision* _Oth
 		HPRenderer->On();
 		HPbarRenderer->On();
 		MonsterCurHP = MonsterCurHP - Damage;
+		BossUIOn = true;
 	}
 
 	if (MonsterCurHP <= 0)
@@ -358,5 +358,6 @@ void BossMano::DieEnd()
 	HPbarRenderer->Off();
 	HPRenderer->Off();
 	Collision->Off();
+	BossUIOn = false;
 	//Death();
 }

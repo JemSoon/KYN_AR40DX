@@ -141,6 +141,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BossHPUI.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="BossMano.h">
       <SubType>
       </SubType>
@@ -228,6 +232,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BossHPUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="BossMano.cpp">
       <SubType>
       </SubType>

@@ -27,6 +27,7 @@ public:
 	BossMano& operator=(BossMano&& _Other) noexcept = delete;
 
 	bool BossManoHit(GameEngineCollision* _This, GameEngineCollision* _Other);
+	bool BossUIOn;
 
 protected:
 	void Start() override;
@@ -58,6 +59,6 @@ private:
 	float PatternTime;
 	int Random;
 	int RandomDir;
-	bool Hit;
+	
 };
 
