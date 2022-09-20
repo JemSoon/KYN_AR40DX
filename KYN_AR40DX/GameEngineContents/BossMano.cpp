@@ -2,6 +2,8 @@
 #include "BossMano.h"
 #include "Player.h"
 
+#include "DamageNumber.h"
+
 #include <GameEngineBase/GameEngineRandom.h>
 
 #include "BossHPUI.h"
@@ -387,7 +389,7 @@ bool BossMano::BossManoHit(GameEngineCollision* _This, GameEngineCollision* _Oth
 {
 	//충돌한 몬스터만큼 ++
 	PlayerInfo->MonsterCount += 1;
-
+	PlayerInfo->SetPlayerAttBuff(1.0f);
 	//Damage = PlayerInfo->GetFinalAtt();
 
 	if (PlayerInfo->MonsterHit(PlayerInfo->GetCollision(), this->GetCollision()) == true)
@@ -407,6 +409,16 @@ bool BossMano::BossManoHit(GameEngineCollision* _This, GameEngineCollision* _Oth
 			Damage = PlayerInfo->GetFinalAtt();
 		}
 		MonsterCurHP = MonsterCurHP - Damage;
+
+		if (PlayerInfo->MonsterCount <= 1)
+		{	//이거 몬스터쪽으로 옮겨야할듯
+			//몬스터를 한마리 쳤을때만 띄운다
+			//플레이어의 공격력을 가져와 몬스터 액터에 그 숫자(데미지)를 머리위에 띄운다
+			DamageRender = _This->GetActor()->GetLevel()->CreateActor<DamageNumber>();
+			float4 Pos = _This->GetActor()->GetTransform().GetWorldPosition();
+			DamageRender->GetTransform().SetWorldPosition({ Pos.x,Pos.y + 32,-400 });
+			DamageRender->NumberSetting(PlayerInfo->GetFinalAtt());
+		}
 	}
 
 	if (MonsterCurHP <= 0)

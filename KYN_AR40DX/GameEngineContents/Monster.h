@@ -9,6 +9,7 @@
 
 //설명 : 몬스터들의 상위 부모 Att와 HP설정용(공통적인걸 넣는곳)
 class Player;
+class DamageNumber;
 class Monster : public CharacterObject
 {
 public:
@@ -74,6 +75,7 @@ protected:
 
 	void MonsterHPSetting();
 	Player* PlayerInfo;
+	DamageNumber* DamageRender;
 private:
 
 };
