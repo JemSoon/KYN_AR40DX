@@ -325,7 +325,7 @@ bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 	//충돌한 몬스터만큼 ++
 	PlayerInfo->MonsterCount += 1;
 
-	Damage = PlayerInfo->GetPlayerAtt();
+	Damage = PlayerInfo->GetFinalAtt();
 
 	if (PlayerInfo->MonsterHit(PlayerInfo->GetCollision(), this->GetCollision()) == true)
 	{

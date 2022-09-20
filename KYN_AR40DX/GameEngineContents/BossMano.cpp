@@ -2,8 +2,6 @@
 #include "BossMano.h"
 #include "Player.h"
 
-#include "DamageNumber.h"
-
 #include <GameEngineBase/GameEngineRandom.h>
 
 #include "BossHPUI.h"
@@ -13,7 +11,10 @@ BossMano::BossMano()
 	,Random(0)
 	,RandomDir(0)
 	,BossUI(nullptr)
-	,Num(nullptr)
+	,SearchCollision(nullptr)
+	,Bufficon(nullptr)
+	,IsBuff(false)
+	,BuffTime(0.0f)
 {
 	Speed = 25;
 
@@ -47,15 +48,24 @@ void BossMano::Start()
 	Renderer->CreateFrameAnimationCutTexture("Idle", FrameAnimation_DESC("mano_idle.png", Nine, 0.2f));
 	Renderer->CreateFrameAnimationCutTexture("Move", FrameAnimation_DESC("mano_move.png", Six, 0.2f));
 	Renderer->CreateFrameAnimationCutTexture("Die", FrameAnimation_DESC("mano_die.png", Nine, 0.2f, false));
-	Renderer->CreateFrameAnimationCutTexture("Buff", FrameAnimation_DESC("mano_skill1.png", Ten, 0.2f));
+	Renderer->CreateFrameAnimationCutTexture("Skill", FrameAnimation_DESC("mano_skill.png", Ten, 0.2f));
 	Renderer->CreateFrameAnimationCutTexture("Hit", FrameAnimation_DESC("mano_hit.png", One, 0.2f, false));
 
 	Renderer->ChangeFrameAnimation("Idle");
 	Renderer->SetPivot(PIVOTMODE::BOT);
 
 	{
+		Bufficon = CreateComponent<GameEngineTextureRenderer>();
+		Bufficon->GetTransform().SetLocalScale({ 26, 28, 1 });
+		Bufficon->GetTransform().SetLocalPosition({ 0,100 });
+		Bufficon->SetTexture("Bufficon.png");
+		Bufficon->Off();
+	}
+
+	{
 		//애니메이션 엔드 관련
 		Renderer->AnimationBindEnd("Die", std::bind(&BossMano::DieEnd, this));
+		Renderer->AnimationBindEnd("Skill", std::bind(&BossMano::SkillEnd, this));
 	}
 
 	{
@@ -94,6 +104,10 @@ void BossMano::Start()
 		StateManager.CreateStateMember("Chase"
 			, std::bind(&BossMano::ChaseUpdate, this, std::placeholders::_1, std::placeholders::_2)
 			, std::bind(&BossMano::ChaseStart, this, std::placeholders::_1));
+
+		StateManager.CreateStateMember("Skill"
+			, std::bind(&BossMano::SkillUpdate, this, std::placeholders::_1, std::placeholders::_2)
+			, std::bind(&BossMano::SkillStart, this, std::placeholders::_1));
 
 		StateManager.ChangeState("Idle");
 	}
@@ -209,7 +223,7 @@ void BossMano::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void BossMano::HitStart(const StateInfo& _Info)
 {
-	BossUI->On();
+	//BossUI->On();
 
 	PatternTime = 0.0f;
 
@@ -264,6 +278,7 @@ void BossMano::ChaseStart(const StateInfo& _Info)
 {
 	Renderer->ChangeFrameAnimation("Move");
 	Speed = 25.0f;
+	Random = GameEngineRandom::MainRandom.RandomInt(1, 2);
 }
 
 void BossMano::ChaseUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -271,6 +286,12 @@ void BossMano::ChaseUpdate(float _DeltaTime, const StateInfo& _Info)
 	Gravity(_DeltaTime);
 	ColorCheckUpdate();
 	ColorCheckUpdateNext(MovePower);
+
+	if (IsBuff == false && Random == 1)
+	{
+		StateManager.ChangeState("Skill");
+		return;
+	}
 
 	float4 Target = PlayerInfo->GetTransform().GetWorldPosition();
 	float4 Me = this->GetTransform().GetWorldPosition();
@@ -292,6 +313,23 @@ void BossMano::ChaseUpdate(float _DeltaTime, const StateInfo& _Info)
 	return;
 }
 
+void BossMano::SkillStart(const StateInfo& _Info)
+{
+	BuffTime = 0.0f;
+	IsBuff = true;
+	MovePower.x=0.0f;
+	Renderer->ChangeFrameAnimation("Skill");
+}
+
+void BossMano::SkillUpdate(float _DeltaTime, const StateInfo& _Info)
+{
+	Gravity(_DeltaTime);
+	ColorCheckUpdate();
+	ColorCheckUpdateNext(MovePower);
+
+	NoGravity();
+	return;
+}
 //====================================================================================//
 //====================================================================================//
 //====================================================================================//
@@ -320,12 +358,29 @@ void BossMano::Update(float _DeltaTime)
 		SearchCollision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::Player, CollisionType::CT_OBB2D,
 			std::bind(&BossMano::PlayerSearch, this, std::placeholders::_1, std::placeholders::_2));
 	}
+
+	if (IsBuff == true)
+	{
+		BuffTime += _DeltaTime;
+	}
+	if (BuffTime >= 5.0f)
+	{
+		IsBuff = false;
+		Bufficon->Off();
+	}
 }
 
 bool BossMano::PlayerSearch(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
-	StateManager.ChangeState("Chase");
-
+	if (IsBuff == true)
+	{
+		StateManager.ChangeState("Chase");
+	}
+	else
+	{
+		StateManager.ChangeState("Skill");
+	}
+	SearchCollision->Off();
 	return true;
 }
 
@@ -334,13 +389,24 @@ bool BossMano::BossManoHit(GameEngineCollision* _This, GameEngineCollision* _Oth
 	//충돌한 몬스터만큼 ++
 	PlayerInfo->MonsterCount += 1;
 
-	Damage = PlayerInfo->GetPlayerAtt();
+	//Damage = PlayerInfo->GetFinalAtt();
 
 	if (PlayerInfo->MonsterHit(PlayerInfo->GetCollision(), this->GetCollision()) == true)
 	{
 		//플레이어 충돌 판정true시에만 피를 깐다
 		HPRenderer->On();
 		HPbarRenderer->On();
+
+		if (IsBuff == true)
+		{
+			PlayerInfo->SetPlayerAttBuff(0.5f);
+			Damage = PlayerInfo->GetFinalAtt();
+		}
+		else
+		{
+			PlayerInfo->SetPlayerAttBuff(1.0f);
+			Damage = PlayerInfo->GetFinalAtt();
+		}
 		MonsterCurHP = MonsterCurHP - Damage;
 	}
 
@@ -356,8 +422,13 @@ bool BossMano::BossManoHit(GameEngineCollision* _This, GameEngineCollision* _Oth
 		//else 안걸어주면 몬스터가 안죽는다
 		if (PlayerInfo->MonsterHit(PlayerInfo->GetCollision(), this->GetCollision()) == true)
 		{
+			BossUI->On();
+
 			//한마리 판정이 true면 Hit상태 당첨이고 충돌역시 true
-			StateManager.ChangeState("Hit");
+			if (IsBuff == false)
+			{
+				StateManager.ChangeState("Hit");
+			}
 			return true;
 		}
 
@@ -377,4 +448,11 @@ void BossMano::DieEnd()
 	Collision->Off();
 	BossUI->Off();
 	//Death();
+}
+
+void BossMano::SkillEnd()
+{
+	Bufficon->On();
+	StateManager.ChangeState("Chase");
+	Random = GameEngineRandom::MainRandom.RandomInt(1, 2);
 }

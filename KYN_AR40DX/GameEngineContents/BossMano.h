@@ -7,7 +7,6 @@
 
 //설명 : 보스 달팽이 마노
 class Player;
-class DamageNumber;
 class BossHPUI;
 class BossMano : public Monster
 {
@@ -29,7 +28,7 @@ public:
 
 	bool BossManoHit(GameEngineCollision* _This, GameEngineCollision* _Other);
 	bool PlayerSearch(GameEngineCollision* _This, GameEngineCollision* _Other);
-
+	void SkillEnd();
 protected:
 	void Start() override;
 	void Update(float _DeltaTime);
@@ -50,17 +49,22 @@ protected:
 	void ChaseStart(const StateInfo& _Info);
 	void ChaseUpdate(float _DeltaTime, const StateInfo& _Info);
 
+	void SkillStart(const StateInfo& _Info);
+	void SkillUpdate(float _DeltaTime, const StateInfo& _Info);
+
 	void DieEnd();
 
 private:
 	GameEngineStateManager StateManager;
-	DamageNumber* Num;
 	GameEngineCollision* SearchCollision;
+	GameEngineTextureRenderer* Bufficon;
 
 	int Damage;
 	float PatternTime;
 	int Random;
 	int RandomDir;
+	bool IsBuff;
+	float BuffTime;
 	BossHPUI* BossUI;
 };
 

@@ -50,9 +50,14 @@ public:
 		return MovePower;
 	}
 	
-	int GetPlayerAtt()
+	int GetFinalAtt()
 	{
-		return PlayerAtt;
+		return FinalAtt;
+	}
+
+	void SetPlayerAttBuff(float _Value)
+	{
+		FinalAtt = PlayerAtt * _Value;;
 	}
 
 	float GetDirX()
@@ -135,6 +140,7 @@ private:
 	bool Hit;
 	float HitTime;
 	int PlayerAtt;
+	int FinalAtt;
 	GameEngineTextureRenderer* PlayerLevelUp;
 	GameEngineTextureRenderer* Effect;
 	GameEngineTextureRenderer* RIP;

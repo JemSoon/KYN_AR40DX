@@ -37,6 +37,7 @@ Player::Player()
 	, UseSuperJump(5)
 	, MyJob(JOB::NONE)
 	, ManaDamage(0)
+	, FinalAtt(PlayerAtt)
 {
 	MainPlayer = this;
 	Speed = 150.0f;
@@ -863,7 +864,7 @@ bool Player::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 		DamageNumber* tmp = _Other->GetActor()->GetLevel()->CreateActor<DamageNumber>();
 		float4 Pos = _Other->GetActor()->GetTransform().GetWorldPosition();
 		tmp->GetTransform().SetWorldPosition({ Pos.x,Pos.y + 32,-400 });
-		tmp->NumberSetting(PlayerAtt);
+		tmp->NumberSetting(FinalAtt);
 	}
 	
 	if (MonsterCount <= 1)
