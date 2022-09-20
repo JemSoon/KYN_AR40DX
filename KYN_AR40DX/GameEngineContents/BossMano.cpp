@@ -12,7 +12,6 @@ BossMano::BossMano()
 	,PatternTime(0)
 	,Random(0)
 	,RandomDir(0)
-	,BossUIOn(false)
 {
 	Speed = 25;
 
@@ -42,6 +41,7 @@ void BossMano::Start()
 
 	BossUI = GetLevel()->CreateActor<BossHPUI>();
 	BossUI->GetTransform().SetWorldPosition({ -329.0f,320.0f,-100.0f });
+	BossUI->Off();
 
 	Renderer = CreateComponent<GameEngineTextureRenderer>();
 	Renderer->GetTransform().SetLocalScale({ 256, 256, 1 });
@@ -209,6 +209,8 @@ void BossMano::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void BossMano::HitStart(const StateInfo& _Info)
 {
+	BossUI->On();
+
 	PatternTime = 0.0f;
 
 	Renderer->ChangeFrameAnimation("Hit");
@@ -329,7 +331,6 @@ bool BossMano::BossManoHit(GameEngineCollision* _This, GameEngineCollision* _Oth
 		HPRenderer->On();
 		HPbarRenderer->On();
 		MonsterCurHP = MonsterCurHP - Damage;
-		BossUIOn = true;
 	}
 
 	if (MonsterCurHP <= 0)
@@ -363,6 +364,6 @@ void BossMano::DieEnd()
 	HPbarRenderer->Off();
 	HPRenderer->Off();
 	Collision->Off();
-	BossUIOn = false;
+	BossUI->Off();
 	//Death();
 }
