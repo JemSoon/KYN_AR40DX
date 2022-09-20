@@ -139,6 +139,7 @@ private:
 	GameEngineTextureRenderer* Effect;
 	GameEngineTextureRenderer* RIP;
 	int UseSuperJump;
+	GameEngineActor* GhostActor;
 
 	JOB MyJob;
 };

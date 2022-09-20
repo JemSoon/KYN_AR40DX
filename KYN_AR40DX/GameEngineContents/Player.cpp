@@ -87,10 +87,17 @@ void Player::Start()
 			Effect->AnimationBindEnd("SuperJump", std::bind(&Player::SuperJumpEnd, this));
 		}
 
-		Renderer = CreateComponent<GameEngineTextureRenderer>();
-		Renderer->GetTransform().SetLocalScale({ 256, 256, 1 });
-		Renderer->SetTexture("idle.png");
+		{
+			GhostActor = GetLevel()->CreateActor<GameEngineActor>();
 
+			GhostActor->SetParent(this);
+		}
+
+		Renderer = GhostActor->CreateComponent<GameEngineTextureRenderer>();
+		Renderer->GetTransform().SetLocalScale({ 256, 256, 1 });
+		Renderer->GetTransform().SetLocalPosition({ 100,0,0 });
+		Renderer->SetTexture("idle.png");
+		
 		//Renderer->ScaleToTexture();//아직 생성전이라 그런지 쓰면 터짐
 
 		std::vector<unsigned int> Idle = { 0, 1, 2, 1 };//프레임 골라 실행 테스트
@@ -144,6 +151,7 @@ void Player::Start()
 		AttackCollision->GetTransform().SetWorldPosition({ -35.0f,35.0f });
 		AttackCollision->Off();
 	}
+
 
 	GameEngineFontRenderer* Font = CreateComponent<GameEngineFontRenderer>();
 	Font->SetText("12345", "메이플스토리");
@@ -201,8 +209,14 @@ void Player::DeadStart(const StateInfo& _Info)
 
 void Player::DeadUpdate(float _DeltaTime, const StateInfo& _Info)
 {	
-	Renderer->GetTransform().SetAddWorldRotation({ 0,0,_DeltaTime,0 });
-
+	{	//공전+자전
+		GhostActor->GetTransform().SetAddWorldRotation({ 0,0,_DeltaTime * 100.0f,0 });
+		//회전 기준점 설정
+		GhostActor->GetTransform().SetWorldPosition({ 0,10,0,0 });
+		//렌더러 자전 안함
+		Renderer->GetTransform().SetWorldRotation(float4::ZERO);
+		//Renderer->GetTransform().SetAddWorldRotation({ 0,0,_DeltaTime * GameEngineMath::RadianToDegree,0.0f });
+	}
 	return;
 }
 
