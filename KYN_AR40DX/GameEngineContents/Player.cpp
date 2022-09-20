@@ -75,6 +75,7 @@ void Player::Start()
 		RIP->CreateFrameAnimationCutTexture("RIP", FrameAnimation_DESC("RIP.png", Seven, 0.1f, false));
 		RIP->ChangeFrameAnimation("RIP");
 		RIP->SetPivot(PIVOTMODE::BOT);
+		RIP->GetTransform().SetWorldPosition({ 0,-5 });
 		RIP->Off();
 
 		{
