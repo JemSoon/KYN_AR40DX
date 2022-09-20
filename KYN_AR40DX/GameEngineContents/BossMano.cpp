@@ -12,6 +12,8 @@ BossMano::BossMano()
 	,PatternTime(0)
 	,Random(0)
 	,RandomDir(0)
+	,BossUI(nullptr)
+	,Num(nullptr)
 {
 	Speed = 25;
 
@@ -28,16 +30,6 @@ BossMano::~BossMano()
 void BossMano::Start()
 {
 	Monster::Start();
-
-	//HPRenderer->SetTexture("boss_hp_bg.png");
-	//HPRenderer->GetTransform().SetWorldScale({ 801, 37});
-	//HPRenderer->GetTransform().SetWorldPosition({ 0, 0, -100 });
-	//HPRenderer->SetPivot(PIVOTMODE::LEFT);
-	//
-	//HPbarRenderer->SetTexture("boss_hp_bar.png");
-	//HPbarRenderer->GetTransform().SetWorldScale({ 801, 37});
-	//HPbarRenderer->GetTransform().SetWorldPosition({ 39, -1, -100 });
-	//HPbarRenderer->SetPivot(PIVOTMODE::LEFT);
 
 	BossUI = GetLevel()->CreateActor<BossHPUI>();
 	BossUI->GetTransform().SetWorldPosition({ -329.0f,320.0f,-100.0f });
@@ -72,6 +64,14 @@ void BossMano::Start()
 		Collision->GetTransform().SetLocalScale({ 90.0f, 80.0f, 100.0f });
 		Collision->GetTransform().SetLocalPosition({ 0.0f, 35.0f, 0.0f });
 		Collision->ChangeOrder(OBJECTORDER::Monster);
+	}
+
+	{
+		SearchCollision = CreateComponent<GameEngineCollision>();
+		SearchCollision->SetDebugSetting(CollisionType::CT_OBB2D, float4{ 0.0f,1.0f,0.0f,0.1f });
+		SearchCollision->GetTransform().SetLocalScale({ 300.0f, 80.0f, 100.0f });
+		SearchCollision->GetTransform().SetLocalPosition({ 0.0f, 35.0f, 0.0f });
+		SearchCollision->ChangeOrder(OBJECTORDER::MonsterSearch);
 	}
 
 	{
@@ -316,6 +316,17 @@ void BossMano::Update(float _DeltaTime)
 		Collision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::PlayerAtt, CollisionType::CT_OBB2D,
 			std::bind(&BossMano::BossManoHit, this, std::placeholders::_1, std::placeholders::_2));
 	}
+	{
+		SearchCollision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::Player, CollisionType::CT_OBB2D,
+			std::bind(&BossMano::PlayerSearch, this, std::placeholders::_1, std::placeholders::_2));
+	}
+}
+
+bool BossMano::PlayerSearch(GameEngineCollision* _This, GameEngineCollision* _Other)
+{
+	StateManager.ChangeState("Chase");
+
+	return true;
 }
 
 bool BossMano::BossManoHit(GameEngineCollision* _This, GameEngineCollision* _Other)

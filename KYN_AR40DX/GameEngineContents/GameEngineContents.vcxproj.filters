@@ -187,14 +187,14 @@
     <ClCompile Include="DamageNumber.cpp">
       <Filter>Actor\DamageFontRender</Filter>
     </ClCompile>
-    <ClCompile Include="BossMano.cpp">
-      <Filter>Actor\Monster</Filter>
-    </ClCompile>
     <ClCompile Include="Monster.cpp">
       <Filter>Actor\Monster\ParentMonster</Filter>
     </ClCompile>
     <ClCompile Include="BossHPUI.cpp">
       <Filter>Global\UI\BossUI</Filter>
+    </ClCompile>
+    <ClCompile Include="BossMano.cpp">
+      <Filter>Actor\Monster</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

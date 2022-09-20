@@ -28,6 +28,7 @@ public:
 	BossMano& operator=(BossMano&& _Other) noexcept = delete;
 
 	bool BossManoHit(GameEngineCollision* _This, GameEngineCollision* _Other);
+	bool PlayerSearch(GameEngineCollision* _This, GameEngineCollision* _Other);
 
 protected:
 	void Start() override;
@@ -54,6 +55,7 @@ protected:
 private:
 	GameEngineStateManager StateManager;
 	DamageNumber* Num;
+	GameEngineCollision* SearchCollision;
 
 	int Damage;
 	float PatternTime;

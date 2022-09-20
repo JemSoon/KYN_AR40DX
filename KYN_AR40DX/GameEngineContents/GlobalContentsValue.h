@@ -8,6 +8,7 @@ enum class OBJECTORDER
 	Player,
 	PlayerAtt,
 	Monster,
+	MonsterSearch,
 	NPC,
 	Portal,
 	UI = 1000,
