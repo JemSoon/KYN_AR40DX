@@ -13,7 +13,6 @@ BossMano::BossMano()
 	,BossUI(nullptr)
 	,SearchCollision(nullptr)
 	,Bufficon(nullptr)
-	,IsBuff(false)
 	,BuffTime(0.0f)
 {
 	Speed = 25;

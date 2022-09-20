@@ -63,7 +63,7 @@ private:
 	float PatternTime;
 	int Random;
 	int RandomDir;
-	bool IsBuff;
+	
 	float BuffTime;
 	BossHPUI* BossUI;
 };

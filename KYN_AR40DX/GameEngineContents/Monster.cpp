@@ -6,6 +6,7 @@ Monster::Monster()
 	,MonsterHPMax(1)
 	,HPRenderer(nullptr)
 	,HPbarRenderer(nullptr)
+	,IsBuff(false)
 {
 
 }

@@ -143,6 +143,14 @@ void DamageNumber::NumberSetting(int _Damage)
 		NumTen->SetTexture("9.png");
 		NumTen->ScaleToTexture();
 		break;
+	case 0:
+		NumTen->SetTexture("0.png");
+		NumTen->ScaleToTexture();
+		if (nDamageHun == 0)
+		{
+			NumTen->Off();
+		}
+		break;
 	default:
 		NumTen->SetTexture("0.png");
 		NumTen->ScaleToTexture();

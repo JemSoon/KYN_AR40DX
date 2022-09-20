@@ -40,6 +40,7 @@ public:
 	{
 		return MonsterHPMax;
 	}
+	bool IsBuff;
 protected:
 	int MonsterAtt;
 	int MonsterCurHP;
