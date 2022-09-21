@@ -77,11 +77,15 @@ void MapleStoryCore::Start()
 		GameEngineTexture::Cut("alert.png", 3, 1);
 		GameEngineTexture::Cut("dead.png", 1, 1);
 		GameEngineTexture::Cut("RIP.png", 7, 1);
+		GameEngineTexture::Cut("SlashBlast1p.png", 1, 1);
+		GameEngineTexture::Cut("SlashBlast2p.png", 2, 1);
 	}
 
 	{
 		//이펙트
 		GameEngineTexture::Cut("SuperJump.png", 7, 1);
+		GameEngineTexture::Cut("SlashBlast1.png", 5, 1);
+		GameEngineTexture::Cut("SlashBlast2.png", 6, 1);
 	}
 	
 	{	//몬스터

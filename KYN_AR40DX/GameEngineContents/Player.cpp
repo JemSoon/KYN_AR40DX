@@ -63,12 +63,15 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("PlayerDown", VK_DOWN);
 		GameEngineInput::GetInst()->CreateKey("PlayerJump", 'C');
 		GameEngineInput::GetInst()->CreateKey("PlayerAttack", 'Z');
+		GameEngineInput::GetInst()->CreateKey("SlashBlast", 'Q');
 	}
 
 	GetTransform().SetLocalScale({ 1, 1, 1 });
 
 	{
 		std::vector<unsigned int> Seven = { 0, 1, 2, 3, 4, 5, 6 };
+		std::vector<unsigned int> Six = { 0, 1, 2, 3, 4, 5 };
+		std::vector<unsigned int> Five = { 0, 1, 2, 3, 4 };
 
 		RIP = CreateComponent<GameEngineTextureRenderer>();
 		RIP->GetTransform().SetWorldScale({ 128,128,1 });
@@ -79,7 +82,7 @@ void Player::Start()
 		RIP->Off();
 
 		{
-			//이펙트
+			//이펙트 슈퍼점프
 			Effect = CreateComponent<GameEngineTextureRenderer>();
 			Effect->GetTransform().SetWorldScale({ 400,400,1 });
 			Effect->GetTransform().SetWorldPosition({ 100,50,0 });
@@ -87,6 +90,27 @@ void Player::Start()
 			Effect->ChangeFrameAnimation("SuperJump");
 			Effect->Off();
 			Effect->AnimationBindEnd("SuperJump", std::bind(&Player::SuperJumpEnd, this));
+		}
+
+		{
+			//이펙트 슬래시 블라스트
+			SlashBlast1 = CreateComponent<GameEngineTextureRenderer>();
+			SlashBlast1->GetTransform().SetWorldScale({ 256,256,1 });
+			SlashBlast1->GetTransform().SetWorldPosition({ 40,40,0 });
+			SlashBlast1->SetPivot(PIVOTMODE::CENTER);
+			SlashBlast1->CreateFrameAnimationCutTexture("SlashBlast1", FrameAnimation_DESC("SlashBlast1.png", Five, 0.001f, false));
+			SlashBlast1->ChangeFrameAnimation("SlashBlast1");
+			SlashBlast1->Off();
+			SlashBlast1->AnimationBindEnd("SlashBlast1", std::bind(&Player::SlashBlast1End, this));
+
+			SlashBlast2 = CreateComponent<GameEngineTextureRenderer>();
+			SlashBlast2->GetTransform().SetWorldScale({ 512,512,1 });
+			SlashBlast2->GetTransform().SetWorldPosition({ 0,0,0 });
+			SlashBlast2->SetPivot(PIVOTMODE::CENTER);
+			SlashBlast2->CreateFrameAnimationCutTexture("SlashBlast2", FrameAnimation_DESC("SlashBlast2.png", Six, 0.001f, false));
+			SlashBlast2->ChangeFrameAnimation("SlashBlast2");
+			SlashBlast2->Off();
+			SlashBlast2->AnimationBindEnd("SlashBlast2", std::bind(&Player::SlashBlast2End, this));
 		}
 
 		{
@@ -126,6 +150,8 @@ void Player::Start()
 		Renderer->CreateFrameAnimationCutTexture("Attack4", FrameAnimation_DESC("attack4.png", Two, 0.23f));
 		Renderer->CreateFrameAnimationCutTexture("Alert", FrameAnimation_DESC("alert.png", Three, 0.23f));
 		Renderer->CreateFrameAnimationCutTexture("Dead", FrameAnimation_DESC("dead.png", One, 0.23f, false));
+		Renderer->CreateFrameAnimationCutTexture("SlashBlast1", FrameAnimation_DESC("SlashBlast1p.png", One, 0.01f, false));
+		Renderer->CreateFrameAnimationCutTexture("SlashBlast2", FrameAnimation_DESC("SlashBlast2p.png", Two, 0.01f, false));
 
 		Renderer->ChangeFrameAnimation("Idle");
 		Renderer->SetPivot(PIVOTMODE::CUSTOM);
@@ -194,6 +220,12 @@ void Player::Start()
 	StateManager.CreateStateMember("Dead"
 		, std::bind(&Player::DeadUpdate, this, std::placeholders::_1, std::placeholders::_2)
 		, std::bind(&Player::DeadStart, this, std::placeholders::_1));
+	StateManager.CreateStateMember("SlashBlast1"
+		, std::bind(&Player::SlashBlast1Update, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::SlashBlast1Start, this, std::placeholders::_1));
+	StateManager.CreateStateMember("SlashBlast2"
+		, std::bind(&Player::SlashBlast2Update, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::SlashBlast2Start, this, std::placeholders::_1));
 
 	StateManager.ChangeState("Idle");
 
@@ -277,6 +309,12 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerAttack"))
 	{
 		StateManager.ChangeState("Attack");
+		return;
+	}
+
+	if (true == GameEngineInput::GetInst()->IsPress("SlashBlast"))
+	{
+		StateManager.ChangeState("SlashBlast1");
 		return;
 	}
 
@@ -795,6 +833,39 @@ void Player::DownJumpUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 }
 
+void Player::SlashBlast1Start(const StateInfo& _Info)
+{
+	Renderer->ChangeFrameAnimation("SlashBlast1");
+	SlashBlast1->CurAnimationReset();
+	SlashBlast1->On();
+}
+void Player::SlashBlast1Update(float _DeltaTime, const StateInfo& _Info)
+{
+	Gravity(_DeltaTime);
+	ColorCheckUpdate();
+	ColorCheckUpdateNext(MovePower);
+
+	NoGravity();
+	return;
+}
+
+void Player::SlashBlast2Start(const StateInfo& _Info)
+{
+	Renderer->ChangeFrameAnimation("SlashBlast2");
+	SlashBlast2->CurAnimationReset();
+	SlashBlast2->On();
+}
+
+void Player::SlashBlast2Update(float _DeltaTime, const StateInfo& _Info)
+{
+	Gravity(_DeltaTime);
+	ColorCheckUpdate();
+	ColorCheckUpdateNext(MovePower);
+
+	NoGravity();
+	return;
+}
+
 //==============================================================================//
 //==============================================================================//
 //=========================여기까지가 상태창=====================================//
@@ -952,6 +1023,18 @@ void Player::SuperJumpEnd()
 {
 	//레벨업 애니메이션이 끝나면 끈다
 	Effect->Off();
+}
+
+void Player::SlashBlast1End()
+{
+	SlashBlast1->Off();
+	StateManager.ChangeState("SlashBlast2");
+}
+
+void Player::SlashBlast2End()
+{
+	SlashBlast2->Off();
+	StateManager.ChangeState("Idle");
 }
 
 void Player::Dead()

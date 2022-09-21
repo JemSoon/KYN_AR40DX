@@ -79,8 +79,8 @@ void BossMano::Start()
 
 	{
 		SearchCollision = CreateComponent<GameEngineCollision>();
-		SearchCollision->SetDebugSetting(CollisionType::CT_OBB2D, float4{ 0.0f,1.0f,0.0f,0.1f });
-		SearchCollision->GetTransform().SetLocalScale({ 300.0f, 80.0f, 100.0f });
+		SearchCollision->SetDebugSetting(CollisionType::CT_OBB2D, float4{ 0.0f,1.0f,0.0f,0.2f });
+		SearchCollision->GetTransform().SetLocalScale({ 400.0f, 80.0f, 100.0f });
 		SearchCollision->GetTransform().SetLocalPosition({ 0.0f, 35.0f, 0.0f });
 		SearchCollision->ChangeOrder(OBJECTORDER::MonsterSearch);
 	}

@@ -125,11 +125,19 @@ protected:
 	void DownJumpStart(const StateInfo& _Info);
 	void DownJumpUpdate(float _DeltaTime, const StateInfo& _Info);
 
+	void SlashBlast1Start(const StateInfo& _Info);
+	void SlashBlast1Update(float _DeltaTime, const StateInfo& _Info);
+				   
+	void SlashBlast2Start(const StateInfo& _Info);
+	void SlashBlast2Update(float _DeltaTime, const StateInfo& _Info);
+
 	//==========================================================//
 	//==========================================================//
 	void AttackEnd();
 	void LevelUpEnd();
 	void SuperJumpEnd();
+	void SlashBlast1End();
+	void SlashBlast2End();
 	//==========================================================//
 
 private:
@@ -143,6 +151,8 @@ private:
 	int FinalAtt;
 	GameEngineTextureRenderer* PlayerLevelUp;
 	GameEngineTextureRenderer* Effect;
+	GameEngineTextureRenderer* SlashBlast1;
+	GameEngineTextureRenderer* SlashBlast2;
 	GameEngineTextureRenderer* RIP;
 	int UseSuperJump;
 	GameEngineActor* GhostActor;
