@@ -42,8 +42,19 @@ public:
 	Player& operator=(Player&& _Other) noexcept = delete;
 
 	bool MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other);
+	bool MonsterSlashBlastHit(GameEngineCollision* _This, GameEngineCollision* _Other);
 	bool PlayerHit(GameEngineCollision* _This, GameEngineCollision* _Other);
 	bool PortalCollision(GameEngineCollision* _This, GameEngineCollision* _Other);
+
+	GameEngineCollision* GetAttCollision()
+	{
+		return AttackCollision;
+	}
+
+	GameEngineCollision* GetSlashBlastCollision()
+	{
+		return SlashBlastCollision;
+	}
 
 	float4 GetMovePower()
 	{
@@ -144,6 +155,7 @@ private:
 	GameEngineStateManager StateManager;
 	float4 Dir;
 	GameEngineCollision* AttackCollision;
+	GameEngineCollision* SlashBlastCollision;
 	std::string PrevState;
 	bool Hit;
 	float HitTime;

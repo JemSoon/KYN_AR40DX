@@ -39,6 +39,12 @@ Player::Player()
 	, MyJob(JOB::NONE)
 	, ManaDamage(0)
 	, FinalAtt(PlayerAtt)
+	, AttackCollision(nullptr)
+	, SlashBlastCollision(nullptr)
+	, GhostActor(nullptr)
+	, IsLevelUp(false)
+	, SlashBlast1(nullptr)
+	, SlashBlast2(nullptr)
 {
 	MainPlayer = this;
 	Speed = 150.0f;
@@ -171,6 +177,7 @@ void Player::Start()
 	}
 
 	{
+		//몸체 콜리전
 		Collision = CreateComponent<GameEngineCollision>();
 		Collision->SetDebugSetting(CollisionType::CT_OBB2D, float4{1.0f,0.0f,0.0f,0.3f});
 		Collision->GetTransform().SetLocalScale({ 32.0f, 64.0f, 100.0f });
@@ -178,12 +185,22 @@ void Player::Start()
 		Collision->GetTransform().SetWorldPosition({ 0.0f,35.0f });
 	}
 	{
+		//평타 콜리전
 		AttackCollision = CreateComponent<GameEngineCollision>();
 		AttackCollision->SetDebugSetting(CollisionType::CT_OBB2D, float4{ 1.0f,0.0f,0.0f,0.3f });
 		AttackCollision->GetTransform().SetLocalScale({ 84.0f, 64.0f, 100.0f });
 		AttackCollision->ChangeOrder(OBJECTORDER::PlayerAtt);
 		AttackCollision->GetTransform().SetWorldPosition({ -35.0f,35.0f });
 		AttackCollision->Off();
+	}
+	{
+		//슬래시 블라스트 콜리전
+		SlashBlastCollision = CreateComponent<GameEngineCollision>();
+		SlashBlastCollision->SetDebugSetting(CollisionType::CT_OBB2D, float4{ 1.0f,1.0f,0.0f,0.3f });
+		SlashBlastCollision->GetTransform().SetLocalScale({ 250.0f, 150.0f, 100.0f });
+		SlashBlastCollision->ChangeOrder(OBJECTORDER::PlayerAtt);
+		SlashBlastCollision->GetTransform().SetWorldPosition({ -125.0f,75.0f });
+		SlashBlastCollision->Off();
 	}
 
 
@@ -555,7 +572,10 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
 	{	
 		Dir = float4::RIGHT;
-		AttackCollision->GetTransform().SetLocalPosition({ 35.0f,35.0f });
+		{
+			AttackCollision->GetTransform().SetLocalPosition({ 35.0f,35.0f }); 
+			SlashBlastCollision->GetTransform().SetLocalPosition({ 125.0f,75.0f });
+		}
 		MovePower.x = Speed;
 		Renderer->GetTransform().PixLocalNegativeX();
 		{
@@ -574,7 +594,10 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
 	{	
 		Dir = float4::LEFT;
-		AttackCollision->GetTransform().SetLocalPosition({ -35.0f,35.0f });
+		{
+			AttackCollision->GetTransform().SetLocalPosition({ -35.0f,35.0f });
+			SlashBlastCollision->GetTransform().SetLocalPosition({ -125.0f,75.0f });
+		}
 		MovePower.x = -Speed;
 		Renderer->GetTransform().PixLocalPositiveX();
 		{
@@ -908,6 +931,7 @@ void Player::SlashBlast1Update(float _DeltaTime, const StateInfo& _Info)
 
 void Player::SlashBlast2Start(const StateInfo& _Info)
 {
+	SlashBlastCollision->On();
 	Renderer->ChangeFrameAnimation("SlashBlast2");
 	SlashBlast2->CurAnimationReset();
 	SlashBlast2->On();
@@ -955,6 +979,9 @@ void Player::Update(float _DeltaTime)
 		AttackCollision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::Monster, CollisionType::CT_OBB2D,
 			std::bind(&Player::MonsterHit, this, std::placeholders::_1, std::placeholders::_2));
 
+		SlashBlastCollision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::Monster, CollisionType::CT_OBB2D,
+			std::bind(&Player::MonsterSlashBlastHit, this, std::placeholders::_1, std::placeholders::_2));
+
 		//Collision->IsCollision(CollisionType::CT_OBB, OBJECTORDER::Monster, CollisionType::CT_OBB,
 		//	std::bind(&Player::MonsterCollision, this)
 		//);
@@ -986,19 +1013,27 @@ void Player::Update(float _DeltaTime)
 
 bool Player::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 {	
-	//if (MonsterCount <= 1)
-	//{	//이거 몬스터쪽으로 옮겨야할듯
-	//	//몬스터를 한마리 쳤을때만 띄운다
-	//	//플레이어의 공격력을 가져와 몬스터 액터에 그 숫자(데미지)를 머리위에 띄운다
-	//	DamageNumber* tmp = _Other->GetActor()->GetLevel()->CreateActor<DamageNumber>();
-	//	float4 Pos = _Other->GetActor()->GetTransform().GetWorldPosition();
-	//	tmp->GetTransform().SetWorldPosition({ Pos.x,Pos.y + 32,-400 });
-	//	tmp->NumberSetting(FinalAtt);
-	//}
+	//노말 공격
 	
 	if (MonsterCount <= 1)
 	{
 		//충돌이 한마리 이하면 true
+		return true;
+	}
+	else
+	{
+		//그 외엔 false
+		return false;
+	}
+}
+
+bool Player::MonsterSlashBlastHit(GameEngineCollision* _This, GameEngineCollision* _Other)
+{
+	//노말 공격
+
+	if (MonsterCount <= 5)
+	{
+		//충돌이 다섯마리 이하면 true
 		return true;
 	}
 	else
@@ -1091,6 +1126,7 @@ void Player::SlashBlast1End()
 void Player::SlashBlast2End()
 {
 	SlashBlast2->Off();
+	SlashBlastCollision->Off();
 	StateManager.ChangeState("Idle");
 	stop = false;
 }
