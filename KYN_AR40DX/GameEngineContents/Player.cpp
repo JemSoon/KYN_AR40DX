@@ -538,6 +538,14 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		return;
 	}
 
+	if (true == GameEngineInput::GetInst()->IsPress("SlashBlast")&&
+		(CurMP >= ManaDamage))
+	{
+		MovePower.x = 0.0f;
+		StateManager.ChangeState("SlashBlast1");
+		return;
+	}
+
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerJump"))
 	{
 		StateManager.ChangeState("Jump");
@@ -696,6 +704,12 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 			return;
 		}
 
+		if (true == GameEngineInput::GetInst()->IsPress("SlashBlast"))
+		{
+			StateManager.ChangeState("SlashBlast1");
+			return;
+		}
+
 		//나중에 전직하면 따로빼야하는 슈퍼점프
 		if (true == GameEngineInput::GetInst()->IsDown("PlayerJump")/* && MyJob == JOB::WARRIOR*/)
 		{
@@ -771,6 +785,12 @@ void Player::SuperJumpUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerAttack"))
 	{
 		StateManager.ChangeState("Attack");
+		return;
+	}
+
+	if (true == GameEngineInput::GetInst()->IsPress("SlashBlast"))
+	{
+		StateManager.ChangeState("SlashBlast1");
 		return;
 	}
 
@@ -869,6 +889,8 @@ void Player::SlashBlast1Start(const StateInfo& _Info)
 	CurMP = CurMP - ManaDamage;
 
 	IsSkill = true;
+
+	stop = true;
 
 	Renderer->ChangeFrameAnimation("SlashBlast1");
 	SlashBlast1->CurAnimationReset();
@@ -1070,6 +1092,7 @@ void Player::SlashBlast2End()
 {
 	SlashBlast2->Off();
 	StateManager.ChangeState("Idle");
+	stop = false;
 }
 
 void Player::Dead()
