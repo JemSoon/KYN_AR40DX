@@ -96,7 +96,7 @@ void Player::Start()
 			//이펙트 슬래시 블라스트
 			SlashBlast1 = CreateComponent<GameEngineTextureRenderer>();
 			SlashBlast1->GetTransform().SetWorldScale({ 256,256,1 });
-			SlashBlast1->GetTransform().SetWorldPosition({ 40,40,0 });
+			SlashBlast1->GetTransform().SetWorldPosition({ 0,0,0 });
 			SlashBlast1->SetPivot(PIVOTMODE::CENTER);
 			SlashBlast1->CreateFrameAnimationCutTexture("SlashBlast1", FrameAnimation_DESC("SlashBlast1.png", Five, 0.05f, false));
 			SlashBlast1->ChangeFrameAnimation("SlashBlast1");
@@ -111,6 +111,11 @@ void Player::Start()
 			SlashBlast2->ChangeFrameAnimation("SlashBlast2");
 			SlashBlast2->Off();
 			SlashBlast2->AnimationBindEnd("SlashBlast2", std::bind(&Player::SlashBlast2End, this));
+
+			SlashBlast1->GetTransform().PixLocalPositiveX();
+			SlashBlast2->GetTransform().PixLocalPositiveX();
+			SlashBlast1->SetPivotToVector({ 40,60,-10 });
+			SlashBlast2->SetPivotToVector({ -100, 60 ,-10 });
 		}
 
 		{
@@ -544,8 +549,16 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		AttackCollision->GetTransform().SetLocalPosition({ 35.0f,35.0f });
 		MovePower.x = Speed;
 		Renderer->GetTransform().PixLocalNegativeX();
-		Effect->GetTransform().PixLocalNegativeX();
-		Effect->SetPivotToVector({ -100,50,0 });
+		{
+			Effect->GetTransform().PixLocalNegativeX();
+			Effect->SetPivotToVector({ -100,50,0 });
+		}
+		{
+			SlashBlast1->GetTransform().PixLocalNegativeX();
+			SlashBlast2->GetTransform().PixLocalNegativeX();
+			SlashBlast1->SetPivotToVector({ -40,60 ,-10});
+			SlashBlast2->SetPivotToVector({ 100, 60 ,-10 });
+		}
 		return;
 	}
 
@@ -555,8 +568,16 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		AttackCollision->GetTransform().SetLocalPosition({ -35.0f,35.0f });
 		MovePower.x = -Speed;
 		Renderer->GetTransform().PixLocalPositiveX();
-		Effect->GetTransform().PixLocalPositiveX();
-		Effect->SetPivotToVector({ 100,50,0 });
+		{
+			Effect->GetTransform().PixLocalPositiveX();
+			Effect->SetPivotToVector({ 100,50,0 });
+		}
+		{
+			SlashBlast1->GetTransform().PixLocalPositiveX();
+			SlashBlast2->GetTransform().PixLocalPositiveX();
+			SlashBlast1->SetPivotToVector({ 40,60,-10 });
+			SlashBlast2->SetPivotToVector({ -100, 60 ,-10 });
+		}
 		return;
 	}
 
