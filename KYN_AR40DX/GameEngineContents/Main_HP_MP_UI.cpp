@@ -326,7 +326,7 @@ void Main_HP_MP_UI::HPSetting()
 
 void Main_HP_MP_UI::MPSetting()
 {
-	if (PlayerInfo->IsSuperJump == true)
+	if (PlayerInfo->IsSkill == true)
 	{
 		if (UseMana == -1)
 		{
@@ -366,7 +366,7 @@ void Main_HP_MP_UI::MPSetting()
 
 	if (UseMana <= 0)
 	{
-		PlayerInfo->IsSuperJump = false;
+		PlayerInfo->IsSkill = false;
 		UseMana = -1;
 	}
 

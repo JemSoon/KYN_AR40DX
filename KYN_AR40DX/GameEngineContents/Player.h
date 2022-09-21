@@ -67,7 +67,7 @@ public:
 
 	bool PortalOn;
 	bool HitCheck;
-	bool IsSuperJump;
+	bool IsSkill;
 	int HitDamage;
 	int ManaDamage;
 	int HPMax;
@@ -155,6 +155,8 @@ private:
 	GameEngineTextureRenderer* SlashBlast2;
 	GameEngineTextureRenderer* RIP;
 	int UseSuperJump;
+	int UseSlashBlast;
+
 	GameEngineActor* GhostActor;
 
 	JOB MyJob;

@@ -33,8 +33,9 @@ Player::Player()
 	, RIP(nullptr)
 	, MonsterCount(0)
 	, Effect(nullptr)
-	, IsSuperJump(false)
+	, IsSkill(false)
 	, UseSuperJump(5)
+	, UseSlashBlast(10)
 	, MyJob(JOB::NONE)
 	, ManaDamage(0)
 	, FinalAtt(PlayerAtt)
@@ -720,14 +721,14 @@ void Player::SuperJumpStart(const StateInfo& _Info)
 	ManaDamage = UseSuperJump;
 	if (CurMP < ManaDamage)
 	{
-		IsSuperJump = false;
+		IsSkill = false;
 		//현재마나사 소모 마나량보다 적다면 작동안한다(나중에 함수로만들자)
 		return;
 	}
 
 	CurMP = CurMP - ManaDamage;
 
-	IsSuperJump = true;
+	IsSkill = true;
 
 	Effect->CurAnimationReset();
 	Renderer->ChangeFrameAnimation("Jump");
@@ -856,6 +857,18 @@ void Player::DownJumpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::SlashBlast1Start(const StateInfo& _Info)
 {
+	ManaDamage = UseSlashBlast;
+	if (CurMP < ManaDamage)
+	{
+		IsSkill = false;
+		//현재마나사 소모 마나량보다 적다면 작동안한다(나중에 함수로만들자)
+		return;
+	}
+
+	CurMP = CurMP - ManaDamage;
+
+	IsSkill = true;
+
 	Renderer->ChangeFrameAnimation("SlashBlast1");
 	SlashBlast1->CurAnimationReset();
 	SlashBlast1->On();
