@@ -861,6 +861,7 @@ void Player::SlashBlast1Start(const StateInfo& _Info)
 	if (CurMP < ManaDamage)
 	{
 		IsSkill = false;
+		StateManager.ChangeState("Idle");
 		//현재마나사 소모 마나량보다 적다면 작동안한다(나중에 함수로만들자)
 		return;
 	}
