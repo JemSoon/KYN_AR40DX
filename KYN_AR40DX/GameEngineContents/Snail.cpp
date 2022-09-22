@@ -389,8 +389,16 @@ bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 	else
 	{
 		//else 안걸어주면 몬스터가 안죽는다
-		if ((PlayerInfo->MonsterHit(PlayerInfo->GetAttCollision(), this->GetCollision()) == true)||
-			PlayerInfo->MonsterSlashBlastHit(PlayerInfo->GetSlashBlastCollision(), this->GetCollision()) == true)
+		if ((PlayerInfo->MonsterHit(PlayerInfo->GetAttCollision(), this->GetCollision()) == true) &&
+			PlayerInfo->GetAttCollision()->IsUpdate())
+		{
+			//한마리 판정이 true면 Hit상태 당첨이고 충돌역시 true
+			StateManager.ChangeState("Hit");
+			return true;
+		}
+
+		else if ((PlayerInfo->MonsterSlashBlastHit(PlayerInfo->GetSlashBlastCollision(), this->GetCollision()) == true) &&
+			PlayerInfo->GetSlashBlastCollision()->IsUpdate())
 		{
 			//한마리 판정이 true면 Hit상태 당첨이고 충돌역시 true
 			StateManager.ChangeState("Hit");
