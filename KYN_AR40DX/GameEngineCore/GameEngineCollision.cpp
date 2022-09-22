@@ -139,7 +139,7 @@ bool GameEngineCollision::IsCollision(CollisionType _ThisType, int _GroupOrder
 				{
 					if (nullptr != _Exit && true == _Exit(this, Collision))
 					{
-						return true;
+						return false;
 					}
 
 					CollisionCheck.erase(Collision);
