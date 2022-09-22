@@ -325,7 +325,7 @@ bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 	//충돌한 몬스터만큼 ++
 	PlayerInfo->MonsterCount += 1;
 	
-	Damage = PlayerInfo->GetFinalAtt();
+	//Damage = PlayerInfo->GetFinalAtt();이걸 여기다 선언하지말고 각 콜리전마다 해줘야함
 
 	//if (PlayerInfo->MonsterHit(PlayerInfo->GetAttCollision(), this->GetCollision()) == true)
 	//{
@@ -348,13 +348,14 @@ bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 	{
 		//콜리전 충돌관련(공격콜리전 or 스킬 콜리전)
 		if ((PlayerInfo->MonsterHit(PlayerInfo->GetAttCollision(), this->GetCollision()) == true) &&
-			(PlayerInfo->MonsterCount <= 1) &&
+			/*(PlayerInfo->MonsterCount <= 1) &&*/
 			true == PlayerInfo->GetAttCollision()->IsUpdate())
 		{
 			//플레이어 공격 콜리전과 달팽이 본체 콜리전이 충돌 && 충돌마리수 한마리이하 && 공격 콜리전이 켜졌을때
+			PlayerInfo->SetPlayerAttBuff(1.0f);
+			Damage = PlayerInfo->GetFinalAtt();
 			HPRenderer->On();
 			HPbarRenderer->On();
-			PlayerInfo->SetPlayerAttBuff(1.0f);
 			MonsterCurHP = MonsterCurHP - Damage;
 
 			DamageRender = _This->GetActor()->GetLevel()->CreateActor<DamageNumber>();
@@ -364,13 +365,14 @@ bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 		}
 
 		if ((PlayerInfo->MonsterSlashBlastHit(PlayerInfo->GetSlashBlastCollision(), this->GetCollision()) == true) &&
-			(PlayerInfo->MonsterCount <= 5) &&
+			/*(PlayerInfo->MonsterCount <= 5) &&*/
 			true == PlayerInfo->GetSlashBlastCollision()->IsUpdate())
 		{
 			//플레이어 스킬 콜리전과 달팽이 본체 콜리전이 충돌 && 충돌마리수 다섯마리이하 && 스킬 콜리전이 켜졌을때
+			PlayerInfo->SetPlayerAttBuff(3.0f);//스킬은 공격력의 300%
+			Damage = PlayerInfo->GetFinalAtt();
 			HPRenderer->On();
 			HPbarRenderer->On();
-			PlayerInfo->SetPlayerAttBuff(3.0f);//스킬은 공격력의 300%
 			MonsterCurHP = MonsterCurHP - Damage;
 
 			DamageRender = _This->GetActor()->GetLevel()->CreateActor<DamageNumber>();
