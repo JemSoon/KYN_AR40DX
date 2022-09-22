@@ -369,6 +369,7 @@ void BossMano::Update(float _DeltaTime)
 		IsBuff = false;
 		Bufficon->Off();
 	}
+
 }
 
 bool BossMano::PlayerSearch(GameEngineCollision* _This, GameEngineCollision* _Other)
@@ -389,64 +390,61 @@ bool BossMano::BossManoHit(GameEngineCollision* _This, GameEngineCollision* _Oth
 {
 	//충돌한 몬스터만큼 ++
 	PlayerInfo->MonsterCount += 1;
-	PlayerInfo->SetPlayerAttBuff(1.0f);
-	//Damage = PlayerInfo->GetFinalAtt();
 
-	if (PlayerInfo->MonsterHit(PlayerInfo->GetCollision(), this->GetCollision()) == true)
-	{
-		//플레이어 충돌 판정true시에만 피를 깐다
-		HPRenderer->On();
-		HPbarRenderer->On();
+	{//평타로 맞음
 
-		if (IsBuff == true)
+		if ((PlayerInfo->MonsterHit(PlayerInfo->GetAttCollision(), this->GetCollision()) == true) &&
+			PlayerInfo->GetAttCollision()->IsUpdate() == true)
 		{
-			PlayerInfo->SetPlayerAttBuff(0.5f);
-			Damage = PlayerInfo->GetFinalAtt();
-		}
-		else
-		{
-			PlayerInfo->SetPlayerAttBuff(1.0f);
-			Damage = PlayerInfo->GetFinalAtt();
-		}
-		MonsterCurHP = MonsterCurHP - Damage;
+			//플레이어 충돌 판정true시에만 피를 깐다
+			if (IsBuff == true)
+			{
+				PlayerInfo->SetPlayerAttBuff(0.5f);
+				Damage = PlayerInfo->GetFinalAtt();
+			}
+			else
+			{
+				PlayerInfo->SetPlayerAttBuff(1.0f);
+				Damage = PlayerInfo->GetFinalAtt();
+			}
+			HPRenderer->On();
+			HPbarRenderer->On();
+			MonsterCurHP = MonsterCurHP - Damage;
 
-		if (PlayerInfo->MonsterCount <= 1)
-		{	//이거 몬스터쪽으로 옮겨야할듯
-			//몬스터를 한마리 쳤을때만 띄운다
-			//플레이어의 공격력을 가져와 몬스터 액터에 그 숫자(데미지)를 머리위에 띄운다
 			DamageRender = _This->GetActor()->GetLevel()->CreateActor<DamageNumber>();
 			float4 Pos = _This->GetActor()->GetTransform().GetWorldPosition();
 			DamageRender->GetTransform().SetWorldPosition({ Pos.x,Pos.y + 32,-400 });
 			DamageRender->NumberSetting(PlayerInfo->GetFinalAtt());
-		}
-	}
+		}		
 
-	if (MonsterCurHP <= 0)
-	{
-		MonsterCurHP = 0;
-		StateManager.ChangeState("Dead");
-		//_This->GetActor()->Death();
-	}
-
-	else
-	{
-		//else 안걸어주면 몬스터가 안죽는다
-		if (PlayerInfo->MonsterHit(PlayerInfo->GetCollision(), this->GetCollision()) == true)
+		if (MonsterCurHP <= 0)
 		{
-			BossUI->On();
-
-			//한마리 판정이 true면 Hit상태 당첨이고 충돌역시 true
-			if (IsBuff == false)
-			{
-				StateManager.ChangeState("Hit");
-			}
-			return true;
+			MonsterCurHP = 0;
+			StateManager.ChangeState("Dead");
+			//_This->GetActor()->Death();
 		}
 
 		else
 		{
-			//아니라면 아닌거
-			return false;
+			//else 안걸어주면 몬스터가 안죽는다
+			if (PlayerInfo->MonsterHit(PlayerInfo->GetAttCollision(), this->GetCollision()) == true &&
+				PlayerInfo->GetAttCollision()->IsUpdate() == true)
+			{
+				BossUI->On();
+
+				//한마리 판정이 true면 Hit상태 당첨이고 충돌역시 true
+				if (IsBuff == false)
+				{
+					StateManager.ChangeState("Hit");
+				}
+				return true;
+			}
+
+			else
+			{
+				//아니라면 아닌거
+				return false;
+			}
 		}
 	}
 }

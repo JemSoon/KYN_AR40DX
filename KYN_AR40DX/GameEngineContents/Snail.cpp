@@ -78,6 +78,7 @@ void Snail::Start()
 		Collision->SetDebugSetting(CollisionType::CT_OBB2D, float4{ 1.0f,0.0f,0.0f,0.3f });
 		Collision->GetTransform().SetLocalScale({ 32.0f, 24.0f, 100.0f });
 		Collision->GetTransform().SetLocalPosition({ 0.0f, 13.0f, 0.0f });
+		//Collision->SetCollisionMode(CollisionMode::Ex);
 		Collision->ChangeOrder(OBJECTORDER::Monster);
 	}
 
@@ -325,26 +326,6 @@ bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 	//충돌한 몬스터만큼 ++
 	PlayerInfo->MonsterCount += 1;
 	
-	//Damage = PlayerInfo->GetFinalAtt();이걸 여기다 선언하지말고 각 콜리전마다 해줘야함
-
-	//if (PlayerInfo->MonsterHit(PlayerInfo->GetAttCollision(), this->GetCollision()) == true)
-	//{
-	//	//플레이어 충돌 판정true시에만 피를 깐다
-	//	HPRenderer->On();
-	//	HPbarRenderer->On();
-	//	PlayerInfo->SetPlayerAttBuff(1.0f);
-	//	MonsterCurHP = MonsterCurHP - Damage;
-	//}
-
-	//if (PlayerInfo->MonsterCount <= 1)
-	//{	//이거 몬스터쪽으로 옮겨야할듯
-	//	//몬스터를 한마리 쳤을때만 띄운다
-	//	//플레이어의 공격력을 가져와 몬스터 액터에 그 숫자(데미지)를 머리위에 띄운다
-	//	DamageRender = _This->GetActor()->GetLevel()->CreateActor<DamageNumber>();
-	//	float4 Pos = _This->GetActor()->GetTransform().GetWorldPosition();
-	//	DamageRender->GetTransform().SetWorldPosition({ Pos.x,Pos.y + 32,-400 });
-	//	DamageRender->NumberSetting(PlayerInfo->GetFinalAtt());
-	//}
 	{
 		//콜리전 충돌관련(공격콜리전 or 스킬 콜리전)
 		if ((PlayerInfo->MonsterHit(PlayerInfo->GetAttCollision(), this->GetCollision()) == true) &&
@@ -369,7 +350,7 @@ bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 			true == PlayerInfo->GetSlashBlastCollision()->IsUpdate())
 		{
 			//플레이어 스킬 콜리전과 달팽이 본체 콜리전이 충돌 && 충돌마리수 다섯마리이하 && 스킬 콜리전이 켜졌을때
-			PlayerInfo->SetPlayerAttBuff(3.0f);//스킬은 공격력의 300%
+			PlayerInfo->SetPlayerAttBuff(1.0f);//스킬은 공격력의 300%
 			Damage = PlayerInfo->GetFinalAtt();
 			HPRenderer->On();
 			HPbarRenderer->On();

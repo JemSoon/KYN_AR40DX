@@ -101,7 +101,7 @@ bool GameEngineCollision::IsCollision(CollisionType _ThisType, int _GroupOrder
 					// 이 충돌체와는 처음 충돌했다.
 					CollisionCheck.insert(Collision);
 
-					if (true == _Enter(this, Collision))
+					if (nullptr == _Enter && true == _Enter(this, Collision))
 					{
 						return true;
 					}
@@ -109,7 +109,7 @@ bool GameEngineCollision::IsCollision(CollisionType _ThisType, int _GroupOrder
 				}
 				else
 				{
-					if (true == _Update(this, Collision))
+					if (nullptr != _Update && true == _Update(this, Collision))
 					{
 						return true;
 					}
@@ -137,7 +137,7 @@ bool GameEngineCollision::IsCollision(CollisionType _ThisType, int _GroupOrder
 			{
 				if (CollisionCheck.end() != CollisionCheck.find(Collision))
 				{
-					if (true == _Exit(this, Collision))
+					if (nullptr != _Exit && true == _Exit(this, Collision))
 					{
 						return true;
 					}

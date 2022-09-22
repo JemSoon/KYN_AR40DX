@@ -191,6 +191,7 @@ void Player::Start()
 		AttackCollision->GetTransform().SetLocalScale({ 84.0f, 64.0f, 100.0f });
 		AttackCollision->ChangeOrder(OBJECTORDER::PlayerAtt);
 		AttackCollision->GetTransform().SetWorldPosition({ -35.0f,35.0f });
+		//AttackCollision->SetCollisionMode(CollisionMode::Ex);
 		AttackCollision->Off();
 	}
 	{
@@ -200,6 +201,7 @@ void Player::Start()
 		SlashBlastCollision->GetTransform().SetLocalScale({ 250.0f, 150.0f, 100.0f });
 		SlashBlastCollision->ChangeOrder(OBJECTORDER::PlayerAtt);
 		SlashBlastCollision->GetTransform().SetWorldPosition({ -125.0f,75.0f });
+		//SlashBlastCollision->ChangeOrder(CollisionMode::Ex);
 		SlashBlastCollision->Off();
 	}
 
@@ -1015,7 +1017,7 @@ bool Player::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 {	
 	//노말 공격
 	
-	if (MonsterCount <= 1)
+	if (MonsterCount <= 5)
 	{
 		//충돌이 한마리 이하면 true
 		return true;
