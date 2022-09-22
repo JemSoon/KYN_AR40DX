@@ -1125,6 +1125,7 @@ void Player::SlashBlast1End()
 
 void Player::SlashBlast2End()
 {
+	MonsterCount = 0;
 	SlashBlast2->Off();
 	SlashBlastCollision->Off();
 	StateManager.ChangeState("Idle");
