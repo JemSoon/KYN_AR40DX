@@ -349,7 +349,7 @@ bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 		//콜리전 충돌관련(공격콜리전 or 스킬 콜리전)
 		if ((PlayerInfo->MonsterHit(PlayerInfo->GetAttCollision(), this->GetCollision()) == true) &&
 			(PlayerInfo->MonsterCount <= 1) &&
-			PlayerInfo->GetAttCollision()->IsUpdate())
+			true == PlayerInfo->GetAttCollision()->IsUpdate())
 		{
 			//플레이어 공격 콜리전과 달팽이 본체 콜리전이 충돌 && 충돌마리수 한마리이하 && 공격 콜리전이 켜졌을때
 			HPRenderer->On();
@@ -365,7 +365,7 @@ bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 
 		if ((PlayerInfo->MonsterSlashBlastHit(PlayerInfo->GetSlashBlastCollision(), this->GetCollision()) == true) &&
 			(PlayerInfo->MonsterCount <= 5) &&
-			PlayerInfo->GetSlashBlastCollision()->IsUpdate())
+			true == PlayerInfo->GetSlashBlastCollision()->IsUpdate())
 		{
 			//플레이어 스킬 콜리전과 달팽이 본체 콜리전이 충돌 && 충돌마리수 다섯마리이하 && 스킬 콜리전이 켜졌을때
 			HPRenderer->On();
@@ -390,7 +390,7 @@ bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 	{
 		//else 안걸어주면 몬스터가 안죽는다
 		if ((PlayerInfo->MonsterHit(PlayerInfo->GetAttCollision(), this->GetCollision()) == true) &&
-			PlayerInfo->GetAttCollision()->IsUpdate())
+			true == PlayerInfo->GetAttCollision()->IsUpdate())
 		{
 			//한마리 판정이 true면 Hit상태 당첨이고 충돌역시 true
 			StateManager.ChangeState("Hit");
@@ -398,7 +398,7 @@ bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 		}
 
 		else if ((PlayerInfo->MonsterSlashBlastHit(PlayerInfo->GetSlashBlastCollision(), this->GetCollision()) == true) &&
-			PlayerInfo->GetSlashBlastCollision()->IsUpdate())
+			true == PlayerInfo->GetSlashBlastCollision()->IsUpdate())
 		{
 			//한마리 판정이 true면 Hit상태 당첨이고 충돌역시 true
 			StateManager.ChangeState("Hit");
