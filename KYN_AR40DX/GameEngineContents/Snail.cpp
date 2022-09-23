@@ -264,7 +264,7 @@ void Snail::DeadStart(const StateInfo& _Info)
 
 void Snail::DeadUpdate(float _DeltaTime, const StateInfo& _Info)
 {
-	//Collision->ResetExData();
+	Collision->ResetExData();
 }
 
 void Snail::ChaseStart(const StateInfo& _Info)
@@ -335,7 +335,7 @@ void Snail::Update(float _DeltaTime)
 bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
 	//충돌한 몬스터만큼 ++
-	//if (MonsterHit == false)
+	if (MonsterHit == false)
 	{
 		PlayerInfo->MonsterCount += 1;
 
@@ -364,7 +364,7 @@ bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 				true == PlayerInfo->GetSlashBlastCollision()->IsUpdate())
 			{
 				//플레이어 스킬 콜리전과 달팽이 본체 콜리전이 충돌 && 충돌마리수 다섯마리이하 && 스킬 콜리전이 켜졌을때
-				PlayerInfo->SetPlayerAttBuff(3.0f);//스킬은 공격력의 300%
+				PlayerInfo->SetPlayerAttBuff(1.0f);//스킬은 공격력의 300%
 				Damage = PlayerInfo->GetFinalAtt();
 				HPRenderer->On();
 				HPbarRenderer->On();
@@ -377,7 +377,7 @@ bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 			}
 		}
 
-		//MonsterHit = true;//한번만 충돌하게끔
+		MonsterHit = true;//한번만 충돌하게끔
 	}
 	if (MonsterCurHP <= 0)
 	{

@@ -1013,6 +1013,8 @@ void Player::Update(float _DeltaTime)
 	}
 
 	GetTransform().SetWorldMove(MovePower * _DeltaTime);
+
+	int a = MonsterCount;
 }
 
 bool Player::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other)
@@ -1043,6 +1045,7 @@ bool Player::MonsterSlashBlastHit(GameEngineCollision* _This, GameEngineCollisio
 		//±× ¿Ü¿£ false
 		return false;
 	}
+	//return true;
 }
 
 bool Player::PlayerHit(GameEngineCollision* _This, GameEngineCollision* _Other)
