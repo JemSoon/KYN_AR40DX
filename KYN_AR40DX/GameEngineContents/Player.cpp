@@ -983,7 +983,7 @@ void Player::Update(float _DeltaTime)
 
 		/*SlashBlastCollision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::Monster, CollisionType::CT_OBB2D,
 			std::bind(&Player::MonsterSlashBlastHit, this, std::placeholders::_1, std::placeholders::_2));*/
-		SlashBlastCollision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::Monster, CollisionType::CT_OBB2D,
+		SlashBlastCollision->IsCollisionEnterBase(CollisionType::CT_OBB2D, 3, CollisionType::CT_OBB2D,
 			std::bind(&Player::MonsterSlashBlastHit, this, std::placeholders::_1, std::placeholders::_2));
 
 		//Collision->IsCollision(CollisionType::CT_OBB, OBJECTORDER::Monster, CollisionType::CT_OBB,
@@ -1014,7 +1014,7 @@ void Player::Update(float _DeltaTime)
 
 	GetTransform().SetWorldMove(MovePower * _DeltaTime);
 
-	int a = MonsterCount;
+	SlashBlastCollision->ResetExData();
 }
 
 bool Player::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other)
@@ -1035,17 +1035,18 @@ bool Player::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 
 bool Player::MonsterSlashBlastHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
-	if (MonsterCount <= 5)
-	{
-		//충돌이 다섯마리 이하면 true
-		return true;
-	}
-	else
-	{
-		//그 외엔 false
-		return false;
-	}
-	//return true;
+	//if (MonsterCount <= 5)
+	//{
+	//	//충돌이 다섯마리 이하면 true
+	//	return true;
+	//}
+	//else
+	//{
+	//	//그 외엔 false
+	//	return false;
+	//}
+
+	return true;
 }
 
 bool Player::PlayerHit(GameEngineCollision* _This, GameEngineCollision* _Other)

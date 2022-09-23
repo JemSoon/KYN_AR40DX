@@ -20,7 +20,7 @@ BossMano::BossMano()
 	Speed = 25;
 
 	MonsterAtt = 40;
-	MonsterHPMax = 50;
+	MonsterHPMax = 80;
 	MonsterCurHP = MonsterHPMax;
 }
 
@@ -74,6 +74,7 @@ void BossMano::Start()
 		Collision->SetDebugSetting(CollisionType::CT_OBB2D, float4{ 1.0f,0.0f,0.0f,0.3f });
 		Collision->GetTransform().SetLocalScale({ 90.0f, 80.0f, 100.0f });
 		Collision->GetTransform().SetLocalPosition({ 0.0f, 35.0f, 0.0f });
+		Collision->SetCollisionMode(CollisionMode::Ex);
 		Collision->ChangeOrder(OBJECTORDER::Monster);
 	}
 
@@ -269,6 +270,7 @@ void BossMano::DeadStart(const StateInfo& _Info)
 	MovePower = 0.0f;
 	Renderer->ChangeFrameAnimation("Die");
 	Collision->Off();
+	SearchCollision->Off();
 }
 
 void BossMano::DeadUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -352,7 +354,7 @@ void BossMano::Update(float _DeltaTime)
 	GetTransform().SetWorldMove(MovePower * _DeltaTime);
 
 	{
-		Collision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::PlayerAtt, CollisionType::CT_OBB2D,
+		Collision->IsCollisionEnterBase(CollisionType::CT_OBB2D, 2, CollisionType::CT_OBB2D,
 			std::bind(&BossMano::BossManoHit, this, std::placeholders::_1, std::placeholders::_2));
 	}
 	{
@@ -370,6 +372,11 @@ void BossMano::Update(float _DeltaTime)
 		Bufficon->Off();
 	}
 
+	if (PlayerInfo->GetSlashBlastCollision()->IsUpdate() == false)
+	{
+		//MonsterHit = false;
+		Collision->ResetExData();
+	}
 }
 
 bool BossMano::PlayerSearch(GameEngineCollision* _This, GameEngineCollision* _Other)
@@ -382,6 +389,7 @@ bool BossMano::PlayerSearch(GameEngineCollision* _This, GameEngineCollision* _Ot
 	{
 		StateManager.ChangeState("Skill");
 	}
+
 	SearchCollision->Off();
 	return true;
 }
@@ -389,7 +397,7 @@ bool BossMano::PlayerSearch(GameEngineCollision* _This, GameEngineCollision* _Ot
 bool BossMano::BossManoHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
 	//충돌한 몬스터만큼 ++
-	PlayerInfo->MonsterCount += 1;
+	//PlayerInfo->MonsterCount += 1;
 
 	{//평타로 맞음
 
@@ -407,8 +415,7 @@ bool BossMano::BossManoHit(GameEngineCollision* _This, GameEngineCollision* _Oth
 				PlayerInfo->SetPlayerAttBuff(1.0f);
 				Damage = PlayerInfo->GetFinalAtt();
 			}
-			HPRenderer->On();
-			HPbarRenderer->On();
+	
 			MonsterCurHP = MonsterCurHP - Damage;
 
 			DamageRender = _This->GetActor()->GetLevel()->CreateActor<DamageNumber>();
@@ -416,6 +423,29 @@ bool BossMano::BossManoHit(GameEngineCollision* _This, GameEngineCollision* _Oth
 			DamageRender->GetTransform().SetWorldPosition({ Pos.x,Pos.y + 32,-400 });
 			DamageRender->NumberSetting(PlayerInfo->GetFinalAtt());
 		}		
+
+		if ((PlayerInfo->MonsterSlashBlastHit(PlayerInfo->GetSlashBlastCollision(), this->GetCollision()) == true) &&
+			PlayerInfo->GetSlashBlastCollision()->IsUpdate() == true)
+		{
+			//플레이어 충돌 판정true시에만 피를 깐다
+			if (IsBuff == true)
+			{
+				PlayerInfo->SetPlayerAttBuff(1.5f);
+				Damage = PlayerInfo->GetFinalAtt();
+			}
+			else
+			{
+				PlayerInfo->SetPlayerAttBuff(3.0f);
+				Damage = PlayerInfo->GetFinalAtt();
+			}
+
+			MonsterCurHP = MonsterCurHP - Damage;
+
+			DamageRender = _This->GetActor()->GetLevel()->CreateActor<DamageNumber>();
+			float4 Pos = _This->GetActor()->GetTransform().GetWorldPosition();
+			DamageRender->GetTransform().SetWorldPosition({ Pos.x,Pos.y + 32,-400 });
+			DamageRender->NumberSetting(PlayerInfo->GetFinalAtt());
+		}
 
 		if (MonsterCurHP <= 0)
 		{
@@ -429,6 +459,19 @@ bool BossMano::BossManoHit(GameEngineCollision* _This, GameEngineCollision* _Oth
 			//else 안걸어주면 몬스터가 안죽는다
 			if (PlayerInfo->MonsterHit(PlayerInfo->GetAttCollision(), this->GetCollision()) == true &&
 				PlayerInfo->GetAttCollision()->IsUpdate() == true)
+			{
+				BossUI->On();
+
+				//한마리 판정이 true면 Hit상태 당첨이고 충돌역시 true
+				if (IsBuff == false)
+				{
+					StateManager.ChangeState("Hit");
+				}
+				return true;
+			}
+
+			else if (PlayerInfo->MonsterSlashBlastHit(PlayerInfo->GetSlashBlastCollision(), this->GetCollision()) == true &&
+				PlayerInfo->GetSlashBlastCollision()->IsUpdate() == true)
 			{
 				BossUI->On();
 
