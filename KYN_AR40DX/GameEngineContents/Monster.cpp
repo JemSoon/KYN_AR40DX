@@ -8,6 +8,7 @@ Monster::Monster()
 	,HPbarRenderer(nullptr)
 	,IsBuff(false)
 	,DamageRender(nullptr)
+	,MonsterHit(false)
 {
 
 }

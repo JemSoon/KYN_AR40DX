@@ -201,7 +201,7 @@ void Player::Start()
 		SlashBlastCollision->GetTransform().SetLocalScale({ 250.0f, 150.0f, 100.0f });
 		SlashBlastCollision->ChangeOrder(OBJECTORDER::PlayerAtt);
 		SlashBlastCollision->GetTransform().SetWorldPosition({ -125.0f,75.0f });
-		//SlashBlastCollision->ChangeOrder(CollisionMode::Ex);
+		SlashBlastCollision->SetCollisionMode(CollisionMode::Ex);
 		SlashBlastCollision->Off();
 	}
 
@@ -981,6 +981,8 @@ void Player::Update(float _DeltaTime)
 		AttackCollision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::Monster, CollisionType::CT_OBB2D,
 			std::bind(&Player::MonsterHit, this, std::placeholders::_1, std::placeholders::_2));
 
+		/*SlashBlastCollision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::Monster, CollisionType::CT_OBB2D,
+			std::bind(&Player::MonsterSlashBlastHit, this, std::placeholders::_1, std::placeholders::_2));*/
 		SlashBlastCollision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::Monster, CollisionType::CT_OBB2D,
 			std::bind(&Player::MonsterSlashBlastHit, this, std::placeholders::_1, std::placeholders::_2));
 
@@ -1017,7 +1019,7 @@ bool Player::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 {	
 	//노말 공격
 	
-	if (MonsterCount <= 5)
+	if (MonsterCount <= 1)
 	{
 		//충돌이 한마리 이하면 true
 		return true;
@@ -1031,8 +1033,6 @@ bool Player::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 
 bool Player::MonsterSlashBlastHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
-	//노말 공격
-
 	if (MonsterCount <= 5)
 	{
 		//충돌이 다섯마리 이하면 true
@@ -1127,6 +1127,7 @@ void Player::SlashBlast1End()
 
 void Player::SlashBlast2End()
 {
+	SlashBlastCollision->ResetExData();
 	MonsterCount = 0;
 	SlashBlast2->Off();
 	SlashBlastCollision->Off();

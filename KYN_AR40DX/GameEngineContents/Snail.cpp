@@ -78,7 +78,7 @@ void Snail::Start()
 		Collision->SetDebugSetting(CollisionType::CT_OBB2D, float4{ 1.0f,0.0f,0.0f,0.3f });
 		Collision->GetTransform().SetLocalScale({ 32.0f, 24.0f, 100.0f });
 		Collision->GetTransform().SetLocalPosition({ 0.0f, 13.0f, 0.0f });
-		//Collision->SetCollisionMode(CollisionMode::Ex);
+		Collision->SetCollisionMode(CollisionMode::Ex);
 		Collision->ChangeOrder(OBJECTORDER::Monster);
 	}
 
@@ -258,15 +258,19 @@ void Snail::DeadStart(const StateInfo& _Info)
 	PlayerInfo->CurEXP += 5;//달팽이는 5의 경험치를 준다
 	MovePower = 0.0f;
 	Renderer->ChangeFrameAnimation("Die");
+
 	Collision->Off();
 }
 
 void Snail::DeadUpdate(float _DeltaTime, const StateInfo& _Info)
 {
+	//Collision->ResetExData();
 }
 
 void Snail::ChaseStart(const StateInfo& _Info)
 {
+	Collision->ResetExData();
+	MonsterHit = false;
 	Renderer->ChangeFrameAnimation("Move");
 	Speed = 50.0f;
 }
@@ -316,53 +320,65 @@ void Snail::Update(float _DeltaTime)
 	GetTransform().SetWorldMove(MovePower * _DeltaTime);
 
 	{
-		Collision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::PlayerAtt, CollisionType::CT_OBB2D,
+
+		Collision->IsCollision(CollisionType::CT_OBB2D, 2, CollisionType::CT_OBB2D,
 			std::bind(&Snail::SnailHit, this, std::placeholders::_1, std::placeholders::_2));
 	}
+
+	//if (PlayerInfo->GetSlashBlastCollision()->IsUpdate() == false)
+	//{
+	//	MonsterHit = false;
+	//}
+
 }
 
 bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
 	//충돌한 몬스터만큼 ++
-	PlayerInfo->MonsterCount += 1;
-	
+	//if (MonsterHit == false)
 	{
-		//콜리전 충돌관련(공격콜리전 or 스킬 콜리전)
-		if ((PlayerInfo->MonsterHit(PlayerInfo->GetAttCollision(), this->GetCollision()) == true) &&
-			/*(PlayerInfo->MonsterCount <= 1) &&*/
-			true == PlayerInfo->GetAttCollision()->IsUpdate())
-		{
-			//플레이어 공격 콜리전과 달팽이 본체 콜리전이 충돌 && 충돌마리수 한마리이하 && 공격 콜리전이 켜졌을때
-			PlayerInfo->SetPlayerAttBuff(1.0f);
-			Damage = PlayerInfo->GetFinalAtt();
-			HPRenderer->On();
-			HPbarRenderer->On();
-			MonsterCurHP = MonsterCurHP - Damage;
+		PlayerInfo->MonsterCount += 1;
 
-			DamageRender = _This->GetActor()->GetLevel()->CreateActor<DamageNumber>();
-			float4 Pos = _This->GetActor()->GetTransform().GetWorldPosition();
-			DamageRender->GetTransform().SetWorldPosition({ Pos.x,Pos.y + 32,-400 });
-			DamageRender->NumberSetting(PlayerInfo->GetFinalAtt());
+
+		{
+			//콜리전 충돌관련(공격콜리전 or 스킬 콜리전)
+			if ((PlayerInfo->MonsterHit(PlayerInfo->GetAttCollision(), this->GetCollision()) == true) &&
+				/*(PlayerInfo->MonsterCount <= 1) &&*/
+				true == PlayerInfo->GetAttCollision()->IsUpdate())
+			{
+				//플레이어 공격 콜리전과 달팽이 본체 콜리전이 충돌 && 충돌마리수 한마리이하 && 공격 콜리전이 켜졌을때
+				PlayerInfo->SetPlayerAttBuff(1.0f);
+				Damage = PlayerInfo->GetFinalAtt();
+				HPRenderer->On();
+				HPbarRenderer->On();
+				MonsterCurHP = MonsterCurHP - Damage;
+
+				DamageRender = _This->GetActor()->GetLevel()->CreateActor<DamageNumber>();
+				float4 Pos = _This->GetActor()->GetTransform().GetWorldPosition();
+				DamageRender->GetTransform().SetWorldPosition({ Pos.x,Pos.y + 32,-400 });
+				DamageRender->NumberSetting(PlayerInfo->GetFinalAtt());
+			}
+
+			if ((PlayerInfo->MonsterSlashBlastHit(PlayerInfo->GetSlashBlastCollision(), this->GetCollision()) == true) &&
+				/*(PlayerInfo->MonsterCount <= 5) &&*/
+				true == PlayerInfo->GetSlashBlastCollision()->IsUpdate())
+			{
+				//플레이어 스킬 콜리전과 달팽이 본체 콜리전이 충돌 && 충돌마리수 다섯마리이하 && 스킬 콜리전이 켜졌을때
+				PlayerInfo->SetPlayerAttBuff(3.0f);//스킬은 공격력의 300%
+				Damage = PlayerInfo->GetFinalAtt();
+				HPRenderer->On();
+				HPbarRenderer->On();
+				MonsterCurHP = MonsterCurHP - Damage;
+
+				DamageRender = _This->GetActor()->GetLevel()->CreateActor<DamageNumber>();
+				float4 Pos = _This->GetActor()->GetTransform().GetWorldPosition();
+				DamageRender->GetTransform().SetWorldPosition({ Pos.x,Pos.y + 32,-400 });
+				DamageRender->NumberSetting(PlayerInfo->GetFinalAtt());
+			}
 		}
 
-		if ((PlayerInfo->MonsterSlashBlastHit(PlayerInfo->GetSlashBlastCollision(), this->GetCollision()) == true) &&
-			/*(PlayerInfo->MonsterCount <= 5) &&*/
-			true == PlayerInfo->GetSlashBlastCollision()->IsUpdate())
-		{
-			//플레이어 스킬 콜리전과 달팽이 본체 콜리전이 충돌 && 충돌마리수 다섯마리이하 && 스킬 콜리전이 켜졌을때
-			PlayerInfo->SetPlayerAttBuff(1.0f);//스킬은 공격력의 300%
-			Damage = PlayerInfo->GetFinalAtt();
-			HPRenderer->On();
-			HPbarRenderer->On();
-			MonsterCurHP = MonsterCurHP - Damage;
-
-			DamageRender = _This->GetActor()->GetLevel()->CreateActor<DamageNumber>();
-			float4 Pos = _This->GetActor()->GetTransform().GetWorldPosition();
-			DamageRender->GetTransform().SetWorldPosition({ Pos.x,Pos.y + 32,-400 });
-			DamageRender->NumberSetting(PlayerInfo->GetFinalAtt());
-		}
+		//MonsterHit = true;//한번만 충돌하게끔
 	}
-
 	if (MonsterCurHP <= 0)
 	{
 		MonsterCurHP = 0;
@@ -398,10 +414,12 @@ bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 
 void Snail::DieEnd()
 {
+	Collision->ResetExData();
 	Renderer->Off();
 	HPbarRenderer->Off();
 	HPRenderer->Off();
 	Collision->Off();
+	//MonsterHit = false;
 	//Death();
 	//해당 레벨의 리스폰 좌표를 어떻게 가져오느냐?
 }

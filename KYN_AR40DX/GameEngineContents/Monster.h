@@ -42,6 +42,7 @@ public:
 		return MonsterHPMax;
 	}
 	bool IsBuff;
+	bool MonsterHit;
 
 protected:
 	int MonsterAtt;
