@@ -72,7 +72,7 @@ void Stage1Level::Start()
 
 		{
 			Portal = CreateActor<PortalObject>(OBJECTORDER::Portal);
-			Portal->GetTransform().SetWorldPosition({ 1853.0f,-1235.0f,-20.0f });
+			Portal->GetTransform().SetWorldPosition({ 1853.0f,-1235.0f,-450.0f });
 		}
 	}
 }
@@ -98,6 +98,8 @@ void Stage1Level::LevelStartEvent()
 		}
 	}
 
+	
+
 	if (BgmOn == false)
 	{	//음악이 한번만 실행되도록 안그러면 돌림노래처럼 틀어진다
 		//BgmPlayer.Stop();
@@ -115,7 +117,7 @@ void Stage1Level::Update(float _DeltaTime)
 		CameraChase(_DeltaTime);
 		CameraRange();
 	}
-
+	
 	SetMapOnOffSwitch();
 
 	NextStage();

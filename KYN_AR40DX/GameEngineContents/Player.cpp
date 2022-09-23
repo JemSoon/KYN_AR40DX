@@ -103,7 +103,7 @@ void Player::Start()
 			//이펙트 슬래시 블라스트
 			SlashBlast1 = CreateComponent<GameEngineTextureRenderer>();
 			SlashBlast1->GetTransform().SetWorldScale({ 256,256,1 });
-			SlashBlast1->GetTransform().SetLocalPosition({ 0,0,0 });
+			SlashBlast1->GetTransform().SetWorldPosition({ 0,0,0 });
 			SlashBlast1->SetPivot(PIVOTMODE::CENTER);
 			SlashBlast1->CreateFrameAnimationCutTexture("SlashBlast1", FrameAnimation_DESC("SlashBlast1.png", Five, 0.05f, false));
 			SlashBlast1->ChangeFrameAnimation("SlashBlast1");
@@ -112,7 +112,7 @@ void Player::Start()
 
 			SlashBlast2 = CreateComponent<GameEngineTextureRenderer>();
 			SlashBlast2->GetTransform().SetWorldScale({ 512,512,1 });
-			SlashBlast2->GetTransform().SetLocalPosition({ 0,0,0 });
+			SlashBlast2->GetTransform().SetWorldPosition({ 0,0,0 });
 			SlashBlast2->SetPivot(PIVOTMODE::CENTER);
 			SlashBlast2->CreateFrameAnimationCutTexture("SlashBlast2", FrameAnimation_DESC("SlashBlast2.png", Six, 0.05f, false));
 			SlashBlast2->ChangeFrameAnimation("SlashBlast2");
@@ -927,6 +927,12 @@ void Player::SlashBlast1Update(float _DeltaTime, const StateInfo& _Info)
 	ColorCheckUpdate();
 	ColorCheckUpdateNext(MovePower);
 
+	if (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE) &&
+		false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::BLUE))
+	{
+		MovePower.x = 0.0f;
+	}
+
 	NoGravity();
 	return;
 }
@@ -944,6 +950,12 @@ void Player::SlashBlast2Update(float _DeltaTime, const StateInfo& _Info)
 	Gravity(_DeltaTime);
 	ColorCheckUpdate();
 	ColorCheckUpdateNext(MovePower);
+
+	if (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE) &&
+		false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::BLUE))
+	{
+		MovePower.x = 0.0f;
+	}
 
 	NoGravity();
 	return;

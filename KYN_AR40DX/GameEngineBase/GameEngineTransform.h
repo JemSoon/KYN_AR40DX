@@ -368,8 +368,6 @@ private:
 			Data.WorldPosition = Data.LocalPosition;
 		}
 
-		CollisionPositionSetting();
-
 		Data.LocalPositionMatrix.Position(Data.LocalPosition);
 		CalculateWorld();
 
