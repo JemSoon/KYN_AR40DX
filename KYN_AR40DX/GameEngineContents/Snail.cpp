@@ -321,7 +321,7 @@ void Snail::Update(float _DeltaTime)
 
 	{
 
-		Collision->IsCollision(CollisionType::CT_OBB2D, 2, CollisionType::CT_OBB2D,
+		Collision->IsCollisionEnterBase(CollisionType::CT_OBB2D, 2, CollisionType::CT_OBB2D,
 			std::bind(&Snail::SnailHit, this, std::placeholders::_1, std::placeholders::_2));
 	}
 
