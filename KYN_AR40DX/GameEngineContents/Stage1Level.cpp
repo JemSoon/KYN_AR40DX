@@ -74,29 +74,36 @@ void Stage1Level::Start()
 			Portal = CreateActor<PortalObject>(OBJECTORDER::Portal);
 			Portal->GetTransform().SetWorldPosition({ 1853.0f,-1235.0f,-450.0f });
 		}
+
+		{
+			NewPlayer = CreateActor<Player>(OBJECTORDER::Player);
+			NewPlayer->GetTransform().SetWorldPosition({ 1070.0f, -1000.0f, 0.0f });
+		}
 	}
 }
 
 void Stage1Level::LevelStartEvent()
 {
-	{
-		if (nullptr == Player::GetMainPlayer())
-		{
-			NewPlayer = CreateActor<Player>(OBJECTORDER::Player);
-			NewPlayer->SetLevelOverOn();
-			NewPlayer->GetTransform().SetWorldPosition({ 1070.0f, -1000.0f, 0.0f });
-		}
-		else if (nullptr == NewPlayer)
-		{
-			NewPlayer = Player::GetMainPlayer();
-			NewPlayer->GetTransform().SetWorldPosition({ 1070.0f, -1000.0f, 0.0f });
-		}
-		else if (nullptr != NewPlayer)
-		{
-			//이미 다 만들어져 있다==다른맵에서 왔을때
-			NewPlayer->GetTransform().SetWorldPosition({ 1845, -1240.0f, 0.0f });
-		}
-	}
+	//{
+	//	if (nullptr == Player::GetMainPlayer())
+	//	{
+	//		NewPlayer = CreateActor<Player>(OBJECTORDER::Player);
+	//		//NewPlayer->SetLevelOverOn();
+	//		NewPlayer->GetTransform().SetWorldPosition({ 1070.0f, -1000.0f, 0.0f });
+	//	}
+	//	else if (nullptr == NewPlayer)
+	//	{
+	//		NewPlayer = Player::GetMainPlayer();
+	//		NewPlayer->GetTransform().SetWorldPosition({ 1070.0f, -1000.0f, 0.0f });
+	//		//CameraChase(GameEngineTime::GetDeltaTime());
+	//	}
+	//	else if (nullptr != NewPlayer)
+	//	{
+	//		//이미 다 만들어져 있다==다른맵에서 왔을때
+	//		NewPlayer->GetTransform().SetWorldPosition({ 1845, -1240.0f, 0.0f });
+	//		//CameraChase(GameEngineTime::GetDeltaTime());
+	//	}
+	//}
 
 	
 
@@ -131,6 +138,7 @@ void Stage1Level::Update(float _DeltaTime)
 }
 void Stage1Level::End()
 {
+	int a = 0;
 }
 
 void Stage1Level::CameraChase(float _Delta)

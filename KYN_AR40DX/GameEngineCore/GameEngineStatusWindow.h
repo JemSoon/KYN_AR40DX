@@ -33,9 +33,9 @@ public:
 
 protected:
 
+	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
 private:
 	void Initialize(class GameEngineLevel* _Level) override;
-	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
 
 	std::list<GameEngineImageShotWindow*> Window;
 

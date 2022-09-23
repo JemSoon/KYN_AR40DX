@@ -22,6 +22,10 @@ class Player : public CharacterObject
 {
 private:
 	static Player* MainPlayer;
+	static Player* BeforePlayer;
+
+	void LevelStartEvent() override;
+	void LevelEndEvent() override;
 
 public:
 	static Player* GetMainPlayer()

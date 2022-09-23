@@ -10,6 +10,7 @@
 #include "DamageNumber.h"
 
 Player* Player::MainPlayer = nullptr;
+Player* Player::BeforePlayer = nullptr;
 
 Player::Player()
 	:stop(false)
@@ -971,10 +972,10 @@ void Player::Update(float _DeltaTime)
 {
 	//GameEngineDebug::DrawSphere(Collision->GetTransform(), { 1.0f, 0.0f,0.0f, 0.5f });
 
-	if (true == GetLevel()->GetMainCameraActor()->IsFreeCameraMode())
-	{	//프리카메라 모드일땐 카메라가 플레이어 안움직이게 여기서 리턴
-		return;
-	}
+	//if (true == GetLevel()->GetMainCameraActor()->IsFreeCameraMode())
+	//{	//프리카메라 모드일땐 카메라가 플레이어 안움직이게 여기서 리턴
+	//	return;
+	//}
 
 	// 색깔 체크하고
 	ColorCheckUpdate();
@@ -1183,4 +1184,26 @@ void Player::UpToGround()
 
 		return;
 	}
+}
+
+void Player::LevelStartEvent()
+{
+	if (BeforePlayer != nullptr)
+	{
+		this->CurHP = BeforePlayer->CurHP;
+		this->CurMP = BeforePlayer->CurMP;
+		this->HPMax = BeforePlayer->HPMax;
+		this->MPMax = BeforePlayer->MPMax;
+		this->CurEXP = BeforePlayer->CurEXP;
+		this->EXPMax = BeforePlayer->EXPMax;
+		this->PlayerLevel = BeforePlayer->PlayerLevel;
+	}
+		MainPlayer = this;
+		BeforePlayer = nullptr;
+}
+
+void Player::LevelEndEvent()
+{
+	MainPlayer = nullptr;
+	BeforePlayer = this;
 }
