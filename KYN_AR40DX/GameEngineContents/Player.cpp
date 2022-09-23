@@ -1014,7 +1014,6 @@ void Player::Update(float _DeltaTime)
 
 	GetTransform().SetWorldMove(MovePower * _DeltaTime);
 
-	SlashBlastCollision->ResetExData();
 }
 
 bool Player::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other)
@@ -1035,18 +1034,18 @@ bool Player::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 
 bool Player::MonsterSlashBlastHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
-	//if (MonsterCount <= 5)
-	//{
-	//	//충돌이 다섯마리 이하면 true
-	//	return true;
-	//}
-	//else
-	//{
-	//	//그 외엔 false
-	//	return false;
-	//}
+	if (MonsterCount <= 5)
+	{
+		//충돌이 다섯마리 이하면 true
+		return true;
+	}
+	else
+	{
+		//그 외엔 false
+		return false;
+	}
 
-	return true;
+	//return true;
 }
 
 bool Player::PlayerHit(GameEngineCollision* _This, GameEngineCollision* _Other)

@@ -397,7 +397,7 @@ bool BossMano::PlayerSearch(GameEngineCollision* _This, GameEngineCollision* _Ot
 bool BossMano::BossManoHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
 	//충돌한 몬스터만큼 ++
-	//PlayerInfo->MonsterCount += 1;
+	PlayerInfo->MonsterCount += 1;
 
 	{//평타로 맞음
 
