@@ -29,6 +29,7 @@ void Stage1Level::Start()
 		Camera = GetMainCameraActor();
 		Camera->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
 		Camera->GetTransform().SetWorldPosition({ 0,0,-500.0f });
+		
 
 		//GetMainCamera()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
 		//GetMainCamera()->GetCameraRenderTarget()->AddEffect<GameEngineBlur>();
@@ -104,6 +105,7 @@ void Stage1Level::LevelStartEvent()
 		//BgmPlayer.Volume(0.05f);
 		//BgmOn = true;
 	}
+	float4 A = Portal->GetTransform().GetWorldPosition();
 }
 
 void Stage1Level::Update(float _DeltaTime)
@@ -120,8 +122,11 @@ void Stage1Level::Update(float _DeltaTime)
 
 	LevelMove();
 
+	float4 A = Camera->GetTransform().GetWorldPosition();
+	float4 B = NewPlayer->GetTransform().GetWorldPosition();
+	float4 C = Portal->GetTransform().GetWorldPosition();
+	int a = 0;
 }
-
 void Stage1Level::End()
 {
 }
@@ -133,8 +138,8 @@ void Stage1Level::CameraChase(float _Delta)
 	float4 f4CurrentPosition = Camera->GetTransform().GetWorldPosition();
 	float4 f4DestinationPosition = NewPlayer->GetTransform().GetWorldPosition();
 	float4 f4MoveToPosition = float4::Lerp(f4CurrentPosition, f4DestinationPosition, _Delta * 10.f);
-	
-	Camera->GetTransform().SetWorldPosition(f4MoveToPosition);
+
+	Camera->GetTransform().SetWorldPosition({ f4MoveToPosition.x, f4MoveToPosition.y, -500 });
 
 }
 

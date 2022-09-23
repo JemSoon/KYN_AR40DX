@@ -66,7 +66,10 @@ void Stage2Level::Update(float _DeltaTime)
 
 	NextStage();
 
-	float4 PlayerPos = NewPlayer->GetTransform().GetWorldPosition();
+	float4 A = Camera->GetTransform().GetWorldPosition();
+	float4 B = NewPlayer->GetTransform().GetWorldPosition();
+	float4 C = Portal->GetTransform().GetWorldPosition();
+	int a = 0;
 }
 
 void Stage2Level::End()
@@ -80,19 +83,19 @@ void Stage2Level::LevelStartEvent()
 		{
 			NewPlayer = CreateActor<Player>(OBJECTORDER::Player);
 			NewPlayer->SetLevelOverOn();
-			NewPlayer->GetTransform().SetWorldPosition({ 200.0f, -500.0f, -1000.0f });
+			NewPlayer->GetTransform().SetWorldPosition({ 200.0f, -500.0f, 0.0f });
 		}
 
 		else if (nullptr == NewPlayer)
 		{
 			NewPlayer = Player::GetMainPlayer();
-			NewPlayer->GetTransform().SetWorldPosition({ 200.0f, -500.0f, -1000.0f });
+			NewPlayer->GetTransform().SetWorldPosition({ 200.0f, -500.0f, 0.0f });
 		}
 
 		else if (nullptr != NewPlayer)
 		{
 			//이미 다 만들어져 있다==다른맵에서 왔을때(얘는 왜 z값 앞으로 안땡겨주면 사라짐?)
-			NewPlayer->GetTransform().SetWorldPosition({ 100, -500.0f, -1000.0f });
+			NewPlayer->GetTransform().SetWorldPosition({ 100, -500.0f, 0.0f });
 		}
 
 	}
@@ -107,7 +110,7 @@ void Stage2Level::CameraChase(float _Delta)
 	float4 f4DestinationPosition = NewPlayer->GetTransform().GetWorldPosition();
 	float4 f4MoveToPosition = float4::Lerp(f4CurrentPosition, f4DestinationPosition, _Delta * 10.f);
 
-	Camera->GetTransform().SetWorldPosition(f4MoveToPosition);
+	Camera->GetTransform().SetWorldPosition({ f4MoveToPosition.x, f4MoveToPosition.y, -500 });
 }
 
 void Stage2Level::NextStage()
