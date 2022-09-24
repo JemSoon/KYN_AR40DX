@@ -264,6 +264,7 @@ void Player::Start()
 
 void Player::DeadStart(const StateInfo& _Info)
 {
+	Hit = false;
 	Renderer->ChangeFrameAnimation("Dead");
 }
 
