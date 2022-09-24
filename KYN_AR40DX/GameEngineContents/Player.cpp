@@ -1220,11 +1220,11 @@ void Player::AlertColor()
 	{
 		if (static_cast<int>(HitTime * 10) % 2 == 0)
 		{
-			Renderer->GetPixelData().MulColor = { 0.3f,0.3f,0.3f,1.0f };
+			Renderer->GetPixelData().MulColor = { 0.6f,0.6f,0.6f,1.0f };
 		}
 		if (static_cast<int>(HitTime * 10) % 2 == 1)
 		{
-			Renderer->GetPixelData().MulColor = { 0.3f,0.3f,0.3f,0.7f };
+			Renderer->GetPixelData().MulColor = { 0.5f,0.5f,0.5f,1.0f };
 		}
 	}
 	if (HitTime >= 3.0f)
