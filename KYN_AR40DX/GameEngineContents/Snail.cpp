@@ -256,7 +256,7 @@ void Snail::DeadStart(const StateInfo& _Info)
 	MovePower = 0.0f;
 	Renderer->ChangeFrameAnimation("Die");
 	Collision->Off();
-	PlayerInfo->CurEXP += 5;
+	PlayerInfo->CurEXP += 1000;
 }
 
 void Snail::DeadUpdate(float _DeltaTime, const StateInfo& _Info)

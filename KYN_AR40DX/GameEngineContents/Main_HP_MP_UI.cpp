@@ -11,7 +11,6 @@ Main_HP_MP_UI::Main_HP_MP_UI()
 	,Hit(-1)
 	,UseMana(-1)
 	,Level(nullptr)
-	,LevelNum(nullptr)
 	,CurHPNumber(0)
 	,MaxHPNumber(0)
 	,HPCurOne(0)
@@ -51,6 +50,12 @@ Main_HP_MP_UI::Main_HP_MP_UI()
 	,MPbar(nullptr)
 	,EXPbar(nullptr)
 	,QuickSlot(nullptr)
+	,LevelOne(nullptr)
+	,LevelTen(nullptr)
+	,LevelHun(nullptr)
+	,LevelNumOne(0)
+	,LevelNumTen(0)
+	,LevelNumHun(0)
 {
 }
 
@@ -240,10 +245,20 @@ void Main_HP_MP_UI::Start()
 		Level->GetTransform().SetWorldPosition({ -65, 23, -100 });
 		Level->SetTexture("Level.png");
 
-		LevelNum = CreateComponent<GameEngineUIRenderer>();
-		LevelNum->GetTransform().SetWorldScale({ 7, 10, 0 });
-		LevelNum->GetTransform().SetWorldPosition({ -35, 23, -100 });
-		LevelNum->SetTexture("Level1.png");
+		LevelOne = CreateComponent<GameEngineUIRenderer>();
+		LevelOne->GetTransform().SetWorldScale({ 7, 10, 0 });
+		LevelOne->GetTransform().SetWorldPosition({ -35, 23, -100 });
+		LevelOne->SetTexture("Level1.png");
+
+		LevelTen = CreateComponent<GameEngineUIRenderer>();
+		LevelTen->GetTransform().SetWorldScale({ 7, 10, 0 });
+		LevelTen->GetTransform().SetWorldPosition({ -41, 23, -100 });
+		LevelTen->SetTexture("Level1.png");
+
+		LevelHun = CreateComponent<GameEngineUIRenderer>();
+		LevelHun->GetTransform().SetWorldScale({ 7, 10, 0 });
+		LevelHun->GetTransform().SetWorldPosition({ -50, 23, -100 });
+		LevelHun->SetTexture("Level1.png");
 	}
 
 }
@@ -263,7 +278,7 @@ void Main_HP_MP_UI::Update(float _DeltaTime)
 
 	EXPSetting();
 
-	LevelSetting();
+	LevelNumberSetting();
 }
 
 void Main_HP_MP_UI::HPSetting()
@@ -389,19 +404,77 @@ void Main_HP_MP_UI::EXPSetting()
 	EXPbar->GetTransform().SetWorldScale({ (float)EXPbarSize, 7, 0 });
 }
 
-void Main_HP_MP_UI::LevelSetting()
+void Main_HP_MP_UI::LevelNumberSetting()
 {
-	int A = PlayerInfo->PlayerLevel;
-	switch (A)
+	LevelNumOne = PlayerInfo->PlayerLevel % 10;
+	LevelNumTen = PlayerInfo->PlayerLevel / 10;
+	LevelNumHun = PlayerInfo->PlayerLevel / 100;
+
+	if (LevelNumTen > 10)
+	{
+		LevelNumTen = LevelNumTen % 10;
+	}
+
+	if (LevelNumHun == 0)
+	{
+		LevelHun->Off();
+	}
+	else
+	{
+		LevelHun->On();
+	}
+
+	if (LevelNumHun == 0 && LevelNumTen == 0)
+	{
+		LevelTen->Off();
+	}
+	else if (LevelNumHun == 0 && LevelNumTen != 0)
+	{
+		LevelTen->On();
+	}
+
+	LevelRenderSetting(LevelNumOne, LevelOne);
+	LevelRenderSetting(LevelNumTen, LevelTen);
+	LevelRenderSetting(LevelNumHun, LevelHun);
+}
+
+void Main_HP_MP_UI::LevelRenderSetting(int _Value, GameEngineTextureRenderer* _Render)
+{
+	switch (_Value)
 	{
 	case 1:
-		LevelNum->SetTexture("Level1.png");
+		_Render->SetTexture("Level1.png");
 		break;
 	case 2:
-		LevelNum->SetTexture("Level2.png");
+		_Render->SetTexture("Level2.png");
+		break;
+	case 3:
+		_Render->SetTexture("Level3.png");
+		break;
+	case 4:
+		_Render->SetTexture("Level4.png");
+		break;
+	case 5:
+		_Render->SetTexture("Level5.png");
+		break;
+	case 6:
+		_Render->SetTexture("Level6.png");
+		break;
+	case 7:
+		_Render->SetTexture("Level7.png");
+		break;
+	case 8:
+		_Render->SetTexture("Level8.png");
+		break;
+	case 9:
+		_Render->SetTexture("Level9.png");
+		break;
+	case 0:
+		_Render->SetTexture("Level0.png");
 		break;
 	default:
-		LevelNum->SetTexture("Level0.png");
+		_Render->SetTexture("Level0.png");
+		break;
 	}
 }
 

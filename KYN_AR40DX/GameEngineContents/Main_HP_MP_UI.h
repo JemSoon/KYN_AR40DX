@@ -36,10 +36,11 @@ public:
 
 	void HPSetting();
 	void EXPSetting();
-	void LevelSetting();
 	void MPSetting();
 	void HPNumberSetting();
 	void MPNumberSetting();
+	void LevelNumberSetting();
+	void LevelRenderSetting(int _Value, GameEngineTextureRenderer* _Render);
 	void HPMPNumRendererSetting(int _Value, GameEngineTextureRenderer* _Render);
 
 	GameEngineTextureRenderer* HPbar;
@@ -54,7 +55,6 @@ protected:
 	GameEngineTextureRenderer* EXPbar;
 	GameEngineTextureRenderer* QuickSlot;
 	GameEngineTextureRenderer* Level;
-	GameEngineTextureRenderer* LevelNum;
 
 private:
 	GameEngineCameraActor* Camera;
@@ -93,6 +93,10 @@ private:
 	int MPMaxHun;
 	int MPMaxTho;
 
+	int LevelNumOne;
+	int LevelNumTen;
+	int LevelNumHun;
+
 	GameEngineTextureRenderer* HPNumOne;
 	GameEngineTextureRenderer* HPNumTen;
 	GameEngineTextureRenderer* HPNumHun;
@@ -112,5 +116,9 @@ private:
 	GameEngineTextureRenderer* MPMaxNumTen;
 	GameEngineTextureRenderer* MPMaxNumHun;
 	GameEngineTextureRenderer* MPMaxNumTho;
+
+	GameEngineTextureRenderer* LevelOne;
+	GameEngineTextureRenderer* LevelTen;
+	GameEngineTextureRenderer* LevelHun;
 };
 
