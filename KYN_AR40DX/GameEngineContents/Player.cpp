@@ -297,6 +297,7 @@ void Player::IdleStart(const StateInfo& _Info)
 	{
 		//맞았으면 Alert
 		Renderer->ChangeFrameAnimation("Alert");
+		Renderer->GetPixelData().MulColor = { 0.3f,0.3f,0.3f,1.0f };
 	}
 }
 void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -311,6 +312,7 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 		Collision->On();
 		Hit = false;
 		HitTime = 0.0f;
+		Renderer->GetPixelData().MulColor = { 1.0f,1.0f,1.0f,1.0f };
 	}
 
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft") ||
@@ -988,7 +990,8 @@ void Player::Update(float _DeltaTime)
 	//GetTransform().SetWorldMove(MovePower * _DeltaTime);
 
 	Dead();
-	
+	AlertColor();
+
 	{
 		// std::placeholders::_1, std::placeholders::_2 니들이 넣어줘야 한다는것을 명시키는것.
 		AttackCollision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::Monster, CollisionType::CT_OBB2D,
@@ -1026,7 +1029,6 @@ void Player::Update(float _DeltaTime)
 	}
 
 	GetTransform().SetWorldMove(MovePower * _DeltaTime);
-
 }
 
 bool Player::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other)
@@ -1209,4 +1211,23 @@ void Player::LevelEndEvent()
 {
 	MainPlayer = nullptr;
 	BeforePlayer = this;
+}
+
+void Player::AlertColor()
+{
+	if (Hit == true)
+	{
+		if (static_cast<int>(HitTime * 10) % 2 == 0)
+		{
+			Renderer->GetPixelData().MulColor = { 0.3f,0.3f,0.3f,1.0f };
+		}
+		if (static_cast<int>(HitTime * 10) % 2 == 1)
+		{
+			Renderer->GetPixelData().MulColor = { 0.3f,0.3f,0.3f,0.7f };
+		}
+	}
+	if (HitTime >= 3.0f)
+	{
+		Renderer->GetPixelData().MulColor = { 1.0f,1.0f,1.0f,1.0f };
+	}
 }

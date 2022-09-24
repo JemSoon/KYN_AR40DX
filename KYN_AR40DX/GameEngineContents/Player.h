@@ -104,6 +104,7 @@ public:
 	void Dead();
 	void LevelUp();
 	void UpToGround();
+	void AlertColor();
 
 protected:
 	void Start() override;
