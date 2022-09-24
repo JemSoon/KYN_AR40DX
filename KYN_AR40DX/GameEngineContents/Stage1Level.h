@@ -7,6 +7,7 @@
 class Player;
 class StageObject;
 class BossMano;
+class Snail;
 class Stage1Level : public LevelParent
 {
 public:
@@ -25,7 +26,7 @@ public:
 	void CameraChase(float _Delta);
 
 	void LevelMove();
-
+	void MonsterRespawnPosition(Monster* _Mob, float4 _Position);
 
 
 protected:
@@ -40,5 +41,6 @@ private:
 	GameEngineSoundPlayer BgmPlayer;
 	bool BgmOn;
 	BossMano* Mano;
+	Snail* Snail1;
 };
 

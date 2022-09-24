@@ -10,9 +10,7 @@ Snail::Snail()
 	:Damage(0)
 	,PatternTime(0)
 	,Random(0)
-	,RandomDir(0)
-	
-	
+	,RandomDir(0)	
 {
 	MonsterAtt = 15;
 	MonsterHPMax = 15;
@@ -255,11 +253,10 @@ void Snail::HitUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Snail::DeadStart(const StateInfo& _Info)
 {
-	PlayerInfo->CurEXP += 5;//달팽이는 5의 경험치를 준다
 	MovePower = 0.0f;
 	Renderer->ChangeFrameAnimation("Die");
-	Collision->ResetExData();
 	Collision->Off();
+	PlayerInfo->CurEXP += 5;
 }
 
 void Snail::DeadUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -331,7 +328,7 @@ void Snail::Update(float _DeltaTime)
 		Collision->ResetExData();
 	}
 	
-	//MonsterRespawn();
+	MonsterRespawn();
 }
 
 bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
@@ -430,10 +427,12 @@ void Snail::DieEnd()
 
 void Snail::MonsterRespawn()
 {
-	PatternTime += GameEngineTime::GetDeltaTime();
-
 	if (Renderer->IsUpdate() == false)
 	{
+		PatternTime += GameEngineTime::GetDeltaTime();
+
+		DeathCheck = true;
+
 		if (Random == 1&& PatternTime>=10.0f)
 		{
 			StateManager.ChangeState("Idle");
@@ -453,13 +452,14 @@ void Snail::MonsterRespawn()
 		}
 	}
 
-	if (Renderer->IsUpdate() == true)
+	if (Renderer->IsUpdate() == true && DeathCheck==true)
 	{
 		Renderer->GetPixelData().MulColor.a += GameEngineTime::GetDeltaTime();
 		if (Renderer->GetPixelData().MulColor.a >= 1.0f)
 		{
 			Renderer->GetPixelData().MulColor.a = 1.0f;
 			Collision->On();
+			DeathCheck = false;//요고 없으면 경험치 엄청 펑뛴다(콜리전이 죽는동안 계속켜져서 끝날때까지 충돌처리되어 경험치 계속들어옴)
 		}
 	}
 }

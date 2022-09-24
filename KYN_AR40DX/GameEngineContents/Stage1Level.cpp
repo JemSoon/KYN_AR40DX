@@ -43,23 +43,23 @@ void Stage1Level::Start()
 		CreateStageObject("Stage1_BG.png", "Stage1_Col.png", "Stage1.png");
 
 		{
-			Snail* actor1 = CreateActor<Snail>(OBJECTORDER::Monster);
-			actor1->GetTransform().SetLocalPosition({ 1200.0f, -1005.0f, 0.0f });
+			Snail1 = CreateActor<Snail>(OBJECTORDER::Monster);
+			Snail1->GetTransform().SetLocalPosition({ 1200.0f, -1005.0f, 0.0f });
 			
-			Snail* actor2 = CreateActor<Snail>(OBJECTORDER::Monster);
-			actor2->GetTransform().SetLocalPosition({ 1201.0f, -1005.0f, 0.0f });
-			
-			Snail* actor3 = CreateActor<Snail>(OBJECTORDER::Monster);
-			actor3->GetTransform().SetLocalPosition({ 1202.0f, -1005.0f, 0.0f });
-			
-			Snail* actor4 = CreateActor<Snail>(OBJECTORDER::Monster);
-			actor4->GetTransform().SetLocalPosition({ 1203.0f, -1005.0f, 0.0f });
-			
-			Snail* actor5 = CreateActor<Snail>(OBJECTORDER::Monster);
-			actor5->GetTransform().SetLocalPosition({ 1204.0f, -1005.0f, 0.0f });
-			
-			Snail* actor6 = CreateActor<Snail>(OBJECTORDER::Monster);
-			actor6->GetTransform().SetLocalPosition({ 1205.0f, -1005.0f, 0.0f });
+			//Snail* actor2 = CreateActor<Snail>(OBJECTORDER::Monster);
+			//actor2->GetTransform().SetLocalPosition({ 1201.0f, -1005.0f, 0.0f });
+			//
+			//Snail* actor3 = CreateActor<Snail>(OBJECTORDER::Monster);
+			//actor3->GetTransform().SetLocalPosition({ 1202.0f, -1005.0f, 0.0f });
+			//
+			//Snail* actor4 = CreateActor<Snail>(OBJECTORDER::Monster);
+			//actor4->GetTransform().SetLocalPosition({ 1203.0f, -1005.0f, 0.0f });
+			//
+			//Snail* actor5 = CreateActor<Snail>(OBJECTORDER::Monster);
+			//actor5->GetTransform().SetLocalPosition({ 1204.0f, -1005.0f, 0.0f });
+			//
+			//Snail* actor6 = CreateActor<Snail>(OBJECTORDER::Monster);
+			//actor6->GetTransform().SetLocalPosition({ 1205.0f, -1005.0f, 0.0f });
 			
 			//Mano = CreateActor<BossMano>(OBJECTORDER::Monster);
 			//Mano->GetTransform().SetLocalPosition({ 1100.0f, -1005.0f, 0.0f });
@@ -131,10 +131,7 @@ void Stage1Level::Update(float _DeltaTime)
 
 	LevelMove();
 
-	float4 A = Camera->GetTransform().GetWorldPosition();
-	float4 B = NewPlayer->GetTransform().GetWorldPosition();
-	float4 C = Portal->GetTransform().GetWorldPosition();
-	int a = 0;
+	MonsterRespawnPosition(Snail1, { 600,-1150,0 });
 }
 void Stage1Level::End()
 {
@@ -209,3 +206,11 @@ void Stage1Level::LevelMove()
 	}
 }
 
+void Stage1Level::MonsterRespawnPosition(Monster* _Mob, float4 _Position)
+{
+	//몬스터가 죽으면 지정한 위치에 리스폰되게끔 세팅해둔다
+	if (_Mob->DeathCheck == true)
+	{
+		_Mob->GetTransform().SetLocalPosition(_Position);
+	}
+}

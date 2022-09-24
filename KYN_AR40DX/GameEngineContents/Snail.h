@@ -51,6 +51,7 @@ private:
 	float PatternTime;
 	int Random;
 	int RandomDir;
+
 	//bool Hit;
 };
 

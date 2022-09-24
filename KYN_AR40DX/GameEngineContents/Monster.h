@@ -43,7 +43,7 @@ public:
 	}
 	bool IsBuff;
 	bool MonsterHit;
-
+	bool DeathCheck;//이걸통해 레벨에서 죽은걸 확인후 좌표 다시설정
 
 protected:
 	int MonsterAtt;

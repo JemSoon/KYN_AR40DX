@@ -9,6 +9,7 @@ Monster::Monster()
 	,IsBuff(false)
 	,DamageRender(nullptr)
 	,MonsterHit(false)
+	,DeathCheck(false)
 {
 
 }
