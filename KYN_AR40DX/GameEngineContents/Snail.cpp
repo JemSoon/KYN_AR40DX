@@ -331,7 +331,7 @@ void Snail::Update(float _DeltaTime)
 		Collision->ResetExData();
 	}
 	
-	MonsterRespawn();
+	//MonsterRespawn();
 }
 
 bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
@@ -437,19 +437,29 @@ void Snail::MonsterRespawn()
 		if (Random == 1&& PatternTime>=10.0f)
 		{
 			StateManager.ChangeState("Idle");
-			Collision->On();
 			MonsterCurHP = MonsterHPMax;
 			PatternTime = 0.0f;
+			Renderer->GetPixelData().MulColor.a = 0.0f;
 			Renderer->On();
 		}
 
 		if (Random == 2 && PatternTime >= 8.0f)
 		{
 			StateManager.ChangeState("Idle");
-			Collision->On();
 			MonsterCurHP = MonsterHPMax;
 			PatternTime = 0.0f;
+			Renderer->GetPixelData().MulColor.a = 0.0f;
 			Renderer->On();
+		}
+	}
+
+	if (Renderer->IsUpdate() == true)
+	{
+		Renderer->GetPixelData().MulColor.a += GameEngineTime::GetDeltaTime();
+		if (Renderer->GetPixelData().MulColor.a >= 1.0f)
+		{
+			Renderer->GetPixelData().MulColor.a = 1.0f;
+			Collision->On();
 		}
 	}
 }
