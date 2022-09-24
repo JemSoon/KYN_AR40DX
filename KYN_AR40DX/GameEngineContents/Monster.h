@@ -44,6 +44,7 @@ public:
 	bool IsBuff;
 	bool MonsterHit;
 
+
 protected:
 	int MonsterAtt;
 	int MonsterCurHP;

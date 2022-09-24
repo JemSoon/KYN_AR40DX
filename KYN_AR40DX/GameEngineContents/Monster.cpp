@@ -50,4 +50,3 @@ void Monster::MonsterHPSetting()
 	int HPbarSize = (HPRenderer->GetTransform().GetLocalScale().x * MonsterCurHP) / MonsterHPMax;
 	HPbarRenderer->GetTransform().SetWorldScale({ (float)HPbarSize, 10, 0 });
 }
-

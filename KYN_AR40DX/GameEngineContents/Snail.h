@@ -19,6 +19,8 @@ public:
 	
 	bool SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other);
 
+	void MonsterRespawn();
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime);

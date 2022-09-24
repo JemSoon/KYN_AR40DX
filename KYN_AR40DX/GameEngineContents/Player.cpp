@@ -1190,6 +1190,7 @@ void Player::LevelStartEvent()
 {
 	if (BeforePlayer != nullptr)
 	{
+		//레벨 이동할때 가져갈 플레이어 정보들
 		this->CurHP = BeforePlayer->CurHP;
 		this->CurMP = BeforePlayer->CurMP;
 		this->HPMax = BeforePlayer->HPMax;
@@ -1197,6 +1198,8 @@ void Player::LevelStartEvent()
 		this->CurEXP = BeforePlayer->CurEXP;
 		this->EXPMax = BeforePlayer->EXPMax;
 		this->PlayerLevel = BeforePlayer->PlayerLevel;
+		this->PlayerAtt = BeforePlayer->PlayerAtt;
+		this->MyJob = BeforePlayer->MyJob;
 	}
 		MainPlayer = this;
 		BeforePlayer = nullptr;

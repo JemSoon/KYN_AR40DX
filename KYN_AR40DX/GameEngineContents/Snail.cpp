@@ -331,6 +331,7 @@ void Snail::Update(float _DeltaTime)
 		Collision->ResetExData();
 	}
 	
+	MonsterRespawn();
 }
 
 bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
@@ -420,7 +421,35 @@ void Snail::DieEnd()
 	HPbarRenderer->Off();
 	HPRenderer->Off();
 	Collision->Off();
+	PatternTime = 0.0f;
+	Random = GameEngineRandom::MainRandom.RandomInt(1, 2);
 	//MonsterHit = false;
 	//Death();
 	//해당 레벨의 리스폰 좌표를 어떻게 가져오느냐?
+}
+
+void Snail::MonsterRespawn()
+{
+	PatternTime += GameEngineTime::GetDeltaTime();
+
+	if (Renderer->IsUpdate() == false)
+	{
+		if (Random == 1&& PatternTime>=10.0f)
+		{
+			StateManager.ChangeState("Idle");
+			Collision->On();
+			MonsterCurHP = MonsterHPMax;
+			PatternTime = 0.0f;
+			Renderer->On();
+		}
+
+		if (Random == 2 && PatternTime >= 8.0f)
+		{
+			StateManager.ChangeState("Idle");
+			Collision->On();
+			MonsterCurHP = MonsterHPMax;
+			PatternTime = 0.0f;
+			Renderer->On();
+		}
+	}
 }

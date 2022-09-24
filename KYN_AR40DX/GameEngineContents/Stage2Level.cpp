@@ -39,7 +39,7 @@ void Stage2Level::Start()
 	
 	{
 		NewPlayer = CreateActor<Player>(OBJECTORDER::Player);
-		NewPlayer->GetTransform().SetWorldPosition({ 1070.0f, -1000.0f, 0.0f });
+		NewPlayer->GetTransform().SetWorldPosition({200.0f, -500.0f, 0.0f });
 	}
 
 	{
