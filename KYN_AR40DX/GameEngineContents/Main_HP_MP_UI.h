@@ -39,6 +39,7 @@ public:
 	void MPSetting();
 	void HPNumberSetting();
 	void MPNumberSetting();
+	void EXPNumberSetting();
 	void LevelNumberSetting();
 	void LevelRenderSetting(int _Value, GameEngineTextureRenderer* _Render);
 	void HPMPNumRendererSetting(int _Value, GameEngineTextureRenderer* _Render);
@@ -97,6 +98,16 @@ private:
 	int LevelNumTen;
 	int LevelNumHun;
 
+	int EXPCurOne;
+	int EXPCurTen;
+	int EXPCurHun;
+	int EXPCurTho;
+		
+	int EXPMaxOne;
+	int EXPMaxTen;
+	int EXPMaxHun;
+	int EXPMaxTho;
+
 	GameEngineTextureRenderer* HPNumOne;
 	GameEngineTextureRenderer* HPNumTen;
 	GameEngineTextureRenderer* HPNumHun;
@@ -120,5 +131,15 @@ private:
 	GameEngineTextureRenderer* LevelOne;
 	GameEngineTextureRenderer* LevelTen;
 	GameEngineTextureRenderer* LevelHun;
+
+	GameEngineTextureRenderer* EXPNumOne;
+	GameEngineTextureRenderer* EXPNumTen;
+	GameEngineTextureRenderer* EXPNumHun;
+	GameEngineTextureRenderer* EXPNumTho;
+	GameEngineTextureRenderer* EXPNumSlash;
+	GameEngineTextureRenderer* EXPMaxNumOne;
+	GameEngineTextureRenderer* EXPMaxNumTen;
+	GameEngineTextureRenderer* EXPMaxNumHun;
+	GameEngineTextureRenderer* EXPMaxNumTho;
 };
 

@@ -56,6 +56,14 @@ Main_HP_MP_UI::Main_HP_MP_UI()
 	,LevelNumOne(0)
 	,LevelNumTen(0)
 	,LevelNumHun(0)
+	,EXPCurOne(0)
+	,EXPCurTen(0)
+	,EXPCurHun(0)
+	,EXPCurTho(0)
+	,EXPMaxOne(0)
+	,EXPMaxTen(0)
+	,EXPMaxHun(0)
+	,EXPMaxTho(0)
 {
 }
 
@@ -200,7 +208,62 @@ void Main_HP_MP_UI::Start()
 		MPMaxNumOne->GetTransform().SetWorldScale({ 7,9,-100 });
 		MPMaxNumOne->GetTransform().SetLocalPosition({ 52, -15,-101 });
 		MPMaxNumOne->SetPivot(PIVOTMODE::CENTER);
+	}
 
+	{
+		EXPNumSlash = CreateComponent<GameEngineUIRenderer>();
+		EXPNumSlash->SetTexture("HPMPNum.png");
+		EXPNumSlash->GetTransform().SetWorldScale({ 7,9,-100 });
+		EXPNumSlash->GetTransform().SetLocalPosition({ 10, -36,-101 });
+		EXPNumSlash->SetPivot(PIVOTMODE::CENTER);
+
+		EXPNumOne = CreateComponent<GameEngineUIRenderer>();
+		EXPNumOne->SetTexture("HPMPNum0.png");
+		EXPNumOne->GetTransform().SetWorldScale({ 7,9,-100 });
+		EXPNumOne->GetTransform().SetLocalPosition({ -8, -36,-101 });
+		EXPNumOne->SetPivot(PIVOTMODE::CENTER);
+
+		EXPNumTen = CreateComponent<GameEngineUIRenderer>();
+		EXPNumTen->SetTexture("HPMPNum0.png");
+		EXPNumTen->GetTransform().SetWorldScale({ 7,9,-100 });
+		EXPNumTen->GetTransform().SetLocalPosition({ -16, -36,-101 });
+		EXPNumTen->SetPivot(PIVOTMODE::CENTER);
+
+		EXPNumHun = CreateComponent<GameEngineUIRenderer>();
+		EXPNumHun->SetTexture("HPMPNum0.png");
+		EXPNumHun->GetTransform().SetWorldScale({ 7,9,-100 });
+		EXPNumHun->GetTransform().SetLocalPosition({ -24, -36,-101 });
+		EXPNumHun->SetPivot(PIVOTMODE::CENTER);
+
+		EXPNumTho = CreateComponent<GameEngineUIRenderer>();
+		EXPNumTho->SetTexture("HPMPNum0.png");
+		EXPNumTho->GetTransform().SetWorldScale({ 7,9,-100 });
+		EXPNumTho->GetTransform().SetLocalPosition({ -32, -36,-101 });
+		EXPNumTho->SetPivot(PIVOTMODE::CENTER);
+
+		EXPMaxNumTho = CreateComponent<GameEngineUIRenderer>();
+		EXPMaxNumTho->SetTexture("HPMPNum0.png");
+		EXPMaxNumTho->GetTransform().SetWorldScale({ 7,9,-100 });
+		EXPMaxNumTho->GetTransform().SetLocalPosition({ 28, -36,-101 });
+		EXPMaxNumTho->SetPivot(PIVOTMODE::CENTER);
+	
+		EXPMaxNumHun = CreateComponent<GameEngineUIRenderer>();
+		EXPMaxNumHun->SetTexture("HPMPNum0.png");
+		EXPMaxNumHun->GetTransform().SetWorldScale({ 7,9,-100 });
+		EXPMaxNumHun->GetTransform().SetLocalPosition({ 36, -36,-101 });
+		EXPMaxNumHun->SetPivot(PIVOTMODE::CENTER);
+
+		EXPMaxNumTen = CreateComponent<GameEngineUIRenderer>();
+		EXPMaxNumTen->SetTexture("HPMPNum0.png");
+		EXPMaxNumTen->GetTransform().SetWorldScale({ 7,9,-100 });
+		EXPMaxNumTen->GetTransform().SetLocalPosition({ 44, -36,-101 });
+		EXPMaxNumTen->SetPivot(PIVOTMODE::CENTER);
+
+		EXPMaxNumOne = CreateComponent<GameEngineUIRenderer>();
+		EXPMaxNumOne->SetTexture("HPMPNum0.png");
+		EXPMaxNumOne->GetTransform().SetWorldScale({ 7,9,-100 });
+		EXPMaxNumOne->GetTransform().SetLocalPosition({ 52, -36,-101 });
+		EXPMaxNumOne->SetPivot(PIVOTMODE::CENTER);
 	}
 
 	{
@@ -277,6 +340,7 @@ void Main_HP_MP_UI::Update(float _DeltaTime)
 	MPNumberSetting();
 
 	EXPSetting();
+	EXPNumberSetting();
 
 	LevelNumberSetting();
 }
@@ -590,6 +654,64 @@ void Main_HP_MP_UI::MPNumberSetting()
 			HPMPNumRendererSetting(MPMaxHun, MPMaxNumHun);
 			HPMPNumRendererSetting(MPMaxTen, MPMaxNumTen);
 			HPMPNumRendererSetting(MPMaxOne, MPMaxNumOne);
+		}
+	}
+}
+
+void Main_HP_MP_UI::EXPNumberSetting()
+{
+	int CurEXPNumber = PlayerInfo->CurEXP;
+	int MaxEXPNumber = PlayerInfo->EXPMax;
+
+	{
+		{
+			//현재 체력 숫자 렌더링
+			EXPCurTho = CurEXPNumber / 1000;
+			if (EXPCurTho >= 10)
+			{
+				EXPCurTho = EXPCurTho % 10;
+			}
+			EXPCurHun = CurEXPNumber / 100;
+			if (EXPCurHun >= 10)
+			{
+				EXPCurHun = EXPCurHun % 10;
+			}
+			EXPCurTen = CurEXPNumber / 10;
+			if (EXPCurTen >= 10)
+			{
+				EXPCurTen = EXPCurTen % 10;
+			}
+			EXPCurOne = CurEXPNumber % 10;
+
+			HPMPNumRendererSetting(EXPCurTho, EXPNumTho);
+			HPMPNumRendererSetting(EXPCurHun, EXPNumHun);
+			HPMPNumRendererSetting(EXPCurTen, EXPNumTen);
+			HPMPNumRendererSetting(EXPCurOne, EXPNumOne);
+		}
+
+		{
+			//최대 체력 숫자 렌더링
+			EXPMaxTho = MaxEXPNumber / 1000;
+			if (EXPMaxTho >= 10)
+			{
+				EXPMaxTho = EXPMaxTho % 10;
+			}
+			EXPMaxHun = MaxEXPNumber / 100;
+			if (EXPMaxHun >= 10)
+			{
+				EXPMaxHun = EXPMaxHun % 10;
+			}
+			EXPMaxTen = MaxEXPNumber / 10;
+			if (EXPMaxTen >= 10)
+			{
+				EXPMaxTen = EXPMaxTen % 10;
+			}
+			EXPMaxOne = MaxEXPNumber % 10;
+
+			HPMPNumRendererSetting(EXPMaxTho, EXPMaxNumTho);
+			HPMPNumRendererSetting(EXPMaxHun, EXPMaxNumHun);
+			HPMPNumRendererSetting(EXPMaxTen, EXPMaxNumTen);
+			HPMPNumRendererSetting(EXPMaxOne, EXPMaxNumOne);
 		}
 	}
 }

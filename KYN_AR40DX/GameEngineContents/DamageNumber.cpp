@@ -61,6 +61,11 @@ void DamageNumber::NumberSetting(int _Damage)
 		_Damage = _Damage / 10;
 	}
 
+	if (nDamageHun != 0)
+	{
+		NumHun->On();
+	}
+
 	switch (nDamageOne)
 	{
 	case 1:
