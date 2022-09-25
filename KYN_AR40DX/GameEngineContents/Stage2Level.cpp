@@ -69,12 +69,7 @@ void Stage2Level::Update(float _DeltaTime)
 
 	SetMapOnOffSwitch();
 
-	NextStage();
-
-	float4 A = Camera->GetTransform().GetWorldPosition();
-	float4 B = NewPlayer->GetTransform().GetWorldPosition();
-	float4 C = Portal->GetTransform().GetWorldPosition();
-	int a = 0;
+	LevelMove();
 
 	GetMainCamera()->GetProjectionMode();
 }
@@ -127,7 +122,7 @@ void Stage2Level::NextStage()
 {
 	if (true == GameEngineInput::GetInst()->IsDown("LevelChange"))
 	{
-		GEngine::ChangeLevel("Title");
+		GEngine::ChangeLevel("Ship");
 	}
 }
 
@@ -173,5 +168,14 @@ void Stage2Level::CameraRange()
 		float4 CameraPos = Camera->GetTransform().GetLocalPosition();
 		CameraPos.z = CameraZ;
 		Camera->GetTransform().SetLocalPosition(CameraPos);
+	}
+}
+
+void Stage2Level::LevelMove()
+{
+	if (NewPlayer->PortalOn == true)
+	{
+		NewPlayer->PortalOn = false;
+		GEngine::ChangeLevel("Ship");
 	}
 }

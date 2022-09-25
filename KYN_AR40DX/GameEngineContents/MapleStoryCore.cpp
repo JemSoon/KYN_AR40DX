@@ -3,6 +3,7 @@
 #include "GameEngineContents/TitleLevel.h"
 #include "GameEngineContents/Stage1Level.h"
 #include "GameEngineContents/Stage2Level.h"
+#include "GameEngineContents/Ship.h"
 #include <GameEngineBase/GameEngineSound.h>
 #include <GameEngineBase/magic_enum.hpp>
 
@@ -44,6 +45,16 @@ void MapleStoryCore::Start()
 		Dir.Move("ConstantResources");
 		Dir.Move("Texture");
 		Dir.Move("LevelUp");
+
+		GameEngineFolderTexture::Load(Dir.GetFullPath());
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExitsChildDirectory("ConstantResources");
+		Dir.Move("ConstantResources");
+		Dir.Move("Texture");
+		Dir.Move("Ship");
 
 		GameEngineFolderTexture::Load(Dir.GetFullPath());
 	}
@@ -130,6 +141,7 @@ void MapleStoryCore::Start()
 	CreateLevel<TitleLevel>("Title");
 	CreateLevel<Stage1Level>("Stage1");
 	CreateLevel<Stage2Level>("Stage2");
+	CreateLevel<Ship>("Ship");
 	ChangeLevel("Stage1");
 
 	GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);

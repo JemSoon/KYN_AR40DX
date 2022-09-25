@@ -130,6 +130,9 @@
     <ClInclude Include="BossHPUI.h">
       <Filter>Global\UI\BossUI</Filter>
     </ClInclude>
+    <ClInclude Include="Ship.h">
+      <Filter>Level</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapleStoryCore.cpp">
@@ -195,6 +198,9 @@
     </ClCompile>
     <ClCompile Include="BossMano.cpp">
       <Filter>Actor\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="Ship.cpp">
+      <Filter>Level</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

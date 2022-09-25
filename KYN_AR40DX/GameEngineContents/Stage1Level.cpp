@@ -127,7 +127,7 @@ void Stage1Level::Update(float _DeltaTime)
 	
 	SetMapOnOffSwitch();
 
-	NextStage();
+	//NextStage();
 
 	LevelMove();
 
