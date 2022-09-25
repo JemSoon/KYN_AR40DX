@@ -48,6 +48,7 @@ public:
 	bool MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other);
 	bool MonsterSlashBlastHit(GameEngineCollision* _This, GameEngineCollision* _Other);
 	bool MonsterUpperChargeHit(GameEngineCollision* _This, GameEngineCollision* _Other);
+	bool MonsterLeafAttackHit(GameEngineCollision* _This, GameEngineCollision* _Other);
 	bool PlayerHit(GameEngineCollision* _This, GameEngineCollision* _Other);
 	bool PortalCollision(GameEngineCollision* _This, GameEngineCollision* _Other);
 
@@ -64,6 +65,11 @@ public:
 	GameEngineCollision* GetUpperChargeCollision()
 	{
 		return UpperChargeCollision;
+	}
+
+	GameEngineCollision* GetLeafAttackCollision()
+	{
+		return LeafAttackCollision;
 	}
 
 	float4 GetMovePower()
@@ -156,6 +162,9 @@ protected:
 	void UpperChargeStart(const StateInfo& _Info);
 	void UpperChargeUpdate(float _DeltaTime, const StateInfo& _Info);
 
+	void LeafAttackStart(const StateInfo& _Info);
+	void LeafAttackUpdate(float _DeltaTime, const StateInfo& _Info);
+
 	//==========================================================//
 	//==========================================================//
 	void AttackEnd();
@@ -164,6 +173,7 @@ protected:
 	void SlashBlast1End();
 	void SlashBlast2End();
 	void UpperChargeEnd();
+	void LeafAttackEnd();
 	//==========================================================//
 
 private:
@@ -172,6 +182,7 @@ private:
 	GameEngineCollision* AttackCollision;
 	GameEngineCollision* SlashBlastCollision;
 	GameEngineCollision* UpperChargeCollision;
+	GameEngineCollision* LeafAttackCollision;
 	std::string PrevState;
 	bool Hit;
 	float HitTime;
@@ -182,6 +193,7 @@ private:
 	GameEngineTextureRenderer* SlashBlast1;
 	GameEngineTextureRenderer* SlashBlast2;
 	GameEngineTextureRenderer* UpperCharge;
+	GameEngineTextureRenderer* LeafAttack;
 	GameEngineTextureRenderer* RIP;
 	int UseSuperJump;
 	int UseSlashBlast;

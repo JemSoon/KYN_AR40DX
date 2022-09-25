@@ -49,6 +49,8 @@ Player::Player()
 	, SlashBlast2(nullptr)
 	, UpperCharge(nullptr)
 	, UpperChargeCollision(nullptr)
+	, LeafAttack(nullptr)
+	, LeafAttackCollision(nullptr)
 {
 	MainPlayer = this;
 	Speed = 150.0f;
@@ -76,11 +78,13 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("PlayerAttack", 'Z');
 		GameEngineInput::GetInst()->CreateKey("SlashBlast", 'Q');
 		GameEngineInput::GetInst()->CreateKey("UpperCharge", 'W');
+		GameEngineInput::GetInst()->CreateKey("LeafAttack", 'E');
 	}
 
 	GetTransform().SetLocalScale({ 1, 1, 1 });
 
 	{
+		std::vector<unsigned int> Eight = { 0, 1, 2, 3, 4, 5, 6, 7 };
 		std::vector<unsigned int> Seven = { 0, 1, 2, 3, 4, 5, 6 };
 		std::vector<unsigned int> Six = { 0, 1, 2, 3, 4, 5 };
 		std::vector<unsigned int> Five = { 0, 1, 2, 3, 4 };
@@ -144,6 +148,18 @@ void Player::Start()
 		}
 
 		{
+			//이팩트 리프 어텍
+			LeafAttack = CreateComponent<GameEngineTextureRenderer>();
+			LeafAttack->GetTransform().SetWorldScale({ 512,512,1 });
+			LeafAttack->GetTransform().SetWorldPosition({ -100,32,-1 });
+			LeafAttack->SetPivot(PIVOTMODE::CENTER);
+			LeafAttack->CreateFrameAnimationCutTexture("LeafAttack", FrameAnimation_DESC("LeafAttack.png", Eight, 0.05f, false));
+			LeafAttack->ChangeFrameAnimation("LeafAttack");
+			LeafAttack->Off();
+			LeafAttack->AnimationBindEnd("LeafAttack", std::bind(&Player::LeafAttackEnd, this));
+		}
+
+		{
 			GhostActor = GetLevel()->CreateActor<GameEngineActor>();
 
 			GhostActor->SetParent(this);
@@ -183,6 +199,7 @@ void Player::Start()
 		Renderer->CreateFrameAnimationCutTexture("SlashBlast1", FrameAnimation_DESC("SlashBlast1p.png", One, 0.01f, false));
 		Renderer->CreateFrameAnimationCutTexture("SlashBlast2", FrameAnimation_DESC("SlashBlast2p.png", Two, 0.01f, false));
 		Renderer->CreateFrameAnimationCutTexture("UpperCharge", FrameAnimation_DESC("UppperChargep.png", One, 0.01f, false));
+		Renderer->CreateFrameAnimationCutTexture("LeafAttack", FrameAnimation_DESC("LeafAttackp.png", Three, 0.01f, false));
 
 		Renderer->ChangeFrameAnimation("Idle");
 		Renderer->SetPivot(PIVOTMODE::CUSTOM);
@@ -233,6 +250,16 @@ void Player::Start()
 		UpperChargeCollision->SetCollisionMode(CollisionMode::Ex);
 		UpperChargeCollision->Off();
 	}
+	{
+		//리프어택 콜리전
+		LeafAttackCollision = CreateComponent<GameEngineCollision>();
+		LeafAttackCollision->SetDebugSetting(CollisionType::CT_OBB2D, float4{ 1.0f,1.0f,0.0f,0.3f });
+		LeafAttackCollision->GetTransform().SetLocalScale({ 160.0f, 100.0f, 100.0f });
+		LeafAttackCollision->ChangeOrder(OBJECTORDER::PlayerAtt);
+		LeafAttackCollision->GetTransform().SetWorldPosition({ -64.0f,32.0f });
+		LeafAttackCollision->SetCollisionMode(CollisionMode::Ex);
+		LeafAttackCollision->Off();
+	}
 
 	GameEngineFontRenderer* Font = CreateComponent<GameEngineFontRenderer>();
 	Font->SetText("12345", "메이플스토리");
@@ -282,6 +309,9 @@ void Player::Start()
 	StateManager.CreateStateMember("UpperCharge"
 		, std::bind(&Player::UpperChargeUpdate, this, std::placeholders::_1, std::placeholders::_2)
 		, std::bind(&Player::UpperChargeStart, this, std::placeholders::_1));
+	StateManager.CreateStateMember("LeafAttack"
+		, std::bind(&Player::LeafAttackUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::LeafAttackStart, this, std::placeholders::_1));
 
 	StateManager.ChangeState("Idle");
 
@@ -605,6 +635,12 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		return;
 	}
 
+	if (true == GameEngineInput::GetInst()->IsPress("UpperCharge"))
+	{
+		StateManager.ChangeState("UpperCharge");
+		return;
+	}
+
 	if (true == GameEngineInput::GetInst()->IsPress("PlayerJump"))
 	{
 		StateManager.ChangeState("Jump");
@@ -619,6 +655,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 			AttackCollision->GetTransform().SetLocalPosition({ 35.0f,35.0f }); 
 			SlashBlastCollision->GetTransform().SetLocalPosition({ 125.0f,75.0f });
 			UpperChargeCollision->GetTransform().SetLocalPosition({ 64.0f,150.0f });
+			LeafAttackCollision->GetTransform().SetLocalPosition({ 64.0f,32.0f });
 		}
 		MovePower.x = Speed;
 		Renderer->GetTransform().PixLocalNegativeX();
@@ -633,6 +670,8 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 			SlashBlast2->SetPivotToVector({ 100, 60 ,-10 });
 
 			UpperCharge->GetTransform().PixLocalNegativeX();
+			LeafAttack->GetTransform().PixLocalNegativeX();
+			LeafAttack->GetTransform().SetLocalPosition({ 100,32,-1 });
 		}
 		return;
 	}
@@ -644,6 +683,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 			AttackCollision->GetTransform().SetLocalPosition({ -35.0f,35.0f });
 			SlashBlastCollision->GetTransform().SetLocalPosition({ -125.0f,75.0f });
 			UpperChargeCollision->GetTransform().SetLocalPosition({ -64.0f,150.0f });
+			LeafAttackCollision->GetTransform().SetLocalPosition({ -64.0f,32.0f });
 		}
 		MovePower.x = -Speed;
 		Renderer->GetTransform().PixLocalPositiveX();
@@ -658,6 +698,8 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 			SlashBlast2->SetPivotToVector({ -100, 60 ,-10 });
 
 			UpperCharge->GetTransform().PixLocalPositiveX();
+			LeafAttack->GetTransform().PixLocalPositiveX();
+			LeafAttack->GetTransform().SetLocalPosition({ -100,32,-1 });
 		}
 		return;
 	}
@@ -779,6 +821,12 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 		if (true == GameEngineInput::GetInst()->IsPress("SlashBlast"))
 		{
 			StateManager.ChangeState("SlashBlast1");
+			return;
+		}
+
+		if (true == GameEngineInput::GetInst()->IsPress("LeafAttack"))
+		{
+			StateManager.ChangeState("LeafAttack");
 			return;
 		}
 
@@ -1050,6 +1098,48 @@ void Player::UpperChargeUpdate(float _DeltaTime, const StateInfo& _Info)
 	NoGravity();
 	return;
 }
+
+void Player::LeafAttackStart(const StateInfo& _Info)
+{
+	ManaDamage = UseUpperCharge;
+	if (CurMP < ManaDamage)
+	{
+		IsSkill = false;
+		StateManager.ChangeState("Fall");
+		//현재마나사 소모 마나량보다 적다면 작동안한다(나중에 함수로만들자)
+		return;
+	}
+
+	CurMP = CurMP - ManaDamage;
+
+	IsSkill = true;
+
+	stop = true;
+
+	Renderer->ChangeFrameAnimation("LeafAttack");
+	LeafAttack->CurAnimationReset();
+	LeafAttack->On();
+	LeafAttackCollision->On();
+	MovePower.y = 0.0f;
+	MovePower += float4::DOWN * JumpPower * 2.5f;
+}
+
+void Player::LeafAttackUpdate(float _DeltaTime, const StateInfo& _Info)
+{
+	Gravity(_DeltaTime);
+	ColorCheckUpdate();
+	ColorCheckUpdateNext(MovePower);
+
+	if (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE) &&
+		false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::BLUE)
+		/*&& MovePower.y <= 0*/)
+	{
+		MovePower.x = 0.0f;
+	}
+
+	NoGravity();
+	return;
+}
 //==============================================================================//
 //==============================================================================//
 //=========================여기까지가 상태창=====================================//
@@ -1164,6 +1254,20 @@ bool Player::MonsterUpperChargeHit(GameEngineCollision* _This, GameEngineCollisi
 	}
 }
 
+bool Player::MonsterLeafAttackHit(GameEngineCollision* _This, GameEngineCollision* _Other)
+{
+	if (MonsterCount <= 5)
+	{
+		//충돌이 다섯마리 이하면 true
+		return true;
+	}
+	else
+	{
+		//그 외엔 false
+		return false;
+	}
+}
+
 bool Player::PlayerHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
 	{
@@ -1246,10 +1350,10 @@ void Player::SlashBlast1End()
 
 void Player::SlashBlast2End()
 {
-	SlashBlastCollision->ResetExData();
 	MonsterCount = 0;
 	SlashBlast2->Off();
 	SlashBlastCollision->Off();
+	SlashBlastCollision->ResetExData();
 	StateManager.ChangeState("Idle");
 	stop = false;
 }
@@ -1335,10 +1439,20 @@ void Player::AlertColor()
 
 void Player::UpperChargeEnd()
 {
-	UpperChargeCollision->ResetExData();
 	MonsterCount = 0;
 	UpperCharge->Off();
-	StateManager.ChangeState("Fall");
 	UpperChargeCollision->Off();
+	UpperChargeCollision->ResetExData();
 	stop = false;
+	StateManager.ChangeState("Fall");
+}
+
+void Player::LeafAttackEnd()
+{
+	MonsterCount = 0;
+	LeafAttack->Off();
+	LeafAttackCollision->Off();
+	LeafAttackCollision->ResetExData();
+	stop = false;
+	StateManager.ChangeState("Idle");
 }

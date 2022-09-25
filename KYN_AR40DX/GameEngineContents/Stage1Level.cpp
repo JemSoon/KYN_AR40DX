@@ -131,7 +131,7 @@ void Stage1Level::Update(float _DeltaTime)
 
 	LevelMove();
 
-	MonsterRespawnPosition(Snail1, { 600,-1150,0 });
+	//MonsterRespawnPosition(Snail1, { 600,-1150,0 });
 }
 void Stage1Level::End()
 {

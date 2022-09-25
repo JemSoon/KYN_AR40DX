@@ -379,14 +379,23 @@ bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 			}
 
 			if ((PlayerInfo->MonsterUpperChargeHit(PlayerInfo->GetUpperChargeCollision(), this->GetCollision()) == true) &&
-				/*(PlayerInfo->MonsterCount <= 5) &&*/
 				true == PlayerInfo->GetUpperChargeCollision()->IsUpdate())
 			{
-				//PlayerInfo->MonsterCount += 1;
-				//플레이어 스킬 콜리전과 달팽이 본체 콜리전이 충돌 && 충돌마리수 다섯마리이하 && 스킬 콜리전이 켜졌을때
+				PlayerInfo->SetPlayerAttBuff(1.0f);//스킬은 공격력의 250%..정도인데 int라서 깨지려나..?
+				Damage = PlayerInfo->GetFinalAtt();
+				HPRenderer->On();
+				HPbarRenderer->On();
+				MonsterCurHP = MonsterCurHP - Damage;
 
-				/*SlashBlastHit->CurAnimationReset();
-				SlashBlastHit->On();*/	//이건 나중에 어퍼차지 hit이펙트로 바꾸자
+				DamageRender = _This->GetActor()->GetLevel()->CreateActor<DamageNumber>();
+				float4 Pos = _This->GetActor()->GetTransform().GetWorldPosition();
+				DamageRender->GetTransform().SetWorldPosition({ Pos.x,Pos.y + 32,-400 });
+				DamageRender->NumberSetting(PlayerInfo->GetFinalAtt());
+			}
+
+			if ((PlayerInfo->MonsterLeafAttackHit(PlayerInfo->GetLeafAttackCollision(), this->GetCollision()) == true) &&
+				true == PlayerInfo->GetLeafAttackCollision()->IsUpdate())
+			{
 				PlayerInfo->SetPlayerAttBuff(1.0f);//스킬은 공격력의 250%..정도인데 int라서 깨지려나..?
 				Damage = PlayerInfo->GetFinalAtt();
 				HPRenderer->On();
@@ -429,6 +438,14 @@ bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 
 		else if ((PlayerInfo->MonsterUpperChargeHit(PlayerInfo->GetUpperChargeCollision(), this->GetCollision()) == true) &&
 			true == PlayerInfo->GetUpperChargeCollision()->IsUpdate())
+		{
+			//한마리 판정이 true면 Hit상태 당첨이고 충돌역시 true
+			StateManager.ChangeState("Hit");
+			return true;
+		}
+
+		else if ((PlayerInfo->MonsterLeafAttackHit(PlayerInfo->GetLeafAttackCollision(), this->GetCollision()) == true) &&
+			true == PlayerInfo->GetLeafAttackCollision()->IsUpdate())
 		{
 			//한마리 판정이 true면 Hit상태 당첨이고 충돌역시 true
 			StateManager.ChangeState("Hit");
