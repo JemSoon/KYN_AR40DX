@@ -37,6 +37,7 @@ Player::Player()
 	, IsSkill(false)
 	, UseSuperJump(5)
 	, UseSlashBlast(10)
+	, UseUpperCharge(20)
 	, MyJob(JOB::NONE)
 	, ManaDamage(0)
 	, FinalAtt(PlayerAtt)
@@ -222,7 +223,16 @@ void Player::Start()
 		SlashBlastCollision->SetCollisionMode(CollisionMode::Ex);
 		SlashBlastCollision->Off();
 	}
-
+	{
+		//어퍼 차지 콜리전
+		UpperChargeCollision = CreateComponent<GameEngineCollision>();
+		UpperChargeCollision->SetDebugSetting(CollisionType::CT_OBB2D, float4{ 1.0f,1.0f,0.0f,0.3f });
+		UpperChargeCollision->GetTransform().SetLocalScale({ 160.0f, 300.0f, 100.0f });
+		UpperChargeCollision->ChangeOrder(OBJECTORDER::PlayerAtt);
+		UpperChargeCollision->GetTransform().SetWorldPosition({ -64.0f,150.0f });
+		UpperChargeCollision->SetCollisionMode(CollisionMode::Ex);
+		UpperChargeCollision->Off();
+	}
 
 	GameEngineFontRenderer* Font = CreateComponent<GameEngineFontRenderer>();
 	Font->SetText("12345", "메이플스토리");
@@ -605,8 +615,10 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	{	
 		Dir = float4::RIGHT;
 		{
+			//로컬로 해야 콜리전이 날라가지 않는다
 			AttackCollision->GetTransform().SetLocalPosition({ 35.0f,35.0f }); 
 			SlashBlastCollision->GetTransform().SetLocalPosition({ 125.0f,75.0f });
+			UpperChargeCollision->GetTransform().SetLocalPosition({ 64.0f,150.0f });
 		}
 		MovePower.x = Speed;
 		Renderer->GetTransform().PixLocalNegativeX();
@@ -619,6 +631,8 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 			SlashBlast2->GetTransform().PixLocalNegativeX();
 			SlashBlast1->SetPivotToVector({ -40,60 ,-10});
 			SlashBlast2->SetPivotToVector({ 100, 60 ,-10 });
+
+			UpperCharge->GetTransform().PixLocalNegativeX();
 		}
 		return;
 	}
@@ -629,6 +643,7 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 		{
 			AttackCollision->GetTransform().SetLocalPosition({ -35.0f,35.0f });
 			SlashBlastCollision->GetTransform().SetLocalPosition({ -125.0f,75.0f });
+			UpperChargeCollision->GetTransform().SetLocalPosition({ -64.0f,150.0f });
 		}
 		MovePower.x = -Speed;
 		Renderer->GetTransform().PixLocalPositiveX();
@@ -641,6 +656,8 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 			SlashBlast2->GetTransform().PixLocalPositiveX();
 			SlashBlast1->SetPivotToVector({ 40,60,-10 });
 			SlashBlast2->SetPivotToVector({ -100, 60 ,-10 });
+
+			UpperCharge->GetTransform().PixLocalPositiveX();
 		}
 		return;
 	}
@@ -993,9 +1010,25 @@ void Player::SlashBlast2Update(float _DeltaTime, const StateInfo& _Info)
 
 void Player::UpperChargeStart(const StateInfo& _Info)
 {
+	ManaDamage = UseUpperCharge;
+	if (CurMP < ManaDamage)
+	{
+		IsSkill = false;
+		StateManager.ChangeState("Idle");
+		//현재마나사 소모 마나량보다 적다면 작동안한다(나중에 함수로만들자)
+		return;
+	}
+
+	CurMP = CurMP - ManaDamage;
+
+	IsSkill = true;
+
+	stop = true;
+
 	Renderer->ChangeFrameAnimation("UpperCharge");
 	UpperCharge->CurAnimationReset();
 	UpperCharge->On();
+	UpperChargeCollision->On();
 
 	Speed = JumpMoveSpeed;
 	MovePower += float4::UP * JumpPower * 2.5f;
@@ -1012,10 +1045,6 @@ void Player::UpperChargeUpdate(float _DeltaTime, const StateInfo& _Info)
 		/*&& MovePower.y <= 0*/)
 	{
 		MovePower.x = 0.0f;
-	}
-
-	if (MovePower.y <= 0)
-	{
 	}
 
 	NoGravity();
@@ -1058,6 +1087,9 @@ void Player::Update(float _DeltaTime)
 			std::bind(&Player::MonsterSlashBlastHit, this, std::placeholders::_1, std::placeholders::_2));*/
 		SlashBlastCollision->IsCollisionEnterBase(CollisionType::CT_OBB2D, 3, CollisionType::CT_OBB2D,
 			std::bind(&Player::MonsterSlashBlastHit, this, std::placeholders::_1, std::placeholders::_2));
+
+		UpperChargeCollision->IsCollisionEnterBase(CollisionType::CT_OBB2D, 3, CollisionType::CT_OBB2D,
+			std::bind(&Player::MonsterUpperChargeHit, this, std::placeholders::_1, std::placeholders::_2));
 
 		//Collision->IsCollision(CollisionType::CT_OBB, OBJECTORDER::Monster, CollisionType::CT_OBB,
 		//	std::bind(&Player::MonsterCollision, this)
@@ -1106,6 +1138,20 @@ bool Player::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 
 bool Player::MonsterSlashBlastHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
+	if (MonsterCount <= 6)
+	{
+		//충돌이 다섯마리 이하면 true
+		return true;
+	}
+	else
+	{
+		//그 외엔 false
+		return false;
+	}
+}
+
+bool Player::MonsterUpperChargeHit(GameEngineCollision* _This, GameEngineCollision* _Other)
+{
 	if (MonsterCount <= 5)
 	{
 		//충돌이 다섯마리 이하면 true
@@ -1116,8 +1162,6 @@ bool Player::MonsterSlashBlastHit(GameEngineCollision* _This, GameEngineCollisio
 		//그 외엔 false
 		return false;
 	}
-
-	//return true;
 }
 
 bool Player::PlayerHit(GameEngineCollision* _This, GameEngineCollision* _Other)
@@ -1291,6 +1335,10 @@ void Player::AlertColor()
 
 void Player::UpperChargeEnd()
 {
+	UpperChargeCollision->ResetExData();
+	MonsterCount = 0;
 	UpperCharge->Off();
 	StateManager.ChangeState("Fall");
+	UpperChargeCollision->Off();
+	stop = false;
 }

@@ -47,6 +47,7 @@ public:
 
 	bool MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other);
 	bool MonsterSlashBlastHit(GameEngineCollision* _This, GameEngineCollision* _Other);
+	bool MonsterUpperChargeHit(GameEngineCollision* _This, GameEngineCollision* _Other);
 	bool PlayerHit(GameEngineCollision* _This, GameEngineCollision* _Other);
 	bool PortalCollision(GameEngineCollision* _This, GameEngineCollision* _Other);
 
@@ -58,6 +59,11 @@ public:
 	GameEngineCollision* GetSlashBlastCollision()
 	{
 		return SlashBlastCollision;
+	}
+
+	GameEngineCollision* GetUpperChargeCollision()
+	{
+		return UpperChargeCollision;
 	}
 
 	float4 GetMovePower()
@@ -179,6 +185,7 @@ private:
 	GameEngineTextureRenderer* RIP;
 	int UseSuperJump;
 	int UseSlashBlast;
+	int UseUpperCharge;
 
 	GameEngineActor* GhostActor;
 
