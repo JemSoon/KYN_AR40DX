@@ -86,6 +86,7 @@ void MapleStoryCore::Start()
 		GameEngineTexture::Cut("SuperJump.png", 7, 1);
 		GameEngineTexture::Cut("SlashBlast1.png", 5, 1);
 		GameEngineTexture::Cut("SlashBlast2.png", 6, 1);
+		GameEngineTexture::Cut("slashblasthit.png", 6, 1);
 	}
 	
 	{	//∏ÛΩ∫≈Õ

@@ -327,7 +327,7 @@ void Snail::Update(float _DeltaTime)
 		//MonsterHit = false;
 		Collision->ResetExData();
 	}
-	
+
 	MonsterRespawn();
 }
 
@@ -363,6 +363,9 @@ bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 			{
 				//PlayerInfo->MonsterCount += 1;
 				//플레이어 스킬 콜리전과 달팽이 본체 콜리전이 충돌 && 충돌마리수 다섯마리이하 && 스킬 콜리전이 켜졌을때
+
+				SlashBlastHit->CurAnimationReset();
+				SlashBlastHit->On();
 				PlayerInfo->SetPlayerAttBuff(1.0f);//스킬은 공격력의 300%
 				Damage = PlayerInfo->GetFinalAtt();
 				HPRenderer->On();

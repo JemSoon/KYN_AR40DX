@@ -45,6 +45,8 @@ public:
 	bool MonsterHit;
 	bool DeathCheck;//이걸통해 레벨에서 죽은걸 확인후 좌표 다시설정
 
+	void SlashBlastHitEnd();
+
 protected:
 	int MonsterAtt;
 	int MonsterCurHP;
@@ -52,6 +54,7 @@ protected:
 
 	GameEngineTextureRenderer* HPRenderer;
 	GameEngineTextureRenderer* HPbarRenderer;
+	GameEngineTextureRenderer* SlashBlastHit;
 
 	void Start() override;
 
