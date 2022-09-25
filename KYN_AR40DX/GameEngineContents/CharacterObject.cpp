@@ -52,7 +52,8 @@ void CharacterObject::Gravity(float _DeltaTime)
 void CharacterObject::NoGravity()
 {
 	if (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE) &&
-		false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::BLUE))
+		false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::BLUE)&&
+		MovePower.y<=0.0f)
 	{
 		//발바닥이 흰색,파란색이 아니라면
 		MovePower.y = 0.0f;

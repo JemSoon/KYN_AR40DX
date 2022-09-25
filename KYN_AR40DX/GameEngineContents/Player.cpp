@@ -46,6 +46,8 @@ Player::Player()
 	, IsLevelUp(false)
 	, SlashBlast1(nullptr)
 	, SlashBlast2(nullptr)
+	, UpperCharge(nullptr)
+	, UpperChargeCollision(nullptr)
 {
 	MainPlayer = this;
 	Speed = 150.0f;
@@ -72,6 +74,7 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("PlayerJump", 'C');
 		GameEngineInput::GetInst()->CreateKey("PlayerAttack", 'Z');
 		GameEngineInput::GetInst()->CreateKey("SlashBlast", 'Q');
+		GameEngineInput::GetInst()->CreateKey("UpperCharge", 'W');
 	}
 
 	GetTransform().SetLocalScale({ 1, 1, 1 });
@@ -80,6 +83,7 @@ void Player::Start()
 		std::vector<unsigned int> Seven = { 0, 1, 2, 3, 4, 5, 6 };
 		std::vector<unsigned int> Six = { 0, 1, 2, 3, 4, 5 };
 		std::vector<unsigned int> Five = { 0, 1, 2, 3, 4 };
+		std::vector<unsigned int> FourTeen = { 0, 1, 2, 3, 4 ,5 ,6, 7, 8, 9, 10, 11, 12, 13};
 
 		RIP = CreateComponent<GameEngineTextureRenderer>();
 		RIP->GetTransform().SetWorldScale({ 128,128,1 });
@@ -127,6 +131,18 @@ void Player::Start()
 		}
 
 		{
+			//이팩트 어퍼차지
+			UpperCharge = CreateComponent<GameEngineTextureRenderer>();
+			UpperCharge->GetTransform().SetWorldScale({ 512,512,1 });
+			UpperCharge->GetTransform().SetWorldPosition({ 0,116,-1 });
+			UpperCharge->SetPivot(PIVOTMODE::CENTER);
+			UpperCharge->CreateFrameAnimationCutTexture("UpperCharge", FrameAnimation_DESC("UppperCharge.png", FourTeen, 0.05f, false));
+			UpperCharge->ChangeFrameAnimation("UpperCharge");
+			UpperCharge->Off();
+			UpperCharge->AnimationBindEnd("UpperCharge", std::bind(&Player::UpperChargeEnd, this));
+		}
+
+		{
 			GhostActor = GetLevel()->CreateActor<GameEngineActor>();
 
 			GhostActor->SetParent(this);
@@ -165,6 +181,7 @@ void Player::Start()
 		Renderer->CreateFrameAnimationCutTexture("Dead", FrameAnimation_DESC("dead.png", One, 0.23f, false));
 		Renderer->CreateFrameAnimationCutTexture("SlashBlast1", FrameAnimation_DESC("SlashBlast1p.png", One, 0.01f, false));
 		Renderer->CreateFrameAnimationCutTexture("SlashBlast2", FrameAnimation_DESC("SlashBlast2p.png", Two, 0.01f, false));
+		Renderer->CreateFrameAnimationCutTexture("UpperCharge", FrameAnimation_DESC("UppperChargep.png", One, 0.01f, false));
 
 		Renderer->ChangeFrameAnimation("Idle");
 		Renderer->SetPivot(PIVOTMODE::CUSTOM);
@@ -252,6 +269,9 @@ void Player::Start()
 	StateManager.CreateStateMember("SlashBlast2"
 		, std::bind(&Player::SlashBlast2Update, this, std::placeholders::_1, std::placeholders::_2)
 		, std::bind(&Player::SlashBlast2Start, this, std::placeholders::_1));
+	StateManager.CreateStateMember("UpperCharge"
+		, std::bind(&Player::UpperChargeUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Player::UpperChargeStart, this, std::placeholders::_1));
 
 	StateManager.ChangeState("Idle");
 
@@ -344,6 +364,12 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 	if (true == GameEngineInput::GetInst()->IsPress("SlashBlast"))
 	{
 		StateManager.ChangeState("SlashBlast1");
+		return;
+	}
+
+	if (true == GameEngineInput::GetInst()->IsPress("UpperCharge"))
+	{
+		StateManager.ChangeState("UpperCharge");
 		return;
 	}
 
@@ -965,6 +991,36 @@ void Player::SlashBlast2Update(float _DeltaTime, const StateInfo& _Info)
 	return;
 }
 
+void Player::UpperChargeStart(const StateInfo& _Info)
+{
+	Renderer->ChangeFrameAnimation("UpperCharge");
+	UpperCharge->CurAnimationReset();
+	UpperCharge->On();
+
+	Speed = JumpMoveSpeed;
+	MovePower += float4::UP * JumpPower * 2.5f;
+}
+
+void Player::UpperChargeUpdate(float _DeltaTime, const StateInfo& _Info)
+{
+	Gravity(_DeltaTime);
+	ColorCheckUpdate();
+	ColorCheckUpdateNext(MovePower);
+
+	if (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE) &&
+		false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::BLUE)
+		/*&& MovePower.y <= 0*/)
+	{
+		MovePower.x = 0.0f;
+	}
+
+	if (MovePower.y <= 0)
+	{
+	}
+
+	NoGravity();
+	return;
+}
 //==============================================================================//
 //==============================================================================//
 //=========================여기까지가 상태창=====================================//
@@ -1169,7 +1225,7 @@ void Player::Dead()
 void Player::UpToGround()
 {
 	// 내가 땅에 박혔다면.
-	if (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE))
+	if (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE)&&MovePower.y<=0.0f)
 	{	//착지했는데 방향키 안누르면 Idle
 		StateManager.ChangeState("Idle");
 
@@ -1231,4 +1287,10 @@ void Player::AlertColor()
 	{
 		Renderer->GetPixelData().MulColor = { 1.0f,1.0f,1.0f,1.0f };
 	}
+}
+
+void Player::UpperChargeEnd()
+{
+	UpperCharge->Off();
+	StateManager.ChangeState("Fall");
 }

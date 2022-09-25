@@ -79,6 +79,7 @@ void MapleStoryCore::Start()
 		GameEngineTexture::Cut("RIP.png", 7, 1);
 		GameEngineTexture::Cut("SlashBlast1p.png", 1, 1);
 		GameEngineTexture::Cut("SlashBlast2p.png", 2, 1);
+		GameEngineTexture::Cut("UppperChargep.png", 1, 1);
 	}
 
 	{
@@ -87,6 +88,8 @@ void MapleStoryCore::Start()
 		GameEngineTexture::Cut("SlashBlast1.png", 5, 1);
 		GameEngineTexture::Cut("SlashBlast2.png", 6, 1);
 		GameEngineTexture::Cut("slashblasthit.png", 6, 1);
+		GameEngineTexture::Cut("UppperCharge.png", 14, 1);
+
 	}
 	
 	{	//∏ÛΩ∫≈Õ

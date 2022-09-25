@@ -147,6 +147,9 @@ protected:
 	void SlashBlast2Start(const StateInfo& _Info);
 	void SlashBlast2Update(float _DeltaTime, const StateInfo& _Info);
 
+	void UpperChargeStart(const StateInfo& _Info);
+	void UpperChargeUpdate(float _DeltaTime, const StateInfo& _Info);
+
 	//==========================================================//
 	//==========================================================//
 	void AttackEnd();
@@ -154,6 +157,7 @@ protected:
 	void SuperJumpEnd();
 	void SlashBlast1End();
 	void SlashBlast2End();
+	void UpperChargeEnd();
 	//==========================================================//
 
 private:
@@ -161,6 +165,7 @@ private:
 	float4 Dir;
 	GameEngineCollision* AttackCollision;
 	GameEngineCollision* SlashBlastCollision;
+	GameEngineCollision* UpperChargeCollision;
 	std::string PrevState;
 	bool Hit;
 	float HitTime;
@@ -170,6 +175,7 @@ private:
 	GameEngineTextureRenderer* Effect;
 	GameEngineTextureRenderer* SlashBlast1;
 	GameEngineTextureRenderer* SlashBlast2;
+	GameEngineTextureRenderer* UpperCharge;
 	GameEngineTextureRenderer* RIP;
 	int UseSuperJump;
 	int UseSlashBlast;
