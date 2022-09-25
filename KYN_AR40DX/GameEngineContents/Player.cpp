@@ -914,6 +914,12 @@ void Player::SuperJumpUpdate(float _DeltaTime, const StateInfo& _Info)
 		return;
 	}
 
+	if (true == GameEngineInput::GetInst()->IsPress("LeafAttack"))
+	{
+		StateManager.ChangeState("LeafAttack");
+		return;
+	}
+
 	if (true == IsColor(COLORCHECKDIR::DOWN, CharacterObject::BLUE) &&
 		true == GameEngineInput::GetInst()->IsPress("PlayerUp"))
 	{
@@ -947,6 +953,11 @@ void Player::FallUpdate(float _DeltaTime, const StateInfo& _Info)
 		return;
 	}
 
+	if (true == GameEngineInput::GetInst()->IsPress("LeafAttack"))
+	{
+		StateManager.ChangeState("LeafAttack");
+		return;
+	}
 }
 
 void Player::DownJumpStart(const StateInfo& _Info)
@@ -1087,6 +1098,12 @@ void Player::UpperChargeUpdate(float _DeltaTime, const StateInfo& _Info)
 	Gravity(_DeltaTime);
 	ColorCheckUpdate();
 	ColorCheckUpdateNext(MovePower);
+
+	if (true == GameEngineInput::GetInst()->IsPress("LeafAttack"))
+	{
+		StateManager.ChangeState("LeafAttack");
+		return;
+	}
 
 	if (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE) &&
 		false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::BLUE)
