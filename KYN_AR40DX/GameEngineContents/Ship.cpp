@@ -68,7 +68,7 @@ void Ship::Update(float _DeltaTime)
 	SetMapOnOffSwitch();
 
 	LevelStageObject->GetBG()->GetTransform().SetWorldPosition({ -(ShipTime*50.0f),-100,0});
-	//LevelMove();
+	LevelMove();
 }
 
 void Ship::End()
