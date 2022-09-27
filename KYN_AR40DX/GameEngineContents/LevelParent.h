@@ -3,10 +3,12 @@
 #include <GameEngineBase/GameEngineSound.h>
 #include "StageObject.h"
 #include "PortalObject.h"
+#include "Black.h"
 // Ό³Έν :
 class Main_HP_MP_UI;
 class Inventory;
 class Mouse;
+class Black;
 class LevelParent : public GameEngineLevel
 {
 public:
@@ -43,6 +45,7 @@ public:
  		return LevelStageObject->GetMap_Col();
 	}
 
+	void BlackTimeOut();
 protected:
 	void CreateStageObject(const std::string _BG, const std::string _ColName, const std::string _MapName);
 
@@ -51,6 +54,12 @@ protected:
 	Main_HP_MP_UI* MainUI;
 	Mouse* Cursor;
 	Inventory* Item;
+	Black* B;
+
+	float BlackOutTime;
+	float BlackInTime;
+
+	bool LevelIn;
 private:
 };
 

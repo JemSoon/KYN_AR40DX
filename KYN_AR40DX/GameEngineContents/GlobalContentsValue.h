@@ -13,6 +13,7 @@ enum class OBJECTORDER
 	Portal,
 	UI = 1000,
 	Mouse,
+	Black,
 };
 
 //enum class COLLISIONORDER

@@ -67,6 +67,8 @@ void Stage2Level::Update(float _DeltaTime)
 		CameraRange();
 	}
 
+	BlackTimeOut();
+
 	SetMapOnOffSwitch();
 
 	LevelMove();
@@ -80,30 +82,11 @@ void Stage2Level::End()
 
 void Stage2Level::LevelStartEvent()
 {
-	//{
-	//	if (nullptr == Player::GetMainPlayer())
-	//	{
-	//		NewPlayer = CreateActor<Player>(OBJECTORDER::Player);
-	//		NewPlayer->SetLevelOverOn();
-	//		NewPlayer->GetTransform().SetWorldPosition({ 200.0f, -500.0f, 0.0f });
-	//	}
+	BlackOutTime = 0.0f;
 
-	//	else if (nullptr == NewPlayer)
-	//	{
-	//		NewPlayer = Player::GetMainPlayer();
-	//		NewPlayer->GetTransform().SetWorldPosition({ 200.0f, -500.0f, 0.0f });
-	//		//CameraChase(GameEngineTime::GetDeltaTime());
-	//	}
+	LevelIn = true;
 
-	//	else if (nullptr != NewPlayer)
-	//	{
-	//		//이미 다 만들어져 있다==다른맵에서 왔을때(얘는 왜 z값 앞으로 안땡겨주면 사라짐?)
-	//		//NewPlayer->GetTransform().SetWorldPosition({ 100, -500.0f, 0.0f });
-	//		//CameraChase(GameEngineTime::GetDeltaTime());
-	//	}
-
-	//	//Camera->GetTransform().SetWorldPosition({ -300,-800,-500 });
-	//}
+	B->GetRenderer()->GetPixelData().MulColor.a = 1.0f;
 }
 
 void Stage2Level::CameraChase(float _Delta)
@@ -175,7 +158,16 @@ void Stage2Level::LevelMove()
 {
 	if (NewPlayer->PortalOn == true)
 	{
-		NewPlayer->PortalOn = false;
-		GEngine::ChangeLevel("Ship");
+		BlackInTime += GameEngineTime::GetDeltaTime();
+
+		B->GetRenderer()->GetPixelData().MulColor.a += BlackInTime * 0.1f;
+
+		if (B->GetRenderer()->GetPixelData().MulColor.a >= 1.0f)
+		{
+			B->GetRenderer()->GetPixelData().MulColor.a = 1.0f;
+			NewPlayer->PortalOn = false;
+			BlackInTime = 0.0f;
+			GEngine::ChangeLevel("Ship");
+		}
 	}
 }

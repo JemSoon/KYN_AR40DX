@@ -133,6 +133,9 @@
     <ClInclude Include="Ship.h">
       <Filter>Level</Filter>
     </ClInclude>
+    <ClInclude Include="Black.h">
+      <Filter>Actor\Parents\Stage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapleStoryCore.cpp">
@@ -201,6 +204,9 @@
     </ClCompile>
     <ClCompile Include="Ship.cpp">
       <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Black.cpp">
+      <Filter>Actor\Parents\Stage</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

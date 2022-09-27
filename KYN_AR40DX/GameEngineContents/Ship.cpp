@@ -63,6 +63,8 @@ void Ship::Update(float _DeltaTime)
 		CameraRange();
 	}
 
+	BlackTimeOut();
+
 	ShipTime += _DeltaTime;
 
 	SetMapOnOffSwitch();
@@ -87,13 +89,27 @@ void Ship::CameraChase(float _Delta)
 void Ship::LevelStartEvent()
 {
 	ShipTime = 0.0f;
+
+	BlackOutTime = 0.0f;
+
+	LevelIn = true;
+
+	B->GetRenderer()->GetPixelData().MulColor.a = 1.0f;
 }
 
 void Ship::LevelMove()
 {
 	if (ShipTime >= 10.0f)
 	{
-		GEngine::ChangeLevel("Stage1");
+		BlackInTime += GameEngineTime::GetDeltaTime();
+
+		B->GetRenderer()->GetPixelData().MulColor.a += BlackInTime * 0.1f;
+
+		if (B->GetRenderer()->GetPixelData().MulColor.a >= 1.0f)
+		{
+			B->GetRenderer()->GetPixelData().MulColor.a = 1.0f;
+			GEngine::ChangeLevel("Stage1");
+		}
 	}
 }
 

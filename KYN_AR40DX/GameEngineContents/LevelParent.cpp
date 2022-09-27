@@ -4,8 +4,10 @@
 #include "Mouse.h"
 #include "Inventory.h"
 
-
 LevelParent::LevelParent() 
+	:BlackOutTime(0.0f)
+	,BlackInTime(0.0f)
+	,LevelIn(false)
 {
 }
 
@@ -55,5 +57,26 @@ void LevelParent::CreateStageObject(const std::string _BG, const std::string _Co
 			Cursor = CreateActor<Mouse>(OBJECTORDER::UI);
 		}
 		
+		{
+			B = CreateActor<Black>(OBJECTORDER::Black);
+			B->GetTransform().SetWorldPosition({ 0,0,-500 });
+		}
+	}
+}
+
+void LevelParent::BlackTimeOut()
+{
+	BlackOutTime += GameEngineTime::GetDeltaTime();
+
+	if ((B->GetRenderer()->GetPixelData().MulColor.a >= 0.0f)&&LevelIn==true)
+	{
+		B->GetRenderer()->GetPixelData().MulColor.a -= BlackOutTime * 0.1f;
+	}
+
+	if (B->GetRenderer()->GetPixelData().MulColor.a <= 0.0f)
+	{
+		LevelIn = false;
+		BlackOutTime = 0.0f;
+		B->GetRenderer()->GetPixelData().MulColor.a == 0.0f;
 	}
 }
