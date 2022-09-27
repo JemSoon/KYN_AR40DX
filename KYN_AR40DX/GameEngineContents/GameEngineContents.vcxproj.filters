@@ -61,6 +61,9 @@
     <Filter Include="Global\UI\BossUI">
       <UniqueIdentifier>{8521da86-b918-4cb1-81f0-86c37229033a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Global\UI\Dialogue">
+      <UniqueIdentifier>{ca41088c-9511-4244-9d0f-abf1b3051232}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MapleStoryCore.h">
@@ -136,6 +139,9 @@
     <ClInclude Include="Black.h">
       <Filter>Actor\Parents\Stage</Filter>
     </ClInclude>
+    <ClInclude Include="Dialogue.h">
+      <Filter>Global\UI\Dialogue</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapleStoryCore.cpp">
@@ -207,6 +213,9 @@
     </ClCompile>
     <ClCompile Include="Black.cpp">
       <Filter>Actor\Parents\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Dialogue.cpp">
+      <Filter>Global\UI\Dialogue</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "Sugar.h"
+#include "Dialogue.h"
 
 Sugar::Sugar()
 {
@@ -13,8 +14,12 @@ Sugar::~Sugar()
 
 void Sugar::Start()
 {
-	//»ó¼Ó¿¡ ½áµÒ
-	//GetTransform().SetLocalScale({ 1, 1, 1 });
+	CharacterObject::Start();
+	{
+		Chat = GetLevel()->CreateActor<Dialogue>();
+		Chat->GetTransform().SetWorldPosition({ 0.0f,0.0f,-200.0f });
+		Chat->Off();
+	}
 	{
 		Renderer = CreateComponent<GameEngineTextureRenderer>();
 		Renderer->GetTransform().SetLocalScale({ 48, 75, 1 });
@@ -49,3 +54,9 @@ void Sugar::Update(float _DeltaTime)
 	NoGravity();
 }
 
+void Sugar::ChatOn()
+{
+	
+	Chat->On();
+	
+}

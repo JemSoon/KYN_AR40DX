@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "Mouse.h"
 #include <GameEngineContents/GlobalContentsValue.h>
+#include "Sugar.h"
+#include "Dialogue.h"
 
 Mouse::Mouse()
 	:MouseImage(nullptr)
@@ -15,6 +17,11 @@ Mouse::~Mouse()
 
 void Mouse::Start()
 {
+	if (false == GameEngineInput::GetInst()->IsKey("Click"))
+	{
+		GameEngineInput::GetInst()->CreateKey("Click", VK_LBUTTON);
+	}
+
 	GameEngineUIRenderer* Renderer = CreateComponent<GameEngineUIRenderer>();
 	GetTransform().SetLocalScale({ 1, 1, 1 });
 
@@ -61,7 +68,10 @@ void Mouse::Update(float _DeltaTime)
 bool Mouse::MouseHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
 	//클릭하면 퀘스트 대화창이 뜬다.
-	int a = 0;
+	if (true == GameEngineInput::GetInst()->IsDown("Click"))
+	{
+		_Other->GetActor<Sugar>()->ChatOn();
+	}
 
 	return true;
 }

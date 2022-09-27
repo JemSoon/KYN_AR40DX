@@ -6,6 +6,7 @@
 //직접 만들지 않아도 자동으로 생략되어 생성되 있는것들
 
 //설명 : 시작할때 튜토리얼 하는 NPC
+class Dialogue;
 class Sugar : public CharacterObject
 {
 public:
@@ -24,11 +25,14 @@ public:
 	Sugar& operator=(const Sugar& _Other) = delete;
 	Sugar& operator=(Sugar&& _Other) noexcept = delete;
 
+	void ChatOn();
+
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime);
 	void End() {}
-
+	Dialogue* Chat;
 private:
 
 };

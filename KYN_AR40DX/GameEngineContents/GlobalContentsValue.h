@@ -1,6 +1,7 @@
 #pragma once
 #include "Player.h"
 #include "Monster.h"
+#include <GameEngineContents/GlobalContentsValue.h>
 
 enum class OBJECTORDER
 {
