@@ -17,6 +17,7 @@ void Sugar::Start()
 	CharacterObject::Start();
 	{
 		Chat = GetLevel()->CreateActor<Dialogue>();
+		//std::string Level = GetLevel()->GetNameCopy();
 		Chat->GetTransform().SetWorldPosition({ 0.0f,0.0f,-200.0f });
 		Chat->Off();
 	}
@@ -52,11 +53,21 @@ void Sugar::Update(float _DeltaTime)
 	GetTransform().SetWorldMove(MovePower * _DeltaTime);
 
 	NoGravity();
+
+	if (Chat->IsUpdate() == true)
+	{
+		GameEngineFontRenderer* Font = CreateComponent<GameEngineFontRenderer>();
+		Font->SetRenderingOrder(1001);
+		Font->ChangeCamera(CAMERAORDER::UICAMERA);
+		Font->SetParent(Chat);
+		Font->SetText("¾È³ç", "µ¸¿ò");
+		Font->SetColor({0.0f, 0.0f, 0.0f });
+		Font->SetScreenPostion({ 540.0f, 270.0f ,-350.0f});
+	}
 }
 
 void Sugar::ChatOn()
 {
-	
 	Chat->On();
-	
+	Chat->SetNPCTexture("sugar.png");
 }

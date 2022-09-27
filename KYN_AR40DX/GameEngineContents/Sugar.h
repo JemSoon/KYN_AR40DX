@@ -26,7 +26,10 @@ public:
 	Sugar& operator=(Sugar&& _Other) noexcept = delete;
 
 	void ChatOn();
-
+	GameEngineRenderer* GetRenderer()
+	{
+		return Renderer;
+	}
 
 protected:
 	void Start() override;

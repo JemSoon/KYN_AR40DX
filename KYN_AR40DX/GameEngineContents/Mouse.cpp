@@ -30,6 +30,7 @@ void Mouse::Start()
 	MouseImage->SetTexture("Cursor.png");
 	MouseImage->GetTransform().SetWorldScale({ 24,28,0 });
 	MouseImage->GetTransform().SetWorldPosition({ CursorPos2.x,CursorPos2.y,-100 });
+	MouseImage->SetRenderingOrder(1002);
 
 	ActorCollision = CreateComponent<GameEngineCollision>();
 	ActorCollision->SetDebugSetting(CollisionType::CT_OBB2D, float4{ 1.0f,0.0f,0.0f,0.3f });

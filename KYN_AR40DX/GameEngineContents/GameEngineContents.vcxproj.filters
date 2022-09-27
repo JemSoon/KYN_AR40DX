@@ -64,6 +64,9 @@
     <Filter Include="Global\UI\Dialogue">
       <UniqueIdentifier>{ca41088c-9511-4244-9d0f-abf1b3051232}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Global\UI\DeadAlert">
+      <UniqueIdentifier>{5a999f65-95f4-4d86-b7be-596dce03ccdf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MapleStoryCore.h">
@@ -142,6 +145,9 @@
     <ClInclude Include="Dialogue.h">
       <Filter>Global\UI\Dialogue</Filter>
     </ClInclude>
+    <ClInclude Include="DeadAlert.h">
+      <Filter>Global\UI\DeadAlert</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapleStoryCore.cpp">
@@ -216,6 +222,9 @@
     </ClCompile>
     <ClCompile Include="Dialogue.cpp">
       <Filter>Global\UI\Dialogue</Filter>
+    </ClCompile>
+    <ClCompile Include="DeadAlert.cpp">
+      <Filter>Global\UI\DeadAlert</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

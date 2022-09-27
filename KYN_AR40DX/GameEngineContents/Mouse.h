@@ -62,5 +62,6 @@ private:
 	float4 CursorPos2;
 	GameEngineCollision* ActorCollision;
 	GameEngineCollision* UICollision;
+
 };
 

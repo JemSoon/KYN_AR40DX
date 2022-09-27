@@ -12,7 +12,7 @@ Snail::Snail()
 	,Random(0)
 	,RandomDir(0)	
 {
-	MonsterAtt = 15;
+	MonsterAtt = 150;
 	MonsterHPMax = 15;
 	MonsterCurHP = MonsterHPMax;
 	Speed = 50;

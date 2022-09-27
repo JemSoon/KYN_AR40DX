@@ -18,6 +18,7 @@ enum class JOB
 class GameEngineRandom;
 class GameEngineCollision;
 class GameEngineTextureRenderer;
+class DeadAlert;
 class Player : public CharacterObject
 {
 private:
@@ -200,6 +201,7 @@ private:
 	int UseUpperCharge;
 
 	GameEngineActor* GhostActor;
+	DeadAlert* DieMessage;
 
 	JOB MyJob;
 };

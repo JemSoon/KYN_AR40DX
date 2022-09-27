@@ -8,7 +8,7 @@
 #include <GameEngineBase/GameEngineRandom.h>
 
 #include "DamageNumber.h"
-
+#include "DeadAlert.h"
 Player* Player::MainPlayer = nullptr;
 Player* Player::BeforePlayer = nullptr;
 
@@ -318,12 +318,22 @@ void Player::Start()
 	JumpPower = 500.0f;
 	GravitySpeed = 1500.0f;
 
+	{
+		DieMessage = GetLevel()->CreateActor<DeadAlert>();
+		DieMessage->GetTransform().SetWorldPosition({ 0.0f,0.0f,-200.0f });
+		DieMessage->Off();
+	}
 	//블랜드 옵션만 바꾸기위한 코드(미완성)
 	//Renderer->GetPipeLine()->SetOutputMergerBlend("TransparentBlend");
 }
 
 void Player::DeadStart(const StateInfo& _Info)
 {
+	if (CurHP <= 0)
+	{
+		DieMessage->On();
+		CurHP = -200;
+	}
 	Hit = false;
 	Renderer->ChangeFrameAnimation("Dead");
 }
@@ -1377,7 +1387,7 @@ void Player::SlashBlast2End()
 
 void Player::Dead()
 {
-	if (CurHP <= 0)
+	if (CurHP <= 0 && CurHP>-200)
 	{
 		StateManager.ChangeState("Dead");
 		Collision->Off();
