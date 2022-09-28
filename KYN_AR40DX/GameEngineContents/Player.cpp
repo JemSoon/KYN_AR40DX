@@ -261,10 +261,10 @@ void Player::Start()
 		LeafAttackCollision->Off();
 	}
 
-	GameEngineFontRenderer* Font = CreateComponent<GameEngineFontRenderer>();
-	Font->SetText("12345", "µ¸¿ò");
-	Font->SetColor({ 0.0f, 0.0f, 0.0f });
-	Font->SetScreenPostion({ 100.0f, 100.0f });
+	//GameEngineFontRenderer* Font = CreateComponent<GameEngineFontRenderer>();
+	//Font->SetText("12345", "µ¸¿ò");
+	//Font->SetColor({ 0.0f, 0.0f, 0.0f });
+	//Font->SetScreenPostion({ 100.0f, 100.0f });
 
 	StateManager.CreateStateMember("Idle"
 		, std::bind(&Player::IdleUpdate, this, std::placeholders::_1, std::placeholders::_2)

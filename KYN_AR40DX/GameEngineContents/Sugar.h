@@ -36,6 +36,8 @@ protected:
 	void Update(float _DeltaTime);
 	void End() {}
 	Dialogue* Chat;
+	std::string Level;
+	Player* PlayerInfo;
 private:
 
 };

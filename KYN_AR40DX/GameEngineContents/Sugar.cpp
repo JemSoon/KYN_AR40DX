@@ -17,7 +17,7 @@ void Sugar::Start()
 	CharacterObject::Start();
 	{
 		Chat = GetLevel()->CreateActor<Dialogue>();
-		//std::string Level = GetLevel()->GetNameCopy();
+		//Level = GetLevel()->GetNameCopy();
 		Chat->GetTransform().SetWorldPosition({ 0.0f,0.0f,-200.0f });
 		Chat->Off();
 	}
@@ -41,6 +41,11 @@ void Sugar::Update(float _DeltaTime)
 {
 	ColorCheckUpdate();
 
+	if (PlayerInfo == nullptr)
+	{
+		PlayerInfo = Player::GetMainPlayer();
+	}
+
 	if (true == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE))
 	{	
 		//조건문 안해주면 계속 중력받아서 오차땜에 부들부들 떰
@@ -56,11 +61,24 @@ void Sugar::Update(float _DeltaTime)
 
 	if (Chat->IsUpdate() == true)
 	{
+		Level = GetLevel()->GetNameCopy();
 		GameEngineFontRenderer* Font = CreateComponent<GameEngineFontRenderer>();
 		Font->SetRenderingOrder(1001);
 		Font->ChangeCamera(CAMERAORDER::UICAMERA);
 		Font->SetParent(Chat);
-		Font->SetText("안녕", "돋움");
+		Font->SetSize(15.0f);
+		if (Level == "STAGE1")
+		{
+			Font->SetText("안녕", "돋움");
+		}
+		else if (Level == "STAGE2"&&PlayerInfo->PlayerLevel>=10)
+		{
+			Font->SetText("레벨이 10이 되었으면\n오른쪽 포탈을 타고 페리온으로 가봐", "돋움");
+		}
+		else if (Level == "STAGE2")
+		{
+			Font->SetText("달팽이가 많네", "돋움");
+		}
 		Font->SetColor({0.0f, 0.0f, 0.0f });
 		Font->SetScreenPostion({ 540.0f, 270.0f ,-350.0f});
 	}
