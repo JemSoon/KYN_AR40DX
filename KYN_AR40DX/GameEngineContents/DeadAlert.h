@@ -27,6 +27,7 @@ public:
 	DeadAlert& operator=(DeadAlert&& _Other) noexcept = delete;
 
 	bool MouseHit(GameEngineCollision* _This, GameEngineCollision* _Other);
+	bool IsRespawn;
 protected:
 
 private:

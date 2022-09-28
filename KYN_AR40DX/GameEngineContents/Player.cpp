@@ -319,6 +319,7 @@ void Player::Start()
 	GravitySpeed = 1500.0f;
 
 	{
+		//죽었습니다 안내창
 		DieMessage = GetLevel()->CreateActor<DeadAlert>();
 		DieMessage->GetTransform().SetWorldPosition({ 0.0f,0.0f,-200.0f });
 		DieMessage->Off();
@@ -332,9 +333,17 @@ void Player::DeadStart(const StateInfo& _Info)
 	if (CurHP <= 0)
 	{
 		DieMessage->On();
-		CurHP = -200;
+		CurHP = -9999;
 	}
 	Hit = false;
+	
+	CurEXP = CurEXP - (EXPMax * 0.1f);
+	//죽으면 전체 EXP에서 10%되는 양을 깐다
+	if (CurEXP <= 0)
+	{
+		CurEXP = 0;
+	}
+
 	Renderer->ChangeFrameAnimation("Dead");
 }
 
@@ -343,7 +352,7 @@ void Player::DeadUpdate(float _DeltaTime, const StateInfo& _Info)
 	{	//공전+자전
 		GhostActor->GetTransform().SetAddWorldRotation({ 0,0,_DeltaTime * 100.0f,0 });
 		//회전 기준점 설정
-		GhostActor->GetTransform().SetWorldPosition({ 0,10,0,0 });
+		GhostActor->GetTransform().SetWorldPosition({ 0,32,0,0 });
 		//렌더러 자전 안함
 		Renderer->GetTransform().SetWorldRotation(float4::ZERO);
 		//Renderer->GetTransform().SetAddWorldRotation({ 0,0,_DeltaTime * GameEngineMath::RadianToDegree,0.0f });
@@ -569,6 +578,14 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	Gravity(_DeltaTime);
 	ColorCheckUpdate();
 	ColorCheckUpdateNext(MovePower);
+
+	if (HitTime >= 3.0f)
+	{
+		Collision->On();
+		Hit = false;
+		HitTime = 0.0f;
+		Renderer->GetPixelData().MulColor = { 1.0f,1.0f,1.0f,1.0f };
+	}
 
 	if (false == GameEngineInput::GetInst()->IsPress("PlayerLeft") &&
 		false == GameEngineInput::GetInst()->IsPress("PlayerRight") &&
@@ -1233,6 +1250,27 @@ void Player::Update(float _DeltaTime)
 	{
 		CurMP = 0;
 	}
+	{
+		float4 A = GhostActor->GetTransform().GetWorldPosition();
+		//확인 누를시 부활
+		if (DieMessage->IsRespawn == true)
+		{
+			RIP->Off();
+			//Collision->On();
+			CurHP = HPMax;
+			CurMP = MPMax;
+			GhostActor->GetTransform().SetWorldRotation({ 0,0,0,0 });
+			GhostActor->GetTransform().SetWorldPosition({ 0,0,0,0 });
+			Renderer->GetTransform().SetWorldRotation(float4::ZERO);
+			Renderer->GetTransform().SetWorldPosition({ 100,0,0,0 });
+
+			Hit = true;
+
+			StateManager.ChangeState("Idle");
+			DieMessage->IsRespawn = false;
+		}
+	}
+
 
 	GetTransform().SetWorldMove(MovePower * _DeltaTime);
 }
@@ -1387,7 +1425,7 @@ void Player::SlashBlast2End()
 
 void Player::Dead()
 {
-	if (CurHP <= 0 && CurHP>-200)
+	if (CurHP <= 0 && CurHP>-9999)
 	{
 		StateManager.ChangeState("Dead");
 		Collision->Off();

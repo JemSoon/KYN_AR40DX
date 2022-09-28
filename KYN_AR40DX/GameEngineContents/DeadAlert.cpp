@@ -3,6 +3,7 @@
 #include "DeadAlert.h"
 
 DeadAlert::DeadAlert()
+	:IsRespawn(false)
 {
 
 }
@@ -39,6 +40,7 @@ bool DeadAlert::MouseHit(GameEngineCollision* _This, GameEngineCollision* _Other
 	if (true == GameEngineInput::GetInst()->IsDown("Click"))
 	{
 		_This->GetActor()->Off();
+		IsRespawn = true;
 		return true;
 	}
 }

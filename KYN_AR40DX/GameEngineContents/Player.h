@@ -196,12 +196,15 @@ private:
 	GameEngineTextureRenderer* UpperCharge;
 	GameEngineTextureRenderer* LeafAttack;
 	GameEngineTextureRenderer* RIP;
+
 	int UseSuperJump;
 	int UseSlashBlast;
 	int UseUpperCharge;
 
 	GameEngineActor* GhostActor;
 	DeadAlert* DieMessage;
+
+	float4 DeadPosition;
 
 	JOB MyJob;
 };
