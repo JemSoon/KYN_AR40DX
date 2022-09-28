@@ -47,6 +47,11 @@ void Perion::Start()
 		Rock* NPC = CreateActor<Rock>(OBJECTORDER::NPC);
 		NPC->GetTransform().SetLocalPosition({ 333.0f, -296.0f, 0.0f });
 	}
+
+	{
+		Portal = CreateActor<PortalObject>(OBJECTORDER::Portal);
+		Portal->GetTransform().SetWorldPosition({ 888.0f,-400.0f,-450.0f });
+	}
 }
 
 void Perion::LevelStartEvent()
