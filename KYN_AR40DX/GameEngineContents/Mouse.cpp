@@ -71,7 +71,7 @@ bool Mouse::MouseHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 	//클릭하면 퀘스트 대화창이 뜬다.
 	if (true == GameEngineInput::GetInst()->IsDown("Click"))
 	{
-		_Other->GetActor<CharacterObject>()->ChatOn();
+		_Other->GetActor<NPC>()->ChatOn();
 	}
 
 	return true;

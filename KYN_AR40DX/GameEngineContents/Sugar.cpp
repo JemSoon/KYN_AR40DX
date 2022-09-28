@@ -14,13 +14,13 @@ Sugar::~Sugar()
 
 void Sugar::Start()
 {
-	CharacterObject::Start();
-	{
-		Chat = GetLevel()->CreateActor<Dialogue>();
-		//Level = GetLevel()->GetNameCopy();
-		Chat->GetTransform().SetWorldPosition({ 0.0f,0.0f,-200.0f });
-		Chat->Off();
-	}
+	NPC::Start();
+	//{
+	//	Chat = GetLevel()->CreateActor<Dialogue>();
+	//	//Level = GetLevel()->GetNameCopy();
+	//	Chat->GetTransform().SetWorldPosition({ 0.0f,0.0f,-200.0f });
+	//	Chat->Off();
+	//}
 	{
 		Renderer = CreateComponent<GameEngineTextureRenderer>();
 		Renderer->GetTransform().SetLocalScale({ 48, 75, 1 });
@@ -39,25 +39,27 @@ void Sugar::Start()
 
 void Sugar::Update(float _DeltaTime)
 {
-	ColorCheckUpdate();
+	//ColorCheckUpdate();
 
-	if (PlayerInfo == nullptr)
-	{
-		PlayerInfo = Player::GetMainPlayer();
-	}
+	//if (PlayerInfo == nullptr)
+	//{
+	//	PlayerInfo = Player::GetMainPlayer();
+	//}
 
-	if (true == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE))
-	{	
-		//조건문 안해주면 계속 중력받아서 오차땜에 부들부들 떰
-		Gravity(_DeltaTime);
-	}
+	//if (true == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE))
+	//{	
+	//	//조건문 안해주면 계속 중력받아서 오차땜에 부들부들 떰
+	//	Gravity(_DeltaTime);
+	//}
 
-	MovePower.x = static_cast<int>(MovePower.x);
-	MovePower.y = static_cast<int>(MovePower.y);
+	//MovePower.x = static_cast<int>(MovePower.x);
+	//MovePower.y = static_cast<int>(MovePower.y);
 
-	GetTransform().SetWorldMove(MovePower * _DeltaTime);
+	//GetTransform().SetWorldMove(MovePower * _DeltaTime);
 
-	NoGravity();
+	//NoGravity();
+
+	NPC::Update(_DeltaTime);
 
 	if (Chat->IsUpdate() == true)
 	{

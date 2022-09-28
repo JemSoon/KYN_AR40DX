@@ -1,13 +1,13 @@
 #pragma once
 #include <GameEngineCore/CoreMinimal.h>
-#include "CharacterObject.h"
+#include "NPC.h"
 
 //선생님은 생략된 것들도 명시적으로 칠 것이다
 //직접 만들지 않아도 자동으로 생략되어 생성되 있는것들
 
 //설명 : 시작할때 튜토리얼 하는 NPC
 class Dialogue;
-class Sugar : public CharacterObject
+class Sugar : public NPC
 {
 public:
 	//디폴트 생성자
@@ -25,7 +25,7 @@ public:
 	Sugar& operator=(const Sugar& _Other) = delete;
 	Sugar& operator=(Sugar&& _Other) noexcept = delete;
 
-	void ChatOn();
+	void ChatOn() override;
 	GameEngineRenderer* GetRenderer()
 	{
 		return Renderer;
@@ -35,9 +35,9 @@ protected:
 	void Start() override;
 	void Update(float _DeltaTime);
 	void End() {}
-	Dialogue* Chat;
-	std::string Level;
-	Player* PlayerInfo;
+	//Dialogue* Chat;
+	//std::string Level;
+	//Player* PlayerInfo;
 private:
 
 };

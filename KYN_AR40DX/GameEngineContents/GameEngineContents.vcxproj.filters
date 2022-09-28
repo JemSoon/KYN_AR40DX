@@ -154,6 +154,9 @@
     <ClInclude Include="Rock.h">
       <Filter>Actor\NPC</Filter>
     </ClInclude>
+    <ClInclude Include="NPC.h">
+      <Filter>Actor\NPC</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapleStoryCore.cpp">
@@ -236,6 +239,9 @@
       <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="Rock.cpp">
+      <Filter>Actor\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="NPC.cpp">
       <Filter>Actor\NPC</Filter>
     </ClCompile>
   </ItemGroup>
