@@ -93,6 +93,9 @@ void MapleStoryCore::Start()
 		GameEngineTexture::Cut("SlashBlast2p.png", 2, 1);
 		GameEngineTexture::Cut("UppperChargep.png", 1, 1);
 		GameEngineTexture::Cut("LeafAttackp.png", 3, 1);
+
+		//ÀüÁ÷ÈÄ
+		GameEngineTexture::Cut("B_idle.png", 3, 1);
 	}
 
 	{

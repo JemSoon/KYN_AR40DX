@@ -12,7 +12,7 @@ Snail::Snail()
 	,Random(0)
 	,RandomDir(0)	
 {
-	MonsterAtt = 150;
+	MonsterAtt = 15;
 	MonsterHPMax = 15;
 	MonsterCurHP = MonsterHPMax;
 	Speed = 50;
@@ -256,7 +256,7 @@ void Snail::DeadStart(const StateInfo& _Info)
 	MovePower = 0.0f;
 	Renderer->ChangeFrameAnimation("Die");
 	Collision->Off();
-	PlayerInfo->CurEXP += 10;
+	PlayerInfo->CurEXP += 1000;
 }
 
 void Snail::DeadUpdate(float _DeltaTime, const StateInfo& _Info)

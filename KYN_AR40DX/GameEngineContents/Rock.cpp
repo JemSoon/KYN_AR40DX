@@ -72,12 +72,25 @@ void Rock::Update(float _DeltaTime)
 		{
 			Font->SetText("전사가 되고싶으면 \n좀 더 수련을 하고 오십시오", "돋움");
 		}
-		else if (PlayerInfo->PlayerLevel >= 10)
+		else if (Chat->IsYes == true)
+		{
+			Font->SetText("페리온에 잘 왔네", "돋움");
+			return;
+		}
+		else if (Chat->IsYes == false && PlayerInfo->PlayerLevel >= 10)
 		{
 			Font->SetText("전사로 전직하겠습니까?", "돋움");
+			Chat->YesOn();
 		}
 		Font->SetColor({ 0.0f, 0.0f, 0.0f });
 		Font->SetScreenPostion({ 540.0f, 270.0f ,-350.0f });
+	}
+
+	if (Chat->IsYes == true)
+	{
+		PlayerInfo->MyJob = JOB::WARRIOR;
+		PlayerInfo->IsJobChange = true;
+		Chat->IsYes = false;
 	}
 }
 

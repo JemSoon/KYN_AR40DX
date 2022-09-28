@@ -107,12 +107,15 @@ public:
 	int PlayerLevel;
 	//bool OneAtt;
 	bool IsLevelUp;
+	bool IsJobChange;
 	float GroundMoveSpeed;
 	float JumpMoveSpeed;
 	float JumpPower;
 	float SuperJumpPower;
 
 	int MonsterCount;
+
+	JOB MyJob;
 
 	void Dead();
 	void LevelUp();
@@ -208,7 +211,7 @@ private:
 
 	float4 DeadPosition;
 
-	JOB MyJob;
+
 };
 
 //class ¿‹ªÛ : public GameEngineActor

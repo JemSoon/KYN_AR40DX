@@ -28,7 +28,16 @@ public:
 	Dialogue& operator=(Dialogue&& _Other) noexcept = delete;
 
 	bool MouseHit(GameEngineCollision* _This, GameEngineCollision* _Other);
+	bool MouseHitYes(GameEngineCollision* _This, GameEngineCollision* _Other);
 	void SetNPCTexture(const std::string _Name);
+
+	bool IsYes;
+
+	void YesOn()
+	{
+		Yes->On();
+		YesCollision->On();
+	}
 protected:
 	void Start() override;
 	void Update(float _DeltaTime);
@@ -36,8 +45,10 @@ protected:
 
 	GameEngineUIRenderer* Chat;
 	GameEngineUIRenderer* Exit;
+	GameEngineUIRenderer* Yes;
 	GameEngineUIRenderer* NPC;
 	GameEngineCollision* ExitCollision;
+	GameEngineCollision* YesCollision;
 private:
 };
 

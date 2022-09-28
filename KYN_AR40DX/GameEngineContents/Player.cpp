@@ -51,6 +51,7 @@ Player::Player()
 	, UpperChargeCollision(nullptr)
 	, LeafAttack(nullptr)
 	, LeafAttackCollision(nullptr)
+	, IsJobChange(false)
 {
 	MainPlayer = this;
 	Speed = 150.0f;
@@ -186,6 +187,7 @@ void Player::Start()
 		PlayerLevelUp->AnimationBindEnd("LevelUp", std::bind(&Player::LevelUpEnd, this));
 
 		Renderer->CreateFrameAnimationCutTexture("Idle", FrameAnimation_DESC("idle.png", Idle, 0.3f));
+		Renderer->CreateFrameAnimationCutTexture("B_Idle", FrameAnimation_DESC("B_idle.png", Idle, 0.3f));
 		Renderer->CreateFrameAnimationCutTexture("Move", FrameAnimation_DESC("walk.png", Three, 0.1f));
 		Renderer->CreateFrameAnimationCutTexture("Sadari", FrameAnimation_DESC("sadari.png", Two, 0.3f));
 		Renderer->CreateFrameAnimationCutTexture("Jump", FrameAnimation_DESC("jump.png", One, 0.0f, false));
@@ -371,7 +373,14 @@ void Player::IdleStart(const StateInfo& _Info)
 	if (Hit == false)
 	{
 		//평소엔 idle애니메이션
-		Renderer->ChangeFrameAnimation("Idle");
+		if (MyJob == JOB::NONE)
+		{
+			Renderer->ChangeFrameAnimation("Idle");
+		}
+		if (MyJob == JOB::WARRIOR)
+		{
+			Renderer->ChangeFrameAnimation("B_Idle");
+		}
 	}
 	else
 	{
@@ -385,6 +394,13 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 	Gravity(_DeltaTime);
 	ColorCheckUpdate();
 	ColorCheckUpdateNext(MovePower);
+
+	if (IsJobChange == true)
+	{
+		StateManager.ChangeState("Idle");
+		IsJobChange = false;
+		return;
+	}
 
 	if (HitTime >= 3.0f)
 	{
