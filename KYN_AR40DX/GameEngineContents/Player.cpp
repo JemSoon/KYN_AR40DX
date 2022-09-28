@@ -187,17 +187,27 @@ void Player::Start()
 		PlayerLevelUp->AnimationBindEnd("LevelUp", std::bind(&Player::LevelUpEnd, this));
 
 		Renderer->CreateFrameAnimationCutTexture("Idle", FrameAnimation_DESC("idle.png", Idle, 0.3f));
-		Renderer->CreateFrameAnimationCutTexture("B_Idle", FrameAnimation_DESC("B_idle.png", Idle, 0.3f));
 		Renderer->CreateFrameAnimationCutTexture("Move", FrameAnimation_DESC("walk.png", Three, 0.1f));
 		Renderer->CreateFrameAnimationCutTexture("Sadari", FrameAnimation_DESC("sadari.png", Two, 0.3f));
 		Renderer->CreateFrameAnimationCutTexture("Jump", FrameAnimation_DESC("jump.png", One, 0.0f, false));
 		Renderer->CreateFrameAnimationCutTexture("Prone", FrameAnimation_DESC("prone.png", One, 0.0f, false));
-		Renderer->CreateFrameAnimationCutTexture("Attack1", FrameAnimation_DESC("attack1.png", Three, 0.2f));
-		Renderer->CreateFrameAnimationCutTexture("Attack2", FrameAnimation_DESC("attack2.png", Three, 0.2f));
-		Renderer->CreateFrameAnimationCutTexture("Attack3", FrameAnimation_DESC("attack3.png", Three, 0.2f));
-		Renderer->CreateFrameAnimationCutTexture("Attack4", FrameAnimation_DESC("attack4.png", Two, 0.23f));
+		Renderer->CreateFrameAnimationCutTexture("Attack1", FrameAnimation_DESC("attack1.png", Three, 0.2f, false));
+		Renderer->CreateFrameAnimationCutTexture("Attack2", FrameAnimation_DESC("attack2.png", Three, 0.2f, false));
+		Renderer->CreateFrameAnimationCutTexture("Attack3", FrameAnimation_DESC("attack3.png", Three, 0.2f, false));
+		Renderer->CreateFrameAnimationCutTexture("Attack4", FrameAnimation_DESC("attack4.png", Two, 0.23f, false));
 		Renderer->CreateFrameAnimationCutTexture("Alert", FrameAnimation_DESC("alert.png", Three, 0.23f));
 		Renderer->CreateFrameAnimationCutTexture("Dead", FrameAnimation_DESC("dead.png", One, 0.23f, false));
+
+		Renderer->CreateFrameAnimationCutTexture("B_Idle", FrameAnimation_DESC("B_idle.png", Idle, 0.3f));
+		Renderer->CreateFrameAnimationCutTexture("B_Move", FrameAnimation_DESC("B_walk.png", Three, 0.1f));
+		//사다리없음
+		Renderer->CreateFrameAnimationCutTexture("B_Jump", FrameAnimation_DESC("B_jump.png", One, 0.0f, false));
+		Renderer->CreateFrameAnimationCutTexture("B_Prone", FrameAnimation_DESC("B_prone.png", One, 0.0f, false));
+		Renderer->CreateFrameAnimationCutTexture("B_Attack1", FrameAnimation_DESC("B_attack1.png", Three, 0.2f, false));
+		Renderer->CreateFrameAnimationCutTexture("B_Attack2", FrameAnimation_DESC("B_attack2.png", Three, 0.2f, false));
+		Renderer->CreateFrameAnimationCutTexture("B_Attack3", FrameAnimation_DESC("B_attack3.png", Three, 0.2f, false));
+		//공격4없음
+		Renderer->CreateFrameAnimationCutTexture("B_Alert", FrameAnimation_DESC("B_alert.png", Three, 0.23f));
 		Renderer->CreateFrameAnimationCutTexture("SlashBlast1", FrameAnimation_DESC("SlashBlast1p.png", One, 0.01f, false));
 		Renderer->CreateFrameAnimationCutTexture("SlashBlast2", FrameAnimation_DESC("SlashBlast2p.png", Two, 0.01f, false));
 		Renderer->CreateFrameAnimationCutTexture("UpperCharge", FrameAnimation_DESC("UppperChargep.png", One, 0.01f, false));
@@ -385,7 +395,15 @@ void Player::IdleStart(const StateInfo& _Info)
 	else
 	{
 		//맞았으면 Alert
-		Renderer->ChangeFrameAnimation("Alert");
+		if (MyJob == JOB::NONE)
+		{
+			Renderer->ChangeFrameAnimation("Alert");
+		}
+		if (MyJob == JOB::WARRIOR)
+		{
+			Renderer->ChangeFrameAnimation("B_Alert");
+		}
+
 		Renderer->GetPixelData().MulColor = { 0.3f,0.3f,0.3f,1.0f };
 	}
 }
@@ -404,7 +422,15 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 
 	if (HitTime >= 3.0f)
 	{
-		Renderer->ChangeFrameAnimation("Idle");
+		if (MyJob == JOB::NONE)
+		{
+			Renderer->ChangeFrameAnimation("Idle");
+		}
+		if (MyJob == JOB::WARRIOR)
+		{
+			Renderer->ChangeFrameAnimation("B_Idle");
+		}
+
 		Collision->On();
 		Hit = false;
 		HitTime = 0.0f;
@@ -483,15 +509,36 @@ void Player::AttackStart(const StateInfo& _Info)
 
 	if (RandomNumber == 1)
 	{
-		Renderer->ChangeFrameAnimation("Attack1");
+		if (MyJob == JOB::NONE)
+		{
+			Renderer->ChangeFrameAnimation("Attack1");
+		}
+		if (MyJob == JOB::WARRIOR)
+		{
+			Renderer->ChangeFrameAnimation("B_Attack1");
+		}
 	}
 	else if (RandomNumber == 2)
 	{
-		Renderer->ChangeFrameAnimation("Attack2");
+		if (MyJob == JOB::NONE)
+		{
+			Renderer->ChangeFrameAnimation("Attack2");
+		}
+		if (MyJob == JOB::WARRIOR)
+		{
+			Renderer->ChangeFrameAnimation("B_Attack2");
+		}
 	}
 	else if (RandomNumber == 3)
 	{
-		Renderer->ChangeFrameAnimation("Attack3");
+		if (MyJob == JOB::NONE)
+		{
+			Renderer->ChangeFrameAnimation("Attack3");
+		}
+		if (MyJob == JOB::WARRIOR)
+		{
+			Renderer->ChangeFrameAnimation("B_Attack3");
+		}
 	}
 	else
 	{
@@ -538,15 +585,36 @@ void Player::AttackEnd()
 
 		if (RandomNumber == 1)
 		{
-			Renderer->ChangeFrameAnimation("Attack1");
+			if (MyJob == JOB::NONE)
+			{
+				Renderer->ChangeFrameAnimation("Attack1");
+			}
+			if (MyJob == JOB::WARRIOR)
+			{
+				Renderer->ChangeFrameAnimation("B_Attack1");
+			}
 		}
 		else if (RandomNumber == 2)
 		{
-			Renderer->ChangeFrameAnimation("Attack2");
+			if (MyJob == JOB::NONE)
+			{
+				Renderer->ChangeFrameAnimation("Attack2");
+			}
+			if (MyJob == JOB::WARRIOR)
+			{
+				Renderer->ChangeFrameAnimation("B_Attack2");
+			}
 		}
 		else if (RandomNumber == 3)
 		{
-			Renderer->ChangeFrameAnimation("Attack3");
+			if (MyJob == JOB::NONE)
+			{
+				Renderer->ChangeFrameAnimation("Attack3");
+			}
+			if (MyJob == JOB::WARRIOR)
+			{
+				Renderer->ChangeFrameAnimation("B_Attack3");
+			}
 		}
 		else
 		{
@@ -560,7 +628,14 @@ void Player::AttackEnd()
 void Player::ProneStart(const StateInfo& _Info)
 {
 	MovePower.y = 0.0f;//가끔 팍 튀는현상 막기용
-	Renderer->ChangeFrameAnimation("Prone");
+	if (MyJob == JOB::NONE)
+	{
+		Renderer->ChangeFrameAnimation("Prone");
+	}
+	if (MyJob == JOB::WARRIOR)
+	{
+		Renderer->ChangeFrameAnimation("B_Prone");
+	}
 }
 
 void Player::ProneUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -582,7 +657,14 @@ void Player::ProneUpdate(float _DeltaTime, const StateInfo& _Info)
 void Player::MoveStart(const StateInfo& _Info)
 {
 	Speed = GroundMoveSpeed;
-	Renderer->ChangeFrameAnimation("Move");
+	if (MyJob == JOB::NONE)
+	{
+		Renderer->ChangeFrameAnimation("Move");
+	}
+	if (MyJob == JOB::WARRIOR)
+	{
+		Renderer->ChangeFrameAnimation("B_Move");
+	}
 	MovePower.y = 0.0f;
 }
 
@@ -833,7 +915,14 @@ void Player::SadariUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::JumpStart(const StateInfo& _Info)
 {
-	Renderer->ChangeFrameAnimation("Jump");
+	if (MyJob == JOB::NONE)
+	{
+		Renderer->ChangeFrameAnimation("Jump");
+	}
+	if (MyJob == JOB::WARRIOR)
+	{
+		Renderer->ChangeFrameAnimation("B_Jump");
+	}
 	Speed = JumpMoveSpeed;
 	MovePower += float4::UP * JumpPower;
 }
@@ -908,7 +997,7 @@ void Player::SuperJumpStart(const StateInfo& _Info)
 	IsSkill = true;
 
 	Effect->CurAnimationReset();
-	Renderer->ChangeFrameAnimation("Jump");
+	Renderer->ChangeFrameAnimation("B_Jump");
 	Speed = GroundMoveSpeed;
 	MovePower += (float4::UP * JumpPower * 0.2) + (Dir * SuperJumpPower);
 	Effect->On();
@@ -979,7 +1068,14 @@ void Player::FallStart(const StateInfo& _Info)
 {
 	Speed = JumpMoveSpeed;
 
-	Renderer->ChangeFrameAnimation("Jump");
+	if (MyJob == JOB::NONE)
+	{
+		Renderer->ChangeFrameAnimation("Jump");
+	}
+	if (MyJob == JOB::WARRIOR)
+	{
+		Renderer->ChangeFrameAnimation("B_Jump");
+	}
 }
 
 void Player::FallUpdate(float _DeltaTime, const StateInfo& _Info)
@@ -1013,7 +1109,14 @@ void Player::DownJumpStart(const StateInfo& _Info)
 	PrevColor = ColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)];
 	Dir = float4::ZERO;
 	{
-		Renderer->ChangeFrameAnimation("Jump");
+		if (MyJob == JOB::NONE)
+		{
+			Renderer->ChangeFrameAnimation("Jump");
+		}
+		if (MyJob == JOB::WARRIOR)
+		{
+			Renderer->ChangeFrameAnimation("B_Jump");
+		}
 		Speed = JumpMoveSpeed;
 		//Speed += -75.0f;
 		MovePower += float4::UP * (JumpPower * 0.5f);
