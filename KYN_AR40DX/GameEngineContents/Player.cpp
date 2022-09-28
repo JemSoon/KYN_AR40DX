@@ -1250,28 +1250,9 @@ void Player::Update(float _DeltaTime)
 	{
 		CurMP = 0;
 	}
-	{
-		float4 A = GhostActor->GetTransform().GetWorldPosition();
-		//확인 누를시 부활
-		if (DieMessage->IsRespawn == true)
-		{
-			RIP->Off();
-			//Collision->On();
-			CurHP = HPMax;
-			CurMP = MPMax;
-			GhostActor->GetTransform().SetWorldRotation({ 0,0,0,0 });
-			GhostActor->GetTransform().SetWorldPosition({ 0,0,0,0 });
-			Renderer->GetTransform().SetWorldRotation(float4::ZERO);
-			Renderer->GetTransform().SetWorldPosition({ 100,0,0,0 });
-
-			Hit = true;
-
-			StateManager.ChangeState("Idle");
-			DieMessage->IsRespawn = false;
-		}
-	}
-
-
+	
+	PlayerRespawn();
+	
 	GetTransform().SetWorldMove(MovePower * _DeltaTime);
 }
 
@@ -1458,23 +1439,24 @@ void Player::UpToGround()
 	}
 }
 
-void Player::LevelStartEvent()
+void Player::PlayerRespawn()
 {
-	if (BeforePlayer != nullptr)
+	//확인 누를시 부활
+	if (DieMessage->IsRespawn == true)
 	{
-		//레벨 이동할때 가져갈 플레이어 정보들
-		this->CurHP = BeforePlayer->CurHP;
-		this->CurMP = BeforePlayer->CurMP;
-		this->HPMax = BeforePlayer->HPMax;
-		this->MPMax = BeforePlayer->MPMax;
-		this->CurEXP = BeforePlayer->CurEXP;
-		this->EXPMax = BeforePlayer->EXPMax;
-		this->PlayerLevel = BeforePlayer->PlayerLevel;
-		this->PlayerAtt = BeforePlayer->PlayerAtt;
-		this->MyJob = BeforePlayer->MyJob;
+		RIP->Off();
+		CurHP = HPMax;
+		CurMP = MPMax;
+		GhostActor->GetTransform().SetWorldRotation({ 0,0,0,0 });
+		GhostActor->GetTransform().SetWorldPosition({ 0,0,0,0 });
+		Renderer->GetTransform().SetWorldRotation(float4::ZERO);
+		Renderer->GetTransform().SetWorldPosition({ 100,0,0,0 });
+
+		Hit = true;//이걸하면 3초간 무적으로 부활가능
+
+		StateManager.ChangeState("Idle");
+		DieMessage->IsRespawn = false;
 	}
-		MainPlayer = this;
-		BeforePlayer = nullptr;
 }
 
 void Player::LevelEndEvent()
@@ -1520,4 +1502,23 @@ void Player::LeafAttackEnd()
 	LeafAttackCollision->ResetExData();
 	stop = false;
 	StateManager.ChangeState("Idle");
+}
+
+void Player::LevelStartEvent()
+{
+	if (BeforePlayer != nullptr)
+	{
+		//레벨 이동할때 가져갈 플레이어 정보들
+		this->CurHP = BeforePlayer->CurHP;
+		this->CurMP = BeforePlayer->CurMP;
+		this->HPMax = BeforePlayer->HPMax;
+		this->MPMax = BeforePlayer->MPMax;
+		this->CurEXP = BeforePlayer->CurEXP;
+		this->EXPMax = BeforePlayer->EXPMax;
+		this->PlayerLevel = BeforePlayer->PlayerLevel;
+		this->PlayerAtt = BeforePlayer->PlayerAtt;
+		this->MyJob = BeforePlayer->MyJob;
+	}
+		MainPlayer = this;
+		BeforePlayer = nullptr;
 }

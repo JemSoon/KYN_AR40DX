@@ -177,6 +177,8 @@ protected:
 	void LeafAttackEnd();
 	//==========================================================//
 
+	void PlayerRespawn();
+
 private:
 	GameEngineStateManager StateManager;
 	float4 Dir;
