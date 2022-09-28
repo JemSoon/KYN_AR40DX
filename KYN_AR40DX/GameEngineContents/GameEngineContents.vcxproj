@@ -194,6 +194,14 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Perion.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Rock.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Ship.h">
       <SubType>
       </SubType>
@@ -297,6 +305,14 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Monster.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Perion.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Rock.cpp">
       <SubType>
       </SubType>
     </ClCompile>

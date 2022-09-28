@@ -4,6 +4,7 @@
 #include "GameEngineContents/Stage1Level.h"
 #include "GameEngineContents/Stage2Level.h"
 #include "GameEngineContents/Ship.h"
+#include "GameEngineContents/Perion.h"
 #include <GameEngineBase/GameEngineSound.h>
 #include <GameEngineBase/magic_enum.hpp>
 
@@ -142,6 +143,7 @@ void MapleStoryCore::Start()
 	CreateLevel<Stage1Level>("Stage1");
 	CreateLevel<Stage2Level>("Stage2");
 	CreateLevel<Ship>("Ship");
+	CreateLevel<Perion>("Perion");
 	ChangeLevel("Stage1");
 
 	GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);

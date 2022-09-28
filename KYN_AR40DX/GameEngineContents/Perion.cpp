@@ -1,6 +1,6 @@
 #include "PreCompile.h"
 #include "LevelParent.h"
-#include "Ship.h"
+#include "Perion.h"
 
 #include "GlobalContentsValue.h"
 #include <GameEngineCore/GEngine.h>
@@ -8,26 +8,22 @@
 #include <GameEngineBase/GameEngineInput.h>
 
 #include "Player.h"
+#include "Rock.h"
 #include "Main_HP_MP_UI.h"
 #include "Mouse.h"
 #include "Inventory.h"
 
-Ship::Ship()
-	: Camera(nullptr)
-	, NewPlayer(nullptr)
-	, BgmPlayer()
-	, BgmOn(false)
-	, ShipTime(0.0f)
+Perion::Perion()
 {
 
 }
 
-Ship::~Ship()
+Perion::~Perion()
 {
+
 }
 
-
-void Ship::Start()
+void Perion::Start()
 {
 	{
 		Camera = GetMainCameraActor();
@@ -40,22 +36,29 @@ void Ship::Start()
 		GameEngineInput::GetInst()->CreateKey("MapOffSwitch", 'I');
 	}
 
-	CreateStageObject("Ship_BG.png", "Ship_Col.png", "Ship1.png");
-
-	LevelStageObject->GetMap()->GetTransform().SetWorldPosition({ 0,0,-100 });
-	LevelStageObject->GetBG()->GetTransform().SetWorldPosition({ 0,-100,0 });
-	LevelStageObject->GetBG()->SetPivot(PIVOTMODE::LEFTTOP);
+	CreateStageObject("Perion_BG.png", "Perion_Col.png", "Perion.png");
 
 	{
 		NewPlayer = CreateActor<Player>(OBJECTORDER::Player);
-		NewPlayer->GetTransform().SetWorldPosition({ 950.0f, -1200.0f, 0.0f });
+		NewPlayer->GetTransform().SetWorldPosition({ 450.0f, -230.0f, 0.0f });
 	}
 
-	LevelStageObject->GetMap()->CreateFrameAnimationFolder("Ship", FrameAnimation_DESC("Ship", 0.1f));
-	LevelStageObject->GetMap()->ChangeFrameAnimation("Ship");
+	{
+		Rock* NPC = CreateActor<Rock>(OBJECTORDER::NPC);
+		NPC->GetTransform().SetLocalPosition({ 700.0f, -980.0f, 0.0f });
+	}
 }
 
-void Ship::Update(float _DeltaTime)
+void Perion::LevelStartEvent()
+{
+	BlackOutTime = 0.0f;
+
+	LevelIn = true;
+
+	B->GetRenderer()->GetPixelData().MulColor.a = 1.0f;
+}
+
+void Perion::Update(float _DeltaTime)
 {
 	if (false == Camera->IsFreeCameraMode())
 	{	//프리카메라 모드가 아닐때만 카메라가 플레이어를 쫓아다니고 맵 범위 안으로 카메라가 제한된다
@@ -65,19 +68,16 @@ void Ship::Update(float _DeltaTime)
 
 	BlackTimeOut();
 
-	ShipTime += _DeltaTime;
-
 	SetMapOnOffSwitch();
 
-	LevelStageObject->GetBG()->GetTransform().SetWorldPosition({ -(ShipTime*50.0f),-100,0});
 	LevelMove();
 }
 
-void Ship::End()
+void Perion::End()
 {
 }
 
-void Ship::CameraChase(float _Delta)
+void Perion::CameraChase(float _Delta)
 {
 	float4 f4CurrentPosition = Camera->GetTransform().GetWorldPosition();
 	float4 f4DestinationPosition = NewPlayer->GetTransform().GetWorldPosition();
@@ -86,39 +86,12 @@ void Ship::CameraChase(float _Delta)
 	Camera->GetTransform().SetWorldPosition({ f4MoveToPosition.x, f4MoveToPosition.y, -500 });
 }
 
-void Ship::LevelStartEvent()
+void Perion::CameraRange()
 {
-	ShipTime = 0.0f;
-
-	BlackOutTime = 0.0f;
-
-	LevelIn = true;
-
-	B->GetRenderer()->GetPixelData().MulColor.a = 1.0f;
-}
-
-void Ship::LevelMove()
-{
-	if (ShipTime >= 10.0f)
-	{
-		BlackInTime += GameEngineTime::GetDeltaTime();
-
-		B->GetRenderer()->GetPixelData().MulColor.a += BlackInTime * 0.1f;
-
-		if (B->GetRenderer()->GetPixelData().MulColor.a >= 1.0f)
-		{
-			B->GetRenderer()->GetPixelData().MulColor.a = 1.0f;
-			GEngine::ChangeLevel("Perion");
-		}
-	}
-}
-
-void Ship::CameraRange()
-{
-	float CameraUp = -444.0f/*공중에 붕 뜬 투명배경 포함*/ - 360.0f;
+	float CameraUp = 0.0f/*공중에 붕 뜬 투명배경 포함*/ - 360.0f;
 	float CameraDown = (LevelStageObject->GetBG()->GetTransform().GetLocalScale().y - 360.0f) * -1.0f;
 	float CameraLeft = 640.0f;
-	float CameraRight = 1160.0f;//1800(전체길이)-640(1280의 절반)
+	float CameraRight = 640.0f;//1800(전체길이)-640(1280의 절반)
 
 	//카메라 맵밖으로 안나가게
 	if (CameraLeft > Camera->GetTransform().GetLocalPosition().x)//왼쪽 끝 막기
@@ -148,5 +121,23 @@ void Ship::CameraRange()
 		float4 CameraPos = Camera->GetTransform().GetLocalPosition();
 		CameraPos.y = CameraUp;
 		Camera->GetTransform().SetLocalPosition(CameraPos);
+	}
+}
+
+void Perion::LevelMove()
+{
+	if (NewPlayer->PortalOn == true)
+	{
+		BlackInTime += GameEngineTime::GetDeltaTime();
+
+		B->GetRenderer()->GetPixelData().MulColor.a += BlackInTime * 0.1f;
+
+		if (B->GetRenderer()->GetPixelData().MulColor.a >= 1.0f)
+		{
+			B->GetRenderer()->GetPixelData().MulColor.a = 1.0f;
+			NewPlayer->PortalOn = false;
+			BlackInTime = 0.0f;
+			GEngine::ChangeLevel("Stage2");
+		}
 	}
 }

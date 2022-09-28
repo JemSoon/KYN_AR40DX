@@ -148,6 +148,12 @@
     <ClInclude Include="DeadAlert.h">
       <Filter>Global\UI\DeadAlert</Filter>
     </ClInclude>
+    <ClInclude Include="Perion.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Rock.h">
+      <Filter>Actor\NPC</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapleStoryCore.cpp">
@@ -225,6 +231,12 @@
     </ClCompile>
     <ClCompile Include="DeadAlert.cpp">
       <Filter>Global\UI\DeadAlert</Filter>
+    </ClCompile>
+    <ClCompile Include="Perion.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Rock.cpp">
+      <Filter>Actor\NPC</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
