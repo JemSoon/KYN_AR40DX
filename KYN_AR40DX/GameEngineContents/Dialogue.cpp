@@ -50,6 +50,7 @@ void Dialogue::Update(float _DeltaTime)
 void Dialogue::SetNPCTexture(const std::string _Name)
 {
 	NPC->SetTexture(_Name);
+	NPC->ScaleToTexture();
 }
 
 bool Dialogue::MouseHit(GameEngineCollision* _This, GameEngineCollision* _Other)

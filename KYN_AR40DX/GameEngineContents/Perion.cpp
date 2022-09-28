@@ -40,12 +40,12 @@ void Perion::Start()
 
 	{
 		NewPlayer = CreateActor<Player>(OBJECTORDER::Player);
-		NewPlayer->GetTransform().SetWorldPosition({ 450.0f, -230.0f, 0.0f });
+		NewPlayer->GetTransform().SetWorldPosition({ 885.0f, -410.0f, 0.0f });
 	}
 
 	{
 		Rock* NPC = CreateActor<Rock>(OBJECTORDER::NPC);
-		NPC->GetTransform().SetLocalPosition({ 700.0f, -980.0f, 0.0f });
+		NPC->GetTransform().SetLocalPosition({ 333.0f, -296.0f, 0.0f });
 	}
 }
 
