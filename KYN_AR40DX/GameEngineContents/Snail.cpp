@@ -366,7 +366,7 @@ bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 
 				SlashBlastHit->CurAnimationReset();
 				SlashBlastHit->On();
-				PlayerInfo->SetPlayerAttBuff(1.0f);//스킬은 공격력의 300%
+				PlayerInfo->SetPlayerAttBuff(3.0f);//스킬은 공격력의 300%
 				Damage = PlayerInfo->GetFinalAtt();
 				HPRenderer->On();
 				HPbarRenderer->On();
@@ -381,7 +381,7 @@ bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 			if ((PlayerInfo->MonsterUpperChargeHit(PlayerInfo->GetUpperChargeCollision(), this->GetCollision()) == true) &&
 				true == PlayerInfo->GetUpperChargeCollision()->IsUpdate())
 			{
-				PlayerInfo->SetPlayerAttBuff(1.0f);//스킬은 공격력의 250%..정도인데 int라서 깨지려나..?
+				PlayerInfo->SetPlayerAttBuff(2.0f);//스킬은 공격력의 250%..정도인데 int라서 깨지려나..?
 				Damage = PlayerInfo->GetFinalAtt();
 				HPRenderer->On();
 				HPbarRenderer->On();
@@ -396,7 +396,7 @@ bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 			if ((PlayerInfo->MonsterLeafAttackHit(PlayerInfo->GetLeafAttackCollision(), this->GetCollision()) == true) &&
 				true == PlayerInfo->GetLeafAttackCollision()->IsUpdate())
 			{
-				PlayerInfo->SetPlayerAttBuff(1.0f);//스킬은 공격력의 250%..정도인데 int라서 깨지려나..?
+				PlayerInfo->SetPlayerAttBuff(2.0f);//스킬은 공격력의 250%..정도인데 int라서 깨지려나..?
 				Damage = PlayerInfo->GetFinalAtt();
 				HPRenderer->On();
 				HPbarRenderer->On();

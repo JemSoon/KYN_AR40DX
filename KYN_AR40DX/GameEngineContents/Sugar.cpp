@@ -35,6 +35,16 @@ void Sugar::Start()
 		Collision->ChangeOrder(OBJECTORDER::NPC);
 		Collision->GetTransform().SetWorldPosition({0,35.0f});
 	}
+
+	{
+		Font = CreateComponent<GameEngineFontRenderer>();
+		Font->SetRenderingOrder(1001);
+		Font->ChangeCamera(CAMERAORDER::UICAMERA);
+		Font->SetParent(Chat);
+		Font->SetSize(15.0f);
+		Font->SetColor({ 0.0f, 0.0f, 0.0f });
+		Font->SetScreenPostion({ 540.0f, 270.0f ,-350.0f });
+	}
 }
 
 void Sugar::Update(float _DeltaTime)
@@ -64,11 +74,7 @@ void Sugar::Update(float _DeltaTime)
 	if (Chat->IsUpdate() == true)
 	{
 		Level = GetLevel()->GetNameCopy();
-		GameEngineFontRenderer* Font = CreateComponent<GameEngineFontRenderer>();
-		Font->SetRenderingOrder(1001);
-		Font->ChangeCamera(CAMERAORDER::UICAMERA);
-		Font->SetParent(Chat);
-		Font->SetSize(15.0f);
+
 		if (Level == "STAGE1")
 		{
 			Font->SetText("¾È³ç", "µ¸¿ò");

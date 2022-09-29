@@ -39,6 +39,6 @@ protected:
 	//std::string Level;
 	//Player* PlayerInfo;
 private:
-
+	GameEngineFontRenderer* Font;
 };
 
