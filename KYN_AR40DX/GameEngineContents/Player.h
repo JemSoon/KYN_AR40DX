@@ -19,6 +19,7 @@ class GameEngineRandom;
 class GameEngineCollision;
 class GameEngineTextureRenderer;
 class DeadAlert;
+class Inventory;
 class Player : public CharacterObject
 {
 private:
@@ -211,7 +212,7 @@ private:
 
 	float4 DeadPosition;
 
-
+	Inventory* Inven;
 };
 
 //class ¿‹ªÛ : public GameEngineActor

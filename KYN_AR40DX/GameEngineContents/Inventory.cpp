@@ -15,7 +15,6 @@ void Inventory::Start()
 	ItemWindow->SetTexture("Inven.png");
 	ItemWindow->GetTransform().SetWorldScale({175,289,-100});
 	ItemWindow->GetTransform().SetLocalPosition({ 0, 0,-100 });
-	ItemWindow->Off();
 	UICollision = CreateComponent<GameEngineCollision>();
 }
 

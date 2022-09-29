@@ -2,7 +2,6 @@
 #include "GlobalContentsValue.h"
 #include "Main_HP_MP_UI.h"
 #include "Mouse.h"
-#include "Inventory.h"
 
 LevelParent::LevelParent() 
 	:BlackOutTime(0.0f)
@@ -48,9 +47,6 @@ void LevelParent::CreateStageObject(const std::string _BG, const std::string _Co
 		{
 			MainUI = CreateActor<Main_HP_MP_UI>(OBJECTORDER::UI);
 			MainUI->GetTransform().SetWorldPosition({ 0.0f,-320.0f,-100.0f });
-
-			Item = CreateActor<Inventory>(OBJECTORDER::UI);
-			Item->GetTransform().SetWorldPosition({ 300.0f,0.0f,-100.0f });
 		}
 
 		{

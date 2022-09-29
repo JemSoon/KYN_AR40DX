@@ -6,7 +6,6 @@
 #include "Black.h"
 // Ό³Έν :
 class Main_HP_MP_UI;
-class Inventory;
 class Mouse;
 class Black;
 class LevelParent : public GameEngineLevel
@@ -53,7 +52,6 @@ protected:
 	PortalObject* Portal;
 	Main_HP_MP_UI* MainUI;
 	Mouse* Cursor;
-	Inventory* Item;
 	Black* B;
 
 	float BlackOutTime;

@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "Player.h"
 #include "Monster.h"
+#include "Inventory.h"
 
 #include <GameEngineContents/GlobalContentsValue.h>
 #include <iostream>
@@ -80,6 +81,7 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("SlashBlast", 'Q');
 		GameEngineInput::GetInst()->CreateKey("UpperCharge", 'W');
 		GameEngineInput::GetInst()->CreateKey("LeafAttack", 'E');
+		GameEngineInput::GetInst()->CreateKey("Inventory", 'I');
 	}
 
 	GetTransform().SetLocalScale({ 1, 1, 1 });
@@ -164,6 +166,12 @@ void Player::Start()
 			GhostActor = GetLevel()->CreateActor<GameEngineActor>();
 
 			GhostActor->SetParent(this);
+		}
+
+		{
+			Inven = GetLevel()->CreateActor<Inventory>();
+			Inven->GetTransform().SetLocalPosition({ 500,200 });
+			Inven->Off();
 		}
 
 		Renderer = GhostActor->CreateComponent<GameEngineTextureRenderer>();
@@ -1343,6 +1351,11 @@ void Player::Update(float _DeltaTime)
 	//{	//프리카메라 모드일땐 카메라가 플레이어 안움직이게 여기서 리턴
 	//	return;
 	//}
+
+	if (true == GameEngineInput::GetInst()->IsDown("Inventory"))
+	{
+		Inven->OnOffSwitch();
+	}
 
 	// 색깔 체크하고
 	ColorCheckUpdate();
