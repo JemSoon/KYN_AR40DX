@@ -294,6 +294,22 @@ void Snail::ChaseUpdate(float _DeltaTime, const StateInfo& _Info)
 		Renderer->GetTransform().PixLocalNegativeX();
 	}
 
+	{
+		//절벽끝에 와리가리하게 하는 식
+		/*if (true == IsColor(COLORCHECKDIR::DDOWNR, CharacterObject::WHITE))
+		{
+			MovePower.y = 0.0f;
+			MovePower.x = -Speed;
+			if (MovePower.x < 0)
+			{
+				Renderer->GetTransform().PixLocalPositiveX();
+			}
+			if (MovePower.x > 0)
+			{
+				Renderer->GetTransform().PixLocalNegativeX();
+			}
+		}*/
+	}
 	NoGravity();
 	return;
 }
