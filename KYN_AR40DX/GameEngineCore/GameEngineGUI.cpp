@@ -4,6 +4,7 @@
 #include "GameEngineDevice.h"
 #include "portable-file-dialogs.h"
 
+#include <GameEngineContents/ContentsGUI.h>
 
 std::list<GameEngineGUIWindow*> GameEngineGUI::Windows;
 

@@ -8,6 +8,7 @@
 #include <GameEngineBase/GameEngineSound.h>
 #include <GameEngineBase/magic_enum.hpp>
 
+#include "GameEngineContents/ContentsGUI.h"
 
 #pragma comment(lib, "GameEngineBase.lib")
 
@@ -159,6 +160,8 @@ void MapleStoryCore::Start()
 	ChangeLevel("Stage1");
 
 	GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
+
+	GameEngineGUI::CreateGUIWindow<ContentsGUI>("EngineStatus", nullptr);
 
 	GameEngineFont::Load("궁서");
 	GameEngineFont::Load("메이플스토리");

@@ -1,6 +1,7 @@
 #pragma once
 #include "GameEngineGUI.h"
 
+class GameEngineRenderTarget;
 class GameEngineImageShotWindow : public GameEngineGUIWindow
 {
 public:
@@ -21,7 +22,7 @@ class GameEngineStatusWindow : public GameEngineGUIWindow
 public:
 	// constrcuter destructer
 	GameEngineStatusWindow();
-	~GameEngineStatusWindow();
+	virtual ~GameEngineStatusWindow();
 
 	// delete Function
 	GameEngineStatusWindow(const GameEngineStatusWindow& _Other) = delete;
@@ -33,7 +34,7 @@ public:
 
 protected:
 
-	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
+	virtual void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
 private:
 	void Initialize(class GameEngineLevel* _Level) override;
 

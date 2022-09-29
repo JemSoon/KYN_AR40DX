@@ -67,6 +67,9 @@
     <Filter Include="Global\UI\DeadAlert">
       <UniqueIdentifier>{5a999f65-95f4-4d86-b7be-596dce03ccdf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Global\GUI">
+      <UniqueIdentifier>{ee230902-ee66-475b-92c7-196ec08e1dd3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MapleStoryCore.h">
@@ -157,6 +160,9 @@
     <ClInclude Include="NPC.h">
       <Filter>Actor\NPC</Filter>
     </ClInclude>
+    <ClInclude Include="ContentsGUI.h">
+      <Filter>Global\GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapleStoryCore.cpp">
@@ -243,6 +249,9 @@
     </ClCompile>
     <ClCompile Include="NPC.cpp">
       <Filter>Actor\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsGUI.cpp">
+      <Filter>Global\GUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
