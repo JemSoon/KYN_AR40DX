@@ -8,7 +8,7 @@ class Player;
 class StageObject;
 class BossMano;
 class Snail;
-
+class Potion;
 class Stage1Level : public LevelParent
 {
 public:
@@ -43,6 +43,6 @@ private:
 	bool BgmOn;
 	BossMano* Mano;
 	Snail* Snail1;
-
+	Potion* WPotion;
 };
 

@@ -70,6 +70,9 @@
     <Filter Include="Global\GUI">
       <UniqueIdentifier>{ee230902-ee66-475b-92c7-196ec08e1dd3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\Item">
+      <UniqueIdentifier>{1989ab8b-1aee-40a6-89a9-c2827105b150}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MapleStoryCore.h">
@@ -163,6 +166,9 @@
     <ClInclude Include="ContentsGUI.h">
       <Filter>Global\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="Potion.h">
+      <Filter>Actor\Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapleStoryCore.cpp">
@@ -252,6 +258,9 @@
     </ClCompile>
     <ClCompile Include="ContentsGUI.cpp">
       <Filter>Global\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Potion.cpp">
+      <Filter>Actor\Item</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

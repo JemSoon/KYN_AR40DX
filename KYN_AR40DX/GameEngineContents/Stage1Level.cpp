@@ -10,7 +10,7 @@
 #include "StageObject.h"
 #include "Sugar.h"
 #include "BossMano.h"
-
+#include "Potion.h"
 
 Stage1Level::Stage1Level()
 	: Camera(nullptr)
@@ -79,6 +79,11 @@ void Stage1Level::Start()
 		{
 			NewPlayer = CreateActor<Player>(OBJECTORDER::Player);
 			NewPlayer->GetTransform().SetWorldPosition({ 1070.0f, -1000.0f, 0.0f });
+		}
+
+		{
+			//WPotion = CreateActor<Potion>(OBJECTORDER::Item);
+			//WPotion->GetTransform().SetWorldPosition({ 1070.0f, -1000.0f, 0.0f });
 		}
 	}
 }

@@ -4,6 +4,7 @@
 // 설명 : 기본 달팽이
 class Player;
 class DamageNumber;
+class Potion;
 class Snail : public Monster
 {
 public:
@@ -46,11 +47,13 @@ protected:
 private:
 	GameEngineStateManager StateManager;
 	DamageNumber* Num;
+	Potion* WPotion;
 
 	int Damage;
 	float PatternTime;
 	int Random;
 	int RandomDir;
+	int RandomDrop;
 
 	//bool Hit;
 };

@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "Snail.h"
 #include "Player.h"
+#include "Potion.h"
 
 #include "DamageNumber.h"
 
@@ -253,10 +254,24 @@ void Snail::HitUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Snail::DeadStart(const StateInfo& _Info)
 {
+	RandomDrop = GameEngineRandom::MainRandom.RandomInt(1, 2);
+
 	MovePower = 0.0f;
 	Renderer->ChangeFrameAnimation("Die");
 	Collision->Off();
 	PlayerInfo->CurEXP += 1000;
+
+	float4 A = this->GetTransform().GetWorldPosition();
+
+	if (RandomDrop == 1)
+	{
+		WPotion = GetLevel()->CreateActor<Potion>();
+		WPotion->GetTransform().SetLocalPosition(A);
+	}
+	if (RandomDrop == 2)
+	{
+
+	}
 }
 
 void Snail::DeadUpdate(float _DeltaTime, const StateInfo& _Info)
