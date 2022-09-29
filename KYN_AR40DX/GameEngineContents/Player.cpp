@@ -191,22 +191,22 @@ void Player::Start()
 		Renderer->CreateFrameAnimationCutTexture("Sadari", FrameAnimation_DESC("sadari.png", Two, 0.3f));
 		Renderer->CreateFrameAnimationCutTexture("Jump", FrameAnimation_DESC("jump.png", One, 0.0f, false));
 		Renderer->CreateFrameAnimationCutTexture("Prone", FrameAnimation_DESC("prone.png", One, 0.0f, false));
-		Renderer->CreateFrameAnimationCutTexture("Attack1", FrameAnimation_DESC("attack1.png", Three, 0.2f, false));
-		Renderer->CreateFrameAnimationCutTexture("Attack2", FrameAnimation_DESC("attack2.png", Three, 0.2f, false));
-		Renderer->CreateFrameAnimationCutTexture("Attack3", FrameAnimation_DESC("attack3.png", Three, 0.2f, false));
-		Renderer->CreateFrameAnimationCutTexture("Attack4", FrameAnimation_DESC("attack4.png", Two, 0.23f, false));
+		Renderer->CreateFrameAnimationCutTexture("Attack1", FrameAnimation_DESC("attack1.png", Three, 0.2f));
+		Renderer->CreateFrameAnimationCutTexture("Attack2", FrameAnimation_DESC("attack2.png", Three, 0.2f));
+		Renderer->CreateFrameAnimationCutTexture("Attack3", FrameAnimation_DESC("attack3.png", Three, 0.2f));
+		Renderer->CreateFrameAnimationCutTexture("Attack4", FrameAnimation_DESC("attack4.png", Two, 0.23f));
 		Renderer->CreateFrameAnimationCutTexture("Alert", FrameAnimation_DESC("alert.png", Three, 0.23f));
 		Renderer->CreateFrameAnimationCutTexture("Dead", FrameAnimation_DESC("dead.png", One, 0.23f, false));
 
 		Renderer->CreateFrameAnimationCutTexture("B_Idle", FrameAnimation_DESC("B_idle.png", Idle, 0.3f));
 		Renderer->CreateFrameAnimationCutTexture("B_Move", FrameAnimation_DESC("B_walk.png", Three, 0.1f));
-		//사다리없음
+		Renderer->CreateFrameAnimationCutTexture("B_Sadari", FrameAnimation_DESC("B_sadari.png", Two, 0.3f));
 		Renderer->CreateFrameAnimationCutTexture("B_Jump", FrameAnimation_DESC("B_jump.png", One, 0.0f, false));
 		Renderer->CreateFrameAnimationCutTexture("B_Prone", FrameAnimation_DESC("B_prone.png", One, 0.0f, false));
-		Renderer->CreateFrameAnimationCutTexture("B_Attack1", FrameAnimation_DESC("B_attack1.png", Three, 0.2f, false));
-		Renderer->CreateFrameAnimationCutTexture("B_Attack2", FrameAnimation_DESC("B_attack2.png", Three, 0.2f, false));
-		Renderer->CreateFrameAnimationCutTexture("B_Attack3", FrameAnimation_DESC("B_attack3.png", Three, 0.2f, false));
-		//공격4없음
+		Renderer->CreateFrameAnimationCutTexture("B_Attack1", FrameAnimation_DESC("B_attack1.png", Three, 0.2f));
+		Renderer->CreateFrameAnimationCutTexture("B_Attack2", FrameAnimation_DESC("B_attack2.png", Three, 0.2f));
+		Renderer->CreateFrameAnimationCutTexture("B_Attack3", FrameAnimation_DESC("B_attack3.png", Three, 0.2f));
+		Renderer->CreateFrameAnimationCutTexture("B_Attack4", FrameAnimation_DESC("B_attack4.png", Two, 0.23f));
 		Renderer->CreateFrameAnimationCutTexture("B_Alert", FrameAnimation_DESC("B_alert.png", Three, 0.23f));
 		Renderer->CreateFrameAnimationCutTexture("SlashBlast1", FrameAnimation_DESC("SlashBlast1p.png", One, 0.01f, false));
 		Renderer->CreateFrameAnimationCutTexture("SlashBlast2", FrameAnimation_DESC("SlashBlast2p.png", Two, 0.01f, false));
@@ -222,6 +222,11 @@ void Player::Start()
 		Renderer->AnimationBindEnd("Attack2", std::bind(&Player::AttackEnd, this));
 		Renderer->AnimationBindEnd("Attack3", std::bind(&Player::AttackEnd, this));
 		Renderer->AnimationBindEnd("Attack4", std::bind(&Player::AttackEnd, this));
+
+		Renderer->AnimationBindEnd("B_Attack1", std::bind(&Player::AttackEnd, this));
+		Renderer->AnimationBindEnd("B_Attack2", std::bind(&Player::AttackEnd, this));
+		Renderer->AnimationBindEnd("B_Attack3", std::bind(&Player::AttackEnd, this));
+		Renderer->AnimationBindEnd("B_Attack4", std::bind(&Player::AttackEnd, this));
 	}
 
 	{
@@ -542,7 +547,14 @@ void Player::AttackStart(const StateInfo& _Info)
 	}
 	else
 	{
-		Renderer->ChangeFrameAnimation("Attack4");
+		if (MyJob == JOB::NONE)
+		{
+			Renderer->ChangeFrameAnimation("Attack4");
+		}
+		if (MyJob == JOB::WARRIOR)
+		{
+			Renderer->ChangeFrameAnimation("B_Attack4");
+		}
 	}
 
 
@@ -618,7 +630,14 @@ void Player::AttackEnd()
 		}
 		else
 		{
-			Renderer->ChangeFrameAnimation("Attack4");
+			if (MyJob == JOB::NONE)
+			{
+				Renderer->ChangeFrameAnimation("Attack4");
+			}
+			if (MyJob == JOB::WARRIOR)
+			{
+				Renderer->ChangeFrameAnimation("B_Attack4");
+			}
 		}
 
 		Speed = 150.0f;//어택할때 왠지모르게 스피드가 -75로 변경됨;;
@@ -833,7 +852,14 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::SadariStart(const StateInfo& _Info)
 {
-	Renderer->ChangeFrameAnimation("Sadari");
+	if (MyJob == JOB::NONE)
+	{
+		Renderer->ChangeFrameAnimation("Sadari");
+	}
+	if (MyJob == JOB::WARRIOR)
+	{
+		Renderer->ChangeFrameAnimation("B_Sadari");
+	}
 }
 
 void Player::SadariUpdate(float _DeltaTime, const StateInfo& _Info)

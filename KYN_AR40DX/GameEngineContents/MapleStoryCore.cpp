@@ -99,11 +99,11 @@ void MapleStoryCore::Start()
 		GameEngineTexture::Cut("B_jump.png", 1, 1);
 		GameEngineTexture::Cut("B_prone.png", 1, 1);
 		GameEngineTexture::Cut("B_walk.png", 4, 1);
-		//사다리없음
+		GameEngineTexture::Cut("B_sadari.png", 2, 1);
 		GameEngineTexture::Cut("B_attack1.png", 3, 1);
 		GameEngineTexture::Cut("B_attack2.png", 3, 1);
 		GameEngineTexture::Cut("B_attack3.png", 3, 1);
-		//공격4없음
+		GameEngineTexture::Cut("B_attack4.png", 2, 1);
 		GameEngineTexture::Cut("B_Alert.png", 3, 1);
 	}
 
