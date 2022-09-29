@@ -6,6 +6,7 @@
 
 //Ό³Έν : 
 class Player;
+class LevelParent;
 class ContentsGUI : public GameEngineStatusWindow
 {
 public:

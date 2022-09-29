@@ -36,11 +36,6 @@ void Stage1Level::Start()
 		//GetMainCamera()->GetCameraRenderTarget()->AddEffect<GameEngineBlur>();
 		// GetMainCamera()->GetCameraRenderTarget()->AddEffect<디스토션>();
 
-		if (false == GameEngineInput::GetInst()->IsKey("MapOffSwitch"))
-		{
-			GameEngineInput::GetInst()->CreateKey("MapOffSwitch", 'I');
-		}
-
 		CreateStageObject("Stage1_BG.png", "Stage1_Col.png", "Stage1.png");
 
 		{
@@ -115,10 +110,6 @@ void Stage1Level::Update(float _DeltaTime)
 	}
 
 	BlackTimeOut();
-
-	SetMapOnOffSwitch();
-
-	//NextStage();
 
 	LevelMove();
 

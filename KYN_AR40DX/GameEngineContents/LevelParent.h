@@ -32,13 +32,13 @@ public:
 		return LevelStageObject->GetMap();
 	}
 
-	inline void SetMapOnOffSwitch() const
-	{
-		if (GameEngineInput::GetInst()->IsDown("MapOffSwitch"))
-		{
-			return LevelStageObject->GetMap()->OnOffSwitch(), LevelStageObject->GetBG()->OnOffSwitch();
-		}
-	}
+	//inline void SetMapOnOffSwitch() const
+	//{
+	//	if (GameEngineInput::GetInst()->IsDown("MapOffSwitch"))
+	//	{
+	//		return LevelStageObject->GetMap()->OnOffSwitch(), LevelStageObject->GetBG()->OnOffSwitch();
+	//	}
+	//}
 
 	inline GameEngineTextureRenderer* GetMap_Col() const
 	{

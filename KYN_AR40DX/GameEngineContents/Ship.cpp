@@ -35,11 +35,6 @@ void Ship::Start()
 		Camera->GetTransform().SetWorldPosition({ 0,0,-500.0f });
 	}
 
-	if (false == GameEngineInput::GetInst()->IsKey("MapOffSwitch"))
-	{
-		GameEngineInput::GetInst()->CreateKey("MapOffSwitch", 'I');
-	}
-
 	CreateStageObject("Ship_BG.png", "Ship_Col.png", "Ship1.png");
 
 	LevelStageObject->GetMap()->GetTransform().SetWorldPosition({ 0,0,-100 });
@@ -66,8 +61,6 @@ void Ship::Update(float _DeltaTime)
 	BlackTimeOut();
 
 	ShipTime += _DeltaTime;
-
-	SetMapOnOffSwitch();
 
 	LevelStageObject->GetBG()->GetTransform().SetWorldPosition({ -(ShipTime*50.0f),-100,0});
 	LevelMove();

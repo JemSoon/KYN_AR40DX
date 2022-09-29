@@ -31,11 +31,6 @@ void Perion::Start()
 		Camera->GetTransform().SetWorldPosition({ 0,0,-500.0f });
 	}
 
-	if (false == GameEngineInput::GetInst()->IsKey("MapOffSwitch"))
-	{
-		GameEngineInput::GetInst()->CreateKey("MapOffSwitch", 'I');
-	}
-
 	CreateStageObject("Perion_BG.png", "Perion_Col.png", "Perion.png");
 
 	{
@@ -72,8 +67,6 @@ void Perion::Update(float _DeltaTime)
 	}
 
 	BlackTimeOut();
-
-	SetMapOnOffSwitch();
 
 	LevelMove();
 }
