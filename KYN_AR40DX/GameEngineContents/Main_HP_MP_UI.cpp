@@ -1,6 +1,6 @@
 #include "PreCompile.h"
 #include "Main_HP_MP_UI.h"
-
+#include "ItemIcon.h"
 
 Main_HP_MP_UI::Main_HP_MP_UI()
 	:HP_MP(nullptr)
@@ -294,12 +294,12 @@ void Main_HP_MP_UI::Start()
 		QuickSlot->GetTransform().SetWorldPosition({564, 8, -100});
 		QuickSlot->SetTexture("QuickSlot.png");
 
-		TESTUICollision= CreateComponent<GameEngineCollision>();
-		TESTUICollision->SetDebugSetting(CollisionType::CT_OBB2D, float4{ 0.0f,0.0f,1.0f,0.3f });
-		TESTUICollision->GetTransform().SetWorldScale({ 151, 80, 100.0f });
-		TESTUICollision->GetTransform().SetWorldPosition({564.5f, 0, -200 });
-		TESTUICollision->ChangeOrder(OBJECTORDER::UI);
-		TESTUICollision->SetUIDebugCamera();
+		//TESTUICollision= CreateComponent<GameEngineCollision>();
+		//TESTUICollision->SetDebugSetting(CollisionType::CT_OBB2D, float4{ 0.0f,0.0f,1.0f,0.3f });
+		//TESTUICollision->GetTransform().SetWorldScale({ 151, 80, 100.0f });
+		//TESTUICollision->GetTransform().SetWorldPosition({564.5f, 0, -200 });
+		//TESTUICollision->ChangeOrder(OBJECTORDER::UI);
+		//TESTUICollision->SetUIDebugCamera();
 	}
 
 	{
@@ -323,7 +323,9 @@ void Main_HP_MP_UI::Start()
 		LevelHun->GetTransform().SetWorldPosition({ -50, 23, -100 });
 		LevelHun->SetTexture("Level1.png");
 	}
-
+	{
+		CreateQuickSlot(4, 2, { 25,25 }, 0);
+	}
 }
 
 void Main_HP_MP_UI::Update(float _DeltaTime)
@@ -756,5 +758,24 @@ void Main_HP_MP_UI::HPMPNumRendererSetting(int _Value, GameEngineTextureRenderer
 	default:
 		_Render->SetTexture("HPMPNum0.png");
 		break;
+	}
+}
+
+void Main_HP_MP_UI::CreateQuickSlot(int X, int Y, float4 Size, int CollisionOrder)
+{
+	ItemSlots.resize(Y);
+
+	for (size_t y = 0; y < ItemSlots.size(); y++)
+	{
+		ItemSlots[y].resize(X);
+
+		for (size_t x = 0; x < ItemSlots[y].size(); x++)
+		{
+			ItemSlots[y][x] = CreateComponent<ItemIcon>();
+			ItemSlots[y][x]->GetTransform().SetLocalScale(Size);
+			//가로간격4픽셀 세로간격2픽셀
+			ItemSlots[y][x]->GetTransform().SetLocalPosition(float4{515 + (Size.x * x + (9 * x)),-10 + (Size.y * y + (11 * y)), -350.0f });
+
+		}
 	}
 }

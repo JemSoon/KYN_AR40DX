@@ -255,7 +255,7 @@ void Snail::HitUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Snail::DeadStart(const StateInfo& _Info)
 {
-	RandomDrop = GameEngineRandom::MainRandom.RandomInt(1, 2);
+	RandomDrop = GameEngineRandom::MainRandom.RandomInt(1, 3);
 
 	MovePower = 0.0f;
 	Renderer->ChangeFrameAnimation("Die");
@@ -273,6 +273,10 @@ void Snail::DeadStart(const StateInfo& _Info)
 	{
 		Coin = GetLevel()->CreateActor<Money>();
 		Coin->GetTransform().SetLocalPosition(A);
+	}
+	if (RandomDrop == 3)
+	{
+		//아무것도 안나옴
 	}
 }
 

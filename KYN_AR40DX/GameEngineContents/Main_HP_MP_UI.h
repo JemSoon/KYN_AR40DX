@@ -4,6 +4,7 @@
 //설명 : 인게임 화면 하단 중앙에 나오는 체력 엠피 ui
 class GameEngineTextureRenderer;
 class Player;
+class ItemIcon;
 class Main_HP_MP_UI : public GameEngineActor
 {
 public:
@@ -33,7 +34,7 @@ public:
 	{
 		return EXP;
 	}
-
+	void CreateQuickSlot(int X, int Y, float4 Size, int CollisionOrder);
 	void HPSetting();
 	void EXPSetting();
 	void MPSetting();
@@ -56,7 +57,7 @@ protected:
 	GameEngineTextureRenderer* EXPbar;
 	GameEngineTextureRenderer* QuickSlot;
 	GameEngineTextureRenderer* Level;
-
+	std::vector<std::vector<ItemIcon*>> ItemSlots;
 private:
 	GameEngineCameraActor* Camera;
 	GameEngineCollision* TESTUICollision;
