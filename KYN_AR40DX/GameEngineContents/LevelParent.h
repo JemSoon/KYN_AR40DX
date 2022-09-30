@@ -4,10 +4,12 @@
 #include "StageObject.h"
 #include "PortalObject.h"
 #include "Black.h"
+
 // Ό³Έν :
 class Main_HP_MP_UI;
 class Mouse;
 class Black;
+class Inventory;
 class LevelParent : public GameEngineLevel
 {
 public:

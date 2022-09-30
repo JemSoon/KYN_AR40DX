@@ -170,7 +170,8 @@ void Player::Start()
 		}
 
 		{
-			Inven = GetLevel()->CreateActor<Inventory>();
+			Inven = GetLevel()->CreateActor<Inventory>(OBJECTORDER::UI);
+			//Inven->CreateInventory(4, 6, { 32,32 ,-470}, 1);
 			Inven->GetTransform().SetLocalPosition({ 500,200 });
 			Inven->Off();
 		}

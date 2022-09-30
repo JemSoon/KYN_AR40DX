@@ -124,9 +124,6 @@
     <ClInclude Include="Main_HP_MP_UI.h">
       <Filter>Global\UI\HP_MP</Filter>
     </ClInclude>
-    <ClInclude Include="Inventory.h">
-      <Filter>Global\UI\Inventory</Filter>
-    </ClInclude>
     <ClInclude Include="DamageNumber.h">
       <Filter>Actor\DamageFontRender</Filter>
     </ClInclude>
@@ -168,6 +165,12 @@
     </ClInclude>
     <ClInclude Include="Potion.h">
       <Filter>Actor\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Inventory.h">
+      <Filter>Global\UI\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemIcon.h">
+      <Filter>Global\UI\Inventory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -261,6 +264,9 @@
     </ClCompile>
     <ClCompile Include="Potion.cpp">
       <Filter>Actor\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemIcon.cpp">
+      <Filter>Global\UI\Inventory</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,7 +1,10 @@
+#include "PreCompile.h"
 #include "LevelParent.h"
 #include "GlobalContentsValue.h"
 #include "Main_HP_MP_UI.h"
 #include "Mouse.h"
+
+#include "Inventory.h"
 
 LevelParent::LevelParent() 
 	:BlackOutTime(0.0f)

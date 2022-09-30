@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineActor.h>
+#include "ItemIcon.h"
 
 // 설명 : 아이템 창
 struct ItemInfo
@@ -9,6 +10,7 @@ struct ItemInfo
 };
 class GameEngineUIRenderer;
 class Player;
+class GameEngineFontRenderer;
 class Inventory :public GameEngineActor
 {
 public:
@@ -30,7 +32,8 @@ public:
 	Inventory(Inventory&& _Other) noexcept = delete;
 	Inventory& operator=(const Inventory& _Other) = delete;
 	Inventory& operator=(Inventory&& _Other) noexcept = delete;
-
+	
+	void CreateInventory(int X, int Y, float4 Size, int CollisionOrder);
 protected:
 	void Start() override;
 	void Update(float _DeltaTime);
@@ -38,13 +41,14 @@ protected:
 
 	GameEngineUIRenderer* ItemWindow;
 
+
 private:
-	GameEngineCameraActor* Camera;
-	GameEngineCollision* UICollision;
+	//GameEngineCameraActor* Camera;
+	//GameEngineCollision* UICollision;
 	Player* PlayerInfo;
 
 	//첫인자에 렌더러
-	std::vector<std::pair<GameEngineUIRenderer, ItemInfo>> ItemList;
+	std::vector<std::vector<ItemIcon*>> ItemSlots;
 
 	GameEngineFontRenderer* Font;
 };
