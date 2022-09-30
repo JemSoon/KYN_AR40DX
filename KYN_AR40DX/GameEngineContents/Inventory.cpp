@@ -51,7 +51,8 @@ void Inventory::CreateInventory(int X, int Y, float4 Size, int CollisionOrder)
 			ItemSlots[y][x] = CreateComponent<ItemIcon>();
 			ItemSlots[y][x]->GetTransform().SetLocalScale(Size);
 			//가로간격4픽셀 세로간격2픽셀
-			ItemSlots[y][x]->GetTransform().SetLocalPosition(float4{ -64 + (Size.x * x), Size.y * y, -350.0f });
+			ItemSlots[y][x]->GetTransform().SetLocalPosition(float4{ -63 + (Size.x * x+(4*x)), -92 + (Size.y * y+(2*y)), -350.0f });
+			
 		}
 	}
 }
