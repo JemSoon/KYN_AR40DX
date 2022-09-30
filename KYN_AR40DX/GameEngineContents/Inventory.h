@@ -34,6 +34,7 @@ public:
 	Inventory& operator=(Inventory&& _Other) noexcept = delete;
 	
 	void CreateInventory(int X, int Y, float4 Size, int CollisionOrder);
+	int Money;
 protected:
 	void Start() override;
 	void Update(float _DeltaTime);

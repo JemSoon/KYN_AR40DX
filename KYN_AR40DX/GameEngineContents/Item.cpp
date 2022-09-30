@@ -1,21 +1,22 @@
 #include "PreCompile.h"
-#include "Potion.h"
+#include "Item.h"
 
-Potion::Potion()
+Item::Item()
 	:Time(0.0f)
 {
 
 }
 
-Potion::~Potion()
+Item::~Item()
 {
 
 }
 
-void Potion::Start()
+void Item::Start()
 {
 	Renderer = CreateComponent<GameEngineTextureRenderer>();
 	Renderer->GetTransform().SetLocalScale({ 27, 27, 1 });
+	//Renderer->ScaleToTexture();
 	Renderer->SetTexture("WhitePotion.png");
 	Renderer->SetPivot(PIVOTMODE::BOT);
 
@@ -27,21 +28,21 @@ void Potion::Start()
 	Collision->ChangeOrder(OBJECTORDER::Item);
 
 	StateManager.CreateStateMember("POP"
-		, std::bind(&Potion::POPUpdate, this, std::placeholders::_1, std::placeholders::_2)
-		, std::bind(&Potion::POPStart, this, std::placeholders::_1));
+		, std::bind(&Item::POPUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Item::POPStart, this, std::placeholders::_1));
 	StateManager.CreateStateMember("DoomChit"
-		, std::bind(&Potion::DoomChitUpdate, this, std::placeholders::_1, std::placeholders::_2)
-		, std::bind(&Potion::DoomChitStart, this, std::placeholders::_1));
+		, std::bind(&Item::DoomChitUpdate, this, std::placeholders::_1, std::placeholders::_2)
+		, std::bind(&Item::DoomChitStart, this, std::placeholders::_1));
 
 	StateManager.ChangeState("POP");
 }
 
-void Potion::POPStart(const StateInfo& _Info)
+void Item::POPStart(const StateInfo& _Info)
 {
 	MovePower += float4::UP * 500.0f;
 }
 
-void Potion::POPUpdate(float _DeltaTime, const StateInfo& _Info)
+void Item::POPUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	//¶¥¿¡ ¶³¾îÁú¶§±îÁö ºù±Ûºù±Û
 	Renderer->GetTransform().SetAddWorldRotation({ 0,0,GameEngineTime::GetDeltaTime() * 2000.0f,0 });
@@ -54,14 +55,14 @@ void Potion::POPUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 }
 
-void Potion::DoomChitStart(const StateInfo& _Info)
+void Item::DoomChitStart(const StateInfo& _Info)
 {
 	Renderer->GetTransform().SetWorldRotation({ 0,0,0,0 });
 	Renderer->GetTransform().SetWorldPosition({ 0,0,0,0 });
 	Renderer->GetTransform().SetWorldRotation(float4::ZERO);
 }
 
-void Potion::DoomChitUpdate(float _DeltaTime, const StateInfo& _Info)
+void Item::DoomChitUpdate(float _DeltaTime, const StateInfo& _Info)
 {
 	Time += _DeltaTime * 5.0f;
 
@@ -75,7 +76,7 @@ void Potion::DoomChitUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 }
 
-void Potion::Update(float _DeltaTime)
+void Item::Update(float _DeltaTime)
 {
 	ColorCheckUpdate();
 

@@ -4,7 +4,8 @@
 // 설명 : 기본 달팽이
 class Player;
 class DamageNumber;
-class Potion;
+class Item;
+class Money;
 class Snail : public Monster
 {
 public:
@@ -47,7 +48,8 @@ protected:
 private:
 	GameEngineStateManager StateManager;
 	DamageNumber* Num;
-	Potion* WPotion;
+	Item* WPotion;
+	Money* Coin;
 
 	int Damage;
 	float PatternTime;

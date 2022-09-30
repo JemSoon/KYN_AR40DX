@@ -163,7 +163,7 @@
     <ClInclude Include="ContentsGUI.h">
       <Filter>Global\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="Potion.h">
+    <ClInclude Include="Item.h">
       <Filter>Actor\Item</Filter>
     </ClInclude>
     <ClInclude Include="Inventory.h">
@@ -171,6 +171,9 @@
     </ClInclude>
     <ClInclude Include="ItemIcon.h">
       <Filter>Global\UI\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="Money.h">
+      <Filter>Actor\Item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -262,11 +265,14 @@
     <ClCompile Include="ContentsGUI.cpp">
       <Filter>Global\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="Potion.cpp">
+    <ClCompile Include="Item.cpp">
       <Filter>Actor\Item</Filter>
     </ClCompile>
     <ClCompile Include="ItemIcon.cpp">
       <Filter>Global\UI\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="Money.cpp">
+      <Filter>Actor\Item</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -3,6 +3,7 @@
 #include "GameEngineCore/GameEngineUIRenderer.h"
 
 Inventory::Inventory() 
+	:Money(0)
 {
 }
 
@@ -24,7 +25,8 @@ void Inventory::Start()
 		Font->ChangeCamera(CAMERAORDER::UICAMERA);
 		Font->SetParent(this);
 		Font->SetSize(15.0f);
-		Font->SetText("0");
+		//Font->SetText("0");
+		Font->SetText(std::to_string(Money));
 		Font->SetColor({ 0.0f, 0.0f, 0.0f });
 		Font->SetScreenPostion({ 1190.0f, 280.0f ,-350.0f });
 		Font->SetLeftAndRightSort(LeftAndRightSort::RIGHT);

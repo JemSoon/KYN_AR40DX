@@ -4,17 +4,17 @@
 
 enum class ItemType
 {
-	Potion,
+	Item,
 };
 
 //설명 : 필드에 떨어지는 포션
-class Potion : public CharacterObject
+class Item : public CharacterObject
 {
 public:
 	//디폴트 생성자
-	Potion();
+	Item();
 	//디폴트 소멸자
-	~Potion();
+	~Item();
 
 	
 	
@@ -22,12 +22,12 @@ public:
 	//======아래것들은 명시적으로 안쓰겠습니다(delete)======
 	
 	//디폴트 복사 생성자
-	Potion(const Potion& _Other) = delete;
+	Item(const Item& _Other) = delete;
 	//RValue Reference 생성자 (나중에 배울것)
-	Potion(Potion&& _Other) noexcept = delete;
+	Item(Item&& _Other) noexcept = delete;
 	//operater= (자기자신을 리턴하는)
-	Potion& operator=(const Potion& _Other) = delete;
-	Potion& operator=(Potion&& _Other) noexcept = delete;
+	Item& operator=(const Item& _Other) = delete;
+	Item& operator=(Item&& _Other) noexcept = delete;
 
 
 protected:

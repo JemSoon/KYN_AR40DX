@@ -1,7 +1,8 @@
 #include "PreCompile.h"
 #include "Snail.h"
 #include "Player.h"
-#include "Potion.h"
+#include "Item.h"
+#include "Money.h"
 
 #include "DamageNumber.h"
 
@@ -265,12 +266,13 @@ void Snail::DeadStart(const StateInfo& _Info)
 
 	if (RandomDrop == 1)
 	{
-		WPotion = GetLevel()->CreateActor<Potion>();
+		WPotion = GetLevel()->CreateActor<Item>();
 		WPotion->GetTransform().SetLocalPosition(A);
 	}
 	if (RandomDrop == 2)
 	{
-
+		Coin = GetLevel()->CreateActor<Money>();
+		Coin->GetTransform().SetLocalPosition(A);
 	}
 }
 
