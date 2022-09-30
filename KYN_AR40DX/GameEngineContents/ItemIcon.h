@@ -26,6 +26,11 @@ public:
 	ItemIcon& operator=(const ItemIcon& _Other) = delete;
 	ItemIcon& operator=(ItemIcon&& _Other) noexcept = delete;
 
+	GameEngineUIRenderer* GetRenderer()
+	{
+		return Renderer;
+	}
+
 	void Start() override;
 
 	void Update(float _Delta) override;

@@ -773,7 +773,7 @@ void Main_HP_MP_UI::CreateQuickSlot(int X, int Y, float4 Size, int CollisionOrde
 		{
 			ItemSlots[y][x] = CreateComponent<ItemIcon>();
 			ItemSlots[y][x]->GetTransform().SetLocalScale(Size);
-			//가로간격4픽셀 세로간격2픽셀
+		
 			ItemSlots[y][x]->GetTransform().SetLocalPosition(float4{515 + (Size.x * x + (9 * x)),-10 + (Size.y * y + (11 * y)), -350.0f });
 
 		}

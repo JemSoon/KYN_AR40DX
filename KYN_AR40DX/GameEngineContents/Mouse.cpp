@@ -34,13 +34,13 @@ void Mouse::Start()
 
 	ActorCollision = CreateComponent<GameEngineCollision>();
 	ActorCollision->SetDebugSetting(CollisionType::CT_OBB2D, float4{ 1.0f,0.0f,0.0f,0.3f });
-	ActorCollision->GetTransform().SetWorldScale({ 32.0f, 32.0f, 100.0f });
+	ActorCollision->GetTransform().SetWorldScale({ 4.0f, 4.0f, 100.0f });
 	ActorCollision->ChangeOrder(OBJECTORDER::Mouse);	
 
 	//현재 UI는 디버그이미지가 구현안되서 안보이지만 충돌인식 확인함
 	UICollision = CreateComponent<GameEngineCollision>();
 	UICollision->SetDebugSetting(CollisionType::CT_OBB2D, float4{ 0.0f,0.0f,1.0f,0.3f });
-	UICollision->GetTransform().SetWorldScale({ 32.0f, 32.0f, 100.0f });
+	UICollision->GetTransform().SetWorldScale({ 4.0f, 4.0f, 100.0f });
 	UICollision->ChangeOrder(OBJECTORDER::Mouse);
 	UICollision->SetUIDebugCamera();
 }
@@ -52,8 +52,8 @@ void Mouse::Update(float _DeltaTime)
 
 	MouseImage->GetTransform().SetWorldPosition({ CursorPos2.x+5,CursorPos2.y-10,-300 });
 
-	ActorCollision->GetTransform().SetWorldPosition({ CursorPos1.x + 5,CursorPos1.y - 10, -200 });
-	UICollision->GetTransform().SetWorldPosition({ CursorPos2.x + 10,CursorPos2.y - 10, -200 });
+	ActorCollision->GetTransform().SetWorldPosition({ CursorPos1.x - 5,CursorPos1.y + 2, -200 });
+	UICollision->GetTransform().SetWorldPosition({ CursorPos2.x - 5,CursorPos2.y + 2, -200 });
 	//UICollision->GetTransform().SetWorldPosition({ CursorPos2.x + 645,CursorPos2.y - 403, -200 });
 
 	{
