@@ -2,20 +2,12 @@
 #include "CharacterObject.h"
 #include <GameEngineCore/CoreMinimal.h>
 
-struct ItemInfo
-{
-	//인벤토리가 가지고있어야함 옮겨야함
-	int Count;
-	int ID;
-};
-
 enum class ItemType
 {
 	Potion,
-	Skill,
 };
 
-//설명 : 
+//설명 : 필드에 떨어지는 포션
 class Potion : public CharacterObject
 {
 public:

@@ -81,6 +81,7 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("SlashBlast", 'Q');
 		GameEngineInput::GetInst()->CreateKey("UpperCharge", 'W');
 		GameEngineInput::GetInst()->CreateKey("LeafAttack", 'E');
+		GameEngineInput::GetInst()->CreateKey("Eat", 'X');
 		GameEngineInput::GetInst()->CreateKey("Inventory", 'I');
 	}
 
