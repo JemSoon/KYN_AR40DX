@@ -42,7 +42,10 @@ private:
 	GameEngineCameraActor* Camera;
 	GameEngineCollision* UICollision;
 	Player* PlayerInfo;
-	std::vector<std::pair<GameEngineUIRenderer, ItemInfo>> ItemList;
+
 	//첫인자에 렌더러
+	std::vector<std::pair<GameEngineUIRenderer, ItemInfo>> ItemList;
+
+	GameEngineFontRenderer* Font;
 };
 
