@@ -341,6 +341,8 @@ void Main_HP_MP_UI::Update(float _DeltaTime)
 	if (PlayerInfo->IsJobChange==true)
 	{
 		ItemSlots[1][0]->GetRenderer()->SetTexture("iSlashBlust.png");
+		ItemSlots[1][1]->GetRenderer()->SetTexture("iUpperCharge.png");
+		ItemSlots[1][2]->GetRenderer()->SetTexture("iLeafAttack.png");
 	}
 
 	HPSetting();
