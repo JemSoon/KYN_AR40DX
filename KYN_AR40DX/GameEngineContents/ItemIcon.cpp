@@ -15,6 +15,7 @@ void ItemIcon::Start()
 {
 	GameEngineTextureRenderer::Start();
 	GameEngineTextureRenderer::ChangeCamera(CAMERAORDER::UICAMERA);
+	
 	Renderer = GetActor()->CreateComponent<GameEngineUIRenderer>();
 	Renderer->SetTexture("nTest.png");
 	Renderer->SetParent(this);

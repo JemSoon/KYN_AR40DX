@@ -12,7 +12,7 @@ Snail::Snail()
 	:Damage(0)
 	,PatternTime(0)
 	,Random(0)
-	,RandomDir(0)	
+	,RandomDir(0)
 {
 	MonsterAtt = 15;
 	MonsterHPMax = 15;
@@ -273,6 +273,7 @@ void Snail::DeadStart(const StateInfo& _Info)
 	{
 		Coin = GetLevel()->CreateActor<Money>();
 		Coin->GetTransform().SetLocalPosition(A);
+		Coin->MoneyCost = 1000;
 	}
 	if (RandomDrop == 3)
 	{

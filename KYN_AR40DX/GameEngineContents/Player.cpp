@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Monster.h"
 #include "Inventory.h"
+#include "Money.h"
 
 #include <GameEngineContents/GlobalContentsValue.h>
 #include <iostream>
@@ -1399,8 +1400,8 @@ void Player::Update(float _DeltaTime)
 			std::bind(&Player::PlayerHit, this, std::placeholders::_1, std::placeholders::_2));
 	}
 	{
-		Collision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::Item, CollisionType::CT_OBB2D,
-			std::bind(&Player::ItemEatCheck, this, std::placeholders::_1, std::placeholders::_2));
+		Collision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::Money, CollisionType::CT_OBB2D,
+			std::bind(&Player::MoneyEatCheck, this, std::placeholders::_1, std::placeholders::_2));
 	}
 
 	LevelUp();
@@ -1669,14 +1670,16 @@ void Player::LeafAttackEnd()
 	StateManager.ChangeState("Idle");
 }
 
-bool Player::ItemEatCheck(GameEngineCollision* _This, GameEngineCollision* _Other)
+bool Player::MoneyEatCheck(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
 	//인식된게 한개 이하면 줍줍한다
 	if (true == GameEngineInput::GetInst()->IsPress("Eat"))
 	{
+		unsigned int a =_Other->GetActor<Money>()->MoneyCost;
+		Inven->Money += a;
 		_Other->GetActor()->Death();
 		ItemCount = 0;
-	return true;
+		return true;
 	}
 }
 

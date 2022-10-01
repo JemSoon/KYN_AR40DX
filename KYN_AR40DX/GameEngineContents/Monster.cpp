@@ -10,6 +10,7 @@ Monster::Monster()
 	,DamageRender(nullptr)
 	,MonsterHit(false)
 	,DeathCheck(false)
+
 {
 
 }

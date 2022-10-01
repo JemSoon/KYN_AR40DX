@@ -53,7 +53,7 @@ public:
 	bool MonsterLeafAttackHit(GameEngineCollision* _This, GameEngineCollision* _Other);
 	bool PlayerHit(GameEngineCollision* _This, GameEngineCollision* _Other);
 	bool PortalCollision(GameEngineCollision* _This, GameEngineCollision* _Other);
-	bool ItemEatCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
+	bool MoneyEatCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
 
 	GameEngineCollision* GetAttCollision()
 	{

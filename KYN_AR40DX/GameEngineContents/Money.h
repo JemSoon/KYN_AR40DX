@@ -14,7 +14,7 @@ public:
 	~Money();
 
 	
-	
+	int MoneyCost;
 	
 	//======아래것들은 명시적으로 안쓰겠습니다(delete)======
 	

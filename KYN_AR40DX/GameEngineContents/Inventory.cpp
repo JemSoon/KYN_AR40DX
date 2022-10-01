@@ -37,7 +37,7 @@ void Inventory::Start()
 
 void Inventory::Update(float _DeltaTime)
 {
-
+	Font->SetText(std::to_string(Money));
 }
 
 void Inventory::CreateInventory(int X, int Y, float4 Size, int CollisionOrder)

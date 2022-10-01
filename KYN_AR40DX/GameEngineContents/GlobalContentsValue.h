@@ -12,6 +12,7 @@ enum class OBJECTORDER
 	MonsterSearch,
 	NPC,
 	Item,
+	Money,
 	Portal,
 	UI = 1000,
 	Mouse,
