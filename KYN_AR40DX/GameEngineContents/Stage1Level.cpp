@@ -39,9 +39,9 @@ void Stage1Level::Start()
 
 		CreateStageObject("Stage1_BG.png", "Stage1_Col.png", "Stage1.png");
 
-		MainUI = CreateActor<Main_HP_MP_UI>(OBJECTORDER::UI);
+		/*MainUI = CreateActor<Main_HP_MP_UI>(OBJECTORDER::UI);
 		MainUI->GetTransform().SetWorldPosition({ 0.0f,-320.0f,-100.0f });
-		MainUI->SetLevelOverOn();
+		MainUI->SetLevelOverOn();*/
 
 
 		{

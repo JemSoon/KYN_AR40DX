@@ -43,6 +43,7 @@ protected:
 	void DoomChitStart(const StateInfo& _Info);
 	void DoomChitUpdate(float _DeltaTime, const StateInfo& _Info);
 
+	ItemType Type;
 	//Player* PlayerInfo;
 private:
 	float Time;

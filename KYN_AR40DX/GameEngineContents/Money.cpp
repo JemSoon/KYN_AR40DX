@@ -13,6 +13,7 @@ Money::~Money()
 void Money::Start()
 {
 	Item::Start();
+	Type = ItemType::Money;
 	Renderer->SetTexture("Money.png");
 }
 

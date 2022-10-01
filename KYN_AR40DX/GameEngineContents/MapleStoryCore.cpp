@@ -118,6 +118,10 @@ void MapleStoryCore::Start()
 		GameEngineTexture::Cut("LeafAttack.png", 8, 1);
 	}
 	
+	{
+		GameEngineTexture::Cut("iSlashBlust.png", 1, 1);
+	}
+
 	{	//몬스터
 
 		//주황버섯

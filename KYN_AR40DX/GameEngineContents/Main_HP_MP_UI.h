@@ -7,13 +7,18 @@ class Player;
 class ItemIcon;
 class Main_HP_MP_UI : public GameEngineActor
 {
+
+	static Main_HP_MP_UI* MainUI;
 public:
 	//디폴트 생성자
 	Main_HP_MP_UI();
 	//디폴트 소멸자
 	~Main_HP_MP_UI();
 
-	
+	Main_HP_MP_UI* GetUI()
+	{
+		return MainUI;
+	}
 	//======아래것들은 명시적으로 안쓰겠습니다(delete)======
 	
 	//디폴트 복사 생성자

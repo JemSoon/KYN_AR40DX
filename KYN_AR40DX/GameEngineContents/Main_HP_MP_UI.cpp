@@ -2,6 +2,8 @@
 #include "Main_HP_MP_UI.h"
 #include "ItemIcon.h"
 
+Main_HP_MP_UI* MainUI = nullptr;
+
 Main_HP_MP_UI::Main_HP_MP_UI()
 	:HP_MP(nullptr)
 	,EXP(nullptr)
@@ -338,7 +340,7 @@ void Main_HP_MP_UI::Update(float _DeltaTime)
 	
 	if (PlayerInfo->MyJob == JOB::WARRIOR)
 	{
-		ItemSlots[0][0]->SetTexture("iSlashBlust.png");
+		ItemSlots[0][0]->GetRenderer()->SetTexture("iSlashBlust.png");
 	}
 
 	HPSetting();
@@ -351,6 +353,8 @@ void Main_HP_MP_UI::Update(float _DeltaTime)
 	EXPNumberSetting();
 
 	LevelNumberSetting();
+
+	
 }
 
 void Main_HP_MP_UI::HPSetting()
@@ -778,6 +782,7 @@ void Main_HP_MP_UI::CreateQuickSlot(int X, int Y, float4 Size, int CollisionOrde
 		for (size_t x = 0; x < ItemSlots[y].size(); x++)
 		{
 			ItemSlots[y][x] = CreateComponent<ItemIcon>();
+			//ItemSlots[y][x]->GetRenderer()->SetTexture("nSet.png");
 			ItemSlots[y][x]->GetTransform().SetLocalScale(Size);
 			
 			ItemSlots[y][x]->GetTransform().SetLocalPosition(float4{515 + (Size.x * x + (9 * x)),-10 + (Size.y * y + (11 * y)), -350.0f });

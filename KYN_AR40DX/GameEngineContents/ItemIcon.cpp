@@ -14,11 +14,13 @@ ItemIcon::~ItemIcon()
 void ItemIcon::Start()
 {
 	GameEngineTextureRenderer::Start();
-
+	GameEngineTextureRenderer::ChangeCamera(CAMERAORDER::UICAMERA);
 	Renderer = GetActor()->CreateComponent<GameEngineUIRenderer>();
 	Renderer->SetTexture("nTest.png");
 	Renderer->SetParent(this);
+	Renderer->GetTransform().SetLocalPosition({ 0,0,-2 });
 	Renderer->ChangeCamera(CAMERAORDER::UICAMERA);
+	
 	//Renderer->GetTransform().SetLocalScale({ 32,32,1 });
 	//Renderer->GetTransform().SetLocalPosition({ 0, 0,-200 });
 

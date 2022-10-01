@@ -14,6 +14,8 @@ Item::~Item()
 
 void Item::Start()
 {
+	Type = ItemType::Item;
+
 	Renderer = CreateComponent<GameEngineTextureRenderer>();
 	Renderer->GetTransform().SetLocalScale({ 27, 27, 1 });
 	//Renderer->ScaleToTexture();
