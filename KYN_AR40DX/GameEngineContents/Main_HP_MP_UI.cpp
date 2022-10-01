@@ -338,9 +338,9 @@ void Main_HP_MP_UI::Update(float _DeltaTime)
 		PlayerInfo = Player::GetMainPlayer();
 	}
 	
-	if (PlayerInfo->MyJob == JOB::WARRIOR)
+	if (PlayerInfo->IsJobChange==true)
 	{
-		ItemSlots[0][0]->GetRenderer()->SetTexture("iSlashBlust.png");
+		ItemSlots[1][0]->GetRenderer()->SetTexture("iSlashBlust.png");
 	}
 
 	HPSetting();
