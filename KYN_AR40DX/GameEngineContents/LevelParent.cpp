@@ -48,8 +48,12 @@ void LevelParent::CreateStageObject(const std::string _BG, const std::string _Co
 		}
 
 		{
-			MainUI = CreateActor<Main_HP_MP_UI>(OBJECTORDER::UI);
-			MainUI->GetTransform().SetWorldPosition({ 0.0f,-320.0f,-100.0f });
+			if (nullptr == MainUI)
+			{
+				MainUI = CreateActor<Main_HP_MP_UI>(OBJECTORDER::UI);
+				MainUI->GetTransform().SetWorldPosition({ 0.0f,-320.0f,-100.0f });
+				MainUI->SetLevelOverOn();
+			}
 		}
 
 		{

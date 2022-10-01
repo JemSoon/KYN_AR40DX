@@ -1697,6 +1697,7 @@ void Player::LevelStartEvent()
 		this->PlayerLevel = BeforePlayer->PlayerLevel;
 		this->PlayerAtt = BeforePlayer->PlayerAtt;
 		this->MyJob = BeforePlayer->MyJob;
+		this->Inven->Money = BeforePlayer->Inven->Money;
 	}
 		MainPlayer = this;
 		BeforePlayer = nullptr;
