@@ -11,6 +11,7 @@
 #include "Sugar.h"
 #include "BossMano.h"
 
+#include "Main_HP_MP_UI.h"
 
 Stage1Level::Stage1Level()
 	: Camera(nullptr)
@@ -37,6 +38,11 @@ void Stage1Level::Start()
 		// GetMainCamera()->GetCameraRenderTarget()->AddEffect<디스토션>();
 
 		CreateStageObject("Stage1_BG.png", "Stage1_Col.png", "Stage1.png");
+
+		MainUI = CreateActor<Main_HP_MP_UI>(OBJECTORDER::UI);
+		MainUI->GetTransform().SetWorldPosition({ 0.0f,-320.0f,-100.0f });
+		MainUI->SetLevelOverOn();
+
 
 		{
 			Snail1 = CreateActor<Snail>(OBJECTORDER::Monster);

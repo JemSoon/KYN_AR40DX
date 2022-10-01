@@ -53,6 +53,7 @@ Player::Player()
 	, LeafAttack(nullptr)
 	, LeafAttackCollision(nullptr)
 	, IsJobChange(false)
+	, ItemCount(0)
 {
 	MainPlayer = this;
 	Speed = 150.0f;
@@ -1397,6 +1398,10 @@ void Player::Update(float _DeltaTime)
 		Collision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::Monster, CollisionType::CT_OBB2D,
 			std::bind(&Player::PlayerHit, this, std::placeholders::_1, std::placeholders::_2));
 	}
+	{
+		Collision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::Item, CollisionType::CT_OBB2D,
+			std::bind(&Player::ItemEatCheck, this, std::placeholders::_1, std::placeholders::_2));
+	}
 
 	LevelUp();
 
@@ -1662,6 +1667,17 @@ void Player::LeafAttackEnd()
 	LeafAttackCollision->ResetExData();
 	stop = false;
 	StateManager.ChangeState("Idle");
+}
+
+bool Player::ItemEatCheck(GameEngineCollision* _This, GameEngineCollision* _Other)
+{
+	//인식된게 한개 이하면 줍줍한다
+	if (true == GameEngineInput::GetInst()->IsPress("Eat"))
+	{
+		_Other->GetActor()->Death();
+		ItemCount = 0;
+	return true;
+	}
 }
 
 void Player::LevelStartEvent()

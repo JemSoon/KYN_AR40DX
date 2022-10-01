@@ -5,9 +5,11 @@
 enum class ItemType
 {
 	Item,
+	Money,
 };
 
 //설명 : 필드에 떨어지는 포션
+class Player;
 class Item : public CharacterObject
 {
 public:
@@ -29,7 +31,7 @@ public:
 	Item& operator=(const Item& _Other) = delete;
 	Item& operator=(Item&& _Other) noexcept = delete;
 
-
+	//bool PlayerEatCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
 protected:
 	void Start() override;
 	void Update(float _DeltaTime);
@@ -40,6 +42,8 @@ protected:
 
 	void DoomChitStart(const StateInfo& _Info);
 	void DoomChitUpdate(float _DeltaTime, const StateInfo& _Info);
+
+	//Player* PlayerInfo;
 private:
 	float Time;
 	GameEngineStateManager StateManager;

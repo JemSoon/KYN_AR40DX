@@ -3,6 +3,7 @@
 #include <GameEngineCore/GameEngineCore.h>
 
 // 설명 : 프로그램 자체를 시작하게 한다.
+//class Main_HP_MP_UI;
 class MapleStoryCore : public GameEngineCore
 {
 public:
@@ -35,6 +36,6 @@ protected:
 	void End() override;
 
 private:
-
+	//Main_HP_MP_UI* MainUI;
 };
 

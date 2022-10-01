@@ -47,10 +47,10 @@ void LevelParent::CreateStageObject(const std::string _BG, const std::string _Co
 			// LevelStageObject->GetMap()->SetTexture("Stage1.png");
 		}
 
-		{
+		/*{
 			MainUI = CreateActor<Main_HP_MP_UI>(OBJECTORDER::UI);
 			MainUI->GetTransform().SetWorldPosition({ 0.0f,-320.0f,-100.0f });
-		}
+		}*/
 
 		{
 			Cursor = CreateActor<Mouse>(OBJECTORDER::UI);

@@ -54,7 +54,6 @@ void Mouse::Update(float _DeltaTime)
 
 	ActorCollision->GetTransform().SetWorldPosition({ CursorPos1.x - 5,CursorPos1.y + 2, -200 });
 	UICollision->GetTransform().SetWorldPosition({ CursorPos2.x - 5,CursorPos2.y + 2, -200 });
-	//UICollision->GetTransform().SetWorldPosition({ CursorPos2.x + 645,CursorPos2.y - 403, -200 });
 
 	{
 		ActorCollision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::NPC, CollisionType::CT_OBB2D,

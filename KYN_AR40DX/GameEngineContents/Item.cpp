@@ -78,6 +78,8 @@ void Item::DoomChitUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Item::Update(float _DeltaTime)
 {
+	//PlayerInfo = Player::GetMainPlayer();
+
 	ColorCheckUpdate();
 
 	StateManager.Update(_DeltaTime);
@@ -86,6 +88,17 @@ void Item::Update(float _DeltaTime)
 
 	Gravity(_DeltaTime);
 	
+	{
+		//Collision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::Item, CollisionType::CT_OBB2D,
+		//	std::bind(&Item::PlayerEatCheck, this, std::placeholders::_1, std::placeholders::_2));
+	}
 
 	NoGravity();
 }
+
+//bool Item::PlayerEatCheck(GameEngineCollision* _This, GameEngineCollision* _Other)
+//{
+//	//콜리전과 충돌하면 아이템 카운트 +1(중복으로 못먹게)
+//	//PlayerInfo->ItemCount += 1;
+//	return true;
+//}

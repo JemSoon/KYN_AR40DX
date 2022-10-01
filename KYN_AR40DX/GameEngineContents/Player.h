@@ -53,6 +53,7 @@ public:
 	bool MonsterLeafAttackHit(GameEngineCollision* _This, GameEngineCollision* _Other);
 	bool PlayerHit(GameEngineCollision* _This, GameEngineCollision* _Other);
 	bool PortalCollision(GameEngineCollision* _This, GameEngineCollision* _Other);
+	bool ItemEatCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
 
 	GameEngineCollision* GetAttCollision()
 	{
@@ -115,6 +116,7 @@ public:
 	float SuperJumpPower;
 
 	int MonsterCount;
+	int ItemCount;
 
 	JOB MyJob;
 
@@ -180,7 +182,7 @@ protected:
 	void UpperChargeEnd();
 	void LeafAttackEnd();
 	//==========================================================//
-
+	void ItemEat();
 	void PlayerRespawn();
 
 private:
