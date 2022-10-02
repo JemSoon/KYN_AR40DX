@@ -31,6 +31,11 @@ public:
 		return Renderer;
 	}
 
+	GameEngineCollision* GetCollision()
+	{
+		return Collision;
+	}
+
 	void Start() override;
 
 	void Update(float _Delta) override;

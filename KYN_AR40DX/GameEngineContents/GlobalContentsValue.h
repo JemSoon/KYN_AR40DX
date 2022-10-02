@@ -15,6 +15,7 @@ enum class OBJECTORDER
 	Money,
 	Portal,
 	UI = 1000,
+	SkillIcon,
 	Mouse,
 	Black,
 };

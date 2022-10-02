@@ -327,7 +327,7 @@ void Main_HP_MP_UI::Start()
 	}
 	{
 		CreateQuickSlot(4, 2, { 25,25 }, 0);
-		
+		ItemSlots[0][0]->GetRenderer()->SetTexture("WhitePotion.png");
 	}
 }
 
@@ -784,7 +784,7 @@ void Main_HP_MP_UI::CreateQuickSlot(int X, int Y, float4 Size, int CollisionOrde
 		for (size_t x = 0; x < ItemSlots[y].size(); x++)
 		{
 			ItemSlots[y][x] = CreateComponent<ItemIcon>();
-			//ItemSlots[y][x]->GetRenderer()->SetTexture("nSet.png");
+			ItemSlots[y][x]->GetCollision()->ChangeOrder(OBJECTORDER::SkillIcon);
 			ItemSlots[y][x]->GetTransform().SetLocalScale(Size);
 			
 			ItemSlots[y][x]->GetTransform().SetLocalPosition(float4{515 + (Size.x * x + (9 * x)),-10 + (Size.y * y + (11 * y)), -350.0f });

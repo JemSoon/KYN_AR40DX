@@ -49,6 +49,7 @@ public:
 
 	bool MouseHit(GameEngineCollision* _This, GameEngineCollision* _Other);
 	bool UITestHit(GameEngineCollision* _This, GameEngineCollision* _Other);
+	//bool SkillHit(GameEngineCollision* _This, GameEngineCollision* _Other);
 
 protected:
 
@@ -64,6 +65,6 @@ private:
 	GameEngineCollision* ActorCollision;
 	GameEngineCollision* UICollision;
 
-	ItemIcon* Icon;
+	//ItemIcon* Icon;
 };
 

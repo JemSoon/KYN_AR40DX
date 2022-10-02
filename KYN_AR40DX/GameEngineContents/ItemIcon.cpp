@@ -41,5 +41,9 @@ void ItemIcon::Update(float _Delta)
 	{
 		Renderer->Off();
 	}
+	else
+	{
+		Renderer->On();
+	}
 }
 

@@ -3,6 +3,7 @@
 #include <GameEngineContents/GlobalContentsValue.h>
 #include "Sugar.h"
 #include "Dialogue.h"
+#include "ItemIcon.h"
 
 Mouse::Mouse()
 	:MouseImage(nullptr)
@@ -63,6 +64,10 @@ void Mouse::Update(float _DeltaTime)
 		UICollision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::UI, CollisionType::CT_OBB2D,
 			std::bind(&Mouse::UITestHit, this, std::placeholders::_1, std::placeholders::_2));
 	}
+	{
+		//UICollision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::SkillIcon, CollisionType::CT_OBB2D,
+		//	std::bind(&Mouse::SkillHit, this, std::placeholders::_1, std::placeholders::_2));
+	}
 }
 
 bool Mouse::MouseHit(GameEngineCollision* _This, GameEngineCollision* _Other)
@@ -83,3 +88,8 @@ bool Mouse::UITestHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 
 	return true;
 }
+
+//bool Mouse::SkillHit(GameEngineCollision* _This, GameEngineCollision* _Other)
+//{
+//
+//}
