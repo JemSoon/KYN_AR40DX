@@ -13,8 +13,8 @@ ItemIcon::~ItemIcon()
 
 void ItemIcon::Start()
 {
-	GameEngineTextureRenderer::Start();
-	GameEngineTextureRenderer::ChangeCamera(CAMERAORDER::UICAMERA);
+	//GameEngineTextureRenderer::Start();
+	//GameEngineTextureRenderer::ChangeCamera(CAMERAORDER::UICAMERA);
 	
 	Renderer = GetActor()->CreateComponent<GameEngineUIRenderer>();
 	Renderer->SetTexture("nTest.png");
@@ -37,5 +37,9 @@ void ItemIcon::Start()
 
 void ItemIcon::Update(float _Delta)
 {
+	if (Renderer->GetCurTexture()->GetNameCopy() == "NTEST.PNG")
+	{
+		Renderer->Off();
+	}
 }
 

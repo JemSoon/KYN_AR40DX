@@ -3,6 +3,7 @@
 
 //설명 : 게임내 마우스
 class GameEngineTextureRenderer;
+class ItemIcon;
 class Mouse : public GameEngineActor
 {
 public:
@@ -63,5 +64,6 @@ private:
 	GameEngineCollision* ActorCollision;
 	GameEngineCollision* UICollision;
 
+	ItemIcon* Icon;
 };
 
