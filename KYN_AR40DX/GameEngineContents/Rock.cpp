@@ -71,6 +71,7 @@ void Rock::Update(float _DeltaTime)
 	if (Chat->IsYes == true)
 	{
 		PlayerInfo->MyJob = JOB::WARRIOR;
+		GameEngineSound::SoundPlayOneShot("JobChanged.mp3");
 		PlayerInfo->IsJobChange = true;
 		Chat->IsYes = false;
 		Collision->Off();

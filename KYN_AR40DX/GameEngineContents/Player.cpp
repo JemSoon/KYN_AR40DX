@@ -364,6 +364,7 @@ void Player::DeadStart(const StateInfo& _Info)
 	if (CurHP <= 0)
 	{
 		DieMessage->On();
+		GameEngineSound::SoundPlayOneShot("Tombstone.mp3", 0, 0.1f);
 		CurHP = -9999;
 	}
 	Hit = false;
@@ -955,6 +956,7 @@ void Player::SadariUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::JumpStart(const StateInfo& _Info)
 {
+	GameEngineSound::SoundPlayOneShot("Jump.mp3");
 	if (MyJob == JOB::NONE)
 	{
 		Renderer->ChangeFrameAnimation("Jump");
@@ -1024,6 +1026,7 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::SuperJumpStart(const StateInfo& _Info)
 {
+	GameEngineSound::SoundPlayOneShot("WarriorLeaf.mp3");
 	ManaDamage = UseSuperJump;
 	if (CurMP < ManaDamage)
 	{
@@ -1048,22 +1051,6 @@ void Player::SuperJumpUpdate(float _DeltaTime, const StateInfo& _Info)
 	Gravity(_DeltaTime);
 	ColorCheckUpdate();
 	ColorCheckUpdateNext(MovePower);
-
-	//{
-	//	//양끝 머리부분이 벽에 부딪히면 움직이는 힘은 0이된다
-	//	if (false == IsColor(COLORCHECKDIR::LEFTTOP, CharacterObject::WHITE) &&
-	//		false == IsColor(COLORCHECKDIR::LEFTTOP, CharacterObject::BLUE))
-	//	{
-	//		MovePower.x = 0.0f;
-	//		stop = true;
-	//	}
-
-	//	else
-	//	{
-	//		//벽에 부딪힌게 아니라면 배경도 따라움직인다
-	//		stop = false;
-	//	}
-	//}
 
 	if (false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::WHITE)
 		&& false == IsColor(COLORCHECKDIR::DOWN, CharacterObject::BLUE)
@@ -1141,6 +1128,7 @@ void Player::FallUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::DownJumpStart(const StateInfo& _Info)
 {
+	GameEngineSound::SoundPlayOneShot("Jump.mp3");
 	if (ColorCheck[static_cast<unsigned int>(COLORCHECKDIR::DOWN)].g < 200)
 	{
 		//200보다 그린값이 작다면 안함
@@ -1194,6 +1182,7 @@ void Player::DownJumpUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::SlashBlast1Start(const StateInfo& _Info)
 {
+	GameEngineSound::SoundPlayOneShot("SlashBlast.mp3");
 	ManaDamage = UseSlashBlast;
 	if (CurMP < ManaDamage)
 	{
@@ -1255,6 +1244,7 @@ void Player::SlashBlast2Update(float _DeltaTime, const StateInfo& _Info)
 
 void Player::UpperChargeStart(const StateInfo& _Info)
 {
+	GameEngineSound::SoundPlayOneShot("UpperCharge.mp3");
 	ManaDamage = UseUpperCharge;
 	if (CurMP < ManaDamage)
 	{
@@ -1285,7 +1275,7 @@ void Player::UpperChargeUpdate(float _DeltaTime, const StateInfo& _Info)
 	ColorCheckUpdate();
 	ColorCheckUpdateNext(MovePower);
 
-	if (true == GameEngineInput::GetInst()->IsPress("LeafAttack"))
+	if (true == GameEngineInput::GetInst()->IsDown("LeafAttack"))
 	{
 		StateManager.ChangeState("LeafAttack");
 		return;
@@ -1304,6 +1294,7 @@ void Player::UpperChargeUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Player::LeafAttackStart(const StateInfo& _Info)
 {
+	GameEngineSound::SoundPlayOneShot("LeafAttack.mp3");
 	ManaDamage = UseUpperCharge;
 	if (CurMP < ManaDamage)
 	{
@@ -1533,7 +1524,7 @@ void Player::LevelUp()
 {
 	if (CurEXP >= EXPMax)
 	{
-		GameEngineSound::SoundPlayOneShot("LevelUp.mp3");
+		GameEngineSound::SoundPlayOneShot("LevelUp.mp3",0,0.01f);
 
 		PlayerLevelUp->CurAnimationReset();
 		IsLevelUp = true;
@@ -1684,6 +1675,7 @@ bool Player::MoneyEatCheck(GameEngineCollision* _This, GameEngineCollision* _Oth
 	//인식된게 한개 이하면 줍줍한다
 	if (true == GameEngineInput::GetInst()->IsPress("Eat"))
 	{
+		GameEngineSound::SoundPlayOneShot("PickUpItem.mp3");
 		unsigned int a =_Other->GetActor<Money>()->MoneyCost;
 		Inven->Money += a;
 		_Other->GetActor()->Death();
@@ -1695,6 +1687,7 @@ bool Player::PotionEatCheck(GameEngineCollision* _This, GameEngineCollision* _Ot
 {
 	if (true == GameEngineInput::GetInst()->IsPress("Eat"))
 	{
+		GameEngineSound::SoundPlayOneShot("PickUpItem.mp3");
 		std::string a = Inven->ItemSlots[5][0]->GetRenderer()->GetCurTexture()->GetNameCopy();
 		if (a == "WHITEPOTION.PNG")
 		{

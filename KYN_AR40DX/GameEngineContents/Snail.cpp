@@ -266,11 +266,13 @@ void Snail::DeadStart(const StateInfo& _Info)
 
 	if (RandomDrop == 1)
 	{
+		GameEngineSound::SoundPlayOneShot("DropItem.mp3");
 		WPotion = GetLevel()->CreateActor<Item>();
 		WPotion->GetTransform().SetLocalPosition(A);
 	}
 	if (RandomDrop == 2)
 	{
+		GameEngineSound::SoundPlayOneShot("DropItem.mp3");
 		Coin = GetLevel()->CreateActor<Money>();
 		Coin->GetTransform().SetLocalPosition(A);
 		Coin->MoneyCost = 1000;
@@ -409,6 +411,8 @@ bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 				HPRenderer->On();
 				HPbarRenderer->On();
 				MonsterCurHP = MonsterCurHP - Damage;
+
+				GameEngineSound::SoundPlayOneShot("SlashBlastHit.mp3");
 
 				DamageRender = _This->GetActor()->GetLevel()->CreateActor<DamageNumber>();
 				float4 Pos = _This->GetActor()->GetTransform().GetWorldPosition();
