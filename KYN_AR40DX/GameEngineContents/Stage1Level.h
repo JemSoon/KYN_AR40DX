@@ -39,8 +39,8 @@ protected:
 private:
 	GameEngineCameraActor* Camera;
 	Player* NewPlayer;
-	GameEngineSoundPlayer BgmPlayer;
-	bool BgmOn;
+	//GameEngineSoundPlayer BgmPlayer;
+	//bool BgmOn;
 	BossMano* Mano;
 	Snail* Snail1;
 	Potion* WPotion;

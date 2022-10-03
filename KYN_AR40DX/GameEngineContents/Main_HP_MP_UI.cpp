@@ -66,6 +66,7 @@ Main_HP_MP_UI::Main_HP_MP_UI()
 	,EXPMaxTen(0)
 	,EXPMaxHun(0)
 	,EXPMaxTho(0)
+	,CountNumber(0)
 {
 }
 
@@ -328,6 +329,15 @@ void Main_HP_MP_UI::Start()
 	{
 		CreateQuickSlot(4, 2, { 25,25 }, 0);
 		ItemSlots[0][0]->GetRenderer()->SetTexture("WhitePotion.png");
+		
+		Count = CreateComponent<GameEngineFontRenderer>();
+		Count->SetRenderingOrder(1001);
+		Count->ChangeCamera(CAMERAORDER::UICAMERA);
+		Count->SetText(std::to_string(CountNumber),"µ¸¿ò");
+		Count->SetLeftAndRightSort(LeftAndRightSort::RIGHT);
+		Count->SetColor({ 0.0f, 0.0f, 0.0f });
+		Count->SetSize(15.0f);
+		Count->SetScreenPostion({1168,680,-350});
 	}
 }
 

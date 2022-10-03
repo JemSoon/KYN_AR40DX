@@ -5,6 +5,7 @@
 class GameEngineTextureRenderer;
 class Player;
 class ItemIcon;
+class GameEngineFontRenderer;
 class Main_HP_MP_UI : public GameEngineActor
 {
 
@@ -14,11 +15,7 @@ public:
 	Main_HP_MP_UI();
 	//디폴트 소멸자
 	~Main_HP_MP_UI();
-
-	Main_HP_MP_UI* GetUI()
-	{
-		return MainUI;
-	}
+	
 	//======아래것들은 명시적으로 안쓰겠습니다(delete)======
 	
 	//디폴트 복사 생성자
@@ -34,11 +31,16 @@ public:
 		return HP_MP;
 	}
 
-
 	inline GameEngineTextureRenderer* GetEXPRenderer() const
 	{
 		return EXP;
 	}
+
+	int GetCountNumber()
+	{
+		return CountNumber;
+	}
+
 	void CreateQuickSlot(int X, int Y, float4 Size, int CollisionOrder);
 	void HPSetting();
 	void EXPSetting();
@@ -63,6 +65,8 @@ protected:
 	GameEngineTextureRenderer* QuickSlot;
 	GameEngineTextureRenderer* Level;
 	std::vector<std::vector<ItemIcon*>> ItemSlots;
+	GameEngineFontRenderer* Count;
+	int CountNumber;
 private:
 	GameEngineCameraActor* Camera;
 	GameEngineCollision* TESTUICollision;
@@ -147,5 +151,7 @@ private:
 	GameEngineTextureRenderer* EXPMaxNumTen;
 	GameEngineTextureRenderer* EXPMaxNumHun;
 	GameEngineTextureRenderer* EXPMaxNumTho;
+
+
 };
 

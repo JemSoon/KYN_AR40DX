@@ -42,7 +42,7 @@ public:
 
 public:
 	GameEngineUIRenderer* Renderer;
-
+	//GameEngineFontRenderer* Font;
 	GameEngineCollision* Collision;
 
 };

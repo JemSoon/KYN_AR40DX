@@ -18,8 +18,10 @@ public:
 	//디폴트 소멸자
 	~Item();
 
-	
-	
+	ItemType GetItemType()
+	{
+		return Type;
+	}
 	
 	//======아래것들은 명시적으로 안쓰겠습니다(delete)======
 	

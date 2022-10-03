@@ -11,6 +11,7 @@
 #include "Main_HP_MP_UI.h"
 #include "Mouse.h"
 #include "Inventory.h"
+#include "Stage1Level.h"
 
 Ship::Ship()
 	: Camera(nullptr)
@@ -81,6 +82,8 @@ void Ship::CameraChase(float _Delta)
 
 void Ship::LevelStartEvent()
 {
+	BgmOn = false;
+
 	ShipTime = 0.0f;
 
 	BlackOutTime = 0.0f;
@@ -88,6 +91,14 @@ void Ship::LevelStartEvent()
 	LevelIn = true;
 
 	B->GetRenderer()->GetPixelData().MulColor.a = 1.0f;
+
+	if (BgmOn == false)
+	{
+		BgmPlayer.Stop();
+		BgmPlayer = GameEngineSound::SoundPlayControl("MapleLeaf.mp3");
+		BgmPlayer.Volume(0.05f);
+		BgmOn = true;
+	}
 }
 
 void Ship::LevelMove()

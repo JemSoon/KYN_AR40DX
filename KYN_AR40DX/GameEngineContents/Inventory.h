@@ -35,6 +35,7 @@ public:
 	
 	void CreateInventory(int X, int Y, float4 Size, int CollisionOrder);
 	unsigned int Money;
+	std::vector<std::vector<ItemIcon*>> ItemSlots;
 protected:
 	void Start() override;
 	void Update(float _DeltaTime);
@@ -49,7 +50,7 @@ private:
 	Player* PlayerInfo;
 
 	//첫인자에 렌더러
-	std::vector<std::vector<ItemIcon*>> ItemSlots;
+	//std::vector<std::vector<ItemIcon*>> ItemSlots;
 
 	GameEngineFontRenderer* Font;
 };

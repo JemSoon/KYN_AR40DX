@@ -10,6 +10,7 @@ LevelParent::LevelParent()
 	:BlackOutTime(0.0f)
 	,BlackInTime(0.0f)
 	,LevelIn(false)
+	,BgmOn(false)
 {
 }
 

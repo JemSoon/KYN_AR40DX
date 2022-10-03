@@ -4,6 +4,8 @@
 #include "Inventory.h"
 #include "Money.h"
 
+#include "Main_HP_MP_UI.h"
+
 #include <GameEngineContents/GlobalContentsValue.h>
 #include <iostream>
 #include "LevelParent.h"
@@ -1403,6 +1405,10 @@ void Player::Update(float _DeltaTime)
 		Collision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::Money, CollisionType::CT_OBB2D,
 			std::bind(&Player::MoneyEatCheck, this, std::placeholders::_1, std::placeholders::_2));
 	}
+	{
+		Collision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::Item, CollisionType::CT_OBB2D,
+			std::bind(&Player::PotionEatCheck, this, std::placeholders::_1, std::placeholders::_2));
+	}
 
 	LevelUp();
 
@@ -1517,6 +1523,7 @@ bool Player::PortalCollision(GameEngineCollision* _This, GameEngineCollision* _O
 {
 	if (true == GameEngineInput::GetInst()->IsDown("PlayerUp"))
 	{
+		GameEngineSound::SoundPlayOneShot("Portal.mp3");
 		PortalOn = true;
 		return true;
 	}
@@ -1526,6 +1533,8 @@ void Player::LevelUp()
 {
 	if (CurEXP >= EXPMax)
 	{
+		GameEngineSound::SoundPlayOneShot("LevelUp.mp3");
+
 		PlayerLevelUp->CurAnimationReset();
 		IsLevelUp = true;
 
@@ -1678,7 +1687,30 @@ bool Player::MoneyEatCheck(GameEngineCollision* _This, GameEngineCollision* _Oth
 		unsigned int a =_Other->GetActor<Money>()->MoneyCost;
 		Inven->Money += a;
 		_Other->GetActor()->Death();
-		ItemCount = 0;
+		return true;
+	}
+}
+
+bool Player::PotionEatCheck(GameEngineCollision* _This, GameEngineCollision* _Other)
+{
+	if (true == GameEngineInput::GetInst()->IsPress("Eat"))
+	{
+		std::string a = Inven->ItemSlots[5][0]->GetRenderer()->GetCurTexture()->GetNameCopy();
+		if (a == "WHITEPOTION.PNG")
+		{
+			//카운트증가
+		}
+		else if (a != "NTEST.PNG")
+		{
+			//배열 다음칸으로
+		}
+		else
+		{
+			//해당 배열이 비어있다는것
+			Inven->ItemSlots[5][0]->GetRenderer()->SetTexture("WhitePotion.png");
+		}
+
+		_Other->GetActor()->Death();
 		return true;
 	}
 }
@@ -1698,6 +1730,7 @@ void Player::LevelStartEvent()
 		this->PlayerAtt = BeforePlayer->PlayerAtt;
 		this->MyJob = BeforePlayer->MyJob;
 		this->Inven->Money = BeforePlayer->Inven->Money;
+		this->Inven->ItemSlots = BeforePlayer->Inven->ItemSlots;
 	}
 		MainPlayer = this;
 		BeforePlayer = nullptr;

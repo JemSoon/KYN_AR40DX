@@ -74,7 +74,7 @@ GameEngineSoundPlayer GameEngineSound::SoundPlayControl(const std::string& _Name
 	return GameEngineSoundPlayer(FindSound, PlayControl);
 }
 
-void GameEngineSound::SoundPlayOneShot(const std::string& _Name, int LoopCount /*= 1*/)
+void GameEngineSound::SoundPlayOneShot(const std::string& _Name, int LoopCount, float Volume)
 {
 	std::string UpperName = GameEngineString::ToUpperReturn(_Name);
 
@@ -92,7 +92,7 @@ void GameEngineSound::SoundPlayOneShot(const std::string& _Name, int LoopCount /
 
 	PlayControl->setLoopCount(LoopCount);
 
-
+	PlayControl->setVolume(Volume);
 
 }
 

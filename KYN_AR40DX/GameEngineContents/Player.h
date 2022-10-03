@@ -54,6 +54,7 @@ public:
 	bool PlayerHit(GameEngineCollision* _This, GameEngineCollision* _Other);
 	bool PortalCollision(GameEngineCollision* _This, GameEngineCollision* _Other);
 	bool MoneyEatCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
+	bool PotionEatCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
 
 	GameEngineCollision* GetAttCollision()
 	{

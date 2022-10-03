@@ -121,9 +121,6 @@
     <ClInclude Include="Player.h">
       <Filter>Actor\Play</Filter>
     </ClInclude>
-    <ClInclude Include="Main_HP_MP_UI.h">
-      <Filter>Global\UI\HP_MP</Filter>
-    </ClInclude>
     <ClInclude Include="DamageNumber.h">
       <Filter>Actor\DamageFontRender</Filter>
     </ClInclude>
@@ -174,6 +171,9 @@
     </ClInclude>
     <ClInclude Include="Money.h">
       <Filter>Actor\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Main_HP_MP_UI.h">
+      <Filter>Global\UI\HP_MP</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

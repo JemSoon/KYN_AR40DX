@@ -16,8 +16,7 @@
 Stage1Level::Stage1Level()
 	: Camera(nullptr)
 	, NewPlayer(nullptr)
-	, BgmPlayer()
-	, BgmOn(false)
+
 {
 }
 
@@ -32,7 +31,6 @@ void Stage1Level::Start()
 		Camera->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
 		Camera->GetTransform().SetWorldPosition({ 0,0,-500.0f });
 		
-
 		//GetMainCamera()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
 		//GetMainCamera()->GetCameraRenderTarget()->AddEffect<GameEngineBlur>();
 		// GetMainCamera()->GetCameraRenderTarget()->AddEffect<디스토션>();
@@ -99,10 +97,10 @@ void Stage1Level::LevelStartEvent()
 
 	if (BgmOn == false)
 	{	//음악이 한번만 실행되도록 안그러면 돌림노래처럼 틀어진다
-		//BgmPlayer.Stop();
-		//BgmPlayer = GameEngineSound::SoundPlayControl("MapleLeaf.mp3");
-		//BgmPlayer.Volume(0.05f);
-		//BgmOn = true;
+		BgmPlayer.Stop();
+		BgmPlayer = GameEngineSound::SoundPlayControl("Adventure.mp3");
+		BgmPlayer.Volume(0.05f);
+		BgmOn = true;
 	}
 	
 }
