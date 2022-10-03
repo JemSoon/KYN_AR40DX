@@ -525,6 +525,15 @@ void Player::AttackStart(const StateInfo& _Info)
 {
 	AttackCollision->On();
 
+	if (MyJob == JOB::NONE)
+	{
+		GameEngineSound::SoundPlayOneShot("Attack.mp3");
+	}
+	else if (MyJob == JOB::WARRIOR)
+	{
+		GameEngineSound::SoundPlayOneShot("Attack(sword).mp3");
+	}
+
 	int RandomNumber = GameEngineRandom::MainRandom.RandomInt(1, 4);
 
 	if (RandomNumber == 1)
@@ -608,6 +617,16 @@ void Player::AttackEnd()
 	else if (true == GameEngineInput::GetInst()->IsPress("PlayerAttack"))
 	{
 		AttackCollision->On();
+
+		if (MyJob == JOB::NONE)
+		{
+			GameEngineSound::SoundPlayOneShot("Attack.mp3");
+		}
+		else if (MyJob == JOB::WARRIOR)
+		{
+			GameEngineSound::SoundPlayOneShot("Attack(sword).mp3");
+		}
+
 		int RandomNumber = GameEngineRandom::MainRandom.RandomInt(1, 4);
 
 		if (RandomNumber == 1)
