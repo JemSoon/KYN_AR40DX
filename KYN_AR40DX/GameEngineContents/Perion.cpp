@@ -66,6 +66,11 @@ void Perion::LevelStartEvent()
 	}
 }
 
+void Perion::LevelEndEvent()
+{
+	LevelParent::BgmsSwitch = false;
+}
+
 void Perion::Update(float _DeltaTime)
 {
 	if (false == Camera->IsFreeCameraMode())
@@ -81,6 +86,7 @@ void Perion::Update(float _DeltaTime)
 
 void Perion::End()
 {
+	
 }
 
 void Perion::CameraChase(float _Delta)
