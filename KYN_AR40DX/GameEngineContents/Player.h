@@ -214,7 +214,7 @@ private:
 
 	float4 DeadPosition;
 
-	Inventory* Inven;
+	//Inventory* Inven;
 };
 
 //class ¿‹ªÛ : public GameEngineActor

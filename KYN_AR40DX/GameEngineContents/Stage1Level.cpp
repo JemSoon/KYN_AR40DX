@@ -13,6 +13,8 @@
 
 #include "Main_HP_MP_UI.h"
 
+#include "Inventory.h"
+
 Stage1Level::Stage1Level()
 	: Camera(nullptr)
 	, NewPlayer(nullptr)
@@ -37,10 +39,14 @@ void Stage1Level::Start()
 
 		CreateStageObject("Stage1_BG.png", "Stage1_Col.png", "Stage1.png");
 
-		/*MainUI = CreateActor<Main_HP_MP_UI>(OBJECTORDER::UI);
-		MainUI->GetTransform().SetWorldPosition({ 0.0f,-320.0f,-100.0f });
-		MainUI->SetLevelOverOn();*/
-
+		if (Inventory::GetInven() == nullptr)
+		{
+			Inventory* Inven = CreateActor<Inventory>(OBJECTORDER::UI);
+			Inven->SetLevelOverOn();
+			Inven = Inventory::GetInven();
+			Inven->GetTransform().SetLocalPosition({ 500,200 ,0});
+			Inven->Off();
+		}
 
 		{
 			Snail1 = CreateActor<Snail>(OBJECTORDER::Monster);

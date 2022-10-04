@@ -404,6 +404,8 @@ bool BossMano::BossManoHit(GameEngineCollision* _This, GameEngineCollision* _Oth
 		if ((PlayerInfo->MonsterHit(PlayerInfo->GetAttCollision(), this->GetCollision()) == true) &&
 			PlayerInfo->GetAttCollision()->IsUpdate() == true)
 		{
+			GameEngineSound::SoundPlayOneShot("ManoDamage.mp3");
+
 			//플레이어 충돌 판정true시에만 피를 깐다
 			if (IsBuff == true)
 			{
@@ -427,6 +429,8 @@ bool BossMano::BossManoHit(GameEngineCollision* _This, GameEngineCollision* _Oth
 		if ((PlayerInfo->MonsterSlashBlastHit(PlayerInfo->GetSlashBlastCollision(), this->GetCollision()) == true) &&
 			PlayerInfo->GetSlashBlastCollision()->IsUpdate() == true)
 		{
+			GameEngineSound::SoundPlayOneShot("SlashBlastHit.mp3");
+
 			//플레이어 충돌 판정true시에만 피를 깐다
 			if (IsBuff == true)
 			{

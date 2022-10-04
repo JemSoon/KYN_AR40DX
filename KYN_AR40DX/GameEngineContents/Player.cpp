@@ -174,10 +174,10 @@ void Player::Start()
 		}
 
 		{
-			Inven = GetLevel()->CreateActor<Inventory>(OBJECTORDER::UI);
-			//Inven->CreateInventory(4, 6, { 32,32 ,-470}, 1);
-			Inven->GetTransform().SetLocalPosition({ 500,200 });
-			Inven->Off();
+			//Inven = GetLevel()->CreateActor<Inventory>(OBJECTORDER::UI);
+			////Inven->CreateInventory(4, 6, { 32,32 ,-470}, 1);
+			//Inven->GetTransform().SetLocalPosition({ 500,200 });
+			//Inven->Off();
 		}
 
 		Renderer = GhostActor->CreateComponent<GameEngineTextureRenderer>();
@@ -1370,7 +1370,7 @@ void Player::Update(float _DeltaTime)
 
 	if (true == GameEngineInput::GetInst()->IsDown("Inventory"))
 	{
-		Inven->OnOffSwitch();
+		Inventory::GetInven()->OnOffSwitch();
 	}
 
 	// 색깔 체크하고
@@ -1696,7 +1696,7 @@ bool Player::MoneyEatCheck(GameEngineCollision* _This, GameEngineCollision* _Oth
 	{
 		GameEngineSound::SoundPlayOneShot("PickUpItem.mp3");
 		unsigned int a =_Other->GetActor<Money>()->MoneyCost;
-		Inven->Money += a;
+		Inventory::GetInven()->Money += a;
 		_Other->GetActor()->Death();
 		return true;
 	}
@@ -1707,20 +1707,20 @@ bool Player::PotionEatCheck(GameEngineCollision* _This, GameEngineCollision* _Ot
 	if (true == GameEngineInput::GetInst()->IsPress("Eat"))
 	{
 		GameEngineSound::SoundPlayOneShot("PickUpItem.mp3");
-		std::string a = Inven->ItemSlots[5][0]->GetRenderer()->GetCurTexture()->GetNameCopy();
-		if (a == "WHITEPOTION.PNG")
-		{
-			//카운트증가
-		}
-		else if (a != "NTEST.PNG")
-		{
-			//배열 다음칸으로
-		}
-		else
-		{
-			//해당 배열이 비어있다는것
-			Inven->ItemSlots[5][0]->GetRenderer()->SetTexture("WhitePotion.png");
-		}
+		//std::string a = Inven->ItemSlots[5][0]->GetRenderer()->GetCurTexture()->GetNameCopy();
+		//if (a == "WHITEPOTION.PNG")
+		//{
+		//	//카운트증가
+		//}
+		//else if (a != "NTEST.PNG")
+		//{
+		//	//배열 다음칸으로
+		//}
+		//else
+		//{
+		//	//해당 배열이 비어있다는것
+		//	Inven->ItemSlots[5][0]->GetRenderer()->SetTexture("WhitePotion.png");
+		//}
 
 		_Other->GetActor()->Death();
 		return true;
@@ -1742,7 +1742,7 @@ void Player::LevelStartEvent()
 		this->PlayerLevel = BeforePlayer->PlayerLevel;
 		this->PlayerAtt = BeforePlayer->PlayerAtt;
 		this->MyJob = BeforePlayer->MyJob;
-		this->Inven->Money = BeforePlayer->Inven->Money;
+		//this->Inven->Money = BeforePlayer->Inven->Money;
 		//this->Inven->ItemSlots = BeforePlayer->Inven->ItemSlots;
 		//this->BgmPlayer = BeforePlayer->BgmPlayer;
 	}

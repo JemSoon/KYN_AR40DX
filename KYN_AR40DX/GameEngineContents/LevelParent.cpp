@@ -8,6 +8,7 @@
 
 GameEngineSoundPlayer LevelParent::BgmPlayer;
 bool LevelParent::BgmsSwitch = false;
+//Inventory* LevelParent::Inven = nullptr;
 
 LevelParent::LevelParent() 
 	:BlackOutTime(0.0f)
@@ -64,6 +65,12 @@ void LevelParent::CreateStageObject(const std::string _BG, const std::string _Co
 			B = CreateActor<Black>(OBJECTORDER::Black);
 			B->GetTransform().SetWorldPosition({ 0,0,-500 });
 		}
+
+		//{
+		//	Inven = CreateActor<Inventory>(OBJECTORDER::UI);
+		//	Inven->GetTransform().SetLocalPosition({ 500,200 });
+		//	//Inven->Off();
+		//}
 	}
 }
 
@@ -83,3 +90,14 @@ void LevelParent::BlackTimeOut()
 		B->GetRenderer()->GetPixelData().MulColor.a == 0.0f;
 	}
 }
+
+//void LevelParent::Start()
+//{
+//	if (Inventory::GetInven() == nullptr)
+//	{
+//		Inven = CreateActor<Inventory>(OBJECTORDER::UI);
+//	}
+//	Inven->SetLevelOverOn();
+//	Inven = Inventory::GetInven();
+//	Inven->GetTransform().SetLocalPosition({ 500,200 ,1 });
+//}

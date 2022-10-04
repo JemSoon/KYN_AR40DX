@@ -8,7 +8,7 @@
 #include "Snail.h"
 #include "Sugar.h"
 #include "StageObject.h"
-
+#include "Inventory.h"
 Stage2Level::Stage2Level()
 	: Camera(nullptr)
 	, NewPlayer(nullptr)
@@ -67,6 +67,9 @@ void Stage2Level::Update(float _DeltaTime)
 	LevelMove();
 
 	GetMainCamera()->GetProjectionMode();
+	Inventory* Inven = Inventory::GetInven();
+	float4 a = Inven->GetFont()->GetTransform().GetWorldPosition();
+	
 }
 
 void Stage2Level::End()

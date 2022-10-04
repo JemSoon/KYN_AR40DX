@@ -17,6 +17,7 @@ public:
 	LevelParent();
 	~LevelParent();
 
+
 	// delete Function
 	LevelParent(const LevelParent& _Other) = delete;
 	LevelParent(LevelParent&& _Other) noexcept = delete;
@@ -50,6 +51,9 @@ public:
 protected:
 	void CreateStageObject(const std::string _BG, const std::string _ColName, const std::string _MapName);
 
+	//void Start() override;
+
+	//static Inventory* Inven;
 	StageObject* LevelStageObject;
 	PortalObject* Portal;
 	Main_HP_MP_UI* MainUI;
@@ -59,7 +63,7 @@ protected:
 	static bool BgmsSwitch;
 	float BlackOutTime;
 	float BlackInTime;
-
+	//Inventory* Inven;
 	bool LevelIn;
 private:
 };

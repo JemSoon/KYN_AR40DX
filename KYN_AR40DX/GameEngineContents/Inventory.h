@@ -14,10 +14,20 @@ class GameEngineFontRenderer;
 class Inventory :public GameEngineActor
 {
 public:
-	static Inventory* GetInst()
+	static Inventory* Inven;
+	static Inventory* BeforeInven;
+
+	void LevelStartEvent() override;
+	void LevelEndEvent() override;
+
+	GameEngineFontRenderer* GetFont()
 	{
-		static Inventory Inst;
-		return &Inst;
+		return Font;
+	}
+public:
+	static Inventory* GetInven()
+	{
+		return Inven;
 	}
 
 	//셋레벨오버온 or 정보옮기기
