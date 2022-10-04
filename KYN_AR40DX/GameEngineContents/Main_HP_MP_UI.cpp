@@ -366,6 +366,12 @@ void Main_HP_MP_UI::Update(float _DeltaTime)
 
 	LevelNumberSetting();
 
+	if (PlayerInfo->IsPotionEat == true)
+	{
+		CountNumber += 1;
+		Count->SetText(std::to_string(CountNumber), "µ¸¿ò");
+		PlayerInfo->IsPotionEat = false;
+	}
 	
 }
 

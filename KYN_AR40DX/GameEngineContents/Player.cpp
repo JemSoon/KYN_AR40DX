@@ -57,6 +57,7 @@ Player::Player()
 	, LeafAttackCollision(nullptr)
 	, IsJobChange(false)
 	, ItemCount(0)
+	, IsPotionEat(false)
 {
 	MainPlayer = this;
 	Speed = 150.0f;
@@ -1706,21 +1707,22 @@ bool Player::PotionEatCheck(GameEngineCollision* _This, GameEngineCollision* _Ot
 {
 	if (true == GameEngineInput::GetInst()->IsPress("Eat"))
 	{
+		IsPotionEat = true;
 		GameEngineSound::SoundPlayOneShot("PickUpItem.mp3");
-		//std::string a = Inven->ItemSlots[5][0]->GetRenderer()->GetCurTexture()->GetNameCopy();
-		//if (a == "WHITEPOTION.PNG")
-		//{
-		//	//카운트증가
-		//}
-		//else if (a != "NTEST.PNG")
-		//{
-		//	//배열 다음칸으로
-		//}
-		//else
-		//{
-		//	//해당 배열이 비어있다는것
-		//	Inven->ItemSlots[5][0]->GetRenderer()->SetTexture("WhitePotion.png");
-		//}
+		std::string a = Inventory::GetInven()->ItemSlots[5][0]->GetRenderer()->GetCurTexture()->GetNameCopy();
+		if (a == "WHITEPOTION.PNG")
+		{
+			//카운트증가
+		}
+		else if (a != "NTEST.PNG")
+		{
+			//배열 다음칸으로
+		}
+		else
+		{
+			//해당 배열이 비어있다는것
+			Inventory::GetInven()->ItemSlots[5][0]->GetRenderer()->SetTexture("WhitePotion.png");
+		}
 
 		_Other->GetActor()->Death();
 		return true;

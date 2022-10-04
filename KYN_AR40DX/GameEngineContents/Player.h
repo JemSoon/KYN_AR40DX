@@ -36,6 +36,7 @@ public:
 	}
 
 	bool stop;//BG움직이기용
+	bool IsPotionEat;
 public:
 	// constrcuter destructer
 	Player();
