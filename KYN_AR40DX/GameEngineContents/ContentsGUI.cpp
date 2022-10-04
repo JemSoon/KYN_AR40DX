@@ -15,10 +15,7 @@ ContentsGUI::~ContentsGUI()
 
 void ContentsGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
-	if (PlayerInfo == nullptr)
-	{
-		PlayerInfo = Player::GetMainPlayer();
-	}
+	PlayerInfo = Player::GetMainPlayer();
 
 	ImGui::NewLine();
 
@@ -34,7 +31,6 @@ void ContentsGUI::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	{
 		if (true == ImGui::Button("ColMap"))
 		{
-			PlayerInfo = Player::GetMainPlayer();
 			static_cast<LevelParent*>(PlayerInfo->GetLevel())->GetMap()->OnOffSwitch();
 			static_cast<LevelParent*>(PlayerInfo->GetLevel())->GetBG()->OnOffSwitch();
 		}

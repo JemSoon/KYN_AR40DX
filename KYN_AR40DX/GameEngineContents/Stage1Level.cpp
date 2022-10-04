@@ -95,12 +95,13 @@ void Stage1Level::LevelStartEvent()
 
 	B->GetRenderer()->GetPixelData().MulColor.a = 1.0f;
 
-	if (BgmOn == false)
+
+	if (LevelParent::BgmsSwitch == false)
 	{	//음악이 한번만 실행되도록 안그러면 돌림노래처럼 틀어진다
-		BgmPlayer.Stop();
-		BgmPlayer = GameEngineSound::SoundPlayControl("Adventure.mp3");
-		BgmPlayer.Volume(0.05f);
-		BgmOn = true;
+		LevelParent::BgmPlayer.Stop();
+		LevelParent::BgmPlayer = GameEngineSound::SoundPlayControl("Adventure.mp3");
+		LevelParent::BgmPlayer.Volume(0.05f);
+		LevelParent::BgmsSwitch = true;
 	}
 	
 }

@@ -56,6 +56,14 @@ void Perion::LevelStartEvent()
 	LevelIn = true;
 
 	B->GetRenderer()->GetPixelData().MulColor.a = 1.0f;
+
+	if (LevelParent::BgmsSwitch == false)
+	{	//음악이 한번만 실행되도록 안그러면 돌림노래처럼 틀어진다
+		LevelParent::BgmPlayer.Stop();
+		LevelParent::BgmPlayer = GameEngineSound::SoundPlayControl("Perion.mp3");
+		LevelParent::BgmPlayer.Volume(0.05f);
+		LevelParent::BgmsSwitch = true;
+	}
 }
 
 void Perion::Update(float _DeltaTime)

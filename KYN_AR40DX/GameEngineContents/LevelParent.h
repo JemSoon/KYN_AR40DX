@@ -55,8 +55,8 @@ protected:
 	Main_HP_MP_UI* MainUI;
 	Mouse* Cursor;
 	Black* B;
-	GameEngineSoundPlayer BgmPlayer;
-	bool BgmOn;
+	static GameEngineSoundPlayer BgmPlayer;
+	static bool BgmsSwitch;
 	float BlackOutTime;
 	float BlackInTime;
 

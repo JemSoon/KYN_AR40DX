@@ -183,7 +183,6 @@ protected:
 	void UpperChargeEnd();
 	void LeafAttackEnd();
 	//==========================================================//
-	void ItemEat();
 	void PlayerRespawn();
 
 private:
