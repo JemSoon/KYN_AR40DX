@@ -216,6 +216,7 @@ void Snail::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Snail::HitStart(const StateInfo& _Info)
 {
+
 	PatternTime = 0.0f;
 	{	
 		Renderer->ChangeFrameAnimation("Hit");
@@ -256,6 +257,8 @@ void Snail::HitUpdate(float _DeltaTime, const StateInfo& _Info)
 void Snail::DeadStart(const StateInfo& _Info)
 {
 	RandomDrop = GameEngineRandom::MainRandom.RandomInt(1, 3);
+
+	GameEngineSound::SoundPlayOneShot("SnailDie.mp3");
 
 	MovePower = 0.0f;
 	Renderer->ChangeFrameAnimation("Die");
@@ -391,6 +394,8 @@ bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 				HPbarRenderer->On();
 				MonsterCurHP = MonsterCurHP - Damage;
 
+				GameEngineSound::SoundPlayOneShot("SnailDamage.mp3");
+
 				DamageRender = _This->GetActor()->GetLevel()->CreateActor<DamageNumber>();
 				float4 Pos = _This->GetActor()->GetTransform().GetWorldPosition();
 				DamageRender->GetTransform().SetWorldPosition({ Pos.x,Pos.y + 32,-400 });
@@ -429,6 +434,8 @@ bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 				HPbarRenderer->On();
 				MonsterCurHP = MonsterCurHP - Damage;
 
+				GameEngineSound::SoundPlayOneShot("UpperChargeHit.mp3");
+
 				DamageRender = _This->GetActor()->GetLevel()->CreateActor<DamageNumber>();
 				float4 Pos = _This->GetActor()->GetTransform().GetWorldPosition();
 				DamageRender->GetTransform().SetWorldPosition({ Pos.x,Pos.y + 32,-400 });
@@ -443,6 +450,8 @@ bool Snail::SnailHit(GameEngineCollision* _This, GameEngineCollision* _Other)
 				HPRenderer->On();
 				HPbarRenderer->On();
 				MonsterCurHP = MonsterCurHP - Damage;
+
+				GameEngineSound::SoundPlayOneShot("LeafAttackHit.mp3");
 
 				DamageRender = _This->GetActor()->GetLevel()->CreateActor<DamageNumber>();
 				float4 Pos = _This->GetActor()->GetTransform().GetWorldPosition();
