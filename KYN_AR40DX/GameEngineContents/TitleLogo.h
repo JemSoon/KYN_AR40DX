@@ -28,6 +28,7 @@ public:
 	bool MouseThouch(GameEngineCollision* _This, GameEngineCollision* _Other);
 
 	bool IsLevelMove;
+	bool SoundOneShot;
 
 protected:
 	void Start() override;

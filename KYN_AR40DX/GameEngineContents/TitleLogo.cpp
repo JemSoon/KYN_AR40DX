@@ -6,6 +6,7 @@
 TitleLogo::TitleLogo()
 	: TimeAngle(0.0f)
 	, IsLevelMove(false)
+	, SoundOneShot(false)
 {
 }
 
@@ -66,6 +67,11 @@ void TitleLogo::Update(float _DeltaTime)
 	if (PlayerCollision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::Mouse, CollisionType::CT_OBB2D,
 		std::bind(&TitleLogo::MouseThouch, this, std::placeholders::_1, std::placeholders::_2)) == true)
 	{
+		if (SoundOneShot == false)
+		{
+			GameEngineSound::SoundPlayOneShot("Tab.mp3");
+			SoundOneShot = true;
+		}
 		PlayerRenderer->ChangeFrameAnimation("Move");
 
 		if (true == GameEngineInput::GetInst()->IsDown("Click"))
@@ -75,6 +81,7 @@ void TitleLogo::Update(float _DeltaTime)
 	}
 	else
 	{
+		SoundOneShot = false;
 		PlayerRenderer->ChangeFrameAnimation("Idle");
 	}
 }
@@ -82,7 +89,7 @@ void TitleLogo::Update(float _DeltaTime)
 
 bool TitleLogo::MouseThouch(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
-	
+
 	return true;
 }
 

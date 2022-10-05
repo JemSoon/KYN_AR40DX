@@ -50,6 +50,7 @@ void TitleLevel::Update(float _DeltaTime)
 	TitleTime += _DeltaTime;
 	if (true == Open->IsLevelMove)
 	{
+		GameEngineSound::SoundPlayOneShot("GameIn.mp3");
 		GEngine::ChangeLevel("Stage1");
 		Open->IsLevelMove = false;
 	}
