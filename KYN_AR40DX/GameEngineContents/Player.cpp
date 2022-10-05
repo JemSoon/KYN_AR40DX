@@ -1551,7 +1551,7 @@ void Player::LevelUp()
 {
 	if (CurEXP >= EXPMax)
 	{
-		GameEngineSound::SoundPlayOneShot("LevelUp.mp3",0,0.01f);
+		GameEngineSound::SoundPlayOneShot("LevelUp.mp3");
 
 		PlayerLevelUp->CurAnimationReset();
 		IsLevelUp = true;
@@ -1717,7 +1717,7 @@ bool Player::PotionEatCheck(GameEngineCollision* _This, GameEngineCollision* _Ot
 		IsPotionEat = true;
 		GameEngineSound::SoundPlayOneShot("PickUpItem.mp3");
 		std::string a = Inventory::GetInven()->ItemSlots[5][0]->GetRenderer()->GetCurTexture()->GetNameCopy();
-		if (a == "WHITEPOTION.PNG")
+		if (a == "WHITEPOTION.PNG" && ItemCount>0)
 		{
 			//카운트증가
 			ItemCount += 1;
@@ -1759,6 +1759,12 @@ void Player::PotionUse()
 		if (CurHP >= HPMax)
 		{
 			CurHP = HPMax;
+		}
+
+		std::string a = Inventory::GetInven()->ItemSlots[5][0]->GetRenderer()->GetCurTexture()->GetNameCopy();
+		if (a == "WHITEPOTION.PNG" && ItemCount == 0)
+		{
+			Inventory::GetInven()->ItemSlots[5][0]->GetRenderer()->SetTexture("NTEST.PNG");
 		}
 	}
 }

@@ -6,6 +6,7 @@
 #include <GameEngineBase/GameEngineInput.h>
 #include "Player.h"
 #include "Snail.h"
+#include "BossMano.h"
 #include "Sugar.h"
 #include "StageObject.h"
 #include "Inventory.h"
@@ -38,8 +39,8 @@ void Stage2Level::Start()
 	}
 
 	{
-		Snail* actor = CreateActor<Snail>(OBJECTORDER::Monster);
-		actor->GetTransform().SetLocalPosition({ 1000.0f, -500.0f, 0.0f });
+		Snail1 = CreateActor<Snail>(OBJECTORDER::Monster);
+		Snail1->GetTransform().SetLocalPosition({ 1000.0f, -500.0f, 0.0f });
 	}
 
 	{
@@ -67,8 +68,9 @@ void Stage2Level::Update(float _DeltaTime)
 	LevelMove();
 
 	GetMainCamera()->GetProjectionMode();
-	Inventory* Inven = Inventory::GetInven();
-	float4 a = Inven->GetFont()->GetTransform().GetWorldPosition();
+
+	MonsterRespawnPosition(Snail1, { 1000.0f, -495.0f, 0.0f });
+	//MonsterRespawnPosition(Snail2, { 1201.0f, -1150.0f, 0.0f });
 	
 }
 
@@ -165,5 +167,14 @@ void Stage2Level::LevelMove()
 			BlackInTime = 0.0f;
 			GEngine::ChangeLevel("Ship");
 		}
+	}
+}
+
+void Stage2Level::MonsterRespawnPosition(Monster* _Mob, float4 _Position)
+{
+	//몬스터가 죽으면 지정한 위치에 리스폰되게끔 세팅해둔다
+	if (_Mob->DeathCheck == true)
+	{
+		_Mob->GetTransform().SetLocalPosition(_Position);
 	}
 }

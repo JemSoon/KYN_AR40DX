@@ -8,6 +8,8 @@
 //¼³¸í : ´ÞÆØÀÌ ¾ð´ö
 class Player;
 class StageObject;
+class BossMano;
+class Snail;
 class Stage2Level : public LevelParent
 {
 public:
@@ -30,7 +32,7 @@ public:
 	void NextStage();
 	void CameraRange();
 	void LevelMove();
-
+	void MonsterRespawnPosition(Monster* _Mob, float4 _Position);
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -41,5 +43,8 @@ private:
 	GameEngineCameraActor* Camera;
 	Player* NewPlayer;
 
+	BossMano* Mano;
+	Snail* Snail1;
+	Snail* Snail2;
 };
 

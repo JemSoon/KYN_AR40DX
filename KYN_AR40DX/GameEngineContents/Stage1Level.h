@@ -8,7 +8,6 @@ class Player;
 class StageObject;
 class BossMano;
 class Snail;
-class Potion;
 class Stage1Level : public LevelParent
 {
 public:
@@ -39,10 +38,10 @@ protected:
 private:
 	GameEngineCameraActor* Camera;
 	Player* NewPlayer;
-	//GameEngineSoundPlayer BgmPlayer;
-	//bool BgmOn;
+
 	BossMano* Mano;
 	Snail* Snail1;
-	Potion* WPotion;
+	Snail* Snail2;
+
 };
 
