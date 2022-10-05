@@ -109,7 +109,7 @@ void Stage2Level::NextStage()
 
 void Stage2Level::CameraRange()
 {
-	float CameraUp = 380.0f/*공중에 붕 뜬 투명배경 포함*/ - 360.0f;
+	float CameraUp = 0.0f/*공중에 붕 뜬 투명배경 포함*/ - 360.0f;
 	float CameraDown = (LevelStageObject->GetBG()->GetTransform().GetLocalScale().y - 360.0f) * -1.0f;
 	float CameraLeft = 640.0f;
 	float CameraRight = 780.0f;//2270(전체길이)-640(1280의 절반)
