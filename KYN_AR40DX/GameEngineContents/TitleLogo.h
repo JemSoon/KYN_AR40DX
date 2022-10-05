@@ -15,6 +15,15 @@ public:
 	TitleLogo(TitleLogo&& _Other) noexcept = delete;
 	TitleLogo& operator=(const TitleLogo& _Other) = delete;
 	TitleLogo& operator=(TitleLogo&& _Other) noexcept = delete;
+	
+	GameEngineTextureRenderer* GetRenderer()
+	{
+		return Renderer;
+	}
+	GameEngineTextureRenderer* GetLogoRenderer()
+	{
+		return LogoRenderer;
+	}
 
 protected:
 	void Start() override;
@@ -25,5 +34,8 @@ private:
 
 	float TimeAngle;
 	GameEngineTextureRenderer* Renderer;
+	GameEngineTextureRenderer* PlayerRenderer;
+	GameEngineTextureRenderer* LogoRenderer;
+	float TitleTime;
 };
 

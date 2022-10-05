@@ -22,6 +22,17 @@ void Money::Start()
 
 void Money::Update(float _DeltaTime)
 {
-	//Item::Update(_DeltaTime);
+	PlayerInfo = Player::GetMainPlayer();
+
+	ColorCheckUpdate();
+
+	StateManager.Update(_DeltaTime);
+
+	GetTransform().SetWorldMove(MovePower * _DeltaTime);
+
+	Gravity(_DeltaTime);
+
+
+	NoGravity();
 }
 

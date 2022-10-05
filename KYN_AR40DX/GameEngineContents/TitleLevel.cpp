@@ -6,8 +6,10 @@
 #include <GameEngineCore/GameEngineCameraActor.h>
 #include <GameEngineBase/GameEngineInput.h>
 #include "Player.h"
-
+#include "Mouse.h"
+#include "Black.h"
 TitleLevel::TitleLevel()
+	:TitleTime(0.0f)
 {
 }
 
@@ -23,39 +25,46 @@ void TitleLevel::Start()
 		GameEngineInput::GetInst()->CreateKey("LevelChange", 'P');
 	}
 
-	// 카메라를 먼저 만들어서 세계를 볼 준비를 하고
-	//CameraActor->GetTransform().SetLocalPosition({ 0.0f, 0.0f, -100.0f });
-	//CameraActor->GetCameraComponent()->SetProjectionMode(CAMERAPROJECTIONMODE::Orthographic);
-	
-	// [1][0][0][0]
-	// [0][1][0][0]
-	// [0][0][1][0] 앞을 보고 있다.
-	// [0][0][-100][0] 뒤로 물러나서
+	Open = CreateActor<TitleLogo>(GameObjectGroup::UI);
 
-	// 세상에 보일 오브젝트들을 만들어서
-	CreateActor<TitleLogo>(GameObjectGroup::UI);
-	// [800][0][0][0]
-	// [0][400][0][0]
-	// [0][0][1][0] 앞을 보고 있다.
-	// [0][200][0][0] 뒤로 물러나서
+	B = CreateActor<Black>(OBJECTORDER::Black);
+	B->GetTransform().SetWorldPosition({ 0,0,-500 });
+
+	Cursor = CreateActor<Mouse>(OBJECTORDER::UI);
 }
 
 void TitleLevel::LevelStartEvent()
 {
+	TitleTime = 0.0f;
 
+	LevelIn = true;
+
+	GameEngineSound::SoundPlayOneShot("NxLogo.mp3");
+	
 }
 
 void TitleLevel::Update(float _DeltaTime)
 {
-	OnEvent();
-
+	BlackTimeOut();
+	//OnEvent();
+	TitleTime += _DeltaTime;
 	if (true == GameEngineInput::GetInst()->IsDown("LevelChange"))
 	{
 		GEngine::ChangeLevel("Stage1");
 	}
 
-	// 레벨 바뀌어서 오면 초기화
-	// GetAccTime();
+	if (TitleTime >= 4.0f)
+	{
+		Open->GetLogoRenderer()->Off();
+
+		if (LevelParent::BgmsSwitch == false)
+		{	//음악이 한번만 실행되도록 안그러면 돌림노래처럼 틀어진다
+			LevelParent::BgmPlayer.Stop();
+			LevelParent::BgmPlayer = GameEngineSound::SoundPlayControl("Title.mp3");
+			LevelParent::BgmPlayer.Volume(0.05f);
+			LevelParent::BgmsSwitch = true;
+		}
+	}
 
 }
 

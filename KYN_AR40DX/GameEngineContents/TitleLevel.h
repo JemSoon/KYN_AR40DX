@@ -1,9 +1,9 @@
 #pragma once
-#include <GameEngineCore/GameEngineLevel.h>
+#include "LevelParent.h";
 
 // Ό³Έν : 
-
-class TitleLevel : public GameEngineLevel
+class TitleLogo;
+class TitleLevel : public LevelParent
 {
 public:
 	// constrcuter destructer
@@ -23,5 +23,7 @@ protected:
 
 private:
 	void LevelStartEvent() override;
+	float TitleTime;
+	TitleLogo* Open;
 };
 

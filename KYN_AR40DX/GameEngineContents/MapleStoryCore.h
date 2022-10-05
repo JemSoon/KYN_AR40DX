@@ -18,7 +18,7 @@ public:
 	MapleStoryCore& operator=(MapleStoryCore&& _Other) noexcept = delete;
 
 	// float4 StartWindowSize() override { return { 800.0f, 600.0f }; } ;
-	// float4 StartWindowPosition() override { return { -2000,0 }; };
+	//float4 StartWindowPosition() override { return { 2000,0 }; };
 
 	std::string GetWindowTitle() override
 	{

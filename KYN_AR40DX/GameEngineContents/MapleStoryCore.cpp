@@ -161,7 +161,7 @@ void MapleStoryCore::Start()
 	CreateLevel<Stage2Level>("Stage2");
 	CreateLevel<Ship>("Ship");
 	CreateLevel<Perion>("Perion");
-	ChangeLevel("Stage1");
+	ChangeLevel("Title");
 
 	GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);
 

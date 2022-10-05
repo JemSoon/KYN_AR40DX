@@ -49,8 +49,8 @@ protected:
 
 	ItemType Type;
 	Player* PlayerInfo;
-private:
 	float Time;
 	GameEngineStateManager StateManager;
+private:
 };
 
