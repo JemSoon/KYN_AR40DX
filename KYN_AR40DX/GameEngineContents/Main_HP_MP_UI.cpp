@@ -366,14 +366,18 @@ void Main_HP_MP_UI::Update(float _DeltaTime)
 
 	LevelNumberSetting();
 
-	if (PlayerInfo->IsPotionEat == true)
-	{
-		//CountNumber += 1;
-		PlayerInfo = Player::GetMainPlayer();
-		Count->SetText(std::to_string(PlayerInfo->ItemCount), "µ¸¿ò");
-		PlayerInfo->IsPotionEat = false;
-	}
 
+	{	
+		//Äü½½·Ô Æ÷¼Ç Ä«¿îÆ®´Â ·¹º§³Ñ¾î°¬À»¶§µµ µ¿ÀÛÇØ¾ßµÇ¼­ ¹ÛÀ¸·Î »­
+		Count->SetText(std::to_string(PlayerInfo->ItemCount), "µ¸¿ò");
+
+		if (PlayerInfo->IsPotionEat == true)
+		{
+			PlayerInfo = Player::GetMainPlayer();
+
+			PlayerInfo->IsPotionEat = false;
+		}
+	}
 }
 
 void Main_HP_MP_UI::HPSetting()

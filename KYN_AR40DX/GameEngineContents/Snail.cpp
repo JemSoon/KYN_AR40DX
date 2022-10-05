@@ -263,7 +263,7 @@ void Snail::DeadStart(const StateInfo& _Info)
 	MovePower = 0.0f;
 	Renderer->ChangeFrameAnimation("Die");
 	Collision->Off();
-	PlayerInfo->CurEXP += 1000;
+	PlayerInfo->CurEXP += 10;
 
 	float4 A = this->GetTransform().GetWorldPosition();
 

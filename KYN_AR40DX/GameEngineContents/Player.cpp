@@ -485,13 +485,13 @@ void Player::IdleUpdate(float _DeltaTime, const StateInfo& _Info)
 		return;
 	}
 
-	if (true == GameEngineInput::GetInst()->IsPress("SlashBlast"))
+	if (true == GameEngineInput::GetInst()->IsPress("SlashBlast") && MyJob == JOB::WARRIOR)
 	{
 		StateManager.ChangeState("SlashBlast1");
 		return;
 	}
 
-	if (true == GameEngineInput::GetInst()->IsPress("UpperCharge"))
+	if (true == GameEngineInput::GetInst()->IsPress("UpperCharge") && MyJob == JOB::WARRIOR)
 	{
 		StateManager.ChangeState("UpperCharge");
 		return;
@@ -809,14 +809,16 @@ void Player::MoveUpdate(float _DeltaTime, const StateInfo& _Info)
 	}
 
 	if (true == GameEngineInput::GetInst()->IsPress("SlashBlast")&&
-		(CurMP >= ManaDamage))
+		(CurMP >= ManaDamage)
+		&& MyJob == JOB::WARRIOR)
 	{
 		MovePower.x = 0.0f;
 		StateManager.ChangeState("SlashBlast1");
 		return;
 	}
 
-	if (true == GameEngineInput::GetInst()->IsPress("UpperCharge"))
+	if (true == GameEngineInput::GetInst()->IsPress("UpperCharge")
+		&& MyJob == JOB::WARRIOR)
 	{
 		StateManager.ChangeState("UpperCharge");
 		return;
@@ -1020,14 +1022,15 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 			return;
 		}
 
-		if (true == GameEngineInput::GetInst()->IsPress("LeafAttack"))
+		if (true == GameEngineInput::GetInst()->IsPress("LeafAttack") 
+			&& MyJob == JOB::WARRIOR)
 		{
 			StateManager.ChangeState("LeafAttack");
 			return;
 		}
 
 		//나중에 전직하면 따로빼야하는 슈퍼점프
-		if (true == GameEngineInput::GetInst()->IsDown("PlayerJump")/* && MyJob == JOB::WARRIOR*/)
+		if (true == GameEngineInput::GetInst()->IsDown("PlayerJump") && MyJob == JOB::WARRIOR)
 		{
 			StateManager.ChangeState("SuperJump");
 			return;
