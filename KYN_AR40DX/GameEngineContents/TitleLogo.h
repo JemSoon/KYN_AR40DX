@@ -25,6 +25,10 @@ public:
 		return LogoRenderer;
 	}
 
+	bool MouseThouch(GameEngineCollision* _This, GameEngineCollision* _Other);
+
+	bool IsLevelMove;
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
@@ -36,6 +40,7 @@ private:
 	GameEngineTextureRenderer* Renderer;
 	GameEngineTextureRenderer* PlayerRenderer;
 	GameEngineTextureRenderer* LogoRenderer;
+	GameEngineCollision* PlayerCollision;
 	float TitleTime;
 };
 

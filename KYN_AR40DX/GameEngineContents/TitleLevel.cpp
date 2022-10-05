@@ -48,9 +48,10 @@ void TitleLevel::Update(float _DeltaTime)
 	BlackTimeOut();
 	//OnEvent();
 	TitleTime += _DeltaTime;
-	if (true == GameEngineInput::GetInst()->IsDown("LevelChange"))
+	if (true == Open->IsLevelMove)
 	{
 		GEngine::ChangeLevel("Stage1");
+		Open->IsLevelMove = false;
 	}
 
 	if (TitleTime >= 4.0f)
