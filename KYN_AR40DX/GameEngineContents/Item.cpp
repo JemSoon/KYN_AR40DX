@@ -26,7 +26,7 @@ void Item::Start()
 	Collision->SetDebugSetting(CollisionType::CT_OBB2D, float4{ 1.0f,0.0f,0.0f,0.3f });
 	Collision->GetTransform().SetLocalScale({ 20.0f, 20.0f, 100.0f });
 	Collision->GetTransform().SetLocalPosition({ 0.0f, 13.0f, 0.0f });
-	//Collision->SetCollisionMode(CollisionMode::Ex);
+	Collision->SetCollisionMode(CollisionMode::Ex);
 	Collision->ChangeOrder(OBJECTORDER::Item);
 
 	StateManager.CreateStateMember("POP"
@@ -80,7 +80,7 @@ void Item::DoomChitUpdate(float _DeltaTime, const StateInfo& _Info)
 
 void Item::Update(float _DeltaTime)
 {
-	//PlayerInfo = Player::GetMainPlayer();
+	PlayerInfo = Player::GetMainPlayer();
 
 	ColorCheckUpdate();
 
@@ -91,16 +91,21 @@ void Item::Update(float _DeltaTime)
 	Gravity(_DeltaTime);
 	
 	{
-		//Collision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::Item, CollisionType::CT_OBB2D,
-		//	std::bind(&Item::PlayerEatCheck, this, std::placeholders::_1, std::placeholders::_2));
+		Collision->IsCollision(CollisionType::CT_OBB2D, OBJECTORDER::Item, CollisionType::CT_OBB2D,
+			std::bind(&Item::PlayerEatCheck, this, std::placeholders::_1, std::placeholders::_2));
+	}
+	
+	if (PlayerEatCheck(this->GetCollision(), PlayerInfo->GetCollision()) == true)
+	{
+		//PlayerInfo->ItemCount += 1;
 	}
 
 	NoGravity();
 }
 
-//bool Item::PlayerEatCheck(GameEngineCollision* _This, GameEngineCollision* _Other)
-//{
-//	//콜리전과 충돌하면 아이템 카운트 +1(중복으로 못먹게)
-//	//PlayerInfo->ItemCount += 1;
-//	return true;
-//}
+bool Item::PlayerEatCheck(GameEngineCollision* _This, GameEngineCollision* _Other)
+{
+
+
+	return true;
+}

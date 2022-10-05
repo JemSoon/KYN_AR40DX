@@ -57,6 +57,8 @@ public:
 	bool MoneyEatCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
 	bool PotionEatCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
 
+	void PotionUse();
+
 	GameEngineCollision* GetAttCollision()
 	{
 		return AttackCollision;

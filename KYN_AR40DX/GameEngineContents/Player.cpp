@@ -88,6 +88,7 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("LeafAttack", 'E');
 		GameEngineInput::GetInst()->CreateKey("Eat", 'X');
 		GameEngineInput::GetInst()->CreateKey("Inventory", 'I');
+		GameEngineInput::GetInst()->CreateKey("PotionUse", '1');
 	}
 
 	GetTransform().SetLocalScale({ 1, 1, 1 });
@@ -251,6 +252,7 @@ void Player::Start()
 		Collision->GetTransform().SetLocalScale({ 32.0f, 64.0f, 100.0f });
 		Collision->ChangeOrder(OBJECTORDER::Player);
 		Collision->GetTransform().SetWorldPosition({ 0.0f,35.0f });
+		//Collision->SetCollisionMode(CollisionMode::Ex);
 	}
 	{
 		//평타 콜리전
@@ -1434,6 +1436,8 @@ void Player::Update(float _DeltaTime)
 		CurMP = 0;
 	}
 	
+	PotionUse();
+
 	PlayerRespawn();
 	
 	GetTransform().SetWorldMove(MovePower * _DeltaTime);
@@ -1693,7 +1697,7 @@ void Player::LeafAttackEnd()
 bool Player::MoneyEatCheck(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
 	//인식된게 한개 이하면 줍줍한다
-	if (true == GameEngineInput::GetInst()->IsPress("Eat"))
+	if (true == GameEngineInput::GetInst()->IsDown("Eat"))
 	{
 		GameEngineSound::SoundPlayOneShot("PickUpItem.mp3");
 		unsigned int a =_Other->GetActor<Money>()->MoneyCost;
@@ -1705,7 +1709,7 @@ bool Player::MoneyEatCheck(GameEngineCollision* _This, GameEngineCollision* _Oth
 
 bool Player::PotionEatCheck(GameEngineCollision* _This, GameEngineCollision* _Other)
 {
-	if (true == GameEngineInput::GetInst()->IsPress("Eat"))
+	if (true == GameEngineInput::GetInst()->IsDown("Eat"))
 	{
 		IsPotionEat = true;
 		GameEngineSound::SoundPlayOneShot("PickUpItem.mp3");
@@ -1713,6 +1717,7 @@ bool Player::PotionEatCheck(GameEngineCollision* _This, GameEngineCollision* _Ot
 		if (a == "WHITEPOTION.PNG")
 		{
 			//카운트증가
+			ItemCount += 1;
 		}
 		else if (a != "NTEST.PNG")
 		{
@@ -1722,6 +1727,7 @@ bool Player::PotionEatCheck(GameEngineCollision* _This, GameEngineCollision* _Ot
 		{
 			//해당 배열이 비어있다는것
 			Inventory::GetInven()->ItemSlots[5][0]->GetRenderer()->SetTexture("WhitePotion.png");
+			ItemCount += 1;
 		}
 
 		_Other->GetActor()->Death();
@@ -1729,6 +1735,30 @@ bool Player::PotionEatCheck(GameEngineCollision* _This, GameEngineCollision* _Ot
 	}
 }
 
+void Player::PotionUse()
+{
+	//포션개수가 0개 이하면 리턴
+	if (ItemCount <= 0)
+	{
+		return;
+	}
+
+	if (true == GameEngineInput::GetInst()->IsDown("PotionUse"))
+	{
+		IsPotionEat = true;
+
+		ItemCount -= 1;
+
+		GameEngineSound::SoundPlayOneShot("PotionUse.mp3");
+
+		CurHP += 10;
+
+		if (CurHP >= HPMax)
+		{
+			CurHP = HPMax;
+		}
+	}
+}
 
 void Player::LevelStartEvent()
 {
@@ -1744,6 +1774,7 @@ void Player::LevelStartEvent()
 		this->PlayerLevel = BeforePlayer->PlayerLevel;
 		this->PlayerAtt = BeforePlayer->PlayerAtt;
 		this->MyJob = BeforePlayer->MyJob;
+		this->ItemCount = BeforePlayer->ItemCount;
 		//this->Inven->Money = BeforePlayer->Inven->Money;
 		//this->Inven->ItemSlots = BeforePlayer->Inven->ItemSlots;
 		//this->BgmPlayer = BeforePlayer->BgmPlayer;

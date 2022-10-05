@@ -45,8 +45,10 @@ protected:
 	void DoomChitStart(const StateInfo& _Info);
 	void DoomChitUpdate(float _DeltaTime, const StateInfo& _Info);
 
+	bool PlayerEatCheck(GameEngineCollision* _This, GameEngineCollision* _Other);
+
 	ItemType Type;
-	//Player* PlayerInfo;
+	Player* PlayerInfo;
 private:
 	float Time;
 	GameEngineStateManager StateManager;

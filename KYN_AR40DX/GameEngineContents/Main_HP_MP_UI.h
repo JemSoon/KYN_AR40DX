@@ -36,10 +36,10 @@ public:
 		return EXP;
 	}
 
-	int GetCountNumber()
-	{
-		return CountNumber;
-	}
+	//int GetCountNumber()
+	//{
+	//	return CountNumber;
+	//}
 
 	void CreateQuickSlot(int X, int Y, float4 Size, int CollisionOrder);
 	void HPSetting();
@@ -66,7 +66,7 @@ protected:
 	GameEngineTextureRenderer* Level;
 	std::vector<std::vector<ItemIcon*>> ItemSlots;
 	GameEngineFontRenderer* Count;
-	int CountNumber;
+	//int CountNumber;
 private:
 	GameEngineCameraActor* Camera;
 	GameEngineCollision* TESTUICollision;

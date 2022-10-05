@@ -66,7 +66,7 @@ Main_HP_MP_UI::Main_HP_MP_UI()
 	,EXPMaxTen(0)
 	,EXPMaxHun(0)
 	,EXPMaxTho(0)
-	,CountNumber(0)
+	//,CountNumber(0)
 {
 }
 
@@ -333,7 +333,7 @@ void Main_HP_MP_UI::Start()
 		Count = CreateComponent<GameEngineFontRenderer>();
 		Count->SetRenderingOrder(1001);
 		Count->ChangeCamera(CAMERAORDER::UICAMERA);
-		Count->SetText(std::to_string(CountNumber),"µ¸¿ò");
+		Count->SetText("0", "µ¸¿ò");
 		Count->SetLeftAndRightSort(LeftAndRightSort::RIGHT);
 		Count->SetColor({ 0.0f, 0.0f, 0.0f });
 		Count->SetSize(15.0f);
@@ -368,11 +368,12 @@ void Main_HP_MP_UI::Update(float _DeltaTime)
 
 	if (PlayerInfo->IsPotionEat == true)
 	{
-		CountNumber += 1;
-		Count->SetText(std::to_string(CountNumber), "µ¸¿ò");
+		//CountNumber += 1;
+		PlayerInfo = Player::GetMainPlayer();
+		Count->SetText(std::to_string(PlayerInfo->ItemCount), "µ¸¿ò");
 		PlayerInfo->IsPotionEat = false;
 	}
-	
+
 }
 
 void Main_HP_MP_UI::HPSetting()
