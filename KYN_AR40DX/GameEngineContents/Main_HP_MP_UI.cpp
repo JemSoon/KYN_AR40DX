@@ -348,8 +348,9 @@ void Main_HP_MP_UI::Update(float _DeltaTime)
 		PlayerInfo = Player::GetMainPlayer();
 	}
 	
-	if (PlayerInfo->IsJobChange==true)
+	if (PlayerInfo->MyJob==JOB::WARRIOR)
 	{
+		//IsJobChange==true일때 바뀌게하니 레벨넘어가면 퀵슬롯 증발함
 		ItemSlots[1][0]->GetRenderer()->SetTexture("iSlashBlust.png");
 		ItemSlots[1][1]->GetRenderer()->SetTexture("iUpperCharge.png");
 		ItemSlots[1][2]->GetRenderer()->SetTexture("iLeafAttack.png");
