@@ -44,6 +44,12 @@ void Stage2Level::Start()
 	}
 
 	{
+		Mano = CreateActor<BossMano>(OBJECTORDER::Monster);
+		Mano->GetTransform().SetLocalPosition({ 1000.0f, -500.0f, 0.0f });
+		Mano->Off();
+	}
+
+	{
 		Sugar* NPC = CreateActor<Sugar>(OBJECTORDER::NPC);
 		NPC->GetTransform().SetWorldPosition({ 620.0f, -330.0f, 0.0f });
 		NPC->GetRenderer()->GetTransform().PixLocalPositiveX();
@@ -76,6 +82,11 @@ void Stage2Level::Update(float _DeltaTime)
 	GetMainCamera()->GetProjectionMode();
 
 	MonsterRespawnPosition(Snail1, { 1000.0f, -495.0f, 0.0f });
+	if (NewPlayer->MyJob == JOB::WARRIOR);
+	{
+		//전사일때 마노 젠
+		Mano->On();
+	}
 	//MonsterRespawnPosition(Snail2, { 1201.0f, -1150.0f, 0.0f });
 	
 }
