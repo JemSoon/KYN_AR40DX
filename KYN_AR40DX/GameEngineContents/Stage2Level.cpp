@@ -82,11 +82,7 @@ void Stage2Level::Update(float _DeltaTime)
 	GetMainCamera()->GetProjectionMode();
 
 	MonsterRespawnPosition(Snail1, { 1000.0f, -495.0f, 0.0f });
-	if (NewPlayer->MyJob == JOB::WARRIOR);
-	{
-		//전사일때 마노 젠
-		Mano->On();
-	}
+
 	//MonsterRespawnPosition(Snail2, { 1201.0f, -1150.0f, 0.0f });
 	
 }
@@ -97,10 +93,16 @@ void Stage2Level::End()
 
 void Stage2Level::LevelStartEvent()
 {
-	if (NewPlayer->PortalOn == false)
+	//if (NewPlayer->PortalOn == false)
+	//{
+	//	//포탈로 이동한게 아닌 GUI로 이동한거면 처음이랑 같은위치 
+	//	NewPlayer->GetTransform().SetWorldPosition({ 200.0f, -500.0f, 0.0f });
+	//}
+
+	if (NewPlayer->MyJob == JOB::WARRIOR)
 	{
-		//포탈로 이동한게 아닌 GUI로 이동한거면 처음이랑 같은위치 
-		NewPlayer->GetTransform().SetWorldPosition({ 200.0f, -500.0f, 0.0f });
+		//전사일때 마노 젠
+		Mano->On();
 	}
 
 	BlackOutTime = 0.0f;

@@ -19,8 +19,8 @@ BossMano::BossMano()
 {
 	Speed = 25;
 
-	MonsterAtt = 40;
-	MonsterHPMax = 80;
+	MonsterAtt = 100;
+	MonsterHPMax = 2650;
 	MonsterCurHP = MonsterHPMax;
 }
 
