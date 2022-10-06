@@ -1786,10 +1786,12 @@ void Player::LevelStartEvent()
 		this->PlayerAtt = BeforePlayer->PlayerAtt;
 		this->MyJob = BeforePlayer->MyJob;
 		this->ItemCount = BeforePlayer->ItemCount;
+
 		//this->Inven->Money = BeforePlayer->Inven->Money;
 		//this->Inven->ItemSlots = BeforePlayer->Inven->ItemSlots;
 		//this->BgmPlayer = BeforePlayer->BgmPlayer;
 	}
 		MainPlayer = this;
 		BeforePlayer = nullptr;
+		StateManager.ChangeState("Idle");
 }

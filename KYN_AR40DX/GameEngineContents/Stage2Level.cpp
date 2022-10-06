@@ -63,7 +63,7 @@ void Stage2Level::Start()
 
 void Stage2Level::Update(float _DeltaTime)
 {	
-	if (NewPlayer != nullptr)
+	//if (NewPlayer != nullptr)
 	{
 		//만약 레벨 다시 돌아올때 이미 플레이어가 있었다면 받아온다(전직후 렌더러 체인지가 안댐)
 		NewPlayer = Player::GetMainPlayer();
