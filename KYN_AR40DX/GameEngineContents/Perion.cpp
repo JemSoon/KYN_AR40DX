@@ -70,6 +70,7 @@ void Perion::LevelStartEvent()
 
 void Perion::LevelEndEvent()
 {
+	//레벨 마지막(넘어가기 직전)에 들어오는거
 	LevelParent::BgmsSwitch = false;
 }
 

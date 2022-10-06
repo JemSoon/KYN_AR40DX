@@ -103,11 +103,13 @@ void Stage2Level::LevelStartEvent()
 	//	NewPlayer->GetTransform().SetWorldPosition({ 200.0f, -500.0f, 0.0f });
 	//}
 
-	//if (static_cast<int>(NewPlayer->MyJob) == static_cast<int>(JOB::WARRIOR))
-	//{
-	//	//전사일때 마노 젠
-	//	Mano->On();
-	//}
+	if (LevelParent::BgmsSwitch == false)
+	{
+		LevelParent::BgmPlayer.Stop();
+		LevelParent::BgmPlayer = GameEngineSound::SoundPlayControl("Adventure.mp3");
+		LevelParent::BgmPlayer.Volume(0.05f);
+		LevelParent::BgmsSwitch = true;
+	}
 	
 	BlackOutTime = 0.0f;
 
@@ -132,6 +134,7 @@ void Stage2Level::NextStage()
 {
 	if (true == GameEngineInput::GetInst()->IsDown("LevelChange"))
 	{
+		//엔딩크레딧 뜨게 수정(레벨도 추가하자)
 		GEngine::ChangeLevel("Ship");
 	}
 }
