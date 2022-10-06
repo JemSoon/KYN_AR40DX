@@ -50,6 +50,7 @@ void Inventory::LevelEndEvent()
 
 void Inventory::Update(float _DeltaTime)
 {
+	Font->ChangeCamera(CAMERAORDER::UICAMERA);
 	Font->SetText(std::to_string(Money));
 }
 

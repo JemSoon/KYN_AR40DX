@@ -106,10 +106,21 @@ void Stage1Level::LevelStartEvent()
 		LevelParent::BgmsSwitch = true;
 	}
 	
+	if (NewPlayer->PortalOn == false)
+	{
+		//포탈로 이동한게 아닌 GUI로 이동한거면 처음이랑 같은위치 
+		NewPlayer->GetTransform().SetWorldPosition({ 1070.0f, -1000.0f, 0.0f });
+	}
 }
 
 void Stage1Level::Update(float _DeltaTime)
 {
+	if (NewPlayer != nullptr)
+	{
+		//만약 레벨 다시 돌아올때 이미 플레이어가 있었다면 받아온다(전직후 렌더러 체인지가 안댐)
+		NewPlayer = Player::GetMainPlayer();
+	}
+
 	if (false == Camera->IsFreeCameraMode())
 	{	//프리카메라 모드가 아닐때만 카메라가 플레이어를 쫓아다니고 맵 범위 안으로 카메라가 제한된다
 		CameraChase(_DeltaTime);

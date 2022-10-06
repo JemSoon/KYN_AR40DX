@@ -51,6 +51,8 @@ void Perion::Start()
 
 void Perion::LevelStartEvent()
 {
+	NewPlayer->GetTransform().SetWorldPosition({ 885.0f, -410.0f, 0.0f });
+	
 	BlackOutTime = 0.0f;
 
 	LevelIn = true;
