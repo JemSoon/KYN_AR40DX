@@ -443,13 +443,61 @@ bool BossMano::BossManoHit(GameEngineCollision* _This, GameEngineCollision* _Oth
 				Damage = PlayerInfo->GetFinalAtt();
 			}
 
+			SlashBlastHit->CurAnimationReset();
+			SlashBlastHit->On();
+			DamageRender = _This->GetActor()->GetLevel()->CreateActor<DamageNumber>();
+			float4 Pos = _This->GetActor()->GetTransform().GetWorldPosition();
+			DamageRender->GetTransform().SetWorldPosition({ Pos.x,Pos.y + 32,-400 });
+			DamageRender->NumberSetting(PlayerInfo->GetFinalAtt());
 			MonsterCurHP = MonsterCurHP - Damage;
+		}
+
+		if ((PlayerInfo->MonsterUpperChargeHit(PlayerInfo->GetUpperChargeCollision(), this->GetCollision()) == true) &&
+			true == PlayerInfo->GetUpperChargeCollision()->IsUpdate())
+		{
+			if (IsBuff == true)
+			{
+				PlayerInfo->SetPlayerAttBuff(1.0f);
+				Damage = PlayerInfo->GetFinalAtt();
+			}
+			else
+			{
+				PlayerInfo->SetPlayerAttBuff(2.0f);
+				Damage = PlayerInfo->GetFinalAtt();
+			}
+	
+			GameEngineSound::SoundPlayOneShot("UpperChargeHit.mp3");
+			DamageRender = _This->GetActor()->GetLevel()->CreateActor<DamageNumber>();
+			float4 Pos = _This->GetActor()->GetTransform().GetWorldPosition();
+			DamageRender->GetTransform().SetWorldPosition({ Pos.x,Pos.y + 32,-400 });
+			DamageRender->NumberSetting(PlayerInfo->GetFinalAtt());
+			MonsterCurHP = MonsterCurHP - Damage;
+		}
+
+		if ((PlayerInfo->MonsterLeafAttackHit(PlayerInfo->GetLeafAttackCollision(), this->GetCollision()) == true) &&
+			true == PlayerInfo->GetLeafAttackCollision()->IsUpdate())
+		{
+			if (IsBuff == true)
+			{
+				PlayerInfo->SetPlayerAttBuff(1.0f);
+				Damage = PlayerInfo->GetFinalAtt();
+			}
+			else
+			{
+				PlayerInfo->SetPlayerAttBuff(2.0f);
+				Damage = PlayerInfo->GetFinalAtt();
+			}
+		
+			MonsterCurHP = MonsterCurHP - Damage;
+
+			GameEngineSound::SoundPlayOneShot("LeafAttackHit.mp3");
 
 			DamageRender = _This->GetActor()->GetLevel()->CreateActor<DamageNumber>();
 			float4 Pos = _This->GetActor()->GetTransform().GetWorldPosition();
 			DamageRender->GetTransform().SetWorldPosition({ Pos.x,Pos.y + 32,-400 });
 			DamageRender->NumberSetting(PlayerInfo->GetFinalAtt());
 		}
+
 
 		if (MonsterCurHP <= 0)
 		{
@@ -476,6 +524,32 @@ bool BossMano::BossManoHit(GameEngineCollision* _This, GameEngineCollision* _Oth
 
 			else if (PlayerInfo->MonsterSlashBlastHit(PlayerInfo->GetSlashBlastCollision(), this->GetCollision()) == true &&
 				PlayerInfo->GetSlashBlastCollision()->IsUpdate() == true)
+			{
+				BossUI->On();
+
+				//한마리 판정이 true면 Hit상태 당첨이고 충돌역시 true
+				if (IsBuff == false)
+				{
+					StateManager.ChangeState("Hit");
+				}
+				return true;
+			}
+
+			else if (PlayerInfo->MonsterUpperChargeHit(PlayerInfo->GetSlashBlastCollision(), this->GetCollision()) == true &&
+				PlayerInfo->GetUpperChargeCollision()->IsUpdate() == true)
+			{
+				BossUI->On();
+
+				//한마리 판정이 true면 Hit상태 당첨이고 충돌역시 true
+				if (IsBuff == false)
+				{
+					StateManager.ChangeState("Hit");
+				}
+				return true;
+			}
+
+			else if (PlayerInfo->MonsterLeafAttackHit(PlayerInfo->GetLeafAttackCollision(), this->GetCollision()) == true &&
+				PlayerInfo->GetLeafAttackCollision()->IsUpdate() == true)
 			{
 				BossUI->On();
 

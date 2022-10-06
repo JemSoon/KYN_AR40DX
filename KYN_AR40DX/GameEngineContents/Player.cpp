@@ -1016,13 +1016,13 @@ void Player::JumpUpdate(float _DeltaTime, const StateInfo& _Info)
 			return;
 		}
 
-		if (true == GameEngineInput::GetInst()->IsPress("SlashBlast"))
+		if (true == GameEngineInput::GetInst()->IsDown("SlashBlast"))
 		{
 			StateManager.ChangeState("SlashBlast1");
 			return;
 		}
 
-		if (true == GameEngineInput::GetInst()->IsPress("LeafAttack") 
+		if (true == GameEngineInput::GetInst()->IsDown("LeafAttack") 
 			&& MyJob == JOB::WARRIOR)
 		{
 			StateManager.ChangeState("LeafAttack");
@@ -1444,6 +1444,8 @@ void Player::Update(float _DeltaTime)
 	PlayerRespawn();
 	
 	GetTransform().SetWorldMove(MovePower * _DeltaTime);
+
+	MyJobCheck();
 }
 
 bool Player::MonsterHit(GameEngineCollision* _This, GameEngineCollision* _Other)

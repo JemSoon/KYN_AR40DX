@@ -84,7 +84,11 @@ void Stage2Level::Update(float _DeltaTime)
 	MonsterRespawnPosition(Snail1, { 1000.0f, -495.0f, 0.0f });
 
 	//MonsterRespawnPosition(Snail2, { 1201.0f, -1150.0f, 0.0f });
-	
+	if (static_cast<int>(NewPlayer->MyJob) == static_cast<int>(JOB::WARRIOR))
+	{
+		//전사일때 마노 젠
+		Mano->On();
+	}
 }
 
 void Stage2Level::End()
@@ -99,12 +103,12 @@ void Stage2Level::LevelStartEvent()
 	//	NewPlayer->GetTransform().SetWorldPosition({ 200.0f, -500.0f, 0.0f });
 	//}
 
-	if (NewPlayer->MyJob == JOB::WARRIOR)
-	{
-		//전사일때 마노 젠
-		Mano->On();
-	}
-
+	//if (static_cast<int>(NewPlayer->MyJob) == static_cast<int>(JOB::WARRIOR))
+	//{
+	//	//전사일때 마노 젠
+	//	Mano->On();
+	//}
+	
 	BlackOutTime = 0.0f;
 
 	LevelIn = true;

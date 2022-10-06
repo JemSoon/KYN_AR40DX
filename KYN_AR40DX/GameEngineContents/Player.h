@@ -34,9 +34,17 @@ public:
 	{
 		return MainPlayer;
 	}
-
+	static Player* GetBeforePlayer()
+	{
+		return BeforePlayer;
+	}
 	bool stop;//BG움직이기용
 	bool IsPotionEat;
+
+	JOB MyJobCheck()
+	{
+		return MyJob;
+	}
 public:
 	// constrcuter destructer
 	Player();
