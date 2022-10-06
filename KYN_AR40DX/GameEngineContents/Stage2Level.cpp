@@ -44,6 +44,24 @@ void Stage2Level::Start()
 	}
 
 	{
+		Snail2 = CreateActor<Snail>(OBJECTORDER::Monster);
+		Snail2->GetTransform().SetLocalPosition({ 501.0f, -500.0f, 0.0f });
+
+		Snail* actor3 = CreateActor<Snail>(OBJECTORDER::Monster);
+		actor3->GetTransform().SetLocalPosition({ 552.0f, -500.0f, 0.0f });
+
+		Snail* actor4 = CreateActor<Snail>(OBJECTORDER::Monster);
+		actor4->GetTransform().SetLocalPosition({ 560.0f, -500.0f, 0.0f });
+
+		Snail* actor5 = CreateActor<Snail>(OBJECTORDER::Monster);
+		actor5->GetTransform().SetLocalPosition({ 570.0f, -500.0f, 0.0f });
+
+		Snail* actor6 = CreateActor<Snail>(OBJECTORDER::Monster);
+		actor6->GetTransform().SetLocalPosition({ 700.0f, -500.0f, 0.0f });
+
+	}
+
+	{
 		Mano = CreateActor<BossMano>(OBJECTORDER::Monster);
 		Mano->GetTransform().SetLocalPosition({ 1000.0f, -500.0f, 0.0f });
 		Mano->Off();
@@ -81,7 +99,7 @@ void Stage2Level::Update(float _DeltaTime)
 
 	GetMainCamera()->GetProjectionMode();
 
-	MonsterRespawnPosition(Snail1, { 1000.0f, -495.0f, 0.0f });
+	//MonsterRespawnPosition(Snail1, { 1000.0f, -495.0f, 0.0f });
 
 	//MonsterRespawnPosition(Snail2, { 1201.0f, -1150.0f, 0.0f });
 	if (static_cast<int>(NewPlayer->MyJob) == static_cast<int>(JOB::WARRIOR))

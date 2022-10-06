@@ -49,11 +49,11 @@ void Stage1Level::Start()
 		}
 
 		{
-			Snail1 = CreateActor<Snail>(OBJECTORDER::Monster);
-			Snail1->GetTransform().SetLocalPosition({ 1200.0f, -1005.0f, 0.0f });
-			
-			Snail2 = CreateActor<Snail>(OBJECTORDER::Monster);
-			Snail2->GetTransform().SetLocalPosition({ 1201.0f, -1005.0f, 0.0f });
+			//Snail1 = CreateActor<Snail>(OBJECTORDER::Monster);
+			//Snail1->GetTransform().SetLocalPosition({ 1200.0f, -1005.0f, 0.0f });
+			//
+			//Snail2 = CreateActor<Snail>(OBJECTORDER::Monster);
+			//Snail2->GetTransform().SetLocalPosition({ 1201.0f, -1005.0f, 0.0f });
 			
 			/*Snail* actor3 = CreateActor<Snail>(OBJECTORDER::Monster);
 			actor3->GetTransform().SetLocalPosition({ 1202.0f, -1005.0f, 0.0f });
@@ -131,8 +131,8 @@ void Stage1Level::Update(float _DeltaTime)
 
 	LevelMove();
 
-	MonsterRespawnPosition(Snail1, { 1200.0f, -1150.0f, 0.0f });
-	MonsterRespawnPosition(Snail2, { 1201.0f, -1150.0f, 0.0f });
+	//MonsterRespawnPosition(Snail1, { 1200.0f, -1150.0f, 0.0f });
+	//MonsterRespawnPosition(Snail2, { 1201.0f, -1150.0f, 0.0f });
 }
 void Stage1Level::End()
 {

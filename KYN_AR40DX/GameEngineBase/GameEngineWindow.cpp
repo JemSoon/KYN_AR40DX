@@ -138,6 +138,7 @@ void GameEngineWindow::ShowGameWindow()
 
     // 이게 호출되기 전까지는 그릴수가 없다.
     ShowWindow(hWnd_, SW_SHOW);
+    ShowCursor(false);
     UpdateWindow(hWnd_);
 }
 
