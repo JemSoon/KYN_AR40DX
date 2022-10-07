@@ -173,6 +173,14 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Ending.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EndingLogo.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Enums.h" />
     <ClInclude Include="GlobalContentsValue.h">
       <SubType>
@@ -305,6 +313,14 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Dialogue.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Ending.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EndingLogo.cpp">
       <SubType>
       </SubType>
     </ClCompile>

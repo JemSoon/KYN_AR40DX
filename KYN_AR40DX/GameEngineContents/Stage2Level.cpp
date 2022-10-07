@@ -107,6 +107,8 @@ void Stage2Level::Update(float _DeltaTime)
 		//전사일때 마노 젠
 		Mano->On();
 	}
+
+	NextStage();
 }
 
 void Stage2Level::End()
@@ -153,7 +155,7 @@ void Stage2Level::NextStage()
 	if (true == GameEngineInput::GetInst()->IsDown("LevelChange"))
 	{
 		//엔딩크레딧 뜨게 수정(레벨도 추가하자)
-		GEngine::ChangeLevel("Ship");
+		GEngine::ChangeLevel("Ending");
 	}
 }
 

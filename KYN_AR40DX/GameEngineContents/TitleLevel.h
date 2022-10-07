@@ -1,5 +1,5 @@
 #pragma once
-#include "LevelParent.h";
+#include "LevelParent.h"
 
 // Ό³Έν : 
 class TitleLogo;

@@ -5,6 +5,7 @@
 #include "GameEngineContents/Stage2Level.h"
 #include "GameEngineContents/Ship.h"
 #include "GameEngineContents/Perion.h"
+#include "GameEngineContents/Ending.h"
 #include <GameEngineBase/GameEngineSound.h>
 #include <GameEngineBase/magic_enum.hpp>
 
@@ -121,6 +122,9 @@ void MapleStoryCore::Start()
 	{
 		GameEngineTexture::Cut("iSlashBlust.png", 1, 1);
 	}
+	{
+		GameEngineTexture::Cut("Ending.png", 2, 1);
+	}
 
 	{	//∏ÛΩ∫≈Õ
 
@@ -161,6 +165,8 @@ void MapleStoryCore::Start()
 	CreateLevel<Stage2Level>("Stage2");
 	CreateLevel<Ship>("Ship");
 	CreateLevel<Perion>("Perion");
+	CreateLevel<Ending>("Ending");
+
 	ChangeLevel("Title");
 
 	GameEngineGUI::CreateGUIWindow<GameEngineStatusWindow>("EngineStatus", nullptr);

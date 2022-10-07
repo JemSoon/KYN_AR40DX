@@ -175,6 +175,12 @@
     <ClInclude Include="Main_HP_MP_UI.h">
       <Filter>Global\UI\HP_MP</Filter>
     </ClInclude>
+    <ClInclude Include="Ending.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="EndingLogo.h">
+      <Filter>Actor\Title</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapleStoryCore.cpp">
@@ -273,6 +279,12 @@
     </ClCompile>
     <ClCompile Include="Money.cpp">
       <Filter>Actor\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Ending.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="EndingLogo.cpp">
+      <Filter>Actor\Title</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
