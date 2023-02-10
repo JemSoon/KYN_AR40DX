@@ -17,7 +17,7 @@ Inventory::~Inventory()
 
 void Inventory::Start()
 {
-	this->SetLevelOverOn();
+	//this->SetLevelOverOn();
 	ItemWindow = CreateComponent<GameEngineUIRenderer>();
 	ItemWindow->SetTexture("Inven.png");
 	ItemWindow->GetTransform().SetWorldScale({175,289,1});
